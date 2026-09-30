@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[Fillable(['ticket_id', 'from_status_id', 'to_status_id', 'changed_by', 'reason'])]
 class TicketStatusHistory extends Model
 {
     public $timestamps = false;
