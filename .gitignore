@@ -1,0 +1,15 @@
+# Root-level ignores for the SupportHub monorepo.
+# Each sub-project (api/, web/) also maintains its own .gitignore.
+
+.DS_Store
+Thumbs.db
+*.log
+
+# Future React app
+web/node_modules
+web/dist
+web/build
+web/.env
+
+# Generated docs artifacts (if any are built rather than authored)
+docs/.vitepress/cache
