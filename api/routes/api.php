@@ -12,3 +12,10 @@
 */
 
 require __DIR__.'/api/auth.php';
+require __DIR__.'/api/users.php';
+require __DIR__.'/api/roles.php';
+require __DIR__.'/api/departments.php';
+require __DIR__.'/api/customers.php';
+require __DIR__.'/api/categories.php';
+require __DIR__.'/api/statuses.php';
+require __DIR__.'/api/priorities.php';
