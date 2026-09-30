@@ -1,8 +1,14 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Registered under /api/v1 (see bootstrap/app.php: apiPrefix). Split into
+| one file per domain under routes/api/ to keep this file navigable as
+| the endpoint count grows.
+|
+*/
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+require __DIR__.'/api/auth.php';
