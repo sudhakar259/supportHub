@@ -33,6 +33,18 @@ This brings up: `app` (PHP-FPM), `nginx` (:8080), `mysql` (:3306),
 (runs `schedule:run` every minute), and `mailpit` (SMTP on :1025, UI on
 :8025). The API is then at `http://localhost:8080/api/v1`.
 
+**Windows + Docker Desktop:** the first `docker compose up` that bind-mounts
+`./api` into a container triggers a one-time "Docker Desktop wants to share
+C:\...\api" consent dialog. It must be approved from the Docker Desktop
+GUI (or Settings → Resources → File Sharing, add the drive) before the
+`app`/`queue`/`scheduler` containers will actually start — declining it
+(or running fully headless, with no GUI session to show the prompt) leaves
+them stuck in `Created` rather than `Up`, with no error beyond
+`user declined directory sharing` in the compose output. This is a
+Docker Desktop security feature, not a bug in `docker-compose.yml` —
+the config itself was validated (`docker compose config`) and the images
+build and start correctly once sharing is approved.
+
 Switch between the two by changing `DB_CONNECTION`/`QUEUE_CONNECTION`/
 `MAIL_MAILER` in `.env` — nothing else in the codebase assumes one or the
 other.
