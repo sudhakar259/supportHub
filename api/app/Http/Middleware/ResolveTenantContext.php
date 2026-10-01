@@ -5,16 +5,15 @@ namespace App\Http\Middleware;
 use App\Support\TenantContext;
 use Closure;
 use Illuminate\Http\Request;
-use Spatie\Permission\PermissionRegistrar;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Applied to every tenant-workspace route (everything except /auth/*,
  * /platform/*, and /integration/*). Resolves the tenant from the
  * authenticated Sanctum user — never from request input — and sets
- * both TenantContext (drives TenantScope on every tenant-owned model)
- * and spatie/laravel-permission's team id (so a role/permission check
- * is automatically scoped to this tenant too).
+ * TenantContext, which also syncs spatie/laravel-permission's team id
+ * (see TenantContext::set()), so a role/permission check is
+ * automatically scoped to this tenant too.
  *
  * A platform-administrator account (tenant_id = NULL) hitting a
  * tenant-workspace route is rejected: platform admins operate through
@@ -43,9 +42,7 @@ class ResolveTenantContext
             ], 403);
         }
 
-        $context = app(TenantContext::class);
-        $context->set($tenant);
-        app(PermissionRegistrar::class)->setPermissionsTeamId($context->permissionsTeamId());
+        app(TenantContext::class)->set($tenant);
 
         return $next($request);
     }

@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Tenant;
+use Spatie\Permission\PermissionRegistrar;
 
 /**
  * The single source of truth for "which tenant is this request/process
@@ -28,9 +29,16 @@ class TenantContext
 {
     private ?Tenant $tenant = null;
 
+    /**
+     * Also syncs spatie/laravel-permission's team id in the same call —
+     * the two must never drift apart, since every role/permission check
+     * anywhere in the app implicitly depends on it matching whatever
+     * tenant TenantScope is currently filtering to.
+     */
     public function set(?Tenant $tenant): void
     {
         $this->tenant = $tenant;
+        app(PermissionRegistrar::class)->setPermissionsTeamId($this->permissionsTeamId());
     }
 
     public function get(): ?Tenant
@@ -66,7 +74,7 @@ class TenantContext
 
     public function clear(): void
     {
-        $this->tenant = null;
+        $this->set(null);
     }
 
     /**

@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use App\Support\TenantContext;
 use Closure;
 use Illuminate\Http\Request;
-use Spatie\Permission\PermissionRegistrar;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -30,9 +29,10 @@ class RequirePlatformAdmin
         // php-fpm/artisan-serve request has none, but a queue worker
         // that just finished a tenant-scoped job would still have that
         // tenant's id set otherwise — platform-admin checks must never
-        // inherit a leftover tenant scope.
+        // inherit a leftover tenant scope. clear() resets both
+        // TenantContext and spatie's team id together (see
+        // TenantContext::set()).
         app(TenantContext::class)->clear();
-        app(PermissionRegistrar::class)->setPermissionsTeamId(app(TenantContext::class)->permissionsTeamId());
 
         if (! $user || $user->tenant_id !== null || ! $user->hasRole('Platform Admin')) {
             return response()->json([

@@ -33,6 +33,14 @@ class ApiExceptionRenderer
             ], 422);
         }
 
+        if ($e instanceof PlanLimitExceededException) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'errors' => ['feature' => $e->feature, 'limit' => $e->limit],
+            ], 403);
+        }
+
         if ($e instanceof ValidationException) {
             return response()->json([
                 'success' => false,

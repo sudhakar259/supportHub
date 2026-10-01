@@ -10,10 +10,14 @@ use Spatie\Permission\PermissionRegistrar;
 class RolesAndPermissionsSeeder extends Seeder
 {
     /**
-     * Permissions are grouped by resource. `view_internal_notes` gates
-     * whether internal notes are visible on a ticket at all — customers
-     * never hold it, so the internal-note leak is impossible by
-     * construction, not just by controller logic.
+     * Permissions are global (the `permissions` table has no tenant_id —
+     * only `roles` and the model_has_* pivots do, via spatie's teams
+     * feature). "tickets.view" means the same thing everywhere; what
+     * differs per tenant is which role has which permissions, not the
+     * permission's existence. `view_internal_notes` gates whether
+     * internal notes are visible on a ticket at all — customers never
+     * hold it, so the internal-note leak is impossible by construction,
+     * not just by controller logic.
      */
     public const PERMISSIONS = [
         'tickets' => ['view', 'view_internal_notes', 'create', 'update', 'assign', 'escalate', 'resolve', 'close', 'reopen', 'delete'],
@@ -30,9 +34,19 @@ class RolesAndPermissionsSeeder extends Seeder
         'audit-logs' => ['view'],
         'roles' => ['view', 'manage'],
         'settings' => ['view', 'manage'],
+        'api-credentials' => ['view', 'create', 'update', 'revoke'],
+        'webhooks' => ['view', 'manage'],
+        'billing' => ['view', 'manage'],
     ];
 
     /**
+     * Every role here is tenant-scoped (created once per tenant by
+     * TenantProvisioningService, not once globally) — these are role
+     * *names and permission sets*, not role rows. "Administrator" is
+     * kept as the name for what the spec calls "Tenant Owner/Tenant
+     * Admin" rather than renamed, to avoid an unnecessary breaking
+     * change to every existing consumer of this API (section 44/53).
+     *
      * @var array<string, array<int, string>|'*'>
      */
     public const ROLE_PERMISSIONS = [
@@ -69,28 +83,31 @@ class RolesAndPermissionsSeeder extends Seeder
         ],
     ];
 
+    /**
+     * The one role that exists OUTSIDE any tenant (tenant_id = NULL on
+     * the role row, pivot-assigned with the 0/"platform" sentinel — see
+     * TenantContext::permissionsTeamId()). Deliberately holds none of
+     * the tenant-domain permissions above (a platform admin doesn't
+     * read/write tickets directly); RequirePlatformAdmin checks the
+     * role itself, not a permission, since the platform surface is
+     * small and doesn't yet need finer-grained platform permissions.
+     */
+    public const PLATFORM_ADMIN_ROLE = 'Platform Admin';
+
     public function run(): void
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        $all = [];
-
         foreach (self::PERMISSIONS as $resource => $actions) {
             foreach ($actions as $action) {
-                $all[] = Permission::firstOrCreate(['name' => "{$resource}.{$action}", 'guard_name' => 'api']);
+                Permission::firstOrCreate(['name' => "{$resource}.{$action}", 'guard_name' => 'api']);
             }
         }
 
-        foreach (self::ROLE_PERMISSIONS as $roleName => $permissions) {
-            $role = Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'api']);
-
-            if ($permissions === '*') {
-                $role->syncPermissions(Permission::where('guard_name', 'api')->get());
-
-                continue;
-            }
-
-            $role->syncPermissions($permissions);
-        }
+        Role::firstOrCreate([
+            'name' => self::PLATFORM_ADMIN_ROLE,
+            'guard_name' => 'api',
+            'tenant_id' => null,
+        ]);
     }
 }
