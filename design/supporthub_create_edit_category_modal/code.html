@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container-high":"#dce9ff","primary":"#a33900","on-error":"#ffffff","surface-bright":"#f8f9ff","surface-container-low":"#eff4ff","inverse-surface":"#213145","tertiary":"#00685f","on-secondary-container":"#5a627e","secondary-container":"#d8deff","tertiary-fixed-dim":"#6bd8cb","surface-container-lowest":"#ffffff","primary-fixed-dim":"#ffb599","secondary-fixed":"#dbe1ff","on-error-container":"#93000a","secondary":"#565d79","on-background":"#0b1c30","on-tertiary":"#ffffff","on-secondary":"#ffffff","error-container":"#ffdad6","on-tertiary-fixed":"#00201d","error":"#ba1a1a","on-secondary-fixed-variant":"#3e4660","surface-variant":"#d3e4fe","on-primary":"#ffffff","inverse-on-surface":"#eaf1ff","surface-dim":"#cbdbf5","background":"#f8f9ff","on-tertiary-fixed-variant":"#005049","on-secondary-fixed":"#131a33","tertiary-container":"#008378","on-tertiary-container":"#f4fffc","on-surface-variant":"#5a4138","primary-container":"#cc4900","surface-container":"#e5eeff","primary-fixed":"#ffdbce","on-primary-fixed":"#370e00","secondary-fixed-dim":"#bec5e5","outline-variant":"#e2bfb2","on-primary-container":"#fffbff","surface":"#f8f9ff","on-surface":"#0b1c30","outline":"#8e7166","inverse-primary":"#ffb599","tertiary-fixed":"#89f5e7","on-primary-fixed-variant":"#7f2b00","surface-container-highest":"#d3e4fe","surface-tint":"#a73a00"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-xl":"2rem","margin-mobile":"1rem","gutter":"1rem","gutter-lg":"1.5rem","space-md":"0.75rem","space-lg":"1.25rem","space-xs":"0.25rem","space-sm":"0.5rem","margin":"1.5rem"},"fontFamily":{"body-sm":["Inter"],"body-md":["Inter"],"title-md":["Inter"],"title-sm":["Inter"],"code-sm":["JetBrains Mono"],"label-md":["Inter"],"display-lg":["Hanken Grotesk"],"body-lg":["Inter"],"headline-sm":["Hanken Grotesk"],"headline-md":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"],"label-sm":["Inter"]},"fontSize":{"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-xl z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-gutter"><img alt="Brand logo. - Primary color: #ea580c
+- Font: hankenGrotesk
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">SupportHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Enterprise Ops</span></div></div><div class="flex-1 max-w-xl mx-space-xl hidden md:flex items-center"><div class="w-full relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-secondary text-title-md pointer-events-none">search</span><input class="w-full h-9 pl-10 pr-14 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-secondary font-body-md text-body-md shadow-[0_1px_4px_rgba(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Search configurations, queues, tickets, or incident IDs..." type="search"/><div class="absolute right-space-sm flex items-center gap-space-xs pointer-events-none"><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">⌘</kbd><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">K</kbd></div></div></div><div class="flex items-center gap-gutter"><div class="hidden sm:flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Systems Live</span></div><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">notifications</span></button><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">help</span></button><div class="flex items-center gap-space-md pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="hidden lg:flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Administrator</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low z-40 overflow-y-auto pb-space-xl flex flex-col shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><nav class="flex-1 px-space-md py-space-lg space-y-space-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workspace</div><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="dashboard" href="#"><span class="material-symbols-outlined text-title-md">space_dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="tickets" href="#"><span class="material-symbols-outlined text-title-md">confirmation_number</span><span>Tickets</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="my-tickets" href="#"><span class="material-symbols-outlined text-title-md">inbox</span><span>My Tickets</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customers" href="#"><span class="material-symbols-outlined text-title-md">corporate_fare</span><span>Customers</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="departments" href="#"><span class="material-symbols-outlined text-title-md">lan</span><span>Departments</span></a></div><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Governance &amp; Settings</div><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="users" href="#"><span class="material-symbols-outlined text-title-md">group</span><span>Users</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="roles-permissions" href="#"><span class="material-symbols-outlined text-title-md">security</span><span>Roles &amp; Permissions</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reports" href="#"><span class="material-symbols-outlined text-title-md">analytics</span><span>Reports</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="automation" href="#"><span class="material-symbols-outlined text-title-md">smart_toy</span><span>Automation</span></a><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-primary">tune</span><span>Ticket Configuration</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-numbering" href="#">Ticket Numbering</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="statuses-priorities" href="#">Statuses &amp; Priorities</a><a aria-current="page" class="flex items-center px-space-md py-1.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg" data-path="categories-taxonomies" href="#">Categories &amp; Taxonomies</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-settings" href="#">Settings</a></div></div></div></nav></aside><div class="pl-64"><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full relative">
+<!-- Blurred/Dimmed Background: Categories & Taxonomies Directory Table -->
+<div class="w-full px-margin py-space-lg pointer-events-none select-none filter blur-sm opacity-40 transition-all">
+<!-- Top Context & Stats Bar -->
+<div class="flex items-center justify-between pb-space-lg">
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Ticketing Operations</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Categories &amp; Taxonomies</h1>
+<p class="font-body-md text-body-md text-secondary">Classify, structure, and dynamically route inbound service tickets across multi-tiered workflows.</p>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-high text-on-surface font-title-sm text-title-sm flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md">filter_list</span> Filter
+        </button>
+<button class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md">add</span> New Category
+        </button>
+</div>
+</div>
+<!-- Mock Directory Table -->
+<div class="w-full rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden">
+<div class="grid grid-cols-12 px-space-md py-3 bg-surface-container-low font-label-sm text-label-sm uppercase tracking-wider text-secondary">
+<div class="col-span-4">Category Name &amp; Key</div>
+<div class="col-span-2">Hierarchy Level</div>
+<div class="col-span-2">Assigned Dept</div>
+<div class="col-span-2">Active Tickets</div>
+<div class="col-span-1">SLA Tier</div>
+<div class="col-span-1 text-right">Status</div>
+</div>
+<div class="divide-y divide-surface-container">
+<div class="grid grid-cols-12 px-space-md py-4 items-center bg-surface-container-lowest">
+<div class="col-span-4 flex items-center gap-space-md">
+<span class="material-symbols-outlined text-primary p-2 rounded-lg bg-surface-container">terminal</span>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">Technical Support</div>
+<div class="font-code-sm text-code-sm text-secondary">CAT-TECH</div>
+</div>
+</div>
+<div class="col-span-2 font-label-md text-label-md text-secondary">Root Category (L1)</div>
+<div class="col-span-2 font-body-md text-body-md text-on-surface">Tier 1 Support</div>
+<div class="col-span-2 font-code-sm text-code-sm text-on-surface">1,492 open</div>
+<div class="col-span-1 font-label-sm text-label-sm text-tertiary">Platinum</div>
+<div class="col-span-1 text-right"><span class="px-2 py-0.5 rounded-full bg-surface-container-low text-tertiary font-label-sm text-label-sm">Active</span></div>
+</div>
+<div class="grid grid-cols-12 px-space-md py-4 items-center bg-surface-container-lowest">
+<div class="col-span-4 flex items-center gap-space-md pl-6">
+<span class="material-symbols-outlined text-primary p-2 rounded-lg bg-primary-fixed">api</span>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface font-semibold">API &amp; Webhooks</div>
+<div class="font-code-sm text-code-sm text-secondary">CAT-TECH-API</div>
+</div>
+</div>
+<div class="col-span-2 font-label-md text-label-md text-primary">Nested (L2)</div>
+<div class="col-span-2 font-body-md text-body-md text-on-surface">Tier 2 Escalations</div>
+<div class="col-span-2 font-code-sm text-code-sm text-on-surface">348 open</div>
+<div class="col-span-1 font-label-sm text-label-sm text-tertiary">Mission-Crit</div>
+<div class="col-span-1 text-right"><span class="px-2 py-0.5 rounded-full bg-surface-container-low text-tertiary font-label-sm text-label-sm">Active</span></div>
+</div>
+<div class="grid grid-cols-12 px-space-md py-4 items-center bg-surface-container-lowest">
+<div class="col-span-4 flex items-center gap-space-md">
+<span class="material-symbols-outlined text-secondary p-2 rounded-lg bg-surface-container">credit_card</span>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">Billing &amp; Invoices</div>
+<div class="font-code-sm text-code-sm text-secondary">CAT-BILL</div>
+</div>
+</div>
+<div class="col-span-2 font-label-md text-label-md text-secondary">Root Category (L1)</div>
+<div class="col-span-2 font-body-md text-body-md text-on-surface">Finance Operations</div>
+<div class="col-span-2 font-code-sm text-code-sm text-on-surface">114 open</div>
+<div class="col-span-1 font-label-sm text-label-sm text-secondary">Standard</div>
+<div class="col-span-1 text-right"><span class="px-2 py-0.5 rounded-full bg-surface-container-low text-tertiary font-label-sm text-label-sm">Active</span></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Focused Modal Overlay & Backdrop -->
+<div class="fixed inset-0 top-16 z-50 flex items-center justify-center p-4 md:p-6 bg-inverse-surface/45 backdrop-blur-sm overflow-y-auto">
+<!-- Modal Card Container -->
+<div class="relative w-full max-w-4xl my-auto rounded-xl bg-surface-container-lowest shadow-2xl flex flex-col overflow-hidden">
+<!-- Top Colored Accent Rail -->
+<div class="h-1.5 w-full bg-primary"></div>
+<!-- Modal Header -->
+<div class="px-space-xl pt-space-lg pb-space-md bg-surface-container-lowest flex items-start justify-between">
+<div class="flex flex-col gap-1 max-w-2xl">
+<div class="flex items-center gap-space-md">
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight" id="modal-title-heading">Edit Category — API &amp; Webhooks</h2>
+<!-- Mode Switcher Pill -->
+<div class="inline-flex items-center p-0.5 rounded-full bg-surface-container-high">
+<button class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest font-label-sm text-label-sm text-primary shadow-xs font-semibold" id="toggle-edit-mode" type="button">Editing</button>
+<button class="px-2.5 py-0.5 rounded-full font-label-sm text-label-sm text-secondary hover:text-on-surface" id="toggle-create-mode" type="button">Create New</button>
+</div>
+</div>
+<p class="font-body-md text-body-md text-secondary">Configure category classification, parent hierarchy inheritance, default routing department, and dynamic ticket fields.</p>
+</div>
+<button aria-label="Close modal" class="p-space-xs text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-headline-sm">close</span>
+</button>
+</div>
+<!-- Tabbed Navigation -->
+<div class="px-space-xl bg-surface-container-lowest flex items-center gap-space-xl shadow-[0_1px_0_0_rgba(203,219,245,0.7)]">
+<button class="relative py-3 font-title-sm text-title-sm text-primary flex items-center gap-space-xs font-semibold" id="tab-btn-1" type="button">
+<span class="material-symbols-outlined text-title-md">account_tree</span>
+<span>1. General &amp; Hierarchy</span>
+<span class="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></span>
+</button>
+<button class="relative py-3 font-title-sm text-title-sm text-secondary hover:text-on-surface flex items-center gap-space-xs" id="tab-btn-2" type="button">
+<span class="material-symbols-outlined text-title-md">route</span>
+<span>2. Routing &amp; SLA Rules</span>
+</button>
+<button class="relative py-3 font-title-sm text-title-sm text-secondary hover:text-on-surface flex items-center gap-space-xs" id="tab-btn-3" type="button">
+<span class="material-symbols-outlined text-title-md">dynamic_form</span>
+<span>3. Dynamic Form Fields</span>
+</button>
+</div>
+<!-- Modal Body (Tab Panels) -->
+<div class="px-space-xl py-space-lg max-h-[calc(85vh-200px)] overflow-y-auto space-y-space-xl bg-surface-container-lowest">
+<!-- TAB 1 CONTENT -->
+<div class="space-y-space-xl" id="tab-pane-1">
+<!-- Row 1: Category Name & Slug Key -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-7 flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface flex items-center gap-1" for="category-name">
+                Category Name <span class="text-primary">*</span>
+</label>
+<input class="h-9 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:shadow-[0_0_0_2px_#a33900]" id="category-name" type="text" value="API &amp; Webhooks"/>
+<span class="font-body-sm text-body-sm text-secondary">The customer-facing taxonomy label shown across intake portals and agent assignees.</span>
+</div>
+<div class="md:col-span-5 flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-title-sm text-title-sm text-on-surface" for="category-slug">Category Code / Slug</label>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-secondary uppercase font-mono">Immutable</span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-title-md">tag</span>
+<input class="w-full h-9 pl-9 pr-3 rounded-lg bg-surface-container font-code-sm text-code-sm text-on-surface font-medium cursor-not-allowed select-all" id="category-slug" readonly="" type="text" value="CAT-TECH-API"/>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">System-wide routing key used in webhooks and API payloads.</span>
+</div>
+</div>
+<!-- Row 2: Hierarchy Level & Parent Selector -->
+<div class="p-space-lg rounded-xl bg-surface-container-low space-y-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-title-sm text-title-sm text-on-surface">Hierarchy Level &amp; Parent Taxonomy</span>
+<p class="font-body-sm text-body-sm text-secondary">Define where this node sits within your multi-tiered classification tree.</p>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase">Inherits parent SLA</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md pt-space-xs">
+<!-- Radio option 1: Root Category -->
+<label class="relative flex items-start gap-space-md p-space-md rounded-lg bg-surface-container-lowest cursor-pointer hover:bg-surface-container-high transition-colors">
+<input class="mt-0.5 h-4 w-4 text-primary accent-primary" name="hierarchy-type" type="radio" value="root"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Root Category</span>
+<span class="font-body-sm text-body-sm text-secondary">Top-level bucket with no parent dependencies (e.g. Technical, Billing).</span>
+</div>
+</label>
+<!-- Radio option 2: Nested Subcategory -->
+<label class="relative flex items-start gap-space-md p-space-md rounded-lg bg-surface-container-lowest shadow-sm cursor-pointer ring-1 ring-primary/40 bg-surface-bright">
+<input checked="" class="mt-0.5 h-4 w-4 text-primary accent-primary" name="hierarchy-type" type="radio" value="nested"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-primary font-semibold">Nested Subcategory</span>
+<span class="font-body-sm text-body-sm text-secondary">Child entity inheriting SLA timers and escalation groups from parent.</span>
+</div>
+</label>
+</div>
+<!-- Parent Category Dropdown -->
+<div class="pt-space-xs space-y-space-xs" id="parent-selector-group">
+<label class="font-title-sm text-title-sm text-on-surface flex items-center gap-1" for="parent-category">
+                Parent Category Assignment <span class="text-primary">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none focus:shadow-[0_0_0_2px_#a33900] appearance-none pr-9" id="parent-category">
+<option selected="" value="CAT-TECH">Technical Support (CAT-TECH) — Active Root</option>
+<option value="CAT-BILL">Billing &amp; Invoices (CAT-BILL)</option>
+<option value="CAT-SEC">Security &amp; Compliance (CAT-SEC)</option>
+<option value="CAT-DEV">Developer Experience &amp; SDKs (CAT-DEV)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2 text-secondary pointer-events-none text-title-md">expand_more</span>
+</div>
+</div>
+<!-- Breadcrumb Visual Preview -->
+<div class="p-space-sm px-space-md rounded-lg bg-surface-container flex items-center gap-space-sm font-code-sm text-code-sm text-on-surface">
+<span class="material-symbols-outlined text-secondary text-title-sm">lan</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Taxonomy Path:</span>
+<span class="text-secondary font-medium">Technical Support</span>
+<span class="text-secondary">/</span>
+<span class="text-primary font-bold">API &amp; Webhooks</span>
+<span class="ml-auto font-label-sm text-label-sm text-tertiary bg-surface-container-lowest px-2 py-0.5 rounded">Level 2 Node</span>
+</div>
+</div>
+<!-- Row 3: Description -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface" for="category-desc">Category Scope &amp; Routing Summary</label>
+<textarea class="p-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:shadow-[0_0_0_2px_#a33900]" id="category-desc" rows="3">Inbound REST/GraphQL API rate limits, HMAC webhook signature verification failures, 502/504 gateway timeout incidents, and developer portal SDK questions.</textarea>
+<span class="font-body-sm text-body-sm text-secondary">Guidance displayed to triage operators and auto-classification LLM classifiers.</span>
+</div>
+<!-- Row 4: Icon & Visual Badge Customizer -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Icon Picker -->
+<div class="md:col-span-6 flex flex-col gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface">Category Badge Icon</span>
+<div class="flex items-center gap-space-md">
+<div class="w-11 h-11 rounded-lg bg-primary text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-headline-sm">terminal</span>
+</div>
+<div class="flex-1 flex items-center gap-space-xs">
+<button class="w-9 h-9 rounded-lg bg-surface-container-high text-primary flex items-center justify-center hover:bg-surface-container-highest" type="button">
+<span class="material-symbols-outlined text-title-md">terminal</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container-low text-secondary flex items-center justify-center hover:bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-title-md">webhook</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container-low text-secondary flex items-center justify-center hover:bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-title-md">cloud_sync</span>
+</button>
+<button class="w-9 h-9 rounded-lg bg-surface-container-low text-secondary flex items-center justify-center hover:bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-title-md">code</span>
+</button>
+<button class="px-space-sm h-9 rounded-lg bg-surface-container-low text-secondary hover:text-on-surface font-label-sm text-label-sm" type="button">Browse 120+</button>
+</div>
+</div>
+</div>
+<!-- Color Palette / Badge Tint -->
+<div class="md:col-span-6 flex flex-col gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface">Accent Color &amp; Badge Tint</span>
+<div class="flex items-center gap-space-sm h-11">
+<button aria-label="Select Solar Orange" class="w-7 h-7 rounded-full bg-primary ring-2 ring-offset-2 ring-primary flex items-center justify-center text-on-primary" type="button">
+<span class="material-symbols-outlined text-title-sm">check</span>
+</button>
+<button aria-label="Select Teal Tier" class="w-7 h-7 rounded-full bg-tertiary hover:scale-105 transition-transform" type="button"></button>
+<button aria-label="Select Slate Tier" class="w-7 h-7 rounded-full bg-secondary hover:scale-105 transition-transform" type="button"></button>
+<button aria-label="Select Red Alert" class="w-7 h-7 rounded-full bg-error hover:scale-105 transition-transform" type="button"></button>
+<button aria-label="Select Indigo Navy" class="w-7 h-7 rounded-full bg-inverse-surface hover:scale-105 transition-transform" type="button"></button>
+<span class="ml-auto font-code-sm text-code-sm text-secondary bg-surface-container-low px-2 py-1 rounded">#a33900</span>
+</div>
+</div>
+</div>
+<!-- Row 5: Dynamic Ticket Form Binding -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-title-md">checklist</span>
+<div>
+<span class="font-title-sm text-title-sm text-on-surface">Dynamic Ticket Form Binding</span>
+<p class="font-body-sm text-body-sm text-secondary">Inbound intake fields dynamically activated whenever this category is selected.</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-secondary uppercase">3 Fields Active</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md pt-space-xs">
+<!-- Field Checkbox 1 -->
+<label class="flex items-start gap-space-sm p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer">
+<input checked="" class="mt-0.5 h-4 w-4 accent-primary text-primary rounded" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Endpoint / URL</span>
+<span class="font-body-sm text-body-sm text-secondary">Requires standard REST uri format</span>
+</div>
+</label>
+<!-- Field Checkbox 2 -->
+<label class="flex items-start gap-space-sm p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer">
+<input checked="" class="mt-0.5 h-4 w-4 accent-primary text-primary rounded" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">HTTP Status Code</span>
+<span class="font-body-sm text-body-sm text-secondary">502, 504, 429 dropdown validation</span>
+</div>
+</label>
+<!-- Field Checkbox 3 -->
+<label class="flex items-start gap-space-sm p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer">
+<input checked="" class="mt-0.5 h-4 w-4 accent-primary text-primary rounded" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Ray ID / Request ID</span>
+<span class="font-body-sm text-body-sm text-secondary">UUID telemetry lookup hook</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- TAB 2 CONTENT (Hidden by default, toggleable) -->
+<div class="hidden space-y-space-xl" id="tab-pane-2">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Default Department -->
+<div class="md:col-span-7 flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface" for="dept-select">Default Routing Department</label>
+<div class="relative">
+<select class="w-full h-9 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:shadow-[0_0_0_2px_#a33900] appearance-none pr-9" id="dept-select">
+<option selected="">Tier-2 Technical Escalations (Core Platform On-call)</option>
+<option>Tier-1 Service Desk</option>
+<option>DevOps &amp; Infrastructure Incident Pod</option>
+<option>Enterprise Customer Success Managers</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2 text-secondary pointer-events-none text-title-md">expand_more</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Tickets auto-route to this queue unless override triggers match.</span>
+</div>
+<!-- Priority Override -->
+<div class="md:col-span-5 flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface" for="priority-override">Default Priority Rule</label>
+<div class="relative">
+<select class="w-full h-9 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:shadow-[0_0_0_2px_#a33900] appearance-none pr-9" id="priority-override">
+<option selected="">Inherit (Elevate to High if 504 status)</option>
+<option>Strict P1 - Critical Escalation</option>
+<option>Strict P2 - High Operational Impact</option>
+<option>Strict P3 - Medium Normal Workflow</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2 text-secondary pointer-events-none text-title-md">expand_more</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Adaptive SLA escalation trigger.</span>
+</div>
+</div>
+<!-- Status & Availability -->
+<div class="p-space-lg rounded-xl bg-surface-container-low flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Active Classification Status</span>
+<span class="font-body-sm text-body-sm text-secondary">Allow customers and agents to select this category when filing new tickets.</span>
+</div>
+<!-- Custom Toggle -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- TAB 3 CONTENT (Placeholder custom fields) -->
+<div class="hidden space-y-space-md" id="tab-pane-3">
+<div class="p-space-lg rounded-xl bg-surface-container-low flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Dynamic Form Template Builder</span>
+<p class="font-body-sm text-body-sm text-secondary">Custom field schemas injected into the triage window.</p>
+</div>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface font-title-sm text-title-sm flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-title-sm">add_circle</span> Add Custom Key
+            </button>
+</div>
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-secondary">drag_indicator</span>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">c_request_endpoint</div>
+<div class="font-body-sm text-body-sm text-secondary">Text Input · Required · Regex: ^https?://.*</div>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-tertiary">Schema Bound</span>
+</div>
+<div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-secondary">drag_indicator</span>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">c_gateway_http_code</div>
+<div class="font-body-sm text-body-sm text-secondary">Single Choice Dropdown · Optional</div>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-tertiary">Schema Bound</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer Actions -->
+<div class="px-space-xl py-space-md bg-surface-container-low flex items-center justify-between shadow-[0_-1px_0_0_rgba(203,219,245,0.7)]">
+<!-- Bottom Left Action -->
+<button class="inline-flex items-center gap-space-xs text-error hover:text-on-error-container font-title-sm text-title-sm transition-colors group" type="button">
+<span class="material-symbols-outlined text-title-md group-hover:scale-110 transition-transform">delete_forever</span>
+<span>Disable Category</span>
+</button>
+<!-- Bottom Right Action Pair -->
+<div class="flex items-center gap-space-md">
+<button class="px-space-lg py-2 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container font-title-sm text-title-sm transition-colors shadow-xs" type="button">
+            Cancel
+          </button>
+<button class="px-space-xl py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-colors flex items-center gap-space-xs shadow-md" type="button">
+<span class="material-symbols-outlined text-title-md">check_circle</span>
+<span>Save Changes &amp; Deploy</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactive tab switcher
+  const tabBtn1 = document.getElementById('tab-btn-1');
+  const tabBtn2 = document.getElementById('tab-btn-2');
+  const tabBtn3 = document.getElementById('tab-btn-3');
+
+  const pane1 = document.getElementById('tab-pane-1');
+  const pane2 = document.getElementById('tab-pane-2');
+  const pane3 = document.getElementById('tab-pane-3');
+
+  function setTab(activeBtn, activePane) {
+    [tabBtn1, tabBtn2, tabBtn3].forEach(btn => {
+      btn.className = 'relative py-3 font-title-sm text-title-sm text-secondary hover:text-on-surface flex items-center gap-space-xs';
+      const indicator = btn.querySelector('span.h-0\\.5');
+      if (indicator) indicator.remove();
+    });
+
+    [pane1, pane2, pane3].forEach(p => p.classList.add('hidden'));
+
+    activeBtn.className = 'relative py-3 font-title-sm text-title-sm text-primary flex items-center gap-space-xs font-semibold';
+    const line = document.createElement('span');
+    line.className = 'absolute bottom-0 left-0 right-0 h-0.5 bg-primary';
+    activeBtn.appendChild(line);
+
+    activePane.classList.remove('hidden');
+  }
+
+  if (tabBtn1 && tabBtn2 && tabBtn3) {
+    tabBtn1.addEventListener('click', () => setTab(tabBtn1, pane1));
+    tabBtn2.addEventListener('click', () => setTab(tabBtn2, pane2));
+    tabBtn3.addEventListener('click', () => setTab(tabBtn3, pane3));
+  }
+
+  // Toggle between Edit and Create New mode
+  const editToggle = document.getElementById('toggle-edit-mode');
+  const createToggle = document.getElementById('toggle-create-mode');
+  const heading = document.getElementById('modal-title-heading');
+  const nameInput = document.getElementById('category-name');
+  const slugInput = document.getElementById('category-slug');
+
+  if (editToggle && createToggle) {
+    createToggle.addEventListener('click', () => {
+      createToggle.className = 'px-2.5 py-0.5 rounded-full bg-surface-container-lowest font-label-sm text-label-sm text-primary shadow-xs font-semibold';
+      editToggle.className = 'px-2.5 py-0.5 rounded-full font-label-sm text-label-sm text-secondary hover:text-on-surface';
+      heading.textContent = 'Create New Category';
+      nameInput.value = '';
+      nameInput.placeholder = 'e.g. Identity & SSO';
+      slugInput.value = 'CAT-NEW-AUTO';
+    });
+
+    editToggle.addEventListener('click', () => {
+      editToggle.className = 'px-2.5 py-0.5 rounded-full bg-surface-container-lowest font-label-sm text-label-sm text-primary shadow-xs font-semibold';
+      createToggle.className = 'px-2.5 py-0.5 rounded-full font-label-sm text-label-sm text-secondary hover:text-on-surface';
+      heading.textContent = 'Edit Category — API & Webhooks';
+      nameInput.value = 'API & Webhooks';
+      slugInput.value = 'CAT-TECH-API';
+    });
+  }
+</script></main></div></body></html>

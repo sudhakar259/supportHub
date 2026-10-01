@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container-high":"#dce9ff","primary":"#a33900","on-error":"#ffffff","surface-bright":"#f8f9ff","surface-container-low":"#eff4ff","inverse-surface":"#213145","tertiary":"#00685f","on-secondary-container":"#5a627e","secondary-container":"#d8deff","tertiary-fixed-dim":"#6bd8cb","surface-container-lowest":"#ffffff","primary-fixed-dim":"#ffb599","secondary-fixed":"#dbe1ff","on-error-container":"#93000a","secondary":"#565d79","on-background":"#0b1c30","on-tertiary":"#ffffff","on-secondary":"#ffffff","error-container":"#ffdad6","on-tertiary-fixed":"#00201d","error":"#ba1a1a","on-secondary-fixed-variant":"#3e4660","surface-variant":"#d3e4fe","on-primary":"#ffffff","inverse-on-surface":"#eaf1ff","surface-dim":"#cbdbf5","background":"#f8f9ff","on-tertiary-fixed-variant":"#005049","on-secondary-fixed":"#131a33","tertiary-container":"#008378","on-tertiary-container":"#f4fffc","on-surface-variant":"#5a4138","primary-container":"#cc4900","surface-container":"#e5eeff","primary-fixed":"#ffdbce","on-primary-fixed":"#370e00","secondary-fixed-dim":"#bec5e5","outline-variant":"#e2bfb2","on-primary-container":"#fffbff","surface":"#f8f9ff","on-surface":"#0b1c30","outline":"#8e7166","inverse-primary":"#ffb599","tertiary-fixed":"#89f5e7","on-primary-fixed-variant":"#7f2b00","surface-container-highest":"#d3e4fe","surface-tint":"#a73a00"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-xl":"2rem","margin-mobile":"1rem","gutter":"1rem","gutter-lg":"1.5rem","space-md":"0.75rem","space-lg":"1.25rem","space-xs":"0.25rem","space-sm":"0.5rem","margin":"1.5rem"},"fontFamily":{"body-sm":["Inter"],"body-md":["Inter"],"title-md":["Inter"],"title-sm":["Inter"],"code-sm":["JetBrains Mono"],"label-md":["Inter"],"display-lg":["Hanken Grotesk"],"body-lg":["Inter"],"headline-sm":["Hanken Grotesk"],"headline-md":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"],"label-sm":["Inter"]},"fontSize":{"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-xl z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-gutter"><img alt="Brand logo. - Primary color: #ea580c
+- Font: hankenGrotesk
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">SupportHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Enterprise Ops</span></div></div><div class="flex-1 max-w-xl mx-space-xl hidden md:flex items-center"><div class="w-full relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-secondary text-title-md pointer-events-none">search</span><input class="w-full h-9 pl-10 pr-14 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-secondary font-body-md text-body-md shadow-[0_1px_4px_rgba(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Search configurations, queues, tickets, or incident IDs..." type="search"/><div class="absolute right-space-sm flex items-center gap-space-xs pointer-events-none"><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">⌘</kbd><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">K</kbd></div></div></div><div class="flex items-center gap-gutter"><div class="hidden sm:flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Systems Live</span></div><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">notifications</span></button><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">help</span></button><div class="flex items-center gap-space-md pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="hidden lg:flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Administrator</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low z-40 overflow-y-auto pb-space-xl flex flex-col shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><nav class="flex-1 px-space-md py-space-lg space-y-space-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workspace</div><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="dashboard" href="#"><span class="material-symbols-outlined text-title-md">space_dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="tickets" href="#"><span class="material-symbols-outlined text-title-md">confirmation_number</span><span>Tickets</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="my-tickets" href="#"><span class="material-symbols-outlined text-title-md">inbox</span><span>My Tickets</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customers" href="#"><span class="material-symbols-outlined text-title-md">corporate_fare</span><span>Customers</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="departments" href="#"><span class="material-symbols-outlined text-title-md">lan</span><span>Departments</span></a></div><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Governance &amp; Settings</div><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="users" href="#"><span class="material-symbols-outlined text-title-md">group</span><span>Users</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="roles-permissions" href="#"><span class="material-symbols-outlined text-title-md">security</span><span>Roles &amp; Permissions</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reports" href="#"><span class="material-symbols-outlined text-title-md">analytics</span><span>Reports</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="automation" href="#"><span class="material-symbols-outlined text-title-md">smart_toy</span><span>Automation</span></a><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-primary">tune</span><span>Ticket Configuration</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-numbering" href="#">Ticket Numbering</a><a aria-current="page" class="flex items-center px-space-md py-1.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg" data-path="statuses-priorities" href="#">Statuses &amp; Priorities</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="categories-taxonomies" href="#">Categories &amp; Taxonomies</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-settings" href="#">Settings</a></div></div></div></nav></aside><div class="pl-64"><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<div class="p-margin space-y-gutter-lg max-w-7xl mx-auto w-full">
+<!-- Breadcrumb & Top Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-gutter">
+<div class="space-y-space-xs">
+<nav class="flex items-center gap-space-xs font-label-sm text-label-sm text-secondary tracking-wider uppercase">
+<a class="hover:text-primary transition-colors" href="#">Settings</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Ticket Configuration</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-on-surface font-semibold">Statuses &amp; Priorities</span>
+</nav>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Statuses &amp; Priorities Lifecycle</h1>
+<p class="font-body-md text-body-md text-secondary max-w-3xl">
+          Define global ticket state machines, SLA response impact, color badges, drag-and-drop workflow progression, and priority escalations.
+        </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm transition-colors shadow-sm" type="button">
+          Reset to System Defaults
+        </button>
+<button class="px-space-md py-2 rounded-lg bg-inverse-surface hover:bg-secondary text-inverse-on-surface font-title-sm text-title-sm flex items-center gap-space-xs transition-colors shadow-sm" onclick="document.getElementById('status-drawer').classList.remove('translate-x-full')" type="button">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>Add Status</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-inverse-surface hover:bg-secondary text-inverse-on-surface font-title-sm text-title-sm flex items-center gap-space-xs transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>Add Priority</span>
+</button>
+<button class="px-space-lg py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm flex items-center gap-space-xs shadow-sm transition-all transform active:scale-95" type="button">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span>Save Changes</span>
+</button>
+</div>
+</div>
+<!-- Metric / Compliance Strip -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Active Statuses</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-on-surface font-bold leading-none">7</span>
+<span class="font-label-md text-label-md text-tertiary font-medium">Configured</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">2 Terminal states, 5 Active transitions</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low text-primary">
+<span class="material-symbols-outlined text-title-md">alt_route</span>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Priority Tiers</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-on-surface font-bold leading-none">4</span>
+<span class="font-label-md text-label-md text-primary font-medium">P1 – P4</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Strict SLA matrix &amp; auto-escalations</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low text-primary">
+<span class="material-symbols-outlined text-title-md">priority_high</span>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workflow Policy</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Linear Strict</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">No terminal bypass allowed</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low text-tertiary">
+<span class="material-symbols-outlined text-title-md">lock</span>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Compliance Alignment</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">ITIL v4 &amp; ISO</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">ISO 27001 state integrity auditable</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low text-tertiary">
+<span class="material-symbols-outlined text-title-md">verified_user</span>
+</div>
+</div>
+</div>
+<!-- Section 1: Ticket Statuses Lifecycle -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg space-y-space-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-gutter">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Ticket Status Lifecycle</h2>
+<p class="font-body-sm text-body-sm text-secondary">Control state definitions, SLA pause conditions, and rank order. Drag items to adjust triage progression.</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-secondary">Filter Category:</span>
+<select class="px-space-sm py-1.5 rounded-lg bg-surface text-on-surface font-body-sm text-body-sm shadow-sm outline-none">
+<option>All State Categories</option>
+<option>New / Intake</option>
+<option>In Progress</option>
+<option>On Hold</option>
+<option>Resolved</option>
+<option>Closed</option>
+</select>
+</div>
+</div>
+<!-- State Machine Visual Diagram -->
+<div class="p-space-md rounded-xl bg-surface-container-low space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Permitted Flow State Transition Diagram</span>
+<span class="font-code-sm text-code-sm text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+            Linear Pipeline Active
+          </span>
+</div>
+<div class="w-full overflow-x-auto py-space-sm">
+<div class="min-w-[760px] flex items-center justify-between px-space-md">
+<!-- Node 1 -->
+<div class="flex flex-col items-center gap-1">
+<div class="px-space-md py-1.5 rounded-full bg-surface text-tertiary shadow-sm font-label-md text-label-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Open
+              </div>
+<span class="font-code-sm text-code-sm text-secondary">intake #1</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-sm">trending_flat</span>
+<!-- Node 2 -->
+<div class="flex flex-col items-center gap-1">
+<div class="px-space-md py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed shadow-sm font-label-md text-label-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span> In Progress
+              </div>
+<span class="font-code-sm text-code-sm text-secondary">triage #2</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-sm">sync_alt</span>
+<!-- Node 3 -->
+<div class="flex flex-col items-center gap-1">
+<div class="px-space-md py-1.5 rounded-full bg-surface-container text-secondary shadow-sm font-label-md text-label-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Pending
+              </div>
+<span class="font-code-sm text-code-sm text-secondary">hold/wait #3</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-sm">trending_flat</span>
+<!-- Node 4 -->
+<div class="flex flex-col items-center gap-1">
+<div class="px-space-md py-1.5 rounded-full bg-error-container text-on-error-container shadow-sm font-label-md text-label-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-error"></span> Escalated
+              </div>
+<span class="font-code-sm text-code-sm text-secondary">tier-3 #4</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-sm">trending_flat</span>
+<!-- Node 5 -->
+<div class="flex flex-col items-center gap-1">
+<div class="px-space-md py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed shadow-sm font-label-md text-label-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Resolved
+              </div>
+<span class="font-code-sm text-code-sm text-secondary">fix verify #5</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-sm">trending_flat</span>
+<!-- Node 6 -->
+<div class="flex flex-col items-center gap-1">
+<div class="px-space-md py-1.5 rounded-full bg-surface-container-high text-on-surface shadow-sm font-label-md text-label-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-on-surface"></span> Closed
+              </div>
+<span class="font-code-sm text-code-sm text-secondary">terminal #6</span>
+</div>
+<!-- Loop back indicator -->
+<div class="pl-2 flex items-center gap-1 text-secondary font-code-sm text-code-sm">
+<span class="material-symbols-outlined text-sm">undo</span>
+<span>Reopened Loop</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Dense Status Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider h-10">
+<th class="px-space-md w-12 text-center">Rank</th>
+<th class="px-space-md">Status Name &amp; Description</th>
+<th class="px-space-md">Category Type</th>
+<th class="px-space-md">Badge Preview</th>
+<th class="px-space-md">SLA Behavior</th>
+<th class="px-space-md text-right">Active Tickets</th>
+<th class="px-space-md text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-body-md font-body-md">
+<!-- Row 1: Open -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3 text-center">
+<div class="flex items-center justify-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm cursor-grab opacity-40 group-hover:opacity-100">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-semibold">1</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface flex items-center gap-2">
+                    Open
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary text-[10px] font-label-sm uppercase">Default Initial</span>
+</span>
+<span class="font-body-sm text-body-sm text-secondary">Initial state when ticket arrives from any channel</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="font-body-sm text-body-sm text-on-surface">New / Intake</span>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Open
+                </span>
+</td>
+<td class="px-space-md py-3">
+<div class="flex items-center gap-1 text-tertiary font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+<span>Running</span>
+</div>
+</td>
+<td class="px-space-md py-3 text-right font-code-sm text-code-sm font-semibold text-on-surface">
+                142
+              </td>
+<td class="px-space-md py-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded opacity-30 cursor-not-allowed text-secondary" disabled="" title="Default initial state cannot be disabled" type="button">
+<span class="material-symbols-outlined text-sm">block</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: In Progress -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3 text-center">
+<div class="flex items-center justify-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm cursor-grab opacity-40 group-hover:opacity-100">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-semibold">2</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">In Progress</span>
+<span class="font-body-sm text-body-sm text-secondary">Actively being investigated by an assigned agent</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="font-body-sm text-body-sm text-on-surface">In Progress</span>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> In Progress
+                </span>
+</td>
+<td class="px-space-md py-3">
+<div class="flex items-center gap-1 text-tertiary font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+<span>Running</span>
+</div>
+</td>
+<td class="px-space-md py-3 text-right font-code-sm text-code-sm font-semibold text-on-surface">
+                89
+              </td>
+<td class="px-space-md py-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">toggle_on</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Pending -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3 text-center">
+<div class="flex items-center justify-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm cursor-grab opacity-40 group-hover:opacity-100">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-semibold">3</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Pending</span>
+<span class="font-body-sm text-body-sm text-secondary">Awaiting customer response or external vendor update</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="font-body-sm text-body-sm text-on-surface">On Hold</span>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Pending
+                </span>
+</td>
+<td class="px-space-md py-3">
+<div class="flex items-center gap-1 text-secondary font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-sm">pause</span>
+<span>Paused</span>
+</div>
+</td>
+<td class="px-space-md py-3 text-right font-code-sm text-code-sm font-semibold text-on-surface">
+                64
+              </td>
+<td class="px-space-md py-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">toggle_on</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Escalated -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3 text-center">
+<div class="flex items-center justify-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm cursor-grab opacity-40 group-hover:opacity-100">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-semibold">4</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Escalated</span>
+<span class="font-body-sm text-body-sm text-secondary">Transferred to Tier-2/Tier-3 engineering on-call</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="font-body-sm text-body-sm text-on-surface">In Progress</span>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Escalated
+                </span>
+</td>
+<td class="px-space-md py-3">
+<div class="flex items-center gap-1 text-error font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-sm">fast_forward</span>
+<span>Accelerated 2x</span>
+</div>
+</td>
+<td class="px-space-md py-3 text-right font-code-sm text-code-sm font-semibold text-on-surface">
+                18
+              </td>
+<td class="px-space-md py-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">toggle_on</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Resolved -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3 text-center">
+<div class="flex items-center justify-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm cursor-grab opacity-40 group-hover:opacity-100">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-semibold">5</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Resolved</span>
+<span class="font-body-sm text-body-sm text-secondary">Solution delivered, awaiting customer confirmation</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="font-body-sm text-body-sm text-on-surface">Resolved</span>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Resolved
+                </span>
+</td>
+<td class="px-space-md py-3">
+<div class="flex items-center gap-1 text-secondary font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-sm">stop</span>
+<span>Stopped</span>
+</div>
+</td>
+<td class="px-space-md py-3 text-right font-code-sm text-code-sm font-semibold text-on-surface">
+                410
+              </td>
+<td class="px-space-md py-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">toggle_on</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Closed -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3 text-center">
+<div class="flex items-center justify-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm cursor-grab opacity-40 group-hover:opacity-100">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-semibold">6</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface flex items-center gap-2">
+                    Closed
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary text-[10px] font-label-sm uppercase">Terminal</span>
+</span>
+<span class="font-body-sm text-body-sm text-secondary">Terminal state after 5 days with no dispute</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="font-body-sm text-body-sm text-on-surface">Closed</span>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface"></span> Closed
+                </span>
+</td>
+<td class="px-space-md py-3">
+<div class="flex items-center gap-1 text-secondary font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-sm">archive</span>
+<span>Archived</span>
+</div>
+</td>
+<td class="px-space-md py-3 text-right font-code-sm text-code-sm font-semibold text-on-surface">
+                4,820
+              </td>
+<td class="px-space-md py-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">toggle_on</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: Reopened -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-space-md py-3 text-center">
+<div class="flex items-center justify-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm cursor-grab opacity-40 group-hover:opacity-100">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-semibold">7</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Reopened</span>
+<span class="font-body-sm text-body-sm text-secondary">Customer replied after resolution within grace period</span>
+</div>
+</td>
+<td class="px-space-md py-3">
+<span class="font-body-sm text-body-sm text-on-surface">In Progress</span>
+</td>
+<td class="px-space-md py-3">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Reopened
+                </span>
+</td>
+<td class="px-space-md py-3">
+<div class="flex items-center gap-1 text-primary font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-sm">replay</span>
+<span>Restarted</span>
+</div>
+</td>
+<td class="px-space-md py-3 text-right font-code-sm text-code-sm font-semibold text-on-surface">
+                12
+              </td>
+<td class="px-space-md py-3 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">toggle_on</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Add status bottom trigger -->
+<div class="flex justify-start">
+<button class="px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-title-sm text-title-sm flex items-center gap-1 transition-colors" onclick="document.getElementById('status-drawer').classList.remove('translate-x-full')" type="button">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+<span>Add Custom Status</span>
+</button>
+</div>
+</div>
+<!-- Section 2: Ticket Priority Levels & SLA Rules -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg space-y-space-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-gutter">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Priority Levels &amp; SLA Matrix</h2>
+<p class="font-body-sm text-body-sm text-secondary">Define initial response targets, maximum resolution time thresholds, and automated on-call paging policies.</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-1.5 rounded-lg bg-surface text-secondary hover:text-on-surface font-title-sm text-title-sm shadow-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">tune</span>
+<span>Configure SLA Schedules</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Priority Card 1: Critical P1 -->
+<div class="rounded-xl bg-surface p-space-md shadow-sm relative flex flex-col justify-between">
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span> Critical (P1)
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">Rank #1</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">Urgent infrastructure outage, security breach, or VIP core blocker.</p>
+<span class="mt-1 inline-block px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-code-sm text-code-sm font-semibold">24/7 SRE Paging</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>First Response:</span>
+<span class="font-code-sm text-code-sm font-bold text-error">&lt; 15 min</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>Resolution Target:</span>
+<span class="font-code-sm text-code-sm font-bold text-error">&lt; 2 hours</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md mt-space-md flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">3 Active Tickets</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Priority Card 2: High P2 -->
+<div class="rounded-xl bg-surface p-space-md shadow-sm relative flex flex-col justify-between">
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary"></span> High (P2)
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">Rank #2</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">Core functionality degraded without full critical system blocker.</p>
+<span class="mt-1 inline-block px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-code-sm">Shift Escalation</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>First Response:</span>
+<span class="font-code-sm text-code-sm font-bold text-primary">&lt; 1 hour</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>Resolution Target:</span>
+<span class="font-code-sm text-code-sm font-bold text-primary">&lt; 8 hours</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md mt-space-md flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">14 Active Tickets</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Priority Card 3: Medium P3 -->
+<div class="rounded-xl bg-surface p-space-md shadow-sm relative flex flex-col justify-between">
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Medium (P3)
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">Rank #3</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">Standard operational requests with feasible workarounds available.</p>
+<span class="mt-1 inline-block px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-code-sm">Standard Queue</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>First Response:</span>
+<span class="font-code-sm text-code-sm font-bold text-on-surface">&lt; 4 hours</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>Resolution Target:</span>
+<span class="font-code-sm text-code-sm font-bold text-on-surface">&lt; 24 hours</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md mt-space-md flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">45 Active Tickets</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Priority Card 4: Low P4 -->
+<div class="rounded-xl bg-surface p-space-md shadow-sm relative flex flex-col justify-between">
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Low (P4)
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">Rank #4</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">Cosmetic bugs, documentation questions, and general product feedback.</p>
+<span class="mt-1 inline-block px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-code-sm">Backlog Pool</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>First Response:</span>
+<span class="font-code-sm text-code-sm font-bold text-secondary">&lt; 8 hours</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>Resolution Target:</span>
+<span class="font-code-sm text-code-sm font-bold text-secondary">&lt; 72 hours</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md mt-space-md flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">82 Active Tickets</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Live SLA Compliance Target Sparkline Panel -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col md:flex-row items-center justify-between gap-gutter">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">30-Day SLA Achievement vs Configured Targets</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Global Breach Velocity: 0.84%</h3>
+<p class="font-body-sm text-body-sm text-secondary">P1 responses maintained 99.4% adherence across 414 total monthly events.</p>
+</div>
+<div class="w-full md:w-96 flex flex-col gap-space-xs">
+<div class="flex justify-between font-code-sm text-code-sm text-secondary">
+<span>Overall Health</span>
+<span class="text-tertiary font-bold">99.16% Compliant</span>
+</div>
+<!-- Inline Metric Progress Indicator -->
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-tertiary" style="width: 86%;"></div>
+<div class="h-full bg-primary" style="width: 11%;"></div>
+<div class="h-full bg-error" style="width: 3%;"></div>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-secondary text-[10px]">
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Within SLA (86%)</span>
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Warning &lt;15m (11%)</span>
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-error"></span> Breached (3%)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Slide-out Drawer for Edit / Add Status Preview -->
+<aside class="fixed top-16 right-0 bottom-0 w-full sm:w-[440px] bg-surface-container-lowest z-50 shadow-xl transform translate-x-full transition-transform duration-300 flex flex-col overflow-y-auto" id="status-drawer">
+<div class="p-space-lg bg-inverse-surface text-inverse-on-surface flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-fixed">tune</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm leading-tight">Configure Status</h3>
+<span class="font-label-sm text-label-sm text-surface-variant uppercase tracking-wider">Lifecycle Rule Engine</span>
+</div>
+</div>
+<button class="p-1 rounded hover:bg-surface-container/20 text-inverse-on-surface" onclick="document.getElementById('status-drawer').classList.add('translate-x-full')" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-space-lg flex-1 space-y-space-lg">
+<!-- Status Name -->
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface">Status Name</label>
+<input class="w-full h-9 px-space-md rounded-lg bg-surface text-on-surface font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary shadow-sm" type="text" value="Customer Review"/>
+</div>
+<!-- Description -->
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface">Description</label>
+<textarea class="w-full p-space-md rounded-lg bg-surface text-on-surface font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary shadow-sm" rows="3">Solution proposal offered, awaiting user validation sign-off.</textarea>
+</div>
+<!-- Category Mapping -->
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface">State Classification</label>
+<select class="w-full h-9 px-space-md rounded-lg bg-surface text-on-surface font-body-md text-body-md outline-none focus:ring-2 focus:ring-primary shadow-sm">
+<option>In Progress</option>
+<option selected="">On Hold (Awaiting External)</option>
+<option>Resolved</option>
+<option>Closed / Archived</option>
+</select>
+</div>
+<!-- Badge Color Picker Teaser -->
+<div class="space-y-space-xs">
+<label class="font-label-md text-label-md text-on-surface">Color Badge Theme</label>
+<div class="grid grid-cols-6 gap-2 pt-1">
+<button class="h-8 rounded bg-primary ring-2 ring-primary ring-offset-2 flex items-center justify-center text-on-primary" type="button">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+<button class="h-8 rounded bg-tertiary" type="button"></button>
+<button class="h-8 rounded bg-secondary" type="button"></button>
+<button class="h-8 rounded bg-error" type="button"></button>
+<button class="h-8 rounded bg-inverse-surface" type="button"></button>
+<button class="h-8 rounded bg-surface-container-high" type="button"></button>
+</div>
+<div class="pt-2">
+<span class="font-label-sm text-label-sm text-secondary">Preview:</span>
+<div class="mt-1">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Customer Review
+            </span>
+</div>
+</div>
+</div>
+<!-- SLA Behavior Toggle -->
+<div class="space-y-space-sm p-space-md rounded-xl bg-surface-container-low">
+<span class="font-title-sm text-title-sm text-on-surface">SLA Engine Behavior</span>
+<div class="space-y-space-xs">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="text-primary focus:ring-primary" name="sla_rule" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface">Clock Running (Active count)</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary" name="sla_rule" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface">Clock Paused (Vendor / Customer Wait)</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="text-primary focus:ring-primary" name="sla_rule" type="radio"/>
+<span class="font-body-md text-body-md text-on-surface">Clock Terminated (Final target evaluated)</span>
+</label>
+</div>
+</div>
+<!-- Allowable Transition Checkboxes -->
+<div class="space-y-space-xs">
+<label class="font-label-md text-label-md text-on-surface">Allowable Next States</label>
+<div class="space-y-1">
+<label class="flex items-center gap-2">
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">In Progress</span>
+</label>
+<label class="flex items-center gap-2">
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">Resolved</span>
+</label>
+<label class="flex items-center gap-2">
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">Closed directly (Requires Admin override)</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="p-space-lg bg-surface-container-low flex items-center justify-between">
+<button class="px-space-md py-2 rounded-lg bg-surface text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors shadow-sm" onclick="document.getElementById('status-drawer').classList.add('translate-x-full')" type="button">
+        Cancel
+      </button>
+<button class="px-space-lg py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-all shadow-sm" onclick="document.getElementById('status-drawer').classList.add('translate-x-full')" type="button">
+        Save Status Configuration
+      </button>
+</div>
+</aside>
+</div></main></div></body></html>

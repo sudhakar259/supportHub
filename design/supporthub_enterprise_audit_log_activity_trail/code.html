@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#cbdbf5","on-primary-fixed":"#370e00","secondary":"#565d79","inverse-primary":"#ffb599","surface-container-lowest":"#ffffff","on-secondary-container":"#5a627e","on-surface-variant":"#5a4138","surface-tint":"#a73a00","outline-variant":"#e2bfb2","on-background":"#0b1c30","primary":"#a33900","primary-fixed":"#ffdbce","on-primary-container":"#fffbff","inverse-on-surface":"#eaf1ff","surface-container-highest":"#d3e4fe","on-tertiary-fixed-variant":"#005049","error":"#ba1a1a","surface-container-low":"#eff4ff","surface":"#f8f9ff","secondary-container":"#d8deff","surface-container":"#e5eeff","error-container":"#ffdad6","on-error":"#ffffff","on-error-container":"#93000a","on-secondary-fixed":"#131a33","tertiary-fixed":"#89f5e7","on-surface":"#0b1c30","inverse-surface":"#213145","on-primary-fixed-variant":"#7f2b00","primary-fixed-dim":"#ffb599","on-secondary-fixed-variant":"#3e4660","tertiary-fixed-dim":"#6bd8cb","secondary-fixed":"#dbe1ff","outline":"#8e7166","on-tertiary-fixed":"#00201d","tertiary-container":"#008378","on-tertiary-container":"#f4fffc","surface-bright":"#f8f9ff","surface-container-high":"#dce9ff","secondary-fixed-dim":"#bec5e5","surface-variant":"#d3e4fe","on-secondary":"#ffffff","on-primary":"#ffffff","tertiary":"#00685f","on-tertiary":"#ffffff","primary-container":"#cc4900","background":"#f8f9ff"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-lg":"1.25rem","space-xs":"0.25rem","gutter-lg":"1.5rem","space-sm":"0.5rem","gutter":"1rem","margin-mobile":"1rem","space-md":"0.75rem","margin":"1.5rem","space-xl":"2rem"},fontFamily:{"code-sm":["JetBrains Mono"],"headline-sm":["Hanken Grotesk"],"label-md":["Inter"],"headline-lg-mobile":["Hanken Grotesk"],"label-sm":["Inter"],"body-md":["Inter"],"body-sm":["Inter"],"title-md":["Inter"],"body-lg":["Inter"],"headline-md":["Hanken Grotesk"],"display-lg":["Hanken Grotesk"],"title-sm":["Inter"],"headline-lg":["Hanken Grotesk"]},fontSize:{"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface-container-lowest z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-gutter-lg flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><img alt="Brand logo. - Primary color: #ea580c
+- Font: hankenGrotesk
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">SupportHub</span></div><div class="hidden md:flex items-center relative"><span class="material-symbols-outlined absolute left-3 text-secondary text-[18px]">search</span><input class="w-96 pl-9 pr-4 py-1.5 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest shadow-[0_1px_3px_rgba(0,0,0,0.02)] transition-all" placeholder="Search tickets, customers, audit logs (Cmd + K)..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span><span class="font-label-sm text-label-sm uppercase tracking-wider text-tertiary font-semibold">SYSTEMS LIVE</span></div><button class="relative p-2 rounded-lg text-secondary hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span></button><div class="h-6 w-px bg-surface-container"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="flex flex-col text-right hidden sm:flex"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Administrator</span></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low z-40 overflow-y-auto flex flex-col py-space-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex-1 px-space-sm space-y-space-md"><div class="space-y-1"><div class="px-space-sm py-1 font-label-sm text-label-sm text-secondary uppercase tracking-wider">WORKSPACE</div><nav class="space-y-0.5" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[18px]">space_dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="tickets" href="#"><span class="material-symbols-outlined text-[18px]">inbox</span><span>Tickets</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="my-tickets" href="#"><span class="material-symbols-outlined text-[18px]">assignment_ind</span><span>My Tickets</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customers" href="#"><span class="material-symbols-outlined text-[18px]">contacts</span><span>Customers</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="departments" href="#"><span class="material-symbols-outlined text-[18px]">domain</span><span>Departments</span></a></nav></div><div class="space-y-1"><div class="px-space-sm py-1 font-label-sm text-label-sm text-secondary uppercase tracking-wider">REPORTS &amp; ANALYTICS</div><nav class="space-y-0.5" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="overview-and-telemetry" href="#"><span class="material-symbols-outlined text-[18px]">analytics</span><span>Overview &amp; Telemetry</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="department-performance" href="#"><span class="material-symbols-outlined text-[18px]">grouped_bar_chart</span><span>Department Performance</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="agent-performance-scorecard" href="#"><span class="material-symbols-outlined text-[18px]">badge</span><span>Agent Performance Scorecard</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="sla-compliance-and-breaches" href="#"><span class="material-symbols-outlined text-[18px]">timer_off</span><span>SLA Compliance &amp; Breaches</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="escalation-and-velocity" href="#"><span class="material-symbols-outlined text-[18px]">speed</span><span>Escalation &amp; Velocity</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="resolution-and-fcr-quality" href="#"><span class="material-symbols-outlined text-[18px]">check_circle</span><span>Resolution &amp; FCR Quality</span></a></nav></div><div class="space-y-1"><div class="px-space-sm py-1 font-label-sm text-label-sm text-secondary uppercase tracking-wider">GOVERNANCE &amp; SETTINGS</div><nav class="space-y-0.5" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="users" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span>Users</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="roles-and-permissions" href="#"><span class="material-symbols-outlined text-[18px]">security</span><span>Roles &amp; Permissions</span></a><a aria-current="page" class="flex items-center gap-2.5 px-space-sm py-2 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg" data-path="audit-log" href="#"><span class="material-symbols-outlined text-[18px]">history_toggle_off</span><span>Audit Log</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="automation" href="#"><span class="material-symbols-outlined text-[18px]">bolt</span><span>Automation</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="sla-management" href="#"><span class="material-symbols-outlined text-[18px]">schedule</span><span>SLA Management</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="notifications-and-email" href="#"><span class="material-symbols-outlined text-[18px]">mail</span><span>Notifications &amp; Email</span></a><a class="flex items-center gap-2.5 px-space-sm py-2 rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ticket-configuration" href="#"><span class="material-symbols-outlined text-[18px]">settings_suggest</span><span>Ticket Configuration</span></a></nav></div></div></aside><div class="pl-64"><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Interactive Audit Log Workspace -->
+<div class="p-gutter-lg space-y-gutter-lg">
+<!-- Top Action & Compliance Header -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-gutter bg-surface-container-lowest p-gutter rounded-xl shadow-[0_1px_4px_rgba(11,28,48,0.04)]">
+<div class="space-y-1.5">
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-secondary">
+<span>GOVERNANCE &amp; SETTINGS</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">AUDIT LOG &amp; ACTIVITY TRAIL</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-md">
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Enterprise Audit Log &amp; Security Ledger</h1>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container animate-ping"></span>
+<span>SOC-2 Type II Certified</span>
+<span class="text-secondary opacity-40">•</span>
+<span class="text-primary font-semibold">SHA-256 Immutable</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+          Cryptographically signed append-only ledger tracking all administrative state changes, privilege delegations, and ticket mutations.
+        </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container font-label-md text-label-md text-on-surface transition-colors shadow-sm" id="btnVerifyHash" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">verified_user</span>
+<span>Verify Ledger Hash</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container font-label-md text-label-md text-on-surface transition-colors shadow-sm" id="btnExportCSV" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">download</span>
+<span>Export Audit CSV</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-all shadow-sm" id="btnDownloadReport" type="button">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Download Tamper-Proof PDF</span>
+</button>
+</div>
+</div>
+<!-- Security Telemetry & Integrity Strip -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-gutter rounded-xl shadow-[0_1px_4px_rgba(11,28,48,0.04)] flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Total Recorded Events</span>
+<div class="font-display-lg text-display-lg text-on-surface font-bold tracking-tight">248,912</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">dataset</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-body-sm">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-tertiary">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+            +1,420 today
+          </span>
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-2 py-0.5 rounded">100% Indexed</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-gutter rounded-xl shadow-[0_1px_4px_rgba(11,28,48,0.04)] flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Security &amp; Policy Violations</span>
+<div class="font-display-lg text-display-lg text-on-surface font-bold tracking-tight">0 <span class="text-title-md font-normal text-tertiary">Flagged</span></div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[22px]">shield_with_heart</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-body-sm">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+            Within standard limits
+          </span>
+<span class="font-code-sm text-code-sm text-secondary">0 zero-day triggers</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-gutter rounded-xl shadow-[0_1px_4px_rgba(11,28,48,0.04)] flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Active Actors (24h)</span>
+<div class="font-display-lg text-display-lg text-on-surface font-bold tracking-tight">84 <span class="text-title-md font-normal text-secondary">Entities</span></div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[22px]">fingerprint</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-body-sm">
+<span class="font-body-sm text-body-sm text-secondary">72 Human Agents</span>
+<span class="font-code-sm text-code-sm text-primary font-semibold bg-surface-container-low px-2 py-0.5 rounded">12 Automation/Bots</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-gutter rounded-xl shadow-[0_1px_4px_rgba(11,28,48,0.04)] flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Merkle Root Integrity</span>
+<div class="font-title-md text-title-md text-tertiary font-bold flex items-center gap-1.5 mt-1">
+<span class="material-symbols-outlined text-[20px] text-tertiary">check_circle</span>
+<span>VERIFIED VALID</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[22px]">link</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-code-sm text-secondary">
+<span class="font-code-sm truncate">Block #9482-SEC</span>
+<span class="font-code-sm text-tertiary font-medium">Latency 4.1ms</span>
+</div>
+</div>
+</div>
+<!-- Multi-Dimensional Filter Workbench -->
+<div class="bg-surface-container-lowest p-gutter rounded-xl shadow-[0_1px_4px_rgba(11,28,48,0.04)] space-y-gutter">
+<!-- Search Row with Quick Temporal Presets -->
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-secondary text-[20px]">manage_search</span>
+<input class="w-full pl-11 pr-20 py-2 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest shadow-[0_1px_2px_rgba(0,0,0,0.02)] transition-all" id="auditSearchInput" placeholder="Search by keyword, payload parameter, diff value, ticket #, or actor email (Press /)..." type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container font-code-sm text-[10px] text-secondary font-semibold">CMD</kbd>
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container font-code-sm text-[10px] text-secondary font-semibold">K</kbd>
+</div>
+</div>
+<!-- Quick Temporal Filter Pills -->
+<div class="flex items-center gap-1.5 bg-surface-container-low p-1 rounded-lg overflow-x-auto">
+<button class="px-2.5 py-1 rounded text-label-sm font-label-sm text-secondary hover:text-on-surface hover:bg-surface-container-highest transition-colors" type="button">Today</button>
+<button class="px-2.5 py-1 rounded text-label-sm font-label-sm text-secondary hover:text-on-surface hover:bg-surface-container-highest transition-colors" type="button">24h</button>
+<button class="px-2.5 py-1 rounded text-label-sm font-label-sm bg-surface-container-lowest text-on-surface font-semibold shadow-sm transition-colors" type="button">Last 7 Days</button>
+<button class="px-2.5 py-1 rounded text-label-sm font-label-sm text-secondary hover:text-on-surface hover:bg-surface-container-highest transition-colors" type="button">30D</button>
+<button class="px-2.5 py-1 rounded text-label-sm font-label-sm text-secondary hover:text-on-surface hover:bg-surface-container-highest transition-colors flex items-center gap-1" type="button">
+<span>Custom</span>
+<span class="material-symbols-outlined text-[14px]">calendar_month</span>
+</button>
+</div>
+</div>
+<!-- Segmented Attribute Filters -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-space-sm pt-space-xs">
+<!-- Date Selector Dropdown -->
+<div class="flex flex-col space-y-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Date Window</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface font-body-sm text-body-sm py-1.5 pl-2.5 pr-7 rounded-lg focus:outline-none cursor-pointer">
+<option>Oct 24 - Oct 31, 2026</option>
+<option>Oct 17 - Oct 24, 2026</option>
+<option>Past 90 Days (Q3 Archive)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-secondary text-[16px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Actor Selector -->
+<div class="flex flex-col space-y-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Actor / User</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface font-body-sm text-body-sm py-1.5 pl-2.5 pr-7 rounded-lg focus:outline-none cursor-pointer">
+<option>All Actors &amp; Bots (84)</option>
+<option>Elena Rostova (Admin)</option>
+<option>John Smith (Support Agent)</option>
+<option>Sarah Wilson (Senior Agent)</option>
+<option>David Miller (Dept Manager)</option>
+<option>System Automation Bot</option>
+<option>External Customer Users</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-secondary text-[16px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Action Classifier -->
+<div class="flex flex-col space-y-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Action Type</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface font-body-sm text-body-sm py-1.5 pl-2.5 pr-7 rounded-lg focus:outline-none cursor-pointer">
+<option>All Actions (42 Types)</option>
+<option>Changed Ticket Status</option>
+<option>Assigned Ticket</option>
+<option>Changed Priority</option>
+<option>Customer Replied</option>
+<option>Executed Routing Rule</option>
+<option>Modified SLA Policy</option>
+<option>Role Permission Modified</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-secondary text-[16px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Entity Target -->
+<div class="flex flex-col space-y-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Entity Model</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface font-body-sm text-body-sm py-1.5 pl-2.5 pr-7 rounded-lg focus:outline-none cursor-pointer">
+<option>All Entities</option>
+<option>Ticket (#TKT)</option>
+<option>Routing Rule (RULE)</option>
+<option>SLA Policy (SLA)</option>
+<option>Security Role (ROLE)</option>
+<option>Taxonomy &amp; Tag</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-secondary text-[16px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- IP Address Scope -->
+<div class="flex flex-col space-y-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">IP Origin</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface font-body-sm text-body-sm py-1.5 pl-2.5 pr-7 rounded-lg focus:outline-none cursor-pointer">
+<option>All Origins</option>
+<option>Internal VPC (10.x.x.x)</option>
+<option>Corporate VPN (198.51.100.x)</option>
+<option>Public Ingress (External)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-secondary text-[16px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Filter Reset Action -->
+<div class="flex flex-col justify-end">
+<button class="w-full h-[32px] px-3 rounded-lg bg-surface-container-high hover:bg-surface-dim text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" id="btnResetFilters" type="button">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+<span>Reset All</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Audit Log High-Density Ledger Table -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_1px_6px_rgba(11,28,48,0.05)] overflow-hidden">
+<!-- Active Filter Context Ribbon -->
+<div class="px-gutter py-2.5 bg-surface-container-low flex flex-wrap items-center justify-between text-body-sm gap-2">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Active Scope:</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-code-sm text-[11px] shadow-sm">
+<span>Range: 2026-10-24 -&gt; 2026-10-31</span>
+<button class="hover:text-primary"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-code-sm text-[11px] shadow-sm">
+<span>All Severities</span>
+</span>
+</div>
+<div class="flex items-center gap-space-sm font-code-sm text-code-sm text-secondary">
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+            Streaming live ledger updates
+          </span>
+<span>•</span>
+<span>Hash sync: Realtime</span>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low font-label-sm text-label-sm text-secondary uppercase tracking-wider">
+<th class="py-3 px-gutter w-48">Timestamp (UTC)</th>
+<th class="py-3 px-space-md w-56">Actor / User</th>
+<th class="py-3 px-space-md w-44">Action</th>
+<th class="py-3 px-space-md w-36">Entity</th>
+<th class="py-3 px-space-md w-44">Resource ID</th>
+<th class="py-3 px-space-md w-52">IP Origin &amp; Geo</th>
+<th class="py-3 px-gutter">Activity Description / Diff</th>
+<th class="py-3 px-gutter text-right w-36">Inspector</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-body-sm font-body-sm text-on-surface">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-gutter font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface font-medium">Oct 31, 2026</div>
+<div class="text-[11px] opacity-75">14:28:10 UTC</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center font-label-sm font-semibold text-primary">
+                    JS
+                  </div>
+<div class="min-w-0">
+<div class="font-title-sm text-title-sm truncate text-on-surface">John Smith</div>
+<div class="font-label-sm text-[11px] text-secondary">Support Agent</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-[11px] uppercase tracking-wider bg-secondary-container text-on-secondary-fixed">
+                  Status Change
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+                Ticket
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-primary font-semibold whitespace-nowrap">
+                #TKT-2026-000125
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface">198.51.100.42</div>
+<div class="text-[11px] opacity-75 font-body-sm">San Francisco, US</div>
+</td>
+<td class="py-3.5 px-gutter">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-secondary">Changed status from</span>
+<span class="line-through px-1.5 py-0.2 rounded bg-surface-container text-secondary text-code-sm">In Progress</span>
+<span class="text-secondary">to</span>
+<span class="px-1.5 py-0.2 rounded bg-primary-fixed text-on-primary-fixed font-medium text-code-sm">Pending (Waiting on Customer)</span>
+</div>
+</td>
+<td class="py-3.5 px-gutter text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-secondary font-label-sm text-label-sm transition-all shadow-sm" onclick="openDiffDrawer('EVT-904128', 'Status Change', '#TKT-2026-000125', 'John Smith', '198.51.100.42')" type="button">
+<span>View Diff</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-gutter font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface font-medium">Oct 31, 2026</div>
+<div class="text-[11px] opacity-75">14:15:02 UTC</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-sm font-semibold">
+                    ER
+                  </div>
+<div class="min-w-0">
+<div class="font-title-sm text-title-sm truncate text-on-surface">Elena Rostova</div>
+<div class="font-label-sm text-[11px] text-primary font-semibold">Administrator</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-[11px] uppercase tracking-wider bg-surface-container-highest text-on-surface">
+                  Assigned Ticket
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+                Ticket
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-primary font-semibold whitespace-nowrap">
+                #TKT-2026-000098
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface">198.51.100.12</div>
+<div class="text-[11px] opacity-75 font-body-sm">San Francisco, US</div>
+</td>
+<td class="py-3.5 px-gutter">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-secondary">Reassigned ownership from</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container text-secondary text-code-sm">Unassigned Pool</span>
+<span class="text-secondary">to</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-highest text-on-surface font-semibold text-code-sm">Marcus Chen (Tier-3 SRE)</span>
+</div>
+</td>
+<td class="py-3.5 px-gutter text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-secondary font-label-sm text-label-sm transition-all shadow-sm" onclick="openDiffDrawer('EVT-904127', 'Assigned Ticket', '#TKT-2026-000098', 'Elena Rostova', '198.51.100.12')" type="button">
+<span>View Diff</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-gutter font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface font-medium">Oct 31, 2026</div>
+<div class="text-[11px] opacity-75">13:52:44 UTC</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center font-label-sm font-semibold text-secondary">
+                    SW
+                  </div>
+<div class="min-w-0">
+<div class="font-title-sm text-title-sm truncate text-on-surface">Sarah Wilson</div>
+<div class="font-label-sm text-[11px] text-secondary">Senior Agent</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-[11px] uppercase tracking-wider bg-error-container text-on-error-container font-semibold">
+                  Changed Priority
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+                Ticket
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-primary font-semibold whitespace-nowrap">
+                #TKT-2026-000142
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface">203.0.113.88</div>
+<div class="text-[11px] opacity-75 font-body-sm">London, UK</div>
+</td>
+<td class="py-3.5 px-gutter">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-secondary">Escalated severity from</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container text-secondary text-code-sm">P3 - Medium</span>
+<span class="text-secondary">to</span>
+<span class="px-1.5 py-0.2 rounded bg-error text-on-error font-bold text-code-sm">P1 - Critical (Outage)</span>
+</div>
+</td>
+<td class="py-3.5 px-gutter text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-secondary font-label-sm text-label-sm transition-all shadow-sm" onclick="openDiffDrawer('EVT-904126', 'Changed Priority', '#TKT-2026-000142', 'Sarah Wilson', '203.0.113.88')" type="button">
+<span>View Diff</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-gutter font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface font-medium">Oct 31, 2026</div>
+<div class="text-[11px] opacity-75">13:30:19 UTC</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-label-sm font-semibold text-secondary">
+                    MV
+                  </div>
+<div class="min-w-0">
+<div class="font-title-sm text-title-sm truncate text-on-surface">Marcus Vance</div>
+<div class="font-label-sm text-[11px] text-secondary">Customer (FinEdge)</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-[11px] uppercase tracking-wider bg-surface-container text-secondary">
+                  Customer Replied
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+                Ticket
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-primary font-semibold whitespace-nowrap">
+                #TKT-2026-000125
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface">74.125.210.15</div>
+<div class="text-[11px] opacity-75 font-body-sm">New York, US</div>
+</td>
+<td class="py-3.5 px-gutter">
+<span class="text-on-surface">Added public message payload with 2 diagnostic crash log attachments (.tar.gz)</span>
+</td>
+<td class="py-3.5 px-gutter text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-secondary font-label-sm text-label-sm transition-all shadow-sm" onclick="openDiffDrawer('EVT-904125', 'Customer Replied', '#TKT-2026-000125', 'Marcus Vance', '74.125.210.15')" type="button">
+<span>View Diff</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-gutter font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface font-medium">Oct 31, 2026</div>
+<div class="text-[11px] opacity-75">12:45:00 UTC</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-tertiary-fixed-dim text-on-tertiary-fixed flex items-center justify-center font-label-sm">
+<span class="material-symbols-outlined text-[16px]">smart_toy</span>
+</div>
+<div class="min-w-0">
+<div class="font-title-sm text-title-sm truncate text-on-surface">System Automation</div>
+<div class="font-label-sm text-[11px] text-tertiary font-semibold">Daemon Bot</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-[11px] uppercase tracking-wider bg-tertiary-fixed text-on-tertiary-fixed">
+                  Executed Rule
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+                Routing Rule
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-on-surface font-semibold whitespace-nowrap">
+                RULE-4091-SRE
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface">10.0.4.12</div>
+<div class="text-[11px] opacity-75 font-body-sm">AWS VPC (us-east-1)</div>
+</td>
+<td class="py-3.5 px-gutter">
+<span class="text-on-surface">Auto-routed incoming payload to <span class="font-semibold text-primary">SecOps Escalations</span> based on pattern match <code class="px-1 py-0.2 rounded bg-surface-container font-code-sm text-xs">'cve-2026'</code></span>
+</td>
+<td class="py-3.5 px-gutter text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-secondary font-label-sm text-label-sm transition-all shadow-sm" onclick="openDiffDrawer('EVT-904124', 'Executed Routing Rule', 'RULE-4091-SRE', 'System Automation', '10.0.4.12')" type="button">
+<span>View Diff</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-gutter font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface font-medium">Oct 31, 2026</div>
+<div class="text-[11px] opacity-75">11:18:33 UTC</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-sm font-semibold">
+                    ER
+                  </div>
+<div class="min-w-0">
+<div class="font-title-sm text-title-sm truncate text-on-surface">Elena Rostova</div>
+<div class="font-label-sm text-[11px] text-primary font-semibold">Administrator</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-[11px] uppercase tracking-wider bg-primary-fixed text-on-primary-fixed font-semibold">
+                  Rule Edit
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+                Routing Rule
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-on-surface font-semibold whitespace-nowrap">
+                RULE-247-VIP
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface">198.51.100.12</div>
+<div class="text-[11px] opacity-75 font-body-sm">San Francisco, US</div>
+</td>
+<td class="py-3.5 px-gutter">
+<span class="text-on-surface">Modified conditional trigger: Added <code class="px-1 py-0.2 rounded bg-surface-container font-code-sm text-xs">'ARR &gt;= $100k'</code> to VIP customer triage cascade</span>
+</td>
+<td class="py-3.5 px-gutter text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-secondary font-label-sm text-label-sm transition-all shadow-sm" onclick="openDiffDrawer('EVT-904123', 'Changed Routing Rule', 'RULE-247-VIP', 'Elena Rostova', '198.51.100.12')" type="button">
+<span>View Diff</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-gutter font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface font-medium">Oct 31, 2026</div>
+<div class="text-[11px] opacity-75">10:05:12 UTC</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-fixed flex items-center justify-center font-label-sm font-semibold">
+                    DM
+                  </div>
+<div class="min-w-0">
+<div class="font-title-sm text-title-sm truncate text-on-surface">David Miller</div>
+<div class="font-label-sm text-[11px] text-secondary">Dept Manager</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-[11px] uppercase tracking-wider bg-surface-container-highest text-on-surface font-semibold">
+                  Modified SLA
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+                SLA Policy
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-on-surface font-semibold whitespace-nowrap">
+                SLA-POL-247
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface">198.51.100.99</div>
+<div class="text-[11px] opacity-75 font-body-sm">Austin, US</div>
+</td>
+<td class="py-3.5 px-gutter">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-secondary">Updated P1 first response baseline from</span>
+<span class="line-through px-1 py-0.2 rounded bg-surface-container text-secondary text-code-sm">20m</span>
+<span class="text-secondary">to stricter SLA</span>
+<span class="px-1.5 py-0.2 rounded bg-tertiary-fixed text-on-tertiary-fixed font-bold text-code-sm">15m target</span>
+</div>
+</td>
+<td class="py-3.5 px-gutter text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-secondary font-label-sm text-label-sm transition-all shadow-sm" onclick="openDiffDrawer('EVT-904122', 'Modified SLA Policy', 'SLA-POL-247', 'David Miller', '198.51.100.99')" type="button">
+<span>View Diff</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 8 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-gutter font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface font-medium">Oct 31, 2026</div>
+<div class="text-[11px] opacity-75">09:41:05 UTC</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-sm font-semibold">
+                    ER
+                  </div>
+<div class="min-w-0">
+<div class="font-title-sm text-title-sm truncate text-on-surface">Elena Rostova</div>
+<div class="font-label-sm text-[11px] text-primary font-semibold">Administrator</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-[11px] uppercase tracking-wider bg-primary-fixed-dim text-on-primary-fixed-variant font-bold">
+                  Role Modified
+                </span>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+                Security Role
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-on-surface font-semibold whitespace-nowrap">
+                role_tier2_tech_spec
+              </td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary whitespace-nowrap">
+<div class="text-on-surface">198.51.100.12</div>
+<div class="text-[11px] opacity-75 font-body-sm">San Francisco, US</div>
+</td>
+<td class="py-3.5 px-gutter">
+<span class="text-on-surface">Granted global administrative capability <code class="px-1 py-0.2 rounded bg-surface-container font-code-sm text-xs text-primary font-semibold">'tickets:bulk_reassign'</code> to Tier-2 Technical Specialists</span>
+</td>
+<td class="py-3.5 px-gutter text-right whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-low group-hover:bg-primary group-hover:text-on-primary text-secondary font-label-sm text-label-sm transition-all shadow-sm" onclick="openDiffDrawer('EVT-904121', 'Role Permission Modified', 'role_tier2_tech_spec', 'Elena Rostova', '198.51.100.12')" type="button">
+<span>View Diff</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Ledger Integrity Footer -->
+<div class="p-gutter bg-surface-container-lowest flex flex-col md:flex-row items-center justify-between gap-space-md border-t border-surface-container">
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-sm text-body-sm text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="font-medium text-on-surface">Showing 1-8</span>
+<span>of 248,912 events</span>
+</div>
+<span class="hidden sm:inline text-secondary opacity-40">•</span>
+<div class="flex items-center gap-1.5 font-code-sm text-[11px] bg-surface-container-low px-2 py-0.5 rounded text-secondary">
+<span class="material-symbols-outlined text-[14px] text-tertiary">lock</span>
+<span>Merkle Root: 9b2d8f4...4e1a0c</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-md">
+<!-- Rows per page -->
+<div class="flex items-center gap-2 font-body-sm text-body-sm text-secondary">
+<span>Rows per page:</span>
+<select class="bg-surface-container-low text-on-surface py-1 px-2 rounded-lg text-body-sm focus:outline-none">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+<option>100</option>
+</select>
+</div>
+<!-- Page Buttons -->
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-secondary disabled:opacity-30 disabled:pointer-events-none" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold flex items-center justify-center">
+              1
+            </button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center justify-center">
+              2
+            </button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center justify-center">
+              3
+            </button>
+<span class="px-1 text-secondary font-code-sm text-xs">...</span>
+<button class="px-2 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center justify-center">
+              31,114
+            </button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Security & Compliance Architecture Notice -->
+<div class="p-gutter rounded-xl bg-inverse-surface text-inverse-on-surface flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md shadow-lg">
+<div class="flex items-start gap-3.5">
+<div class="p-2.5 rounded-lg bg-surface-container-lowest/10 text-tertiary-fixed">
+<span class="material-symbols-outlined text-[26px]">enhanced_encryption</span>
+</div>
+<div class="space-y-0.5">
+<div class="font-title-sm text-title-sm text-surface-container-lowest font-semibold flex items-center gap-2">
+<span>High-Assurance Cryptographic Immutability</span>
+<span class="px-2 py-0.5 rounded bg-tertiary text-on-tertiary font-code-sm text-[10px] uppercase tracking-wider font-bold">WORM Storage</span>
+</div>
+<p class="font-body-sm text-body-sm text-surface-container-highest max-w-3xl">
+            Real-time streaming ledger committed to AWS S3 Glacier Vault in Write-Once-Read-Many mode. Every record is signed with hardware-backed ed25519 HSM keys. Any payload alteration attempts will trigger an automated SecOps SEV-1 containment protocol.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm w-full md:w-auto justify-end">
+<button class="px-3.5 py-1.5 rounded-lg bg-surface-container-lowest/15 hover:bg-surface-container-lowest/25 text-surface-container-lowest font-label-md text-label-md transition-colors whitespace-nowrap" type="button">
+          Ledger Specs
+        </button>
+<button class="px-3.5 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors whitespace-nowrap shadow-sm" type="button">
+          Audit Certificate
+        </button>
+</div>
+</div>
+</div>
+<!-- Slide-Over Inspector Drawer for JSON Diffs (Contextual Drilldown) -->
+<div class="fixed inset-0 bg-on-surface/40 backdrop-blur-xs z-50 hidden transition-opacity" id="diffDrawerBackdrop">
+<div class="absolute inset-y-0 right-0 max-w-2xl w-full bg-surface-container-lowest shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out" id="diffDrawerPanel">
+<!-- Drawer Header -->
+<div class="p-gutter-lg bg-surface-container-low flex items-center justify-between">
+<div class="space-y-1">
+<div class="flex items-center gap-2 font-code-sm text-code-sm text-secondary">
+<span id="drawerEventId">EVT-904128</span>
+<span>•</span>
+<span class="text-tertiary font-semibold">Merkle Root Verified</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface" id="drawerActionTitle">Event Diff Inspector</h2>
+</div>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" onclick="closeDiffDrawer()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Drawer Content -->
+<div class="flex-1 overflow-y-auto p-gutter-lg space-y-gutter">
+<!-- Metadata Overview -->
+<div class="grid grid-cols-2 gap-space-md p-gutter rounded-xl bg-surface-container-low">
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase">Actor</div>
+<div class="font-title-sm text-title-sm text-on-surface font-semibold mt-0.5" id="drawerActor">John Smith</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase">Target Resource</div>
+<div class="font-code-sm text-code-sm text-primary font-bold mt-0.5" id="drawerResource">#TKT-2026-000125</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase">IP Address &amp; ASN</div>
+<div class="font-code-sm text-code-sm text-on-surface mt-0.5" id="drawerIP">198.51.100.42 (AS13335)</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase">Signature Hash</div>
+<div class="font-code-sm text-code-sm text-secondary truncate mt-0.5">sha256:7f83b1657ff...8d1b</div>
+</div>
+</div>
+<!-- Before / After JSON Diff Box -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Payload Diff (State Mutation)</span>
+<span class="font-code-sm text-[11px] text-secondary">JSON Patch RFC-6902</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- Left: Previous State -->
+<div class="p-gutter rounded-xl bg-surface-container-low space-y-2">
+<div class="flex items-center justify-between pb-1">
+<span class="font-label-sm text-[11px] text-error font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">remove_circle</span>
+<span>Previous Value (Pre-commit)</span>
+</span>
+<span class="font-code-sm text-[10px] text-secondary">v4.1.0</span>
+</div>
+<pre class="font-code-sm text-[12px] text-secondary whitespace-pre-wrap leading-relaxed overflow-x-auto"><code>{
+  "ticket_id": 125,
+  "status": "in_progress",
+  "sla_paused": false,
+  "assigned_team": "tier_1",
+  "escalation_count": 0
+}</code></pre>
+</div>
+<!-- Right: Mutated State -->
+<div class="p-gutter rounded-xl bg-surface-container-high space-y-2">
+<div class="flex items-center justify-between pb-1">
+<span class="font-label-sm text-[11px] text-tertiary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">add_circle</span>
+<span>Committed Value (Post-commit)</span>
+</span>
+<span class="font-code-sm text-[10px] text-tertiary font-bold">v4.2.0 (HEAD)</span>
+</div>
+<pre class="font-code-sm text-[12px] text-on-surface whitespace-pre-wrap leading-relaxed overflow-x-auto"><code>{
+  "ticket_id": 125,
+  "status": "pending_customer",
+  "sla_paused": true,
+  "assigned_team": "tier_1",
+  "escalation_count": 0
+}</code></pre>
+</div>
+</div>
+</div>
+<!-- Telemetry & Raw Signatures -->
+<div class="p-gutter rounded-xl bg-surface-container-low space-y-2">
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Cryptographic Proof &amp; Timestamping</div>
+<div class="font-code-sm text-[11px] text-secondary space-y-1">
+<div><span class="font-semibold text-on-surface">RFC-3161 Authority:</span> DigiCert Trusted Time-Stamp Root 2026</div>
+<div><span class="font-semibold text-on-surface">Block Digest:</span> 0x8a92bc511e403d19f82310abce8812</div>
+<div><span class="font-semibold text-on-surface">WORM Storage Location:</span> s3://worm-audit-us-east-1/2026/10/31/EVT-904128.json</div>
+</div>
+</div>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="p-gutter bg-surface-container-low flex items-center justify-between">
+<button class="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-highest transition-colors" onclick="closeDiffDrawer()" type="button">
+          Close Inspector
+        </button>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Export JSON Payload</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Interactive JavaScript for Client-side Filter, Dialog, and Drawer control -->
+<script>
+    function openDiffDrawer(eventId, action, resource, actor, ip) {
+      const backdrop = document.getElementById('diffDrawerBackdrop');
+      const panel = document.getElementById('diffDrawerPanel');
+      
+      document.getElementById('drawerEventId').innerText = eventId;
+      document.getElementById('drawerActionTitle').innerText = action + ' Details';
+      document.getElementById('drawerResource').innerText = resource;
+      document.getElementById('drawerActor').innerText = actor;
+      document.getElementById('drawerIP').innerText = ip + ' (San Francisco, US)';
+
+      backdrop.classList.remove('hidden');
+      setTimeout(() => {
+        panel.classList.remove('translate-x-full');
+      }, 10);
+    }
+
+    function closeDiffDrawer() {
+      const backdrop = document.getElementById('diffDrawerBackdrop');
+      const panel = document.getElementById('diffDrawerPanel');
+      panel.classList.add('translate-x-full');
+      setTimeout(() => {
+        backdrop.classList.add('hidden');
+      }, 300);
+    }
+
+    // Keyboard shortcut to trigger quick filter search
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const searchInput = document.getElementById('auditSearchInput');
+        if (searchInput) {
+          searchInput.focus();
+          searchInput.select();
+        }
+      }
+      if (e.key === 'Escape') {
+        closeDiffDrawer();
+      }
+    });
+
+    // Verification Modal Feedback
+    document.getElementById('btnVerifyHash')?.addEventListener('click', () => {
+      const btn = document.getElementById('btnVerifyHash');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<span class="material-symbols-outlined text-[18px] text-tertiary animate-spin">refresh</span><span>Verifying Merkle Tree...</span>`;
+      setTimeout(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined text-[18px] text-tertiary">check_circle</span><span>Hash 100% Valid</span>`;
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+        }, 2500);
+      }, 900);
+    });
+
+    // Reset Filters button interaction
+    document.getElementById('btnResetFilters')?.addEventListener('click', () => {
+      const searchInput = document.getElementById('auditSearchInput');
+      if (searchInput) searchInput.value = '';
+      const selects = document.querySelectorAll('select');
+      selects.forEach(s => s.selectedIndex = 0);
+    });
+  </script>
+</div></main></div></body></html>

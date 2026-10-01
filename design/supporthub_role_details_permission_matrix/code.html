@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Role Details &amp; Permission Matrix - SupportHub Enterprise</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Be+Vietnam+Pro:wght@400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed-variant": "#005049",
+            "surface-container-low": "#eff4ff",
+            "surface-variant": "#d3e4fe",
+            "on-secondary": "#ffffff",
+            "on-secondary-fixed": "#131a33",
+            "on-surface": "#0b1c30",
+            "tertiary-fixed-dim": "#6bd8cb",
+            "primary-fixed-dim": "#ffb599",
+            "inverse-on-surface": "#eaf1ff",
+            "surface": "#f8f9ff",
+            "on-secondary-fixed-variant": "#3e4660",
+            "primary-container": "#cc4900",
+            "on-primary-fixed-variant": "#7f2b00",
+            "secondary-fixed-dim": "#bec5e5",
+            "on-background": "#0b1c30",
+            "tertiary-container": "#008378",
+            "background": "#f8f9ff",
+            "surface-container-highest": "#d3e4fe",
+            "outline-variant": "#e2bfb2",
+            "outline": "#8e7166",
+            "secondary": "#565d79",
+            "surface-dim": "#cbdbf5",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#370e00",
+            "on-surface-variant": "#5a4138",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed": "#00201d",
+            "secondary-container": "#d8deff",
+            "on-tertiary-container": "#f4fffc",
+            "surface-bright": "#f8f9ff",
+            "on-tertiary": "#ffffff",
+            "on-secondary-container": "#5a627e",
+            "on-error-container": "#93000a",
+            "on-primary-container": "#fffbff",
+            "tertiary": "#00685f",
+            "surface-container-lowest": "#ffffff",
+            "secondary-fixed": "#dbe1ff",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#ffdbce",
+            "primary": "#a33900",
+            "surface-tint": "#a73a00",
+            "on-error": "#ffffff",
+            "inverse-primary": "#ffb599",
+            "surface-container": "#e5eeff",
+            "surface-container-high": "#dce9ff",
+            "tertiary-fixed": "#89f5e7",
+            "inverse-surface": "#213145"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin-mobile": "1rem",
+            "gutter-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2rem",
+            "space-md": "0.75rem",
+            "space-sm": "0.5rem",
+            "gutter": "1rem",
+            "margin": "1.5rem",
+            "space-lg": "1.25rem"
+          },
+          "fontFamily": {
+            "title-md": ["Inter"],
+            "headline-lg": ["Hanken Grotesk"],
+            "label-md": ["Inter"],
+            "headline-sm": ["Hanken Grotesk"],
+            "body-lg": ["Inter"],
+            "display-lg": ["Hanken Grotesk"],
+            "code-sm": ["JetBrains Mono"],
+            "title-sm": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-lg-mobile": ["Hanken Grotesk"],
+            "headline-md": ["Hanken Grotesk"]
+          },
+          "fontSize": {
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "700" }],
+            "code-sm": ["12px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "title-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Brand Anchor Shared Component -->
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#fcf9f8] group/design-root overflow-x-hidden" style='font-family: "Be Vietnam Pro", "Noto Sans", sans-serif;'>
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f4ebe7] px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#1c120d]">
+<div class="size-4">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-[#1c120d] text-lg font-bold leading-tight tracking-[-0.015em]">SupportHub Enterprise</h2>
+</div>
+<div class="flex items-center gap-9">
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Tickets</a>
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Customers</a>
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Knowledge Base</a>
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Settings</a>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded h-full">
+<div class="text-[#9c6649] flex border-none bg-[#f4ebe7] items-center justify-center pl-4 rounded-l border-r-0" data-icon="MagnifyingGlass" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewbox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+</svg>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#1c120d] focus:outline-0 focus:ring-0 border-none bg-[#f4ebe7] focus:border-none h-full placeholder:text-[#9c6649] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search" value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 bg-[#f4ebe7] text-[#1c120d] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<div class="text-[#1c120d]" data-icon="Bell" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
+</svg>
+</div>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 bg-[#f4ebe7] text-[#1c120d] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<div class="text-[#1c120d]" data-icon="Gear" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"></path>
+</svg>
+</div>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAPfLMMyhiXH5YXM0xryxbAhwthtBTgXOEdFvXWV9hoKit2jU9MuabywnscWHRMwhkkPWlyNLe1ARk_2dPihtrBfQ5XV3fFR7cjRrERUUsZ0ss0ED2ec_77bomXzS_RuHuMFGKISJcN5bV3VixYV5-mJ80iLeZE69pAb7yV1lXCskipGE29qNjZZRPWrT0i_9phESvi3LEy4vGG6gOS8PV7jM8hE0V3w7XtRpUK4f7QOE94Kz7TQ1K4");'></div>
+</div>
+</header>
+<div class="flex flex-wrap gap-2 p-4">
+<a class="text-[#9c6649] text-base font-medium leading-normal" href="#">Roles &amp; Permissions</a>
+<span class="text-[#9c6649] text-base font-medium leading-normal">/</span>
+<a class="text-[#9c6649] text-base font-medium leading-normal" href="#">Custom Roles</a>
+<span class="text-[#9c6649] text-base font-medium leading-normal">/</span>
+<span class="text-[#1c120d] text-base font-medium leading-normal">Tier-2 Technical Specialist</span>
+</div>
+<p class="text-[#9c6649] text-sm font-normal leading-normal pb-3 pt-1 px-4 underline">← Back to Roles List</p>
+<div class="flex flex-wrap justify-between gap-3 p-4">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-[#1c120d] text-4xl font-black leading-tight tracking-[-0.033em]">Tier-2 Technical Specialist</p>
+<p class="text-[#9c6649] text-base font-normal leading-normal">
+                  Specialized engineering support staff handling complex infrastructure and integration tickets with escalation rights.
+                </p>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 px-4 bg-[#f4ebe7] text-[#1c120d] text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Custom Enterprise Role</span>
+</button>
+</div>
+<div class="flex gap-3 p-3 flex-wrap pr-4">
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded bg-[#f4ebe7] pl-2 pr-4">
+<div class="text-[#1c120d]" data-icon="Users" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path>
+</svg>
+</div>
+<p class="text-[#1c120d] text-sm font-medium leading-normal">18 Assigned Users</p>
+</div>
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded bg-[#f4ebe7] pl-2 pr-4">
+<div class="text-[#1c120d]" data-icon="User" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+</svg>
+</div>
+<p class="text-[#1c120d] text-sm font-medium leading-normal">Created by Elena Rostova</p>
+</div>
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded bg-[#f4ebe7] pl-2 pr-4">
+<div class="text-[#1c120d]" data-icon="Clock" data-size="20px" data-weight="regular">
+<svg fill="currentColor" height="20px" viewbox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+</svg>
+</div>
+<p class="text-[#1c120d] text-sm font-medium leading-normal">Last updated Oct 22, 2025</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Application Workspace -->
+<main class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
+<!-- Action Bar & Command Sticky Bar -->
+<section class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/50 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">shield_person</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h1 class="font-headline-sm text-on-surface">Matrix Configuration Suite</h1>
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-tertiary/10 text-tertiary border border-tertiary/20">Production Active</span>
+</div>
+<p class="font-body-sm text-secondary">Evaluate and set module access bounds for 18 active directory members.</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-end">
+<button class="px-3.5 py-2 rounded-lg text-title-sm font-medium text-secondary hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+        Cancel Changes
+      </button>
+<button class="px-3.5 py-2 rounded-lg text-title-sm font-medium border border-outline-variant bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-colors flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">data_object</span>
+        Export Permissions JSON
+      </button>
+<button class="px-4 py-2 rounded-lg text-title-sm font-semibold bg-primary hover:bg-primary-container text-on-primary shadow-sm hover:shadow transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">save</span>
+        Save Permission Matrix
+      </button>
+</div>
+</section>
+<!-- Role Configuration Form Card -->
+<section class="p-6 rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-sm">
+<div class="border-b border-surface-container pb-4 mb-5 flex items-center justify-between">
+<h2 class="font-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">badge</span>
+        Role Metadata &amp; Inheritance
+      </h2>
+<span class="text-label-sm font-mono text-outline">ID: UUID-0x981A4</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+<div class="md:col-span-4 flex flex-col gap-1.5">
+<label class="font-label-md text-on-surface" for="role-name">Role Name</label>
+<input class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none" id="role-name" type="text" value="Tier-2 Technical Specialist"/>
+</div>
+<div class="md:col-span-4 flex flex-col gap-1.5">
+<label class="font-label-md text-on-surface" for="role-slug">Role Identifier / Slug</label>
+<div class="flex items-center rounded-lg border border-outline-variant bg-surface-container-low px-3 py-2">
+<span class="text-secondary text-code-sm font-mono mr-1">role_</span>
+<span class="text-on-surface font-code-sm font-mono font-medium">tier2_tech_spec</span>
+<span class="material-symbols-outlined text-outline ml-auto text-[18px]">lock</span>
+</div>
+</div>
+<div class="md:col-span-4 flex flex-col gap-1.5">
+<label class="font-label-md text-on-surface" for="base-template">Base Template Inherited</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none pr-8" id="base-template">
+<option>Based on: Senior Agent</option>
+<option>Based on: Standard Support Specialist</option>
+<option>Based on: Infrastructure DevOps</option>
+<option>Custom Clean Slate</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-2.5 text-[20px] text-secondary">expand_more</span>
+</div>
+</div>
+<div class="md:col-span-12 flex flex-col gap-1.5">
+<label class="font-label-md text-on-surface" for="role-desc">Role Description</label>
+<textarea class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none" id="role-desc" rows="2">Specialized engineering support staff handling complex infrastructure and integration tickets with escalation rights.</textarea>
+</div>
+</div>
+</section>
+<!-- Dual Layout: Matrix Table & Right Side Panel -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Left Main Column: Full Permission Matrix Table & Granular Constraints -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Interactive Comprehensive Permission Matrix Table -->
+<section class="rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-sm overflow-hidden">
+<div class="p-4 border-b border-surface-container flex flex-wrap items-center justify-between gap-3 bg-surface-container-low/50">
+<div>
+<h3 class="font-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+              Functional Permission Matrix
+            </h3>
+<p class="font-body-sm text-secondary">Configure atomic rights across all 7 core platform categories.</p>
+</div>
+<div class="flex items-center gap-2 text-label-sm">
+<span class="inline-flex items-center gap-1 text-tertiary font-medium">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span> Granted
+            </span>
+<span class="inline-flex items-center gap-1 text-secondary ml-2 font-medium">
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span> Denied
+            </span>
+<span class="inline-flex items-center gap-1 text-outline ml-2 font-medium">
+<span class="w-2 h-0.5 bg-outline"></span> N/A
+            </span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[760px]">
+<thead>
+<tr class="border-b border-outline-variant/30 bg-surface-container-low text-secondary text-label-md">
+<th class="py-3 px-4 font-semibold">Module / Category</th>
+<th class="py-3 px-2 text-center font-semibold">View</th>
+<th class="py-3 px-2 text-center font-semibold">Create</th>
+<th class="py-3 px-2 text-center font-semibold">Edit</th>
+<th class="py-3 px-2 text-center font-semibold">Assign</th>
+<th class="py-3 px-2 text-center font-semibold">Escalate</th>
+<th class="py-3 px-2 text-center font-semibold">Resolve</th>
+<th class="py-3 px-2 text-center font-semibold">Close</th>
+<th class="py-3 px-2 text-center font-semibold">Delete</th>
+<th class="py-3 px-3 text-right font-semibold">Quick Toggle</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container/60 font-body-sm">
+<!-- Row 1: Tickets -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">confirmation_number</span>
+                  Tickets
+                </td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-right py-3.5 px-3">
+<span class="inline-block px-2 py-0.5 rounded text-label-sm font-semibold bg-tertiary/10 text-tertiary">Custom (7/8)</span>
+</td>
+</tr>
+<!-- Row 2: Customers -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">groups</span>
+                  Customers
+                </td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-right py-3.5 px-3">
+<span class="inline-block px-2 py-0.5 rounded text-label-sm font-medium bg-surface-container text-secondary">Partial (3/5)</span>
+</td>
+</tr>
+<!-- Row 3: Users -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">person_pin</span>
+                  Users
+                </td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" title="Team re-assignment" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-right py-3.5 px-3">
+<span class="inline-block px-2 py-0.5 rounded text-label-sm font-medium bg-surface-container text-secondary">Custom (2/5)</span>
+</td>
+</tr>
+<!-- Row 4: Departments -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">apartment</span>
+                  Departments
+                </td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-right py-3.5 px-3">
+<span class="inline-block px-2 py-0.5 rounded text-label-sm font-medium bg-surface-container text-secondary">Read Only</span>
+</td>
+</tr>
+<!-- Row 5: Reports -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">insights</span>
+                  Reports
+                </td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" title="Operational metrics only" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" title="Custom export reports" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-right py-3.5 px-3">
+<span class="inline-block px-2 py-0.5 rounded text-label-sm font-medium bg-surface-container text-secondary">Export (2/4)</span>
+</td>
+</tr>
+<!-- Row 6: Automation -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">precision_manufacturing</span>
+                  Automation
+                </td>
+<td class="text-center py-3.5 px-2">
+<input checked="" class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" title="Read-only trigger rules" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-right py-3.5 px-3">
+<span class="inline-block px-2 py-0.5 rounded text-label-sm font-medium bg-surface-container text-secondary">Auditor (1/4)</span>
+</td>
+</tr>
+<!-- Row 7: Settings -->
+<tr class="hover:bg-surface-container-low/40 transition-colors bg-surface-container-low/20">
+<td class="py-3.5 px-4 font-semibold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">settings</span>
+                  Settings
+                </td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2 text-outline font-mono text-xs">—</td>
+<td class="text-center py-3.5 px-2">
+<input class="w-4 h-4 rounded text-tertiary focus:ring-tertiary border-outline-variant" type="checkbox"/>
+</td>
+<td class="text-right py-3.5 px-3">
+<span class="inline-block px-2 py-0.5 rounded text-label-sm font-medium bg-error-container text-on-error-container">Restricted (0/5)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Additional Granular Scope Constraints -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- Ticket Access Scope -->
+<div class="p-5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-sm flex flex-col gap-3">
+<div class="flex items-center gap-2 pb-2 border-b border-surface-container">
+<span class="material-symbols-outlined text-primary text-[20px]">filter_alt</span>
+<h4 class="font-title-sm text-on-surface">Ticket Access Scope</h4>
+</div>
+<p class="text-body-sm text-secondary">Defines operational boundaries for viewing queue items.</p>
+<div class="flex flex-col gap-2.5 pt-1">
+<label class="flex items-center gap-3 p-2.5 rounded-lg border border-outline-variant/40 hover:bg-surface-container-low cursor-pointer transition-colors">
+<input class="text-primary focus:ring-primary accent-primary" name="ticket_scope" type="radio" value="all"/>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface">All Company Tickets</span>
+<span class="text-body-sm text-secondary">Broadest access across all operational divisions</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-2.5 rounded-lg border-2 border-primary/60 bg-primary-fixed/20 cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary accent-primary" name="ticket_scope" type="radio" value="assigned_dept"/>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface font-semibold">Assigned Departments Only (Tier-2)</span>
+<span class="text-body-sm text-on-surface-variant">Restricted to Engineering, CloudOps, and Integrations</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-2.5 rounded-lg border border-outline-variant/40 hover:bg-surface-container-low cursor-pointer transition-colors">
+<input class="text-primary focus:ring-primary accent-primary" name="ticket_scope" type="radio" value="direct_agent"/>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface">Assigned Directly to Agent</span>
+<span class="text-body-sm text-secondary">Strict individual single-assignee isolation</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Field-Level Security Constraints -->
+<div class="p-5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-sm flex flex-col gap-3">
+<div class="flex items-center gap-2 pb-2 border-b border-surface-container">
+<span class="material-symbols-outlined text-primary text-[20px]">encrypted</span>
+<h4 class="font-title-sm text-on-surface">Field-Level Security (FLS)</h4>
+</div>
+<p class="text-body-sm text-secondary">Control sensitive parameter visibility for privacy compliance.</p>
+<div class="flex flex-col gap-2.5 pt-1">
+<label class="flex items-start gap-3 p-2.5 rounded-lg border border-outline-variant/40 hover:bg-surface-container-low cursor-pointer transition-colors">
+<input checked="" class="mt-0.5 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface">View Customer PII</span>
+<span class="text-body-sm text-secondary">Allows display of phone numbers, physical addresses, and tax identifiers.</span>
+</div>
+</label>
+<label class="flex items-start gap-3 p-2.5 rounded-lg border border-outline-variant/40 hover:bg-surface-container-low cursor-pointer transition-colors">
+<input checked="" class="mt-0.5 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface">View Internal Notes</span>
+<span class="text-body-sm text-secondary">Access engineering triage logs and post-mortem attachments.</span>
+</div>
+</label>
+<label class="flex items-start gap-3 p-2.5 rounded-lg border border-outline-variant/40 hover:bg-surface-container-low cursor-pointer transition-colors">
+<input checked="" class="mt-0.5 rounded text-tertiary focus:ring-tertiary border-outline-variant accent-tertiary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface">Access Security Telemetry Logs</span>
+<span class="text-body-sm text-secondary">Inspect raw header payloads, API auth traces, and packet metadata.</span>
+</div>
+</label>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column Side Panel: Assigned Users & Role Governance -->
+<aside class="lg:col-span-4 flex flex-col gap-6">
+<!-- Assigned Users Panel -->
+<section class="p-5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3 border-b border-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">manage_accounts</span>
+<h3 class="font-title-md text-on-surface">Assigned Users</h3>
+<span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-secondary-container text-on-secondary-container">18</span>
+</div>
+<button class="text-label-md text-primary font-semibold hover:underline" type="button">View All</button>
+</div>
+<!-- Search & Filter Within Users -->
+<div class="relative">
+<input class="w-full rounded-lg border border-outline-variant bg-surface-container-low px-3 py-1.5 pl-8 text-body-sm text-on-surface focus:outline-none focus:border-primary" placeholder="Filter assigned agents..." type="text"/>
+<span class="material-symbols-outlined absolute left-2 top-2 text-[18px] text-outline">search</span>
+</div>
+<!-- User Chip List -->
+<div class="flex flex-col gap-2.5 max-h-[380px] overflow-y-auto pr-1">
+<!-- User 1 -->
+<div class="flex items-center justify-between p-2 rounded-lg border border-surface-container bg-surface-container-lowest hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center font-semibold text-xs text-on-surface">
+                ER
+              </div>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface font-medium">Elena Rostova</span>
+<span class="text-body-sm text-secondary">Lead Infrastructure • Active</span>
+</div>
+</div>
+<button class="text-secondary hover:text-primary p-1" title="User actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<!-- User 2 -->
+<div class="flex items-center justify-between p-2 rounded-lg border border-surface-container bg-surface-container-lowest hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center font-semibold text-xs text-on-primary-fixed">
+                MC
+              </div>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface font-medium">Marcus Chen</span>
+<span class="text-body-sm text-secondary">Core Platform Eng • Active</span>
+</div>
+</div>
+<button class="text-secondary hover:text-primary p-1" title="User actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<!-- User 3 -->
+<div class="flex items-center justify-between p-2 rounded-lg border border-surface-container bg-surface-container-lowest hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center font-semibold text-xs text-on-secondary-container">
+                SL
+              </div>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface font-medium">Sarah Lindqvist</span>
+<span class="text-body-sm text-secondary">Cloud Escalations • Active</span>
+</div>
+</div>
+<button class="text-secondary hover:text-primary p-1" title="User actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<!-- User 4 -->
+<div class="flex items-center justify-between p-2 rounded-lg border border-surface-container bg-surface-container-lowest hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center font-semibold text-xs text-on-tertiary-fixed">
+                TK
+              </div>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface font-medium">Tariq Khan</span>
+<span class="text-body-sm text-secondary">DevOps Specialist • Active</span>
+</div>
+</div>
+<button class="text-secondary hover:text-primary p-1" title="User actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<!-- User 5 -->
+<div class="flex items-center justify-between p-2 rounded-lg border border-surface-container bg-surface-container-lowest hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center font-semibold text-xs text-on-surface">
+                AP
+              </div>
+<div class="flex flex-col">
+<span class="text-title-sm text-on-surface font-medium">Ananya Patel</span>
+<span class="text-body-sm text-secondary">Database Systems • Active</span>
+</div>
+</div>
+<button class="text-secondary hover:text-primary p-1" title="User actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Bulk Action Buttons -->
+<div class="pt-3 border-t border-surface-container flex flex-col gap-2">
+<button class="w-full py-2 px-3 rounded-lg border border-outline-variant bg-surface-container-low hover:bg-surface-container text-on-surface text-title-sm font-semibold flex items-center justify-center gap-2 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+            Reassign Role (Bulk)
+          </button>
+<button class="w-full py-1.5 px-3 rounded-lg text-primary hover:bg-primary-fixed/20 text-body-sm font-medium transition-colors flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+            Assign Additional Staff
+          </button>
+</div>
+</section>
+<!-- Audit & Revision Tracking Card -->
+<section class="p-5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-sm flex flex-col gap-3">
+<h4 class="font-title-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[18px]">history_toggle_off</span>
+          Audit History &amp; Enforcement
+        </h4>
+<div class="space-y-3 text-body-sm text-secondary">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-tertiary mt-0.5">verified_user</span>
+<div>
+<p class="font-medium text-on-surface">Role Enforced by RBAC</p>
+<p class="text-xs">Synchronized with Okta SCIM Directory</p>
+</div>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-outline mt-0.5">update</span>
+<div>
+<p class="font-medium text-on-surface">Last Policy Diff</p>
+<p class="text-xs">Escalate right granted by Elena Rostova 4 days ago</p>
+</div>
+</div>
+</div>
+</section>
+</aside>
+</div>
+</main>
+</body></html>

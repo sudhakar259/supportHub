@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Customer;
 use App\Models\Department;
+use App\Models\Ticket;
+use App\Models\TicketAttachment;
 use App\Models\TicketCategory;
 use App\Models\TicketPriority;
 use App\Models\TicketStatus;
@@ -11,7 +13,9 @@ use App\Models\User;
 use App\Policies\CustomerPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\RolePolicy;
+use App\Policies\TicketAttachmentPolicy;
 use App\Policies\TicketCategoryPolicy;
+use App\Policies\TicketPolicy;
 use App\Policies\TicketPriorityPolicy;
 use App\Policies\TicketStatusPolicy;
 use App\Policies\UserPolicy;
@@ -49,6 +53,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(TicketStatus::class, TicketStatusPolicy::class);
         Gate::policy(TicketPriority::class, TicketPriorityPolicy::class);
         Gate::policy(Role::class, RolePolicy::class);
+        Gate::policy(Ticket::class, TicketPolicy::class);
+        Gate::policy(TicketAttachment::class, TicketAttachmentPolicy::class);
 
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(120)->by($request->user()?->id ?: $request->ip());

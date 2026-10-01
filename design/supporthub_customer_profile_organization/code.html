@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"error":"#ba1a1a","on-error-container":"#93000a","secondary-container":"#d8deff","on-background":"#0b1c30","surface-container-high":"#dce9ff","on-primary":"#ffffff","on-primary-container":"#fffbff","outline":"#8e7166","error-container":"#ffdad6","on-surface-variant":"#5a4138","secondary":"#565d79","on-surface":"#0b1c30","tertiary-fixed":"#89f5e7","on-secondary-fixed-variant":"#3e4660","surface-bright":"#f8f9ff","surface-container-highest":"#d3e4fe","surface-container-low":"#eff4ff","surface-dim":"#cbdbf5","inverse-on-surface":"#eaf1ff","primary-fixed":"#ffdbce","primary-container":"#cc4900","surface-variant":"#d3e4fe","secondary-fixed-dim":"#bec5e5","tertiary-fixed-dim":"#6bd8cb","on-tertiary-fixed":"#00201d","on-tertiary-container":"#f4fffc","surface":"#f8f9ff","primary-fixed-dim":"#ffb599","primary":"#a33900","inverse-surface":"#213145","on-secondary-container":"#5a627e","outline-variant":"#e2bfb2","surface-container":"#e5eeff","on-secondary-fixed":"#131a33","surface-container-lowest":"#ffffff","secondary-fixed":"#dbe1ff","tertiary-container":"#008378","on-primary-fixed":"#370e00","on-error":"#ffffff","inverse-primary":"#ffb599","on-secondary":"#ffffff","on-tertiary":"#ffffff","surface-tint":"#a73a00","background":"#f8f9ff","on-primary-fixed-variant":"#7f2b00","on-tertiary-fixed-variant":"#005049","tertiary":"#00685f"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-lg":"1.25rem","space-xl":"2rem","gutter":"1rem","space-xs":"0.25rem","margin":"1.5rem","space-sm":"0.5rem","margin-mobile":"1rem","gutter-lg":"1.5rem","space-md":"0.75rem"},fontFamily:{"title-md":["Inter"],"title-sm":["Inter"],"code-sm":["JetBrains Mono"],"display-lg":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"label-sm":["Inter"],"body-lg":["Inter"],"headline-md":["Hanken Grotesk"],"label-md":["Inter"],"body-sm":["Inter"],"headline-sm":["Hanken Grotesk"],"body-md":["Inter"],"headline-lg-mobile":["Hanken Grotesk"]},fontSize:{"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-full px-gutter-lg flex items-center justify-between gap-gutter"><div class="flex items-center gap-gutter min-w-[240px]"><img alt="Brand logo. - Primary color: #ea580c
+- Font: hankenGrotesk
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">SupportHub</span></div><div class="flex-1 max-w-xl mx-auto px-gutter"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-space-md text-on-surface-variant pointer-events-none text-[18px]">search</span><input class="w-full h-9 pl-10 pr-12 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md shadow-[0_1px_4px_rgba(0,0,0,0.02)] focus:outline-none focus:bg-surface-container-lowest" placeholder="Search customers, tickets, organizations..." type="text"/><div class="absolute right-space-sm flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm"><span>⌘</span><span>K</span></div></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs px-2.5 py-1 rounded-full bg-surface-container-lowest shadow-[0_1px_3px_rgba(0,0,0,0.02)]"><span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span><span class="font-label-sm text-label-sm uppercase text-tertiary tracking-wider">Systems Live</span></div><button aria-label="Notifications" class="relative p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"></span></button><div class="flex items-center gap-space-md pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.08)]" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="hidden xl:flex flex-col text-left"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Administrator</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest z-40 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex-1 overflow-y-auto px-gutter py-space-lg"><nav class="flex flex-col gap-space-xl" data-active-classes="bg-primary-container text-on-primary-container font-bold"><div class="flex flex-col gap-space-xs"><span class="px-space-md font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Workspace</span><div class="flex flex-col gap-0.5 mt-space-xs"><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">dashboard</span><span class="font-title-sm text-title-sm">Dashboard</span></div></a><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-ticket-history" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">confirmation_number</span><span class="font-title-sm text-title-sm">Tickets</span></div><span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">42</span></a><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="my-tickets" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">inbox</span><span class="font-title-sm text-title-sm">My Tickets</span></div></a><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customer-list" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">group</span><span class="font-title-sm text-title-sm">Customers</span></div></a></div></div><div class="flex flex-col gap-space-xs"><span class="px-space-md font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Administration</span><div class="flex flex-col gap-0.5 mt-space-xs"><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="departments" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">domain</span><span class="font-title-sm text-title-sm">Departments</span></div><span class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">8</span></a><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="users" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">badge</span><span class="font-title-sm text-title-sm">Users</span></div></a><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="roles-and-permissions" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">admin_panel_settings</span><span class="font-title-sm text-title-sm">Roles &amp; Permissions</span></div></a></div></div><div class="flex flex-col gap-space-xs"><span class="px-space-md font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">System</span><div class="flex flex-col gap-0.5 mt-space-xs"><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">monitoring</span><span class="font-title-sm text-title-sm">Reports</span></div></a><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="automation" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">precision_manufacturing</span><span class="font-title-sm text-title-sm">Automation</span></div></a><a class="flex items-center justify-between px-space-md py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="settings" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[18px]">settings</span><span class="font-title-sm text-title-sm">Settings</span></div></a></div></div></nav></div><div class="p-gutter bg-surface-container-low"><div class="flex items-center gap-space-md p-space-sm rounded-lg bg-surface-container-lowest shadow-[0_1px_4px_rgba(0,0,0,0.03)]"><img alt="Elena Rostova avatar" class="w-9 h-9 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="flex flex-col min-w-0 flex-1"><span class="font-title-sm text-title-sm text-on-surface truncate">Elena Rostova</span><span class="font-label-sm text-label-sm text-on-surface-variant truncate">Administrator</span></div><span class="material-symbols-outlined text-on-surface-variant text-[18px]">more_vert</span></div></div></aside><div class="pl-64"><main class="w-full pt-16 bg-background px-gutter-lg py-margin"><div class="flex flex-col w-full pb-16">
+<!-- Top Breadcrumb & Page Command Header -->
+<div class="flex flex-col gap-space-sm mb-gutter">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md">
+<span class="hover:text-on-surface cursor-pointer">Workspace</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-on-surface cursor-pointer">Customers</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-on-surface cursor-pointer">Elena Rostova</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary-container font-semibold">Profile &amp; Settings</span>
+</div>
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-1 max-w-3xl">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Customer Profile &amp; Organization Management</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Configure contact details, organization affiliations, SLA entitlement policies, communication preferences, and security credentials.</p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-high text-on-surface font-title-sm text-title-sm hover:bg-surface-variant transition-colors shadow-sm" type="button">
+          Discard Changes
+        </button>
+<button class="px-space-lg py-2 rounded-lg bg-primary-container text-on-primary font-title-sm text-title-sm hover:opacity-90 transition-opacity shadow-sm flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+          Save Customer Profile
+        </button>
+</div>
+</div>
+</div>
+<!-- Tabbed Stage Navigation -->
+<div class="flex items-center gap-space-xs p-1 mb-gutter rounded-xl bg-surface-container overflow-x-auto shadow-sm">
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-surface-container-lowest text-on-surface font-title-sm text-title-sm shadow-sm whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>1. General Profile &amp; Contact</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[16px]">domain</span>
+<span>2. Company &amp; Organizational Unit</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<span>3. SLA &amp; Entitlements</span>
+<span class="px-1.5 py-0.2 rounded-full bg-tertiary-container text-on-tertiary text-label-sm font-semibold">Tier 1</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[16px]">security</span>
+<span>4. Portal Access &amp; Security</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[16px]">sync_alt</span>
+<span>5. Custom Metadata &amp; CRM Sync</span>
+</button>
+</div>
+<!-- Primary Profile Mosaic & Form Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Primary Contact & Org (7 cols) -->
+<div class="lg:col-span-7 flex flex-col gap-gutter">
+<!-- Section 1: Personal & Contact Information -->
+<div class="rounded-xl bg-surface-container-lowest p-gutter-lg shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between pb-space-sm bg-surface-container-low -mx-gutter-lg -mt-gutter-lg px-gutter-lg pt-space-lg rounded-t-xl">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[22px]">badge</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Personal &amp; Contact Information</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Core operator identity and direct routing channels.</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider">Primary Record</span>
+</div>
+<!-- Avatar Uploader Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-lg p-space-md rounded-xl bg-surface-container-low">
+<div class="relative shrink-0">
+<img class="w-20 h-20 rounded-full object-cover shadow-sm" data-alt="High-resolution professional executive headshot of Elena Rostova in dark corporate attire, neutral studio lighting, sharp focus, confident expression, contemporary corporate tech aesthetic with cool navy background tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhHVrEvIrYvjR0NvuXsSw71P3KP0aJAXzyp1h7GryA7w0cMlZoIycqDCruiCID0Gae4oLU2alogmcmC1T6x-HOeUc2Oaf08GWMa_7dvoHoIqeakypjAu98UoXGhFs6VO50dxprNV8XUPW0C2O5itIik9dco9h-PcGQCwDaAOw5baf6-mpXeaGKa632GKWx1aUMiKSViol7O7FJmVI9UAf9uCksNLtvQp_l5DhKGMa9kyZc0EIlxh4_"/>
+<span class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-tertiary-container ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex-1 flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md text-on-surface">Elena Rostova</span>
+<span class="material-symbols-outlined text-tertiary-container text-[18px]">verified</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Acme Corp • Platform Architecture Lead • Registered Member since Feb 2021</p>
+<div class="flex items-center gap-space-sm mt-1">
+<button class="px-space-md py-1 rounded-lg bg-surface-container-highest text-on-surface font-title-sm text-title-sm hover:bg-surface-variant transition-colors shadow-sm" type="button">
+                Change Avatar / Upload Photo
+              </button>
+<button class="p-1 rounded-lg text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Remove Avatar" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Contact Detail Inputs Form -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">First Name</label>
+<input class="h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:bg-surface-container-low" type="text" value="Elena"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Last Name</label>
+<input class="h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:bg-surface-container-low" type="text" value="Rostova"/>
+</div>
+<div class="sm:col-span-2 flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Customer Job Title</label>
+<input class="h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:bg-surface-container-low" type="text" value="VP of Platform Architecture"/>
+</div>
+<div class="sm:col-span-2 flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Primary Work Email</label>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px]">lock</span>
+                Verified SSO Identity
+              </span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">mail</span>
+<input class="w-full h-9 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:bg-surface-container-low" type="email" value="elena.rostova@acme.com"/>
+</div>
+</div>
+<div class="sm:col-span-2 flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Secondary Email (Escalation / CC)</label>
+<input class="h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:bg-surface-container-low" type="email" value="platform-alerts@acme.com"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Direct Phone Number</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">call</span>
+<input class="w-full h-9 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:bg-surface-container-low" type="tel" value="+1 (555) 890-1243"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Preferred Language</label>
+<select class="h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none">
+<option selected="">English (US)</option>
+<option>English (UK)</option>
+<option>German (DE)</option>
+<option>French (FR)</option>
+</select>
+</div>
+<div class="sm:col-span-2 flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Primary Timezone &amp; Operating Window</label>
+<div class="flex items-center gap-space-xs">
+<select class="flex-1 h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none">
+<option selected="">America/New_York (UTC-05:00) — Eastern Time</option>
+<option>America/Chicago (UTC-06:00) — Central Time</option>
+<option>America/Los_Angeles (UTC-08:00) — Pacific Time</option>
+<option>Europe/London (UTC+00:00) — GMT</option>
+</select>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-code-sm text-code-sm shadow-sm whitespace-nowrap">Local: 03:42 PM</span>
+</div>
+</div>
+<!-- Radio Selector: Preferred Contact Channel -->
+<div class="sm:col-span-2 flex flex-col gap-2 pt-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Preferred Contact Method</span>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm">
+<label class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container transition-colors shadow-sm">
+<input checked="" class="accent-primary-container" name="contact_method" type="radio"/>
+<span class="font-title-sm text-title-sm text-on-surface">Email</span>
+</label>
+<label class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container transition-colors shadow-sm">
+<input class="accent-primary-container" name="contact_method" type="radio"/>
+<span class="font-title-sm text-title-sm text-on-surface">Phone</span>
+</label>
+<label class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container transition-colors shadow-sm">
+<input class="accent-primary-container" name="contact_method" type="radio"/>
+<span class="font-title-sm text-title-sm text-on-surface">Slack Connect</span>
+</label>
+<label class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container transition-colors shadow-sm">
+<input class="accent-primary-container" name="contact_method" type="radio"/>
+<span class="font-title-sm text-title-sm text-on-surface">Portal</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Organization & Company Association -->
+<div class="rounded-xl bg-surface-container-lowest p-gutter-lg shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between pb-space-sm bg-surface-container-low -mx-gutter-lg -mt-gutter-lg px-gutter-lg pt-space-lg rounded-t-xl">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[22px]">corporate_fare</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Organization &amp; Company Association</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Hierarchy grouping, key team stakeholders, and executive billing contacts.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] cursor-pointer hover:text-on-surface">open_in_new</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="sm:col-span-2 flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Company Record (Organization)</label>
+<div class="p-3 rounded-lg bg-surface-container-low flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-inverse-surface text-inverse-on-surface font-headline-sm text-headline-sm flex items-center justify-center font-bold">
+                  AC
+                </div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface leading-tight">Acme Corp (Enterprise Account #ACME-892)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tier-1 Strategic • Cloud Infrastructure • 1,420 Active Seats</p>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-variant transition-colors" type="button">
+                Change
+              </button>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Parent Business Unit</label>
+<input class="h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:bg-surface-container-low" type="text" value="Global Infrastructure Operations"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Customer Role in Organization</label>
+<input class="h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:bg-surface-container-low" type="text" value="Primary Technical Contact &amp; Decision Maker"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Secondary Technical Contact</label>
+<div class="flex items-center gap-space-xs p-2 rounded-lg bg-surface-container-low shadow-sm">
+<span class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm text-label-sm font-bold">MV</span>
+<span class="font-body-md text-body-md text-on-surface truncate">Marcus Vance (Principal Architect)</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Billing Contact</label>
+<div class="flex items-center gap-space-xs p-2 rounded-lg bg-surface-container-low shadow-sm">
+<span class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm text-label-sm font-bold">SJ</span>
+<span class="font-body-md text-body-md text-on-surface truncate">Sarah Jenkins (Finance Director)</span>
+</div>
+</div>
+<div class="sm:col-span-2 flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Assigned Strategic Account Manager</label>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-space-sm">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Corporate headshot portrait of David Miller, account executive with friendly demeanor, clean navy backdrop, professional studio lighting, looking directly into the camera." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABvVaykb6-NtyE2vOEuwYg469h_DgcRYLlpXu2uUgYY-HTZrluZjugV5sOSf1EMxXpjvI7uxHjA2EJtOiO87vRJnJgJGJZT1Q8MOApEbKqJzWdwwFuClQINY2XJdQdmGidtAQoOMpMQAefDmLbHTlye7_0eFS_qvGSZQe23L2TVkoIpmKvsdINchPhopDdQiIpQlA2mH6Rxwt2yIMlqMaHXJhlUhn9F_wQWTvnrfoo_eAVo_JIa1d3"/>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">David Miller</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Strategic Accounts • david.miller@supporthub.internal</div>
+</div>
+</div>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" type="button">
+                Reassign
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: SLA Entitlement & Security Credentials (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-gutter">
+<!-- Section 3: SLA Entitlement & Support Tier Policy -->
+<div class="rounded-xl bg-surface-container-lowest p-gutter-lg shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between pb-space-sm bg-surface-container-low -mx-gutter-lg -mt-gutter-lg px-gutter-lg pt-space-lg rounded-t-xl">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[22px]">timer</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">SLA Entitlement Policy</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Governs response latency and technical triage tier.</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">Active Contract</span>
+</div>
+<!-- Tier Selection Options Stack -->
+<div class="flex flex-col gap-space-sm">
+<!-- Option 1: Platinum (Selected) -->
+<div class="relative p-space-md rounded-xl bg-primary-fixed/20 shadow-sm cursor-pointer transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<input checked="" class="accent-primary-container" name="support_tier" type="radio"/>
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md text-on-surface">Platinum 24/7 Mission-Critical</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm uppercase">Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">15m P1 SLA • Named TAM • Dedicated Slack Connect</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary-container text-[20px]">verified</span>
+</div>
+<!-- Mini visual SLA sparkline representation -->
+<div class="mt-space-sm pt-space-sm bg-surface-container-lowest/60 p-2 rounded-lg flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Target MTTR (P1)</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">1h 48m</span>
+</div>
+<svg class="w-28 h-8 text-tertiary-container" fill="none" viewbox="0 0 120 32">
+<path d="M0 24L20 18L40 22L60 10L80 14L100 6L120 8" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<circle cx="120" cy="8" fill="currentColor" r="3"></circle>
+</svg>
+</div>
+</div>
+<!-- Option 2: Gold -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container shadow-sm cursor-pointer transition-colors">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<input class="accent-primary-container" name="support_tier" type="radio"/>
+<div>
+<span class="font-title-md text-title-md text-on-surface">Gold Business Hours</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">1h P1 SLA • Standard phone support • 8x5 coverage</p>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Tier-2</span>
+</div>
+</div>
+<!-- Option 3: Silver -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container shadow-sm cursor-pointer transition-colors">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<input class="accent-primary-container" name="support_tier" type="radio"/>
+<div>
+<span class="font-title-md text-title-md text-on-surface">Silver Standard</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">4h P1 SLA • Web &amp; Email only • Community forum</p>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Tier-3</span>
+</div>
+</div>
+</div>
+<!-- Custom SLA Overrides Box -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm">
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider font-semibold">Custom Account SLA Overrides</span>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant">First Response (P1)</span>
+<input class="h-8 px-2.5 rounded bg-surface-container-lowest text-on-surface font-code-sm text-code-sm shadow-sm focus:outline-none" type="text" value="15 minutes"/>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Resolution Target (P1)</span>
+<input class="h-8 px-2.5 rounded bg-surface-container-lowest text-on-surface font-code-sm text-code-sm shadow-sm focus:outline-none" type="text" value="2 hours max"/>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Weekend &amp; Holiday Escalation</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Allow automatic on-call page trigger on Saturday &amp; Sunday</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Section 4: Security, Portal Credentials & Authentication -->
+<div class="rounded-xl bg-surface-container-lowest p-gutter-lg shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between pb-space-sm bg-surface-container-low -mx-gutter-lg -mt-gutter-lg px-gutter-lg pt-space-lg rounded-t-xl">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[22px]">fingerprint</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Security &amp; Portal Authentication</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Federated credentials, SSO claims, and multi-factor compliance.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">security_update_good</span>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Portal Status Row -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-3 h-3 rounded-full bg-tertiary-container animate-pulse"></span>
+<div>
+<span class="font-title-sm text-title-sm text-on-surface">Customer Portal Status</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Active • Last active today at 10:14 AM (IP: 198.51.100.44)</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">Active Session</span>
+</div>
+<!-- Auth specs -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between py-1 text-body-sm">
+<span class="text-on-surface-variant font-label-md text-label-md">Authentication Method</span>
+<span class="font-title-sm text-title-sm text-on-surface">SAML 2.0 Okta Single Sign-On (Enforced)</span>
+</div>
+<div class="flex items-center justify-between py-1 text-body-sm">
+<span class="text-on-surface-variant font-label-md text-label-md">2FA Requirement</span>
+<span class="inline-flex items-center gap-1 font-title-sm text-title-sm text-tertiary-container">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+                Mandatory Hardware Token / WebAuthn
+              </span>
+</div>
+<div class="flex items-center justify-between py-1 text-body-sm">
+<span class="text-on-surface-variant font-label-md text-label-md">Security Groups</span>
+<span class="font-code-sm text-code-sm text-on-surface">okta-group:acme-enterprise-admins</span>
+</div>
+</div>
+<!-- Quick Administrative Actions -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider font-semibold">Credential Safeguards</span>
+<div class="flex flex-col gap-2">
+<button class="w-full h-9 px-space-md rounded-lg bg-surface-container-high text-on-surface font-title-sm text-title-sm hover:bg-surface-variant transition-colors flex items-center justify-center gap-space-xs shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">outgoing_mail</span>
+                Send Password Reset Email
+              </button>
+<button class="w-full h-9 px-space-md rounded-lg bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors flex items-center justify-center gap-space-xs shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+                Force Revoke All Active Portal Sessions
+              </button>
+<button class="w-full h-9 px-space-md rounded-lg bg-error-container text-on-error-container font-title-sm text-title-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-space-xs shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">person_off</span>
+                Deactivate Customer Account
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Audit & Activity History Strip -->
+<div class="mt-gutter rounded-xl bg-surface-container-lowest p-gutter-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">history</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Recent Governance &amp; Profile Activity</h3>
+</div>
+<button class="font-label-md text-label-md text-primary-container font-semibold hover:underline">View Complete Security Ledger</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-semibold">SLA Policy Override</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Yesterday, 14:22</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">P1 response target adjusted from 30m to 15m for Acme Q3 launch cycle.</p>
+<span class="font-label-sm text-label-sm text-primary-container">By: David Miller (SAM)</span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-semibold">SSO Assertion Checked</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Today, 10:14</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Successful WebAuthn hardware token handshake confirmed via Okta IdP.</p>
+<span class="font-label-sm text-label-sm text-tertiary-container">Automated Gateway Sync</span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-semibold">Slack Connect Provisioned</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">3 days ago</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Linked #supporthub-acme-war-room channel to Tier-1 triage webhook.</p>
+<span class="font-label-sm text-label-sm text-on-surface-variant">By: Elena Rostova</span>
+</div>
+</div>
+</div>
+<!-- Persistent Auto-Save Bottom Action Bar -->
+<div class="fixed bottom-0 left-64 right-0 h-16 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.06)] px-gutter-lg flex items-center justify-between z-30">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-container animate-pulse"></span>
+<span>Auto-saving draft... Last modified 4 mins ago by <strong class="text-on-surface">Elena Rostova (Admin)</strong></span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-high text-on-surface font-title-sm text-title-sm hover:bg-surface-variant transition-colors" type="button">
+        Cancel
+      </button>
+<button class="px-space-lg py-2 rounded-lg bg-primary-container text-on-primary font-title-sm text-title-sm hover:opacity-90 transition-opacity shadow-sm flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+        Save Changes
+      </button>
+</div>
+</div>
+</div>
+<script>
+  // Simple micro-interactions for tab navigation state
+  document.querySelectorAll('button[class*="whitespace-nowrap"]').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('button[class*="whitespace-nowrap"]').forEach(t => {
+        t.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm');
+        t.classList.add('text-on-surface-variant');
+      });
+      this.classList.remove('text-on-surface-variant');
+      this.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm');
+    });
+  });
+</script></main></div></body></html>

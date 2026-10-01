@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['ticket_id', 'from_status_id', 'to_status_id', 'changed_by', 'reason'])]
 class TicketStatusHistory extends Model
 {
+    // Eloquent's pluralizer would guess ticket_status_histories; the
+    // migration intentionally uses the singular "history" as a mass noun.
+    protected $table = 'ticket_status_history';
+
     public $timestamps = false;
 
     protected function casts(): array

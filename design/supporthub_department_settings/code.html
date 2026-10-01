@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>SupportHub - Technical Support Settings (DEPT-TECH)</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    .font-headline {
+      font-family: 'Hanken Grotesk', sans-serif;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Hide scrollbar for tabs */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-secondary-container": "#5a627e",
+            "surface-tint": "#a73a00",
+            "on-tertiary": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "surface-bright": "#f8f9ff",
+            "on-background": "#0b1c30",
+            "outline": "#8e7166",
+            "on-primary-fixed-variant": "#7f2b00",
+            "secondary-fixed-dim": "#bec5e5",
+            "primary-fixed-dim": "#ffb599",
+            "on-secondary-fixed-variant": "#3e4660",
+            "surface-container-highest": "#d3e4fe",
+            "tertiary": "#00685f",
+            "on-primary": "#ffffff",
+            "surface": "#f8f9ff",
+            "tertiary-fixed": "#89f5e7",
+            "surface-dim": "#cbdbf5",
+            "on-surface-variant": "#5a4138",
+            "on-primary-fixed": "#370e00",
+            "on-primary-container": "#fffbff",
+            "secondary": "#565d79",
+            "surface-container-lowest": "#ffffff",
+            "surface-variant": "#d3e4fe",
+            "on-secondary-fixed": "#131a33",
+            "on-tertiary-fixed": "#00201d",
+            "background": "#f8f9ff",
+            "on-surface": "#0b1c30",
+            "on-tertiary-container": "#f4fffc",
+            "on-error": "#ffffff",
+            "surface-container-high": "#dce9ff",
+            "inverse-surface": "#213145",
+            "surface-container-low": "#eff4ff",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#dbe1ff",
+            "primary-container": "#cc4900",
+            "secondary-container": "#d8deff",
+            "primary": "#a33900",
+            "tertiary-container": "#008378",
+            "outline-variant": "#e2bfb2",
+            "error": "#ba1a1a",
+            "surface-container": "#e5eeff",
+            "inverse-primary": "#ffb599",
+            "inverse-on-surface": "#eaf1ff",
+            "tertiary-fixed-dim": "#6bd8cb",
+            "on-tertiary-fixed-variant": "#005049",
+            "primary-fixed": "#ffdbce"
+          },
+          borderRadius: {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          spacing: {
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "0.75rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "gutter": "1rem",
+            "gutter-lg": "1.5rem",
+            "margin": "1.5rem",
+            "margin-mobile": "1rem"
+          },
+          fontFamily: {
+            "headline-lg": ["Hanken Grotesk", "sans-serif"],
+            "headline-md": ["Hanken Grotesk", "sans-serif"],
+            "headline-sm": ["Hanken Grotesk", "sans-serif"],
+            "display-lg": ["Hanken Grotesk", "sans-serif"],
+            "title-md": ["Inter", "sans-serif"],
+            "title-sm": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "code-sm": ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Persistent Dark Sidebar -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-inverse-surface z-50 flex flex-col justify-between border-r border-inverse-surface/40 shadow-xl">
+<div class="flex flex-col flex-1 min-h-0">
+<!-- Logo Area -->
+<div class="h-16 px-space-lg flex items-center justify-between border-b border-surface-container/10 bg-inverse-surface">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary flex-shrink-0 font-headline-sm font-bold shadow-md">
+<span class="material-symbols-outlined text-xl">headset_mic</span>
+</div>
+<span class="font-headline font-headline-sm text-lg font-bold text-inverse-on-surface tracking-tight truncate">SupportHub</span>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container/20 text-inverse-on-surface font-code-sm text-[11px] uppercase tracking-wider">v2.4</span>
+</div>
+<!-- Quick Jump Input -->
+<div class="px-space-md py-space-sm">
+<div class="relative flex items-center w-full">
+<span class="material-symbols-outlined absolute left-2.5 text-secondary-fixed-dim text-lg pointer-events-none">search</span>
+<input class="w-full pl-8 pr-2.5 py-1.5 rounded-lg bg-surface-container/10 text-inverse-on-surface placeholder:text-secondary-fixed-dim/60 font-body-sm text-xs border border-transparent focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Quick Jump..." type="text"/>
+</div>
+</div>
+<!-- Navigation Tree -->
+<nav class="flex-1 px-space-md py-space-xs space-y-0.5 overflow-y-auto">
+<div class="px-space-sm pt-space-xs pb-1 font-label-sm text-[10px] uppercase tracking-wider font-semibold text-secondary-fixed-dim/80">Workspace</div>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-sm" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span class="truncate">Dashboard</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-sm" href="#">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-lg">confirmation_number</span>
+<span class="truncate">Tickets</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-surface-container/20 text-inverse-on-surface font-label-sm text-xs font-semibold">42</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-sm" href="#">
+<span class="material-symbols-outlined text-lg">inbox</span>
+<span class="truncate">My Tickets</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-sm" href="#">
+<span class="material-symbols-outlined text-lg">groups</span>
+<span class="truncate">Customers</span>
+</a>
+<div class="px-space-sm pt-space-md pb-1 font-label-sm text-[10px] uppercase tracking-wider font-semibold text-secondary-fixed-dim/80">Administration</div>
+<a aria-current="page" class="flex items-center justify-between px-space-sm py-2 rounded-lg bg-primary text-on-primary font-title-sm text-sm font-medium shadow-sm transition-colors" href="#">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-lg">corporate_fare</span>
+<span class="truncate">Departments</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-black/20 text-on-primary font-code-sm text-xs">8</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-sm" href="#">
+<span class="material-symbols-outlined text-lg">person</span>
+<span class="truncate">Users</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-sm" href="#">
+<span class="material-symbols-outlined text-lg">shield_person</span>
+<span class="truncate">Roles &amp; Permissions</span>
+</a>
+<div class="px-space-sm pt-space-md pb-1 font-label-sm text-[10px] uppercase tracking-wider font-semibold text-secondary-fixed-dim/80">System</div>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-sm" href="#">
+<span class="material-symbols-outlined text-lg">monitoring</span>
+<span class="truncate">Reports</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-sm" href="#">
+<span class="material-symbols-outlined text-lg">bolt</span>
+<span class="truncate">Automation</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-sm" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span class="truncate">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Bottom Profile / Help -->
+<div class="p-space-md space-y-space-xs border-t border-surface-container/10 bg-inverse-surface">
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-body-sm text-xs" href="#">
+<span class="material-symbols-outlined text-lg">help_center</span>
+<span class="truncate">Help &amp; Support</span>
+</a>
+<div class="pt-space-xs">
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container/10 hover:bg-surface-container/20 transition-colors cursor-pointer border border-white/5">
+<img alt="Elena Rostova" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary/40 flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-title-sm text-xs font-semibold text-inverse-on-surface truncate leading-tight">Elena Rostova</span>
+<span class="font-label-sm text-[11px] text-secondary-fixed-dim truncate">Administrator</span>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed-dim text-base">expand_more</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Wrapper -->
+<div class="pl-64 min-h-screen flex flex-col bg-background">
+<!-- Top Header -->
+<header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/95 backdrop-blur-md z-40 px-gutter-lg flex items-center justify-between border-b border-surface-container shadow-sm">
+<div class="flex items-center gap-space-md">
+<nav class="flex items-center gap-space-xs font-body-sm text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-base text-secondary">corporate_fare</span>
+<span class="hover:text-on-surface cursor-pointer">Administration</span>
+<span class="text-outline-variant font-code-sm">/</span>
+<span class="text-on-surface font-title-sm font-semibold">Departments</span>
+</nav>
+<div class="hidden md:flex items-center gap-space-sm px-space-md py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant font-body-sm text-xs w-72 cursor-pointer border border-surface-container hover:border-outline-variant transition-colors">
+<span class="material-symbols-outlined text-base">search</span>
+<span class="flex-1 text-on-surface-variant/80">Global Search...</span>
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-code-sm text-[10px] font-semibold border border-surface-container-highest">⌘K</kbd>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tertiary-container/10 text-tertiary font-label-sm text-xs font-semibold border border-tertiary/20">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span>Operational</span>
+</div>
+<button aria-label="Notifications" class="relative p-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface-container-lowest"></span>
+</button>
+<div class="flex items-center gap-space-sm pl-space-xs border-l border-surface-container">
+<img alt="Elena Rostova" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/>
+<button class="p-1 text-secondary hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-base">more_vert</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="relative pt-16 w-full flex-1 bg-background px-gutter-lg py-margin">
+<div class="flex flex-col gap-space-lg w-full max-w-[1520px] mx-auto pb-space-xl">
+<!-- Breadcrumbs & Meta Badge Row -->
+<div class="flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-xs font-body-sm text-xs text-on-surface-variant flex-wrap">
+<span class="material-symbols-outlined text-sm text-secondary">corporate_fare</span>
+<span>Administration</span>
+<span class="text-outline-variant font-code-sm">/</span>
+<a class="hover:text-primary transition-colors font-medium" href="#">Departments</a>
+<span class="text-outline-variant font-code-sm">/</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-xs font-semibold text-secondary">DEPT-TECH</span>
+<span class="text-outline-variant font-code-sm">/</span>
+<span class="text-on-surface font-title-sm font-semibold">Settings &amp; Configuration</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-code-sm text-xs text-secondary border border-surface-container-high">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              Policy Rev: v4.18.2
+            </span>
+<span class="font-body-sm text-xs text-on-surface-variant">Last deployed 14m ago by Elena Rostova</span>
+</div>
+</div>
+<!-- Department Header Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-surface-container shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-xl bg-inverse-surface flex items-center justify-center text-primary-fixed flex-shrink-0 shadow-sm ring-1 ring-white/10">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline font-headline-lg text-2xl font-bold text-on-surface tracking-tight">Technical Support Settings</h1>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-code-sm text-xs font-semibold">DEPT-TECH</span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-low text-tertiary font-label-sm text-xs font-semibold border border-tertiary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+                  ACTIVE ROUTING
+                </span>
+</div>
+<p class="font-body-md text-sm text-on-surface-variant mt-1 max-w-3xl leading-relaxed">
+                Configure automated ticket dispatch heuristics, algorithmic round-robin weights, multi-tier SLA commitments, and high-severity escalation policies.
+              </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-xs font-semibold transition-colors flex items-center gap-1.5 border border-surface-container" type="button">
+<span class="material-symbols-outlined text-base">restart_alt</span>
+              Discard Changes
+            </button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary font-title-sm text-xs font-semibold transition-colors flex items-center gap-1.5 font-code-sm border border-surface-container" type="button">
+<span class="material-symbols-outlined text-base">code</span>
+              Export JSON
+            </button>
+<button class="px-space-lg py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">cloud_sync</span>
+              Save &amp; Apply Settings
+            </button>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<div class="bg-surface-container-lowest rounded-xl p-1.5 border border-surface-container shadow-sm flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+<button class="px-space-md py-2 rounded-lg bg-inverse-surface text-inverse-on-surface font-title-sm text-xs font-semibold flex items-center gap-space-xs whitespace-nowrap shadow-sm">
+<span class="material-symbols-outlined text-base text-primary-fixed">alt_route</span>
+            Assignment &amp; Routing
+          </button>
+<button class="px-space-md py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface font-title-sm text-xs font-medium flex items-center gap-space-xs whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-base">timer</span>
+            SLA Policies &amp; Timers
+            <span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-code-sm text-[10px] font-semibold">4 Active</span>
+</button>
+<button class="px-space-md py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface font-title-sm text-xs font-medium flex items-center gap-space-xs whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-base">schedule</span>
+            Working Hours &amp; Shifts
+          </button>
+<button class="px-space-md py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface font-title-sm text-xs font-medium flex items-center gap-space-xs whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-base">hub</span>
+            Notifications &amp; Webhooks
+          </button>
+<button class="px-space-md py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface font-title-sm text-xs font-medium flex items-center gap-space-xs whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-base">verified_user</span>
+            Audit &amp; Compliance
+          </button>
+</div>
+<!-- Two Column Settings Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column (8 cols): Assignment Rules + SLA Matrix -->
+<div class="xl:col-span-8 flex flex-col gap-space-lg">
+<!-- Section A: Automated Ticket Assignment Rules -->
+<section class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm overflow-hidden">
+<div class="p-space-lg bg-surface-container-low/70 border-b border-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">fork_right</span>
+</div>
+<div>
+<h2 class="font-headline font-headline-sm text-base font-bold text-on-surface">Section A: Automated Ticket Assignment Rules</h2>
+<p class="font-body-sm text-xs text-on-surface-variant mt-0.5">Heuristic distribution algorithms matching incoming tickets with optimal engineering staff.</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded bg-tertiary-container/15 text-tertiary font-code-sm text-xs font-semibold uppercase tracking-wider border border-tertiary/20">Engine: Online</span>
+</div>
+<div class="p-space-lg flex flex-col gap-space-lg">
+<!-- Engine Strategy Cards -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-xs font-semibold text-on-surface uppercase tracking-wider">Assignment Engine Strategy</span>
+<span class="font-code-sm text-xs text-secondary">engine_mode: dynamic_weighted</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Option 1: Selected -->
+<label class="relative rounded-xl p-space-md bg-surface-container-lowest border-2 border-primary shadow-sm hover:shadow transition-all cursor-pointer flex flex-col justify-between group">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary mb-space-xs">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<input checked="" class="w-4 h-4 accent-primary text-primary focus:ring-primary cursor-pointer" name="assignment_engine" type="radio"/>
+</div>
+<div class="mt-2">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-sm font-bold text-on-surface">Skill-Based Dynamic</span>
+</div>
+<span class="inline-block mt-1 px-1.5 py-0.5 rounded bg-primary-fixed-dim/60 text-on-primary-fixed font-code-sm text-[10px] font-semibold">RECOMMENDED</span>
+<p class="font-body-sm text-xs text-on-surface-variant mt-2 leading-relaxed">
+                          Weighted Round Robin factored by technical tags, product tier, and agent specialization score.
+                        </p>
+</div>
+</label>
+<!-- Option 2 -->
+<label class="relative rounded-xl p-space-md bg-surface-container-lowest border border-surface-container hover:border-outline-variant hover:bg-surface-container-low/40 transition-all cursor-pointer flex flex-col justify-between group">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary mb-space-xs">
+<span class="material-symbols-outlined text-lg">sync</span>
+</div>
+<input class="w-4 h-4 accent-primary text-primary focus:ring-primary cursor-pointer" name="assignment_engine" type="radio"/>
+</div>
+<div class="mt-2">
+<span class="font-title-sm text-sm font-semibold text-on-surface">Pure Round Robin</span>
+<p class="font-body-sm text-xs text-on-surface-variant mt-2 leading-relaxed">
+                          Strict sequential cycling without capacity weighting or technical specialization filtering.
+                        </p>
+</div>
+</label>
+<!-- Option 3 -->
+<label class="relative rounded-xl p-space-md bg-surface-container-lowest border border-surface-container hover:border-outline-variant hover:bg-surface-container-low/40 transition-all cursor-pointer flex flex-col justify-between group">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary mb-space-xs">
+<span class="material-symbols-outlined text-lg">pan_tool</span>
+</div>
+<input class="w-4 h-4 accent-primary text-primary focus:ring-primary cursor-pointer" name="assignment_engine" type="radio"/>
+</div>
+<div class="mt-2">
+<span class="font-title-sm text-sm font-semibold text-on-surface">Manual Triage</span>
+<p class="font-body-sm text-xs text-on-surface-variant mt-2 leading-relaxed">
+                          Unassigned queues held in central inbox until dispatched manually by Department Managers.
+                        </p>
+</div>
+</label>
+</div>
+</div>
+<!-- Concurrency & Load Protection Sub-card -->
+<div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-sm font-semibold text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-base text-secondary">speed</span>
+                      Concurrency &amp; Load Protection Heuristics
+                    </span>
+<span class="font-code-sm text-xs text-tertiary font-semibold">Active Protection: ENABLED</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Slider Block -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-xs font-medium text-on-surface">Maximum Active Tickets per Agent</span>
+<span class="px-2 py-0.5 rounded bg-inverse-surface text-inverse-on-surface font-code-sm text-xs font-semibold">8 tickets</span>
+</div>
+<input class="w-full h-2 bg-surface-container-high rounded-lg accent-primary cursor-pointer mt-2" max="25" min="1" type="range" value="8"/>
+<div class="flex justify-between font-code-sm text-[11px] text-secondary mt-1">
+<span>1 ticket</span>
+<span class="text-tertiary font-medium">Safe threshold: 8-10</span>
+<span>25 max</span>
+</div>
+</div>
+<!-- Delay Input Block -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-body-sm text-xs font-medium text-on-surface">Unassigned Fallback Delay</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-code-sm text-xs font-semibold">30 min</span>
+</div>
+<div class="flex items-center gap-space-xs mt-1">
+<input class="w-20 px-space-sm py-1.5 rounded-lg border border-surface-container bg-surface-container-lowest text-on-surface font-code-sm text-xs shadow-none focus:outline-none focus:ring-1 focus:ring-primary" type="number" value="30"/>
+<span class="font-body-sm text-xs text-on-surface-variant">min → Route to:</span>
+<select class="flex-1 px-space-sm py-1.5 rounded-lg border border-surface-container bg-surface-container-lowest text-on-surface font-body-sm text-xs focus:outline-none focus:ring-1 focus:ring-primary">
+<option>Tier-1 Escalation Desk</option>
+<option>Support Manager On-Call</option>
+<option>Global Overflow Pool</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Protection Checkboxes -->
+<div class="flex flex-col sm:flex-row gap-space-md pt-space-xs border-t border-surface-container/60">
+<label class="flex items-center gap-space-sm cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-xs text-on-surface">Exclude agents on ‘Away’ or ‘In Call’ status</span>
+</label>
+<label class="flex items-center gap-space-sm cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-xs text-on-surface">Factor timezone handover overlap (30 min buffer)</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Section B: SLA Configuration & Deadlines Matrix -->
+<section class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm overflow-hidden">
+<div class="p-space-lg bg-surface-container-low/70 border-b border-surface-container flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">alarm_on</span>
+</div>
+<div>
+<h2 class="font-headline font-headline-sm text-base font-bold text-on-surface">Section B: SLA Configuration &amp; Deadlines</h2>
+<p class="font-body-sm text-xs text-on-surface-variant mt-0.5">Standard Operating SLA commitment matrices, automated breaches, and alert cascades.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-xs font-semibold">SLA Matrix v2.2</span>
+<button class="px-space-sm py-1 rounded bg-surface-container hover:bg-surface-container-high text-primary font-title-sm text-xs font-semibold transition-colors flex items-center gap-1 border border-surface-container-high" type="button">
+<span class="material-symbols-outlined text-base">add</span>
+                    Add Level
+                  </button>
+</div>
+</div>
+<div class="p-space-lg flex flex-col gap-space-lg">
+<!-- Table -->
+<div class="overflow-x-auto rounded-lg border border-surface-container">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low text-secondary font-label-sm text-[11px] uppercase tracking-wider border-b border-surface-container">
+<tr>
+<th class="py-2.5 px-space-md font-semibold">Priority Level</th>
+<th class="py-2.5 px-space-md font-semibold">First Response</th>
+<th class="py-2.5 px-space-md font-semibold">Resolution Target</th>
+<th class="py-2.5 px-space-md font-semibold">Automated Escalation Action</th>
+<th class="py-2.5 px-space-md font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-xs font-body-sm">
+<!-- P1 -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-error animate-pulse flex-shrink-0"></span>
+<span class="font-title-sm font-semibold text-on-surface whitespace-nowrap">P1 — Critical</span>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-code-sm text-[10px] font-bold">SEV-1</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-error-container/50 text-error font-code-sm text-xs font-semibold">
+<span class="material-symbols-outlined text-xs">schedule</span>
+                            15 minutes
+                          </div>
+</td>
+<td class="py-3 px-space-md">
+<span class="font-code-sm text-xs text-on-surface font-semibold">2 hours max</span>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-base text-primary">crisis_alert</span>
+<span>Auto-Page Manager + On-Call SRE</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="p-1 rounded hover:bg-surface-container text-secondary transition-colors" title="Edit Level">
+<span class="material-symbols-outlined text-base">tune</span>
+</button>
+</td>
+</tr>
+<!-- P2 -->
+<tr class="hover:bg-surface-container-low/40 transition-colors bg-surface-container-low/10">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary flex-shrink-0"></span>
+<span class="font-title-sm font-semibold text-on-surface whitespace-nowrap">P2 — High</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-code-sm text-[10px] font-bold">SEV-2</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-primary-fixed/40 text-primary font-code-sm text-xs font-semibold">
+<span class="material-symbols-outlined text-xs">schedule</span>
+                            60 minutes
+                          </div>
+</td>
+<td class="py-3 px-space-md">
+<span class="font-code-sm text-xs text-on-surface font-semibold">8 hours</span>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-base text-secondary">notification_important</span>
+<span>Alert Team Lead after 4h inactive</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="p-1 rounded hover:bg-surface-container text-secondary transition-colors" title="Edit Level">
+<span class="material-symbols-outlined text-base">tune</span>
+</button>
+</td>
+</tr>
+<!-- P3 -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary flex-shrink-0"></span>
+<span class="font-title-sm font-semibold text-on-surface whitespace-nowrap">P3 — Medium</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px] font-bold">SEV-3</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-xs font-semibold">
+<span class="material-symbols-outlined text-xs">schedule</span>
+                            4 hours
+                          </div>
+</td>
+<td class="py-3 px-space-md">
+<span class="font-code-sm text-xs text-on-surface">24 hours</span>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-base text-secondary">warning</span>
+<span>Re-queue warning at 18h benchmark</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="p-1 rounded hover:bg-surface-container text-secondary transition-colors" title="Edit Level">
+<span class="material-symbols-outlined text-base">tune</span>
+</button>
+</td>
+</tr>
+<!-- P4 -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-container-highest flex-shrink-0"></span>
+<span class="font-title-sm font-semibold text-on-surface whitespace-nowrap">P4 — Low</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px] font-bold">SEV-4</span>
+</div>
+</td>
+<td class="py-3 px-space-md">
+<div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-xs font-semibold">
+<span class="material-symbols-outlined text-xs">schedule</span>
+                            8 hours
+                          </div>
+</td>
+<td class="py-3 px-space-md">
+<span class="font-code-sm text-xs text-on-surface">72 hours</span>
+</td>
+<td class="py-3 px-space-md">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-base text-secondary">assignment</span>
+<span>Standard shift digest inclusion</span>
+</div>
+</td>
+<td class="py-3 px-space-md text-right">
+<button class="p-1 rounded hover:bg-surface-container text-secondary transition-colors" title="Edit Level">
+<span class="material-symbols-outlined text-base">tune</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- SLA Pause Rules -->
+<div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-0.5">
+<span class="font-title-sm text-sm font-semibold text-on-surface">Clock Control &amp; SLA Pause Rules</span>
+<span class="font-body-sm text-xs text-on-surface-variant">Prevent SLA burn during external dependencies or recognized holidays.</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="flex items-center gap-space-sm cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-xs text-on-surface">Pause timer when status is ‘Waiting on Customer’</span>
+</label>
+<label class="flex items-center gap-space-sm cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-xs text-on-surface">Pause timer outside configured department operating hours</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (4 cols): Section C, D & Policy Audit -->
+<div class="xl:col-span-4 flex flex-col gap-space-lg">
+<!-- Section C: Shifts & Coverage -->
+<section class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm overflow-hidden">
+<div class="p-space-md bg-surface-container-low/70 border-b border-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">calendar_month</span>
+</div>
+<h3 class="font-headline font-headline-sm text-sm font-bold text-on-surface">Section C: Shifts &amp; Coverage</h3>
+</div>
+<span class="material-symbols-outlined text-secondary text-base">public</span>
+</div>
+<div class="p-space-md flex flex-col gap-space-md">
+<!-- Timezone Selector -->
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-[11px] uppercase tracking-wider text-secondary font-semibold">Department Master Timezone</label>
+<div class="flex items-center gap-space-xs p-2 rounded-lg bg-surface-container-low border border-surface-container">
+<span class="material-symbols-outlined text-base text-secondary">schedule</span>
+<select class="w-full bg-transparent font-title-sm text-xs font-semibold text-on-surface focus:outline-none">
+<option selected="">UTC-05:00 Eastern Time (US &amp; Canada)</option>
+<option>UTC+00:00 UTC / Western European Time</option>
+<option>UTC+01:00 Central European Time</option>
+<option>UTC+08:00 Singapore / Hong Kong Time</option>
+</select>
+</div>
+</div>
+<!-- Follow the Sun -->
+<div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-xs font-bold text-on-surface">Follow-the-Sun Protocol</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-sm text-[10px] font-semibold">ACTIVE</span>
+</div>
+<p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                    Seamless queue handoff across Austin (AMER), Dublin (EMEA), and Bengaluru (APAC) support pods.
+                  </p>
+<label class="flex items-center gap-space-sm cursor-pointer select-none pt-1">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-xs font-medium text-on-surface">24/7 Global Handover Enabled</span>
+</label>
+</div>
+<!-- After-Hours Escalation Warning -->
+<div class="p-space-md rounded-xl bg-primary-fixed/30 border border-primary-fixed flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-base">emergency</span>
+<span class="font-title-sm text-xs font-bold">After-Hours Critical Escalation</span>
+</div>
+<p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                    When local shifts are offline, P1 Critical tickets automatically trigger bridge to <strong class="text-on-surface font-semibold">Global SRE Incident Response</strong> on Tier-0 priority line.
+                  </p>
+</div>
+<!-- Active Shift Windows -->
+<div class="rounded-xl border border-surface-container bg-surface-container-low p-space-sm flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-on-surface font-label-sm text-[11px] font-semibold uppercase tracking-wider">
+<span>Active Shift Windows</span>
+<span class="font-code-sm text-xs text-tertiary">3 Pods Linked</span>
+</div>
+<div class="space-y-1.5 pt-1">
+<div class="flex items-center justify-between text-xs bg-surface-container-lowest p-2 rounded-lg border border-surface-container/60 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-semibold text-on-surface">AMER East</span>
+</div>
+<span class="font-code-sm text-xs text-secondary">08:00 - 17:00 EST</span>
+</div>
+<div class="flex items-center justify-between text-xs bg-surface-container-lowest p-2 rounded-lg border border-surface-container/60 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-semibold text-on-surface">EMEA Central</span>
+</div>
+<span class="font-code-sm text-xs text-secondary">08:00 - 17:00 GMT</span>
+</div>
+<div class="flex items-center justify-between text-xs bg-surface-container-lowest p-2 rounded-lg border border-surface-container/60 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></span>
+<span class="font-semibold text-secondary">APAC South (Standby)</span>
+</div>
+<span class="font-code-sm text-xs text-secondary">09:00 - 18:00 IST</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section D: Webhooks & Feeds -->
+<section class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm overflow-hidden">
+<div class="p-space-md bg-surface-container-low/70 border-b border-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">webhook</span>
+</div>
+<h3 class="font-headline font-headline-sm text-sm font-bold text-on-surface">Section D: Webhooks &amp; Feeds</h3>
+</div>
+<span class="font-code-sm text-xs font-semibold text-tertiary">3 / 3 CONNECTED</span>
+</div>
+<div class="p-space-md flex flex-col gap-space-sm">
+<!-- Slack -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary flex-shrink-0">
+<span class="material-symbols-outlined text-lg">forum</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-xs font-semibold text-on-surface truncate">Slack Dispatch</span>
+<span class="font-code-sm text-[11px] text-secondary truncate">#tech-support-feed</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-label-sm text-[10px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                    Verified
+                  </span>
+</div>
+<!-- PagerDuty -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-lg">notifications_active</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-xs font-semibold text-on-surface truncate">PagerDuty Service</span>
+<span class="font-code-sm text-[11px] text-secondary truncate">PD-SVC-TECH-881</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-label-sm text-[10px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                    Active
+                  </span>
+</div>
+<!-- Email Pipe -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low border border-surface-container">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary flex-shrink-0">
+<span class="material-symbols-outlined text-lg">alternate_email</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-xs font-semibold text-on-surface truncate">Inbound Email Pipe</span>
+<span class="font-code-sm text-[11px] text-secondary truncate">support-tech@acme.com</span>
+</div>
+</div>
+<button class="p-1 rounded hover:bg-surface-container text-secondary transition-colors" title="Settings">
+<span class="material-symbols-outlined text-base">settings</span>
+</button>
+</div>
+<button class="w-full py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 border border-surface-container-high mt-1" type="button">
+<span class="material-symbols-outlined text-base">add_circle</span>
+                  Configure Custom Webhook Endpoint
+                </button>
+</div>
+</section>
+<!-- Policy Audit Alert Box -->
+<div class="p-space-md rounded-xl bg-inverse-surface text-inverse-on-surface shadow-md flex flex-col gap-space-xs border border-white/10">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-primary-fixed">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-title-sm text-xs font-bold">Enterprise Policy Audit</span>
+</div>
+<span class="font-code-sm text-[10px] px-1.5 py-0.5 rounded bg-surface-container/20 text-secondary-fixed-dim font-bold">SOC2-TYPE-II</span>
+</div>
+<p class="font-body-sm text-xs text-inverse-on-surface/80 leading-relaxed mt-1">
+                Modifications to the Technical Support routing tree require two-party administrative signoff for production activation.
+              </p>
+<div class="pt-2 flex items-center justify-between text-secondary-fixed-dim font-code-sm text-xs border-t border-white/10 mt-1">
+<span>Audit Key: 98f4-tech-conf</span>
+<a class="text-primary-fixed hover:underline flex items-center gap-0.5 font-medium" href="#">
+<span>View Audit Trail</span>
+<span class="material-symbols-outlined text-xs">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Floating Unsaved Changes Notification Bar -->
+<div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-xl">info</span>
+<span class="font-body-sm text-xs text-on-surface-variant">
+              You have <strong class="text-on-surface font-semibold">2 unsaved changes</strong> in Section A (Load Protection) and Section B (SLA Clock Rules).
+            </span>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container border border-surface-container font-title-sm text-xs font-semibold transition-colors" type="button">
+              Reset to Stored Baseline
+            </button>
+<button class="px-space-lg py-1.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-title-sm text-xs font-semibold transition-colors shadow-sm" type="button">
+              Apply to All 48 Agents
+            </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

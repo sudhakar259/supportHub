@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-primary-container":"#fffbff","outline-variant":"#e2bfb2","secondary-fixed-dim":"#bec5e5","background":"#f8f9ff","on-tertiary-fixed-variant":"#005049","tertiary-container":"#008378","surface-container-highest":"#d3e4fe","outline":"#8e7166","error":"#ba1a1a","primary":"#a33900","secondary-container":"#d8deff","on-primary-fixed-variant":"#7f2b00","surface-dim":"#cbdbf5","tertiary-fixed-dim":"#6bd8cb","secondary":"#565d79","on-surface":"#0b1c30","on-secondary-fixed":"#131a33","primary-fixed-dim":"#ffb599","primary-fixed":"#ffdbce","surface":"#f8f9ff","on-tertiary":"#ffffff","on-surface-variant":"#5a4138","on-secondary-fixed-variant":"#3e4660","inverse-on-surface":"#eaf1ff","on-secondary-container":"#5a627e","surface-variant":"#d3e4fe","surface-container-high":"#dce9ff","surface-bright":"#f8f9ff","inverse-primary":"#ffb599","surface-container":"#e5eeff","on-error":"#ffffff","error-container":"#ffdad6","surface-tint":"#a73a00","surface-container-lowest":"#ffffff","on-primary-fixed":"#370e00","tertiary":"#00685f","tertiary-fixed":"#89f5e7","primary-container":"#cc4900","secondary-fixed":"#dbe1ff","on-tertiary-fixed":"#00201d","on-background":"#0b1c30","on-tertiary-container":"#f4fffc","surface-container-low":"#eff4ff","inverse-surface":"#213145","on-primary":"#ffffff","on-secondary":"#ffffff","on-error-container":"#93000a"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"gutter-lg":"1.5rem","space-xs":"0.25rem","space-lg":"1.25rem","margin-mobile":"1rem","margin":"1.5rem","space-sm":"0.5rem","space-xl":"2rem","gutter":"1rem","space-md":"0.75rem"},"fontFamily":{"code-sm":["JetBrains Mono"],"headline-lg":["Hanken Grotesk"],"headline-md":["Hanken Grotesk"],"title-md":["Inter"],"headline-lg-mobile":["Hanken Grotesk"],"body-sm":["Inter"],"label-sm":["Inter"],"label-md":["Inter"],"display-lg":["Hanken Grotesk"],"headline-sm":["Hanken Grotesk"],"body-lg":["Inter"],"title-sm":["Inter"],"body-md":["Inter"]},"fontSize":{"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-xl z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-gutter"><img alt="Brand logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">SupportHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Enterprise Ops</span></div></div><div class="flex-1 max-w-xl mx-space-xl hidden md:flex items-center"><div class="w-full relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-secondary text-title-md pointer-events-none">search</span><input class="w-full h-9 pl-10 pr-14 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-secondary font-body-md text-body-md shadow-[0_1px_4px_rgba(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Search configurations, queues, tickets, or incident IDs..." type="search"/><div class="absolute right-space-sm flex items-center gap-space-xs pointer-events-none"><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">⌘</kbd><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">K</kbd></div></div></div><div class="flex items-center gap-gutter"><div class="hidden sm:flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Systems Live</span></div><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">notifications</span></button><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">help</span></button><div class="flex items-center gap-space-md pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="hidden lg:flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Administrator</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low z-40 overflow-y-auto pb-space-xl flex flex-col shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><nav class="flex-1 px-space-md py-space-lg space-y-space-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workspace</div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="tickets" href="#">Tickets</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="my-tickets" href="#">My Tickets</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customers" href="#">Customers</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="departments" href="#">Departments</a></div><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Governance &amp; Settings</div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="users" href="#">Users</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="roles-permissions" href="#">Roles &amp; Permissions</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reports" href="#">Reports</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="automation" href="#">Automation</a><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-primary">mail</span><span>Notifications &amp; Email</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a aria-current="page" class="flex items-center px-space-md py-1.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg" data-path="email-templates" href="#">Email Templates</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="notification-matrix-settings" href="#">Notification Matrix / Settings</a></div></div><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-secondary">tune</span><span>Ticket Configuration</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-numbering" href="#">Ticket Numbering</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="statuses-priorities" href="#">Statuses &amp; Priorities</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="categories-taxonomies" href="#">Categories &amp; Taxonomies</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-settings" href="#">Settings</a></div></div></div></nav></aside><div class="pl-64"><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<div class="w-full px-margin py-space-lg flex flex-col gap-space-lg">
+<!-- Breadcrumb & Top Command Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<nav class="flex items-center gap-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">
+<span class="hover:text-primary transition-colors cursor-pointer">Settings</span>
+<span class="material-symbols-outlined text-[13px] leading-none text-secondary">chevron_right</span>
+<span class="hover:text-primary transition-colors cursor-pointer">Notifications &amp; Email</span>
+<span class="material-symbols-outlined text-[13px] leading-none text-secondary">chevron_right</span>
+<span class="text-on-surface font-bold">Email Templates</span>
+</nav>
+<div class="flex items-center gap-space-md mt-space-xs">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Email Notification Templates</h1>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm">v2.4 Engine</span>
+</div>
+<p class="font-body-md text-body-md text-secondary max-w-3xl">
+          Manage automated transactional and alert email templates triggered across the ticket lifecycle. Configure responsive layouts, dynamic Liquid variables, and deliverability guardrails.
+        </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap items-center gap-space-sm shrink-0">
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm transition-colors shadow-sm" id="btn-branding">
+<span class="material-symbols-outlined text-title-md text-primary">palette</span>
+<span>Global Branding</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm transition-colors shadow-sm" id="btn-test-smtp">
+<span class="material-symbols-outlined text-title-md text-tertiary">send_and_archive</span>
+<span>Test SMTP Engine</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 rounded bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors shadow-sm" id="btn-create">
+<span class="material-symbols-outlined text-title-md">add_circle</span>
+<span>Create Custom Template</span>
+</button>
+</div>
+</div>
+<!-- Overview Metrics Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Active Templates</span>
+<span class="p-space-xs rounded bg-surface-container text-primary">
+<span class="material-symbols-outlined text-title-md">mark_email_read</span>
+</span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-display-lg text-display-lg text-on-surface leading-none">9<span class="text-secondary font-headline-sm text-headline-sm">/10</span></span>
+<span class="px-space-xs py-0.5 rounded bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-semibold">90% Automated</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 90%;"></div>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">1 staging safeguard paused</span>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">24h Outbound Volume</span>
+<span class="p-space-xs rounded bg-surface-container text-tertiary">
+<span class="material-symbols-outlined text-title-md">outbox</span>
+</span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-display-lg text-display-lg text-on-surface leading-none">4,820</span>
+<span class="px-space-xs py-0.5 rounded bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-semibold">99.8% Delivered</span>
+</div>
+<div class="flex items-center gap-space-xs text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+14.2% from yesterday (Peak triage)</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Avg latency: 420ms (AWS SES East)</span>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Avg Open &amp; CTR</span>
+<span class="p-space-xs rounded bg-surface-container text-secondary">
+<span class="material-symbols-outlined text-title-md">ads_click</span>
+</span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-display-lg text-display-lg text-on-surface leading-none">68.4%</span>
+<span class="font-body-sm text-body-sm text-secondary">Open rate</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-body-sm text-on-surface-variant">
+<span>CTA Interaction:</span>
+<span class="font-code-sm text-code-sm font-semibold text-primary">42.1% Click-through</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Industry benchmark: 31.8%</span>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Bounce &amp; Suppression</span>
+<span class="p-space-xs rounded bg-surface-container text-error">
+<span class="material-symbols-outlined text-title-md">shield_with_heart</span>
+</span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-display-lg text-display-lg text-on-surface leading-none">0.08%</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-tertiary font-label-sm text-label-sm font-semibold">Reputation: 100/100</span>
+</div>
+<div class="flex items-center gap-space-xs text-body-sm text-body-sm text-secondary">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>Zero blacklists / Feedbacks healthy</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Dedicated IP pools active</span>
+</div>
+</div>
+<!-- Quick Deliverability Health Strip -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-title-md">verified_user</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Security Protocol</span>
+<span class="font-title-sm text-title-sm text-on-surface">DKIM, SPF &amp; DMARC Enforced</span>
+</div>
+</div>
+<div class="hidden sm:block w-px h-8 bg-surface-container"></div>
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-title-md">rule</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Compliance Guard</span>
+<span class="font-title-sm text-title-sm text-on-surface">CAN-SPAM &amp; GDPR Opt-out Injected</span>
+</div>
+</div>
+<div class="hidden sm:block w-px h-8 bg-surface-container"></div>
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-title-md">dns</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Active Gateway</span>
+<span class="font-title-sm text-title-sm text-on-surface font-code-sm">smtp-relay.us-east-1.supporthub-ops.net</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm self-end lg:self-center">
+<a class="inline-flex items-center gap-space-xs font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors" href="#">
+<span>View Real-time Outbound Dispatch Logs</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Filter and Search Controls -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Search Input -->
+<div class="relative flex-1 max-w-lg">
+<span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-secondary text-title-md pointer-events-none">search</span>
+<input class="w-full h-10 pl-10 pr- space-md bg-surface-container-low text-on-surface placeholder:text-secondary rounded-lg font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" id="template-search" placeholder="Search templates by name, subject, or trigger key..." type="search"/>
+</div>
+<!-- Filter Dropdowns & View Options -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-1 rounded-lg">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Category:</span>
+<select class="bg-transparent text-on-surface font-title-sm text-title-sm focus:outline-none cursor-pointer py-1" id="filter-category">
+<option value="all">All Events (10)</option>
+<option value="customer">Customer Facing (5)</option>
+<option value="internal">Internal Staff &amp; Alerts (4)</option>
+<option value="escalation">Escalation &amp; SLA (2)</option>
+</select>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-1 rounded-lg">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Status:</span>
+<select class="bg-transparent text-on-surface font-title-sm text-title-sm focus:outline-none cursor-pointer py-1" id="filter-status">
+<option value="all">All Statuses</option>
+<option value="active">Active Only</option>
+<option value="disabled">Paused / Disabled</option>
+</select>
+</div>
+<button class="px-space-sm py-1.5 rounded text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" id="btn-filter-reset" title="Reset Filters">
+            Reset
+          </button>
+</div>
+</div>
+<!-- Fast Tabs -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-space-xs border-b border-surface-container">
+<button class="tab-btn px-space-md py-1.5 rounded font-title-sm text-title-sm bg-primary text-on-primary transition-all whitespace-nowrap" data-tab="all">
+          All Templates (10)
+        </button>
+<button class="tab-btn px-space-md py-1.5 rounded font-title-sm text-title-sm text-secondary hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap" data-tab="customer">
+          Customer Facing (5)
+        </button>
+<button class="tab-btn px-space-md py-1.5 rounded font-title-sm text-title-sm text-secondary hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap" data-tab="internal">
+          Internal Staff &amp; Alerts (4)
+        </button>
+<button class="tab-btn px-space-md py-1.5 rounded font-title-sm text-title-sm text-secondary hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap" data-tab="disabled">
+          Archived / Disabled (1)
+        </button>
+</div>
+</div>
+<!-- Templates Table & Inspector Split View -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Main Templates Data Table -->
+<div class="xl:col-span-8 bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider h-10">
+<th class="py-space-xs px-space-md">Template Name &amp; Trigger</th>
+<th class="py-space-xs px-space-md">Recipient Scope</th>
+<th class="py-space-xs px-space-md hidden sm:table-cell">Variables</th>
+<th class="py-space-xs px-space-md">Status</th>
+<th class="py-space-xs px-space-md text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-md text-body-md" id="template-table-body">
+<!-- Template 1: Ticket Created -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer" data-category="customer" data-id="tmpl-1" data-status="active">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container mt-0.5">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Ticket Created (Customer Receipt)</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px]">EVENT.TICKET_CREATED</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+<span class="text-secondary">Subj:</span> [SupportHub] We received your request: {ticket_subject} (#{ticket_number})
+                      </p>
+<span class="font-code-sm text-code-sm text-secondary text-[11px] mt-0.5">Trigger: New ticket ingestion from portal/email/API</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface">Customer (Requester)</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">6 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input checked="" class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold">Active</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Template 2: Ticket Assigned -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer" data-category="internal" data-id="tmpl-2" data-status="active">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container mt-0.5">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Ticket Assigned (Agent Notification)</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px]">EVENT.AGENT_ASSIGNED</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+<span class="text-secondary">Subj:</span> Assigned to you: #{ticket_number} - {ticket_subject}
+                      </p>
+<span class="font-code-sm text-code-sm text-secondary text-[11px] mt-0.5">Trigger: Agent or team assignment routing</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-space-sm py-1 rounded bg-surface-container-high font-label-sm text-label-sm text-on-surface font-medium">Assigned Agent, Dept Lead</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">5 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input checked="" class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold">Active</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Template 3: Ticket Status Changed -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer" data-category="customer" data-id="tmpl-3" data-status="active">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container mt-0.5">
+<span class="material-symbols-outlined text-[16px]">published_with_changes</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Ticket Status Changed</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px]">EVENT.STATUS_TRANSITION</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+<span class="text-secondary">Subj:</span> Update on #{ticket_number}: Status changed to {ticket_status}
+                      </p>
+<span class="font-code-sm text-code-sm text-secondary text-[11px] mt-0.5">Trigger: State shift (Open -&gt; In Progress / Waiting)</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface">Customer &amp; Assigned Agent</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">5 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input checked="" class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold">Active</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Template 4: Customer Replied -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer" data-category="internal" data-id="tmpl-4" data-status="active">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container mt-0.5">
+<span class="material-symbols-outlined text-[16px]">reply</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Customer Replied (Agent Alert)</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px]">EVENT.CUSTOMER_COMMENT</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+<span class="text-secondary">Subj:</span> New reply from {customer_name} on #{ticket_number}
+                      </p>
+<span class="font-code-sm text-code-sm text-secondary text-[11px] mt-0.5">Trigger: Customer public comment or email update</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-space-sm py-1 rounded bg-surface-container-high font-label-sm text-label-sm text-on-surface font-medium">Assigned Agent</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">4 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input checked="" class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold">Active</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Template 5: Agent Replied -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer" data-category="customer" data-id="tmpl-5" data-status="active">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container mt-0.5">
+<span class="material-symbols-outlined text-[16px]">forward_to_inbox</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Agent Replied (Customer Public Response)</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px]">EVENT.AGENT_COMMENT</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+<span class="text-secondary">Subj:</span> Response to your request #{ticket_number} - {ticket_subject}
+                      </p>
+<span class="font-code-sm text-code-sm text-secondary text-[11px] mt-0.5">Trigger: Staff message dispatched to requester</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface">Customer (Requester)</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">6 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input checked="" class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold">Active</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Template 6: Ticket Escalated -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer" data-category="internal" data-id="tmpl-6" data-status="active">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-error-container text-on-error-container mt-0.5">
+<span class="material-symbols-outlined text-[16px]">crisis_alert</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Ticket Escalated (Emergency P1/SRE Alert)</span>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-error font-code-sm text-[10px]">EVENT.ESCALATION_P1</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+<span class="text-secondary">Subj:</span> 🚨 ESCALATION: #{ticket_number} ({ticket_priority}) - Immediate attention required
+                      </p>
+<span class="font-code-sm text-code-sm text-secondary text-[11px] mt-0.5">Trigger: Severity bump or SLA breach threshold</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-space-sm py-1 rounded bg-error-container/40 font-label-sm text-label-sm text-error font-semibold">On-Call Commander, Lead</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">7 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input checked="" class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold">Active</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Template 7: Ticket Resolved -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer" data-category="customer" data-id="tmpl-7" data-status="active">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container mt-0.5">
+<span class="material-symbols-outlined text-[16px]">task_alt</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Ticket Resolved (CSAT Survey &amp; Confirmation)</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px]">EVENT.TICKET_RESOLVED</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+<span class="text-secondary">Subj:</span> Your issue #{ticket_number} has been resolved
+                      </p>
+<span class="font-code-sm text-code-sm text-secondary text-[11px] mt-0.5">Trigger: Resolution state confirmed by staff</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface">Customer (Requester)</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">5 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input checked="" class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold">Active</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Template 8: Ticket Closed -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer" data-category="customer" data-id="tmpl-8" data-status="active">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container mt-0.5">
+<span class="material-symbols-outlined text-[16px]">inventory_2</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Ticket Closed (Audit &amp; Archival Notice)</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px]">EVENT.TICKET_CLOSED</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+<span class="text-secondary">Subj:</span> Case #{ticket_number} is now closed
+                      </p>
+<span class="font-code-sm text-code-sm text-secondary text-[11px] mt-0.5">Trigger: Inactivity timeout or verified closure</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface">Customer (Requester)</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">4 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input checked="" class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold">Active</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Template 9: Ticket Reopened -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer" data-category="internal" data-id="tmpl-9" data-status="active">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-secondary-container text-on-secondary-container mt-0.5">
+<span class="material-symbols-outlined text-[16px]">sync_problem</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Ticket Reopened (Investigation Resumed)</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px]">EVENT.TICKET_REOPENED</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+<span class="text-secondary">Subj:</span> Reopened: #{ticket_number} - {customer_name} added comments
+                      </p>
+<span class="font-code-sm text-code-sm text-secondary text-[11px] mt-0.5">Trigger: Inbound response after resolved status</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<span class="px-space-sm py-1 rounded bg-surface-container-high font-label-sm text-label-sm text-on-surface font-medium">Assigned Agent &amp; Queue Lead</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">5 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input checked="" class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold">Active</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Template 10: SLA Imminent Breach Warning (Disabled) -->
+<tr class="template-row group hover:bg-surface-container-low transition-colors cursor-pointer bg-surface-container-low/40" data-category="internal" data-id="tmpl-10" data-status="disabled">
+<td class="py-space-md px-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="p-1 rounded bg-surface-container-highest text-secondary mt-0.5">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold opacity-75">SLA Imminent Breach Warning (Internal Guardrail)</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-[10px]">EVENT.SLA_BREACH_WARNING</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5 opacity-75">
+<span class="text-secondary">Subj:</span> ⚠️ SLA Breach Warning: #{ticket_number} due in 15m
+                      </p>
+<div class="flex items-center gap-space-sm mt-1">
+<span class="font-code-sm text-code-sm text-secondary text-[11px]">Trigger: 15m prior to first response or resolution breach</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-secondary uppercase font-semibold">Paused in Staging</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap opacity-75">
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface">Agent &amp; Dept Manager</span>
+</td>
+<td class="py-space-md px-space-md hidden sm:table-cell whitespace-nowrap opacity-75">
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-low px-1.5 py-0.5 rounded">6 tokens</span>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation();">
+<input class="sr-only peer status-toggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ml-2 font-label-sm text-label-sm text-secondary uppercase font-semibold">Disabled</span>
+</label>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-space-xs" onclick="event.stopPropagation();">
+<button class="action-preview p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Inspect &amp; Preview">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="action-edit p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Edit Template">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="action-test p-1.5 text-secondary hover:text-primary hover:bg-surface-container rounded transition-colors" title="Send Test Payload">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="px-space-md py-space-sm bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<span class="font-body-sm text-body-sm text-secondary">Showing 10 of 10 automated lifecycle events</span>
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-secondary">Trigger Engine: v2.10 (Zero-drop queued)</span>
+</div>
+</div>
+</div>
+<!-- Right Inspector / Live Template Preview Rail -->
+<div class="xl:col-span-4 flex flex-col gap-space-md">
+<!-- Live Preview Stage Card -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between border-b border-surface-container pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-title-md">preview</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Render Preview</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container px-1.5 py-0.5 rounded">
+<button class="p-1 text-primary hover:text-on-surface rounded font-code-sm text-code-sm" title="Desktop View">
+<span class="material-symbols-outlined text-[14px]">desktop_windows</span>
+</button>
+<button class="p-1 text-secondary hover:text-on-surface rounded font-code-sm text-code-sm" title="Mobile View">
+<span class="material-symbols-outlined text-[14px]">smartphone</span>
+</button>
+</div>
+</div>
+<!-- Preview Header Meta -->
+<div class="flex flex-col gap-space-xs bg-surface-container-low p-space-sm rounded font-code-sm text-code-sm">
+<div class="flex items-center justify-between text-secondary">
+<span>From:</span>
+<span class="text-on-surface font-medium truncate">SupportHub Operations &lt;no-reply@supporthub.com&gt;</span>
+</div>
+<div class="flex items-center justify-between text-secondary">
+<span>Subject:</span>
+<span class="text-on-surface font-semibold truncate" id="preview-subject">[SupportHub] We received your request: API Rate Limit (#SH-84920)</span>
+</div>
+<div class="flex items-center justify-between text-secondary">
+<span>Encoding:</span>
+<span class="text-tertiary">Multipart/Alternative (HTML + UTF-8 Text)</span>
+</div>
+</div>
+<!-- Simulated Email Body Canvas -->
+<div class="p-space-md bg-white rounded border border-surface-container-high shadow-inner flex flex-col gap-space-md">
+<!-- Simulated Global Header Branding -->
+<div class="flex items-center justify-between border-b border-surface-container pb-space-sm">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary flex items-center justify-center text-on-primary font-bold text-xs">SH</div>
+<span class="font-headline-sm text-title-sm text-on-surface font-bold tracking-tight">SupportHub Enterprise</span>
+</div>
+<span class="font-code-sm text-[11px] text-secondary">REF: #SH-84920</span>
+</div>
+<!-- Email Body Content -->
+<div class="space-y-space-sm font-body-md text-body-md text-on-surface">
+<p class="font-semibold text-on-surface">Hello Marcus,</p>
+<p class="text-secondary leading-relaxed text-body-sm">
+                Thank you for contacting SupportHub. We've logged your request regarding <strong class="text-on-surface font-medium">"Production API 429 Throttle in US-West"</strong> and routed it directly to our Infrastructure &amp; Cloud Platform tier.
+              </p>
+<!-- Ticket Details Box -->
+<div class="bg-surface-container-low p-space-sm rounded space-y-1 text-body-sm">
+<div class="flex justify-between">
+<span class="text-secondary">Incident Ticket:</span>
+<span class="font-code-sm font-semibold text-on-surface">#SH-84920</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary">Assigned Queue:</span>
+<span class="font-medium text-on-surface">DevOps Tier 3</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary">Target SLA (First Response):</span>
+<span class="font-medium text-tertiary">&lt; 14 minutes</span>
+</div>
+</div>
+<p class="text-secondary text-body-sm">
+                You can view real-time comments, append diagnostics payloads, or escalate directly via the portal workbench.
+              </p>
+<div class="py-space-xs">
+<a class="inline-block px-space-md py-2 rounded bg-primary text-on-primary font-title-sm text-title-sm font-semibold shadow-sm" href="#">
+                  View Ticket in Portal →
+                </a>
+</div>
+</div>
+<!-- Simulated Global Footer -->
+<div class="pt-space-sm border-t border-surface-container flex flex-col gap-1 text-[11px] font-body-sm text-secondary">
+<p>SupportHub Global Operations Center • 100 Enterprise Way, Suite 400</p>
+<div class="flex items-center justify-between">
+<span>Replies directly update the incident history.</span>
+<a class="text-primary hover:underline" href="#">Notification Preferences</a>
+</div>
+</div>
+</div>
+<!-- Variable Tokens Quick Inspector -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Injected Dynamic Liquid Tokens</span>
+<div class="flex flex-wrap gap-1">
+<span class="px-space-xs py-0.5 bg-surface-container rounded text-primary font-code-sm text-[11px]">{ticket_number}</span>
+<span class="px-space-xs py-0.5 bg-surface-container rounded text-primary font-code-sm text-[11px]">{ticket_subject}</span>
+<span class="px-space-xs py-0.5 bg-surface-container rounded text-primary font-code-sm text-[11px]">{customer_name}</span>
+<span class="px-space-xs py-0.5 bg-surface-container rounded text-primary font-code-sm text-[11px]">{queue_name}</span>
+<span class="px-space-xs py-0.5 bg-surface-container rounded text-primary font-code-sm text-[11px]">{portal_ticket_url}</span>
+<span class="px-space-xs py-0.5 bg-surface-container rounded text-primary font-code-sm text-[11px]">{sla_target_time}</span>
+</div>
+</div>
+</div>
+<!-- Global Header & Footer Quick Config Drawer -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-title-md">layers</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Branding Wrapper Inheritance</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm font-semibold">Locked Global</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+            All 10 templates automatically inherit the unified SupportHub responsive wrapper with custom company logos, dark/light email client auto-inversion, and DKIM signature anchors.
+          </p>
+<div class="flex items-center justify-between pt-space-xs border-t border-surface-container">
+<span class="font-code-sm text-code-sm text-on-surface font-medium">shared_enterprise_master.mjml</span>
+<button class="font-title-sm text-title-sm text-primary hover:text-primary-container transition-colors">
+              Configure Master HTML
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Test Send & SMTP Modal -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm hidden flex items-center justify-center p-margin" id="test-modal">
+<div class="bg-surface-container-lowest rounded-lg shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
+<div class="px-space-md py-space-sm bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-title-md">mark_email_unread</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Send Test Template Dispatch</span>
+</div>
+<button class="text-secondary hover:text-on-surface p-1 rounded" id="modal-close">
+<span class="material-symbols-outlined text-title-md">close</span>
+</button>
+</div>
+<div class="p-space-md space-y-space-md">
+<p class="font-body-sm text-body-sm text-secondary">
+          Dispatch an automated sample payload containing realistic dummy customer tokens directly through the active AWS SES relay to verify rendering in Outlook, Gmail, and Apple Mail.
+        </p>
+<div class="space-y-space-xs">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Destination Email Address</label>
+<input class="w-full h-10 px-space-md bg-surface-container-low text-on-surface rounded font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" type="email" value="elena.rostova@supporthub-ops.enterprise.internal"/>
+</div>
+<div class="space-y-space-xs">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Select Sample Ticket Context</label>
+<select class="w-full h-10 px-space-md bg-surface-container-low text-on-surface rounded font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary shadow-sm">
+<option>P1 - Database Connection Pool Exhausted (#SH-9011)</option>
+<option selected="">P2 - API Rate Limit Exceeded (#SH-84920)</option>
+<option>P3 - SSO SAML Certificate Expiration Notice (#SH-7721)</option>
+</select>
+</div>
+<div class="p-space-sm bg-surface-container rounded flex items-center gap-space-xs text-body-sm text-secondary">
+<span class="material-symbols-outlined text-tertiary text-title-md">check_circle</span>
+<span>SMTP Engine will append <strong>[TEST PAYLOAD]</strong> header flag to subject.</span>
+</div>
+</div>
+<div class="px-space-md py-space-sm bg-surface-container-low flex justify-end gap-space-sm">
+<button class="px-space-md py-2 rounded text-secondary hover:text-on-surface font-title-sm text-title-sm" id="modal-cancel">Cancel</button>
+<button class="px-space-md py-2 rounded bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors shadow-sm" id="modal-send-confirm">
+          Dispatch Payload
+        </button>
+</div>
+</div>
+</div>
+<!-- Notification Toast Container -->
+<div class="fixed bottom-space-xl right-space-xl z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none bg-inverse-surface text-inverse-on-surface px-space-md py-space-sm rounded-lg shadow-xl flex items-center gap-space-sm" id="toast">
+<span class="material-symbols-outlined text-tertiary-fixed text-title-md">check_circle</span>
+<span class="font-body-md text-body-md" id="toast-message">Action completed successfully.</span>
+</div>
+<script>
+    (function() {
+      // Elements
+      const searchInput = document.getElementById('template-search');
+      const categorySelect = document.getElementById('filter-category');
+      const statusSelect = document.getElementById('filter-status');
+      const resetBtn = document.getElementById('btn-filter-reset');
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const rows = document.querySelectorAll('.template-row');
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      
+      const modal = document.getElementById('test-modal');
+      const modalClose = document.getElementById('modal-close');
+      const modalCancel = document.getElementById('modal-cancel');
+      const modalConfirm = document.getElementById('modal-send-confirm');
+      const previewSubject = document.getElementById('preview-subject');
+
+      // Toast feedback helper
+      function showToast(text) {
+        toastMsg.textContent = text;
+        toast.classList.remove('translate-y-16', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+        setTimeout(() => {
+          toast.classList.add('translate-y-16', 'opacity-0');
+          toast.classList.remove('translate-y-0', 'opacity-100');
+        }, 3000);
+      }
+
+      // Filter logic
+      function applyFilters() {
+        const query = (searchInput.value || '').toLowerCase().trim();
+        const cat = categorySelect.value;
+        const stat = statusSelect.value;
+
+        rows.forEach(row => {
+          const rowText = row.textContent.toLowerCase();
+          const rowCat = row.getAttribute('data-category');
+          const rowStat = row.getAttribute('data-status');
+
+          const matchesQuery = !query || rowText.includes(query);
+          const matchesCat = (cat === 'all') || (cat === rowCat);
+          const matchesStat = (stat === 'all') || (stat === rowStat);
+
+          if (matchesQuery && matchesCat && matchesStat) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      }
+
+      // Search debounce
+      if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+      }
+
+      // Dropdown changes
+      if (categorySelect) categorySelect.addEventListener('change', applyFilters);
+      if (statusSelect) statusSelect.addEventListener('change', applyFilters);
+
+      // Reset
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          if (categorySelect) categorySelect.value = 'all';
+          if (statusSelect) statusSelect.value = 'all';
+          
+          tabButtons.forEach(btn => {
+            btn.classList.remove('bg-primary', 'text-on-primary');
+            btn.classList.add('text-secondary');
+          });
+          const allTab = document.querySelector('[data-tab="all"]');
+          if (allTab) {
+            allTab.classList.add('bg-primary', 'text-on-primary');
+            allTab.classList.remove('text-secondary');
+          }
+          applyFilters();
+          showToast('Filters cleared.');
+        });
+      }
+
+      // Fast Tabs
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabButtons.forEach(b => {
+            b.classList.remove('bg-primary', 'text-on-primary');
+            b.classList.add('text-secondary');
+          });
+          btn.classList.add('bg-primary', 'text-on-primary');
+          btn.classList.remove('text-secondary');
+
+          const tab = btn.getAttribute('data-tab');
+          if (tab === 'all') {
+            categorySelect.value = 'all';
+            statusSelect.value = 'all';
+          } else if (tab === 'customer') {
+            categorySelect.value = 'customer';
+            statusSelect.value = 'all';
+          } else if (tab === 'internal') {
+            categorySelect.value = 'internal';
+            statusSelect.value = 'all';
+          } else if (tab === 'disabled') {
+            categorySelect.value = 'all';
+            statusSelect.value = 'disabled';
+          }
+          applyFilters();
+        });
+      });
+
+      // Toggle Switches
+      document.querySelectorAll('.status-toggle').forEach(chk => {
+        chk.addEventListener('change', function(e) {
+          const row = this.closest('.template-row');
+          const isChecked = this.checked;
+          const labelSpan = this.parentElement.querySelector('span');
+
+          if (isChecked) {
+            row.setAttribute('data-status', 'active');
+            row.classList.remove('bg-surface-container-low/40');
+            if (labelSpan) {
+              labelSpan.textContent = 'Active';
+              labelSpan.className = 'ml-2 font-label-sm text-label-sm text-tertiary uppercase font-semibold';
+            }
+            showToast('Template activated for automated triggers.');
+          } else {
+            row.setAttribute('data-status', 'disabled');
+            row.classList.add('bg-surface-container-low/40');
+            if (labelSpan) {
+              labelSpan.textContent = 'Disabled';
+              labelSpan.className = 'ml-2 font-label-sm text-label-sm text-secondary uppercase font-semibold';
+            }
+            showToast('Template paused. No automated emails will be dispatched.');
+          }
+        });
+      });
+
+      // Row Selection to update Live Preview
+      rows.forEach(row => {
+        row.addEventListener('click', function() {
+          const subjectEl = this.querySelector('p span.text-secondary + span, p');
+          if (subjectEl && previewSubject) {
+            previewSubject.textContent = subjectEl.textContent.replace('Subj: ', '').trim();
+          }
+          showToast('Updated Live Preview for template.');
+        });
+      });
+
+      // Preview / Test Buttons in table
+      document.querySelectorAll('.action-test').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (modal) modal.classList.remove('hidden');
+        });
+      });
+
+      document.querySelectorAll('.action-preview').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showToast('Preview synchronized with Inspector viewport.');
+        });
+      });
+
+      document.querySelectorAll('.action-edit').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showToast('Opening Visual MJML Template Editor...');
+        });
+      });
+
+      // Modal Controls
+      const openModalBtn = document.getElementById('btn-test-smtp');
+      if (openModalBtn) {
+        openModalBtn.addEventListener('click', () => {
+          if (modal) modal.classList.remove('hidden');
+        });
+      }
+
+      if (modalClose) {
+        modalClose.addEventListener('click', () => modal.classList.add('hidden'));
+      }
+      if (modalCancel) {
+        modalCancel.addEventListener('click', () => modal.classList.add('hidden'));
+      }
+      if (modalConfirm) {
+        modalConfirm.addEventListener('click', () => {
+          modal.classList.add('hidden');
+          showToast('Test email payload queued successfully to SES relay.');
+        });
+      }
+
+      const brandingBtn = document.getElementById('btn-branding');
+      if (brandingBtn) {
+        brandingBtn.addEventListener('click', () => {
+          showToast('Navigating to Master MJML Header & Footer Customizer...');
+        });
+      }
+
+      const createBtn = document.getElementById('btn-create');
+      if (createBtn) {
+        createBtn.addEventListener('click', () => {
+          showToast('Creating new blank custom email trigger...');
+        });
+      }
+
+    })();
+  </script>
+</div></main></div></body></html>

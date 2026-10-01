@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Roles &amp; Access Control | SupportHub Enterprise</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed-variant": "#005049",
+            "surface-container-high": "#dce9ff",
+            "primary-fixed": "#ffdbce",
+            "secondary-fixed-dim": "#bec5e5",
+            "on-tertiary": "#ffffff",
+            "secondary-fixed": "#dbe1ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-dim": "#cbdbf5",
+            "inverse-surface": "#213145",
+            "tertiary-container": "#008378",
+            "tertiary-fixed": "#89f5e7",
+            "surface-tint": "#a73a00",
+            "inverse-primary": "#ffb599",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-fixed": "#00201d",
+            "on-primary": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-secondary-container": "#5a627e",
+            "on-secondary-fixed-variant": "#3e4660",
+            "inverse-on-surface": "#eaf1ff",
+            "tertiary-fixed-dim": "#6bd8cb",
+            "surface-container-highest": "#d3e4fe",
+            "on-secondary-fixed": "#131a33",
+            "surface": "#f8f9ff",
+            "on-primary-container": "#fffbff",
+            "surface-bright": "#f8f9ff",
+            "surface-container": "#e5eeff",
+            "on-background": "#0b1c30",
+            "tertiary": "#00685f",
+            "on-surface": "#0b1c30",
+            "primary": "#a33900",
+            "on-primary-fixed-variant": "#7f2b00",
+            "on-tertiary-container": "#f4fffc",
+            "primary-container": "#cc4900",
+            "on-error": "#ffffff",
+            "error": "#ba1a1a",
+            "outline-variant": "#e2bfb2",
+            "primary-fixed-dim": "#ffb599",
+            "secondary": "#565d79",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#370e00",
+            "surface-variant": "#d3e4fe",
+            "outline": "#8e7166",
+            "on-surface-variant": "#5a4138",
+            "secondary-container": "#d8deff",
+            "background": "#f8f9ff",
+            "on-secondary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-xl": "2rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "margin": "1.5rem",
+            "gutter": "1rem",
+            "space-lg": "1.25rem",
+            "space-md": "0.75rem",
+            "space-sm": "0.5rem",
+            "gutter-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "title-sm": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-lg": ["Hanken Grotesk"],
+            "headline-sm": ["Hanken Grotesk"],
+            "body-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "title-md": ["Inter"],
+            "headline-md": ["Hanken Grotesk"],
+            "headline-lg-mobile": ["Hanken Grotesk"],
+            "code-sm": ["JetBrains Mono"],
+            "display-lg": ["Hanken Grotesk"],
+            "label-md": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "title-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "code-sm": ["12px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- SHARED COMPONENT START: TopNavBar -->
+<div class="relative flex h-auto w-full flex-col bg-[#fcf9f8] group/design-root overflow-x-hidden" style='font-family: "Be Vietnam Pro", "Noto Sans", sans-serif;'>
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f4ebe7] px-10 py-3">
+<div class="flex items-center gap-4 text-[#1c120d]">
+<div class="size-4">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-[#1c120d] text-lg font-bold leading-tight tracking-[-0.015em]">SupportHub Enterprise</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Tickets</a>
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Customers</a>
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Knowledge Base</a>
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Audit Logs</a>
+<a class="text-[#1c120d] text-sm font-medium leading-normal" href="#">Settings</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 px-4 bg-[#ea5a0c] text-[#fcf9f8] text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Security Center</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8Ak0F0rvlLLykisAzBZE6Ae2kt0PJKzLzAk_c2dYJ1xRLbrLOpejauMmdyKfBQHqcnkmgZd3D6MFXcT1FfCyxc0QvsGrf_zhr9Li-lE5epSYOUJdXPkH_YRtQ-dzkO55umEUU6ogjsJXK8cYD2c7a9xReA6IZGU2zmBtncwqEkwsgfR_obeqL0tJQi5buJ1zMpk1YvzkKB9mem3iC8u8-q5tVakmSXG1lnei0uPq4jk25uCk2wg9m");'></div>
+</div>
+</header>
+<div class="flex flex-wrap justify-between gap-3 p-4">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-[#1c120d] text-4xl font-black leading-tight tracking-[-0.033em]">Roles &amp; Access Control</p>
+<p class="text-[#9c6649] text-base font-normal leading-normal">
+                    Configure role-based access control (RBAC), enforce least-privilege security policies, and manage enterprise permission tiers.
+                  </p>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 px-4 bg-[#f4ebe7] text-[#1c120d] text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">+ Create Custom Role</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-4 p-4">
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded p-6 border border-[#e8d7ce]">
+<p class="text-[#1c120d] text-base font-medium leading-normal">Active Roles</p>
+<p class="text-[#1c120d] tracking-light text-2xl font-bold leading-tight">7 Total (5 Default, 2 Custom)</p>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded p-6 border border-[#e8d7ce]">
+<p class="text-[#1c120d] text-base font-medium leading-normal">Total Assigned Users</p>
+<p class="text-[#1c120d] tracking-light text-2xl font-bold leading-tight">248 Users</p>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded p-6 border border-[#e8d7ce]">
+<p class="text-[#1c120d] text-base font-medium leading-normal">Permission Matrix Rules</p>
+<p class="text-[#1c120d] tracking-light text-2xl font-bold leading-tight">56 Privileges / 7 Modules</p>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded p-6 border border-[#e8d7ce]">
+<p class="text-[#1c120d] text-base font-medium leading-normal">Security Audit Policy</p>
+<p class="text-[#1c120d] tracking-light text-2xl font-bold leading-tight">NIST 800-63B Compliant</p>
+</div>
+</div>
+<div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<div class="flex w-full flex-1 items-stretch rounded">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#1c120d] focus:outline-0 focus:ring-0 border border-[#e8d7ce] bg-[#fcf9f8] focus:border-[#e8d7ce] h-14 placeholder:text-[#9c6649] p-[15px] rounded-r-none border-r-0 pr-2 text-base font-normal leading-normal" placeholder="Search roles by title, permission, or scope..." value=""/>
+<div class="text-[#9c6649] flex border border-[#e8d7ce] bg-[#fcf9f8] items-center justify-center pr-[15px] rounded-r border-l-0" data-icon="MagnifyingGlass" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewbox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+</svg>
+</div>
+</div>
+</label>
+</div>
+<div class="flex gap-3 p-3 overflow-x-hidden">
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded bg-[#f4ebe7] pl-4 pr-4">
+<p class="text-[#1c120d] text-sm font-medium leading-normal">All Roles (7)</p>
+</div>
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded bg-[#f4ebe7] pl-4 pr-4">
+<p class="text-[#1c120d] text-sm font-medium leading-normal">System Default (5)</p>
+</div>
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded bg-[#f4ebe7] pl-4 pr-4">
+<p class="text-[#1c120d] text-sm font-medium leading-normal">Custom Enterprise (2)</p>
+</div>
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded bg-[#f4ebe7] pl-4 pr-4">
+<p class="text-[#1c120d] text-sm font-medium leading-normal">Active Only</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SHARED COMPONENT END: TopNavBar -->
+<!-- MAIN ROLES & PERMISSIONS TABLE SECTION -->
+<main class="w-full flex justify-center px-4 md:px-10 lg:px-40 pb-20 pt-2">
+<div class="w-full max-w-[960px] flex flex-col gap-6">
+<!-- Roles Table Container -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+<!-- Table Toolbar -->
+<div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-xl">admin_panel_settings</span>
+<span class="font-headline-sm text-on-surface">Configured Access Tiers</span>
+<span class="ml-2 bg-secondary-container text-on-secondary-container px-2.5 py-0.5 rounded-full text-label-sm font-medium">7 Active Roles</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-body-sm text-secondary">NIST 800-63B Guardrails Enabled</span>
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+</div>
+</div>
+<!-- Role List Cards / Items -->
+<div class="divide-y divide-outline-variant">
+<!-- 1. Administrator -->
+<div class="p-6 transition-colors hover:bg-surface-container-low flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex-1 space-y-2">
+<div class="flex flex-wrap items-center gap-3">
+<h3 class="font-headline-sm text-on-surface font-bold tracking-tight">Administrator</h3>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-label-sm px-2.5 py-0.5 rounded font-semibold uppercase tracking-wider">System Default</span>
+<span class="flex items-center gap-1 bg-surface-container text-secondary text-body-sm px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">group</span> 5 Users assigned
+                </span>
+<span class="flex items-center gap-1 bg-surface-container-high text-on-surface-variant text-label-sm px-2 py-0.5 rounded font-medium">
+<span class="material-symbols-outlined text-sm">lock</span> System Locked
+                </span>
+<span class="bg-error-container text-on-error-container text-label-sm px-2 py-0.5 rounded font-medium">Non-deletable</span>
+</div>
+<p class="text-body-md text-on-surface-variant">
+                Unrestricted master access to all system modules, configurations, data exports, billing, and user credential management.
+              </p>
+<div class="pt-1 flex flex-wrap items-center gap-2 text-body-sm">
+<span class="text-secondary font-medium">Privileges Preview:</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">All 7 modules: Full access (View, Create, Edit, Assign, Escalate, Resolve, Close, Delete)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-start lg:self-center shrink-0">
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">View Matrix</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Duplicate Role</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Manage Users</button>
+</div>
+</div>
+<!-- 2. Department Manager -->
+<div class="p-6 transition-colors hover:bg-surface-container-low flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex-1 space-y-2">
+<div class="flex flex-wrap items-center gap-3">
+<h3 class="font-headline-sm text-on-surface font-bold tracking-tight">Department Manager</h3>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-label-sm px-2.5 py-0.5 rounded font-semibold uppercase tracking-wider">System Default</span>
+<span class="flex items-center gap-1 bg-surface-container text-secondary text-body-sm px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">group</span> 14 Users assigned
+                </span>
+</div>
+<p class="text-body-md text-on-surface-variant">
+                Manages team workload, queue routing, department escalation policies, agent performance reports, and SLA rules.
+              </p>
+<div class="pt-1 flex flex-wrap items-center gap-2 text-body-sm">
+<span class="text-secondary font-medium">Privileges:</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Tickets (All)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Customers (View, Edit)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Users (View, Assign)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Departments (View, Edit)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Reports (All)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Automation (View)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-start lg:self-center shrink-0">
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">View Matrix</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Edit Scope</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Manage Users</button>
+</div>
+</div>
+<!-- 3. Senior Agent -->
+<div class="p-6 transition-colors hover:bg-surface-container-low flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex-1 space-y-2">
+<div class="flex flex-wrap items-center gap-3">
+<h3 class="font-headline-sm text-on-surface font-bold tracking-tight">Senior Agent</h3>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-label-sm px-2.5 py-0.5 rounded font-semibold uppercase tracking-wider">System Default</span>
+<span class="flex items-center gap-1 bg-surface-container text-secondary text-body-sm px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">group</span> 28 Users assigned
+                </span>
+</div>
+<p class="text-body-md text-on-surface-variant">
+                Handles tier-2 escalations, complex technical disputes, ticket resolution, and internal cross-team ticket re-assignments.
+              </p>
+<div class="pt-1 flex flex-wrap items-center gap-2 text-body-sm">
+<span class="text-secondary font-medium">Privileges:</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Tickets (View, Create, Edit, Assign, Escalate, Resolve, Close - No Delete)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Customers (View, Edit)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Reports (View)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-start lg:self-center shrink-0">
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">View Matrix</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Edit</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Manage Users</button>
+</div>
+</div>
+<!-- 4. Agent -->
+<div class="p-6 transition-colors hover:bg-surface-container-low flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex-1 space-y-2">
+<div class="flex flex-wrap items-center gap-3">
+<h3 class="font-headline-sm text-on-surface font-bold tracking-tight">Agent</h3>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-label-sm px-2.5 py-0.5 rounded font-semibold uppercase tracking-wider">System Default</span>
+<span class="flex items-center gap-1 bg-surface-container text-secondary text-body-sm px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">group</span> 58 Users assigned
+                </span>
+</div>
+<p class="text-body-md text-on-surface-variant">
+                Standard customer support tier handling customer conversations, basic escalations, and queue ticket resolution.
+              </p>
+<div class="pt-1 flex flex-wrap items-center gap-2 text-body-sm">
+<span class="text-secondary font-medium">Privileges:</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Tickets (View, Create, Edit, Assign, Resolve, Close)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Customers (View)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-start lg:self-center shrink-0">
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">View Matrix</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Edit</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Manage Users</button>
+</div>
+</div>
+<!-- 5. Customer -->
+<div class="p-6 transition-colors hover:bg-surface-container-low flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex-1 space-y-2">
+<div class="flex flex-wrap items-center gap-3">
+<h3 class="font-headline-sm text-on-surface font-bold tracking-tight">Customer</h3>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-label-sm px-2.5 py-0.5 rounded font-semibold uppercase tracking-wider">System Default</span>
+<span class="flex items-center gap-1 bg-surface-container text-secondary text-body-sm px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">group</span> 142 Users assigned
+                </span>
+</div>
+<p class="text-body-md text-on-surface-variant">
+                External client portal access to submit support tickets, view own organization history, and read knowledge base.
+              </p>
+<div class="pt-1 flex flex-wrap items-center gap-2 text-body-sm">
+<span class="text-secondary font-medium">Privileges:</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Tickets (View Own, Create, Close Own)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Customers (None)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Knowledge Base (View)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-start lg:self-center shrink-0">
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">View Matrix</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Manage Users</button>
+</div>
+</div>
+<!-- 6. VIP Triage Specialist (Custom) -->
+<div class="p-6 transition-colors bg-surface-container-lowest hover:bg-surface-container-low flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-l-4 border-l-primary">
+<div class="flex-1 space-y-2">
+<div class="flex flex-wrap items-center gap-3">
+<h3 class="font-headline-sm text-on-surface font-bold tracking-tight">VIP Triage Specialist</h3>
+<span class="bg-primary-fixed text-on-primary-fixed text-label-sm px-2.5 py-0.5 rounded font-semibold uppercase tracking-wider">Custom Enterprise</span>
+<span class="flex items-center gap-1 bg-surface-container text-secondary text-body-sm px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">group</span> 4 Users assigned
+                </span>
+<span class="text-label-sm text-tertiary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">verified_user</span> SLA Overrides Active
+                </span>
+</div>
+<p class="text-body-md text-on-surface-variant">
+                Tailored role with immediate escalation rights to executive engineering on-call and custom SLA overrides.
+              </p>
+<div class="pt-1 flex flex-wrap items-center gap-2 text-body-sm">
+<span class="text-secondary font-medium">Privileges:</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Escalations (Executive Hotline)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">SLA (Bypass / Override)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Tickets (Priority Queue Admin)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-start lg:self-center shrink-0">
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Edit Role</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Duplicate</button>
+<button class="px-3 py-1.5 border border-error text-error hover:bg-error-container hover:text-on-error-container rounded text-body-sm font-semibold transition-colors flex items-center gap-1" onclick="document.getElementById('guardrailModal').classList.remove('hidden')">
+<span class="material-symbols-outlined text-sm">delete</span> Delete Role
+              </button>
+</div>
+</div>
+<!-- 7. Compliance & Security Auditor (Custom) -->
+<div class="p-6 transition-colors bg-surface-container-lowest hover:bg-surface-container-low flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-l-4 border-l-primary">
+<div class="flex-1 space-y-2">
+<div class="flex flex-wrap items-center gap-3">
+<h3 class="font-headline-sm text-on-surface font-bold tracking-tight">Compliance &amp; Security Auditor</h3>
+<span class="bg-primary-fixed text-on-primary-fixed text-label-sm px-2.5 py-0.5 rounded font-semibold uppercase tracking-wider">Custom Enterprise</span>
+<span class="flex items-center gap-1 bg-surface-container text-secondary text-body-sm px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">group</span> 2 Users assigned
+                </span>
+<span class="text-label-sm text-secondary font-medium">Read-Only Immutable Scope</span>
+</div>
+<p class="text-body-md text-on-surface-variant">
+                Read-only access across all ticket transcripts, audit logs, and reports without modification or customer reply capabilities.
+              </p>
+<div class="pt-1 flex flex-wrap items-center gap-2 text-body-sm">
+<span class="text-secondary font-medium">Privileges:</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Audit Logs (Read All)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Transcripts (Read All)</span>
+<span class="font-code-sm bg-surface text-on-surface border border-outline-variant px-2 py-0.5 rounded text-xs">Export Compliance Reports</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-start lg:self-center shrink-0">
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Edit Role</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface text-body-sm font-semibold transition-colors">Duplicate</button>
+<button class="px-3 py-1.5 border border-error text-error hover:bg-error-container hover:text-on-error-container rounded text-body-sm font-semibold transition-colors flex items-center gap-1" onclick="document.getElementById('guardrailModal').classList.remove('hidden')">
+<span class="material-symbols-outlined text-sm">delete</span> Delete Role
+              </button>
+</div>
+</div>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="flex items-center justify-between px-6 py-4 border-t border-outline-variant bg-surface-container-low text-body-sm text-secondary">
+<div>Showing 7 of 7 enterprise roles</div>
+<div class="flex items-center gap-2">
+<span class="text-xs">Security standard: NIST SP 800-63B</span>
+<span class="material-symbols-outlined text-sm text-tertiary">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- DELETE GUARDRAIL MODAL (Enterprise Safety Mechanism) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all" id="guardrailModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-lg w-full border border-outline-variant shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+<!-- Modal Header -->
+<div class="p-6 border-b border-outline-variant flex items-start gap-4 bg-error-container/30">
+<div class="size-10 rounded-full bg-error-container flex items-center justify-center text-error shrink-0">
+<span class="material-symbols-outlined text-2xl">warning</span>
+</div>
+<div class="flex-1">
+<h4 class="font-headline-sm text-on-surface font-bold">Action Prohibited: Role In Use</h4>
+<p class="text-body-sm text-on-surface-variant mt-1">Enterprise Least-Privilege Protection Policy</p>
+</div>
+<button class="text-secondary hover:text-on-surface" onclick="document.getElementById('guardrailModal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="p-6 space-y-4">
+<div class="p-4 bg-surface-container-low border border-outline-variant rounded-lg space-y-2">
+<p class="font-title-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-lg">shield_lock</span>
+            Cannot delete role while 4 users are assigned.
+          </p>
+<p class="text-body-md text-on-surface-variant">
+            Please reassign users before deleting. Under SOC-2 and NIST 800-63B guidelines, roles mapped to active agents cannot be decommissioned without an audit-safe fallback reassignment.
+          </p>
+</div>
+<div class="space-y-2">
+<label class="text-label-md text-on-surface font-medium block">Currently assigned members in "VIP Triage Specialist":</label>
+<div class="divide-y divide-outline-variant border border-outline-variant rounded bg-surface">
+<div class="p-2.5 flex items-center justify-between text-body-sm">
+<span class="font-medium text-on-surface">Elena Rostova</span>
+<span class="text-secondary text-xs">elena.r@enterprise.supporthub.internal</span>
+</div>
+<div class="p-2.5 flex items-center justify-between text-body-sm">
+<span class="font-medium text-on-surface">Marcus Vance</span>
+<span class="text-secondary text-xs">m.vance@enterprise.supporthub.internal</span>
+</div>
+<div class="p-2.5 flex items-center justify-between text-body-sm">
+<span class="font-medium text-on-surface">Sarah Lin</span>
+<span class="text-secondary text-xs">s.lin@enterprise.supporthub.internal</span>
+</div>
+<div class="p-2.5 flex items-center justify-between text-body-sm">
+<span class="font-medium text-on-surface">David Chen</span>
+<span class="text-secondary text-xs">d.chen@enterprise.supporthub.internal</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Actions -->
+<div class="p-4 bg-surface-container-low border-t border-outline-variant flex items-center justify-end gap-3">
+<button class="px-4 py-2 rounded text-body-sm font-semibold border border-outline text-on-surface hover:bg-surface-container transition-colors" onclick="document.getElementById('guardrailModal').classList.add('hidden')">
+          Dismiss
+        </button>
+<button class="px-4 py-2 rounded text-body-sm font-semibold bg-primary text-on-primary hover:bg-primary-container transition-colors flex items-center gap-1.5" onclick="document.getElementById('guardrailModal').classList.add('hidden')">
+<span class="material-symbols-outlined text-sm">switch_account</span>
+          Reassign 4 Users Now
+        </button>
+</div>
+</div>
+</div>
+</body></html>

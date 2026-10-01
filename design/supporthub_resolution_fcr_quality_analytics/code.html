@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-primary-container":"#fffbff","outline-variant":"#e2bfb2","secondary-fixed-dim":"#bec5e5","background":"#f8f9ff","on-tertiary-fixed-variant":"#005049","tertiary-container":"#008378","surface-container-highest":"#d3e4fe","outline":"#8e7166","error":"#ba1a1a","primary":"#a33900","secondary-container":"#d8deff","on-primary-fixed-variant":"#7f2b00","surface-dim":"#cbdbf5","tertiary-fixed-dim":"#6bd8cb","secondary":"#565d79","on-surface":"#0b1c30","on-secondary-fixed":"#131a33","primary-fixed-dim":"#ffb599","primary-fixed":"#ffdbce","surface":"#f8f9ff","on-tertiary":"#ffffff","on-surface-variant":"#5a4138","on-secondary-fixed-variant":"#3e4660","inverse-on-surface":"#eaf1ff","on-secondary-container":"#5a627e","surface-variant":"#d3e4fe","surface-container-high":"#dce9ff","surface-bright":"#f8f9ff","inverse-primary":"#ffb599","surface-container":"#e5eeff","on-error":"#ffffff","error-container":"#ffdad6","surface-tint":"#a73a00","surface-container-lowest":"#ffffff","on-primary-fixed":"#370e00","tertiary":"#00685f","tertiary-fixed":"#89f5e7","primary-container":"#cc4900","secondary-fixed":"#dbe1ff","on-tertiary-fixed":"#00201d","on-background":"#0b1c30","on-tertiary-container":"#f4fffc","surface-container-low":"#eff4ff","inverse-surface":"#213145","on-primary":"#ffffff","on-secondary":"#ffffff","on-error-container":"#93000a"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"gutter-lg":"1.5rem","space-xs":"0.25rem","space-lg":"1.25rem","margin-mobile":"1rem","margin":"1.5rem","space-sm":"0.5rem","space-xl":"2rem","gutter":"1rem","space-md":"0.75rem"},"fontFamily":{"code-sm":["JetBrains Mono"],"headline-lg":["Hanken Grotesk"],"headline-md":["Hanken Grotesk"],"title-md":["Inter"],"headline-lg-mobile":["Hanken Grotesk"],"body-sm":["Inter"],"label-sm":["Inter"],"label-md":["Inter"],"display-lg":["Hanken Grotesk"],"headline-sm":["Hanken Grotesk"],"body-lg":["Inter"],"title-sm":["Inter"],"body-md":["Inter"]},"fontSize":{"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-xl z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-gutter"><img alt="Brand logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">SupportHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Enterprise Ops</span></div></div><div class="flex-1 max-w-xl mx-space-xl hidden md:flex items-center"><div class="w-full relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-secondary text-title-md pointer-events-none">search</span><input class="w-full h-9 pl-10 pr-14 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-secondary font-body-md text-body-md shadow-[0_1px_4px_rgba(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Search configurations, queues, tickets, or incident IDs..." type="search"/><div class="absolute right-space-sm flex items-center gap-space-xs pointer-events-none"><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">⌘</kbd><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">K</kbd></div></div></div><div class="flex items-center gap-gutter"><div class="hidden sm:flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Systems Live</span></div><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">notifications</span></button><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">help</span></button><div class="flex items-center gap-space-md pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="hidden lg:flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Administrator</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low z-40 overflow-y-auto pb-space-xl flex flex-col shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><nav class="flex-1 px-space-md py-space-lg space-y-space-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workspace</div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="tickets" href="#">Tickets</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="my-tickets" href="#">My Tickets</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customers" href="#">Customers</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="departments" href="#">Departments</a><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-secondary">bar_chart</span><span>Reports &amp; Analytics</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="reports-analytics-dashboard" href="#">Overview &amp; Telemetry</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="department-performance" href="#">Department Performance</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="agent-performance-scorecard" href="#">Agent Performance Scorecard</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="sla-compliance-breach-analysis" href="#">SLA Compliance &amp; Breaches</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="escalation-incident-velocity" href="#">Escalation &amp; Velocity</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="resolution-fcr-quality" href="#">Resolution &amp; FCR Quality</a></div></div></div><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Governance &amp; Settings</div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="users" href="#">Users</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="roles-permissions" href="#">Roles &amp; Permissions</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="automation" href="#">Automation</a><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-secondary">timer</span><span>SLA Management</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="sla-policies-directory" href="#">Policies Directory</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="sla-rule-builder" href="#">Rule Builder / Editor</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="sla-policy-details" href="#">Policy Details &amp; Ledger</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="sla-assignment-rules" href="#">Target Routing Rules</a></div></div><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-primary">mail</span><span>Notifications &amp; Email</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="email-templates" href="#">Email Templates</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="notification-matrix-settings" href="#">Notification Matrix / Settings</a></div></div><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-secondary">tune</span><span>Ticket Configuration</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-numbering" href="#">Ticket Numbering</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="statuses-priorities" href="#">Statuses &amp; Priorities</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="categories-taxonomies" href="#">Categories &amp; Taxonomies</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-settings" href="#">Settings</a></div></div></div></nav></aside><div class="pl-64"><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- Command Header & Breadcrumb Strip -->
+<div class="px-margin pt-space-lg pb-space-md flex flex-col gap-space-sm bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-xs text-secondary font-label-md text-label-md">
+<span class="hover:text-primary cursor-pointer transition-colors">Reports &amp; Analytics</span>
+<span class="material-symbols-outlined text-code-sm">chevron_right</span>
+<span class="text-on-surface font-semibold">Resolution Quality &amp; FCR</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-semibold tracking-wider uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-ping"></span>
+          Telemetry Verified • ISO 9001 QA Standard
+        </span>
+<span class="text-secondary font-code-sm text-code-sm px-space-xs">ID: REV-2026-Q4</span>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md mt-space-xs">
+<div class="max-w-3xl">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight flex items-center gap-space-sm">
+          Resolution &amp; First Contact Quality Analytics
+          <span class="material-symbols-outlined text-primary text-headline-md" style="font-variation-settings: 'FILL' 1;">verified</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+          Comprehensive evaluation of resolution times (MTTR), First Contact Resolution (FCR), customer satisfaction (CSAT), reopen rates, and agent resolution efficacy across all inbound enterprise channels.
+        </p>
+</div>
+<!-- Export & Share Actions -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<button class="flex items-center gap-space-xs px-space-md py-space-sm bg-surface-container-lowest text-on-surface rounded-lg shadow-sm hover:bg-surface-container hover:text-primary transition-all font-label-md text-label-md" id="btn-export-pdf">
+<span class="material-symbols-outlined text-title-sm text-primary">picture_as_pdf</span>
+          Export Report (PDF)
+        </button>
+<button class="flex items-center gap-space-xs px-space-md py-space-sm bg-surface-container-lowest text-on-surface rounded-lg shadow-sm hover:bg-surface-container transition-all font-label-md text-label-md" id="btn-export-csv">
+<span class="material-symbols-outlined text-title-sm text-secondary">download</span>
+          Raw Survey CSV
+        </button>
+<button class="flex items-center gap-space-xs px-space-md py-space-sm bg-primary text-on-primary rounded-lg shadow-sm hover:bg-primary-container transition-all font-label-md text-label-md">
+<span class="material-symbols-outlined text-title-sm">share</span>
+          Share Digest
+        </button>
+</div>
+</div>
+<!-- Multi-tiered Filtering Dock -->
+<div class="mt-space-md p-space-sm bg-surface-container-lowest rounded-xl shadow-sm flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<!-- Date Range Pill -->
+<div class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md cursor-pointer hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-title-sm text-primary">calendar_today</span>
+<span>Last 30 Days (Oct 1 - Oct 31, 2026)</span>
+<span class="material-symbols-outlined text-code-sm text-secondary">expand_more</span>
+</div>
+<!-- Channels Dropdown Selector -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px- space-md py-1.5 pl-space-md pr-8 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>All Channels (5 Active)</option>
+<option>Web Portal</option>
+<option>Email Inbound</option>
+<option>API Webhook</option>
+<option>VIP Phone Support</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-code-sm text-secondary">expand_more</span>
+</div>
+<!-- Department Dropdown Selector -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px-space-md py-1.5 pl-space-md pr-8 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>All Departments</option>
+<option>Technical Support</option>
+<option>Tier 3 Core Infrastructure</option>
+<option>Billing &amp; Subscriptions</option>
+<option>Customer Success</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-code-sm text-secondary">expand_more</span>
+</div>
+<!-- Category Dropdown Selector -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-label-md text-label-md px-space-md py-1.5 pl-space-md pr-8 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>All Taxonomies</option>
+<option>SSO &amp; Authentication</option>
+<option>Data Sync Engine</option>
+<option>Billing Invoicing</option>
+<option>Webhooks &amp; Ingestion</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-code-sm text-secondary">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm text-secondary font-label-sm text-label-sm">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary"></span> 14,820 Samples Analyzed</span>
+<span>•</span>
+<button class="text-primary hover:underline font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-label-sm">refresh</span> Reset Filters
+        </button>
+</div>
+</div>
+</div>
+<!-- Primary Metric Highlights (KPI Cards with Sparklines & Tonal Depth) -->
+<div class="px-margin py-space-lg">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-gutter">
+<!-- Metric 1: FCR -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">First Contact Resolution</span>
+<span class="material-symbols-outlined text-tertiary text-title-md">task_alt</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-on-surface leading-none font-bold">78.4%</span>
+<span class="font-label-md text-label-md text-tertiary font-bold flex items-center">
+<span class="material-symbols-outlined text-label-sm">arrow_upward</span>+3.2%
+            </span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm mt-1">
+<span>Target: 75.0%</span>
+<span>•</span>
+<span class="text-tertiary font-semibold">Top Decile</span>
+</div>
+</div>
+<!-- Progress bar visualization -->
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-tertiary h-1.5 rounded-full" style="width: 78.4%"></div>
+</div>
+</div>
+<!-- Metric 2: MTTR -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Mean Time to Resolve</span>
+<span class="material-symbols-outlined text-primary text-title-md">schedule</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-on-surface leading-none font-bold">2h 45m</span>
+<span class="font-label-md text-label-md text-tertiary font-bold flex items-center">
+<span class="material-symbols-outlined text-label-sm">arrow_downward</span>-18m
+            </span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm mt-1">
+<span>Target: &lt; 4h</span>
+<span>•</span>
+<span class="text-tertiary font-semibold">31% under SLA</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 68.75%"></div>
+</div>
+</div>
+<!-- Metric 3: Reopen Rate -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Ticket Reopen Rate</span>
+<span class="material-symbols-outlined text-on-surface-variant text-title-md">sync_problem</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-on-surface leading-none font-bold">2.84%</span>
+<span class="font-label-md text-label-md text-tertiary font-bold flex items-center">
+<span class="material-symbols-outlined text-label-sm">arrow_downward</span>-0.4%
+            </span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm mt-1">
+<span>Goal: &lt; 5.0%</span>
+<span>•</span>
+<span>420 / 14.8k tickets</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-tertiary h-1.5 rounded-full" style="width: 28.4%"></div>
+</div>
+</div>
+<!-- Metric 4: CSAT Score -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Overall CSAT Score</span>
+<span class="material-symbols-outlined text-primary text-title-md" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-on-surface leading-none font-bold">4.86</span>
+<span class="font-label-md text-label-md text-secondary">/ 5.0</span>
+<span class="font-label-md text-label-md text-tertiary font-bold ml-1">+0.09</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm mt-1">
+<span>6,420 surveys</span>
+<span>•</span>
+<span class="text-primary font-semibold">94.2% 5-Star</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 97.2%"></div>
+</div>
+</div>
+<!-- Metric 5: NPS -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Net Promoter (NPS)</span>
+<span class="material-symbols-outlined text-tertiary text-title-md">sentiment_very_satisfied</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-on-surface leading-none font-bold">+68</span>
+<span class="font-label-md text-label-md text-tertiary font-bold ml-1">+5 pts</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm mt-1">
+<span class="text-tertiary font-semibold">World-Class Tier</span>
+<span>•</span>
+<span>81% Promoters</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-tertiary h-1.5 rounded-full" style="width: 84%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Deep Analytical Visualizations Bento Grid -->
+<div class="px-margin pb-space-lg">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Chart 1: Resolution Time Distribution (MTTR Curves) - 7 cols -->
+<div class="lg:col-span-7 bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between flex-wrap gap-space-sm mb-space-md">
+<div>
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Resolution Duration Distribution (MTTR)</h2>
+<span class="material-symbols-outlined text-secondary text-title-sm cursor-pointer" title="Distribution of all closed tickets bucketed by resolution duration">info</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Proportion of ticket volume resolving within predefined time windows</p>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-low p-1 rounded-lg">
+<button class="px-space-sm py-0.5 rounded font-label-sm text-label-sm bg-surface-container-lowest text-on-surface shadow-xs font-semibold">Volume</button>
+<button class="px-space-sm py-0.5 rounded font-label-sm text-label-sm text-secondary hover:text-on-surface">Cumulative %</button>
+</div>
+</div>
+<!-- Custom SVG MTTR Histogram with Gradient Shading -->
+<div class="w-full relative">
+<svg class="w-full h-auto overflow-visible" preserveaspectratio="none" viewbox="0 0 700 240">
+<defs>
+<lineargradient id="mttrGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#cc4900" stop-opacity="0.35"></stop>
+<stop offset="100%" stop-color="#cc4900" stop-opacity="0.01"></stop>
+</lineargradient>
+<lineargradient id="fastTrackGradient" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0%" stop-color="#00685f"></stop>
+<stop offset="100%" stop-color="#008378"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Lines -->
+<line stroke="#eff4ff" stroke-dasharray="4 4" stroke-width="1.5" x1="40" x2="680" y1="20" y2="20"></line>
+<line stroke="#eff4ff" stroke-dasharray="4 4" stroke-width="1.5" x1="40" x2="680" y1="70" y2="70"></line>
+<line stroke="#eff4ff" stroke-dasharray="4 4" stroke-width="1.5" x1="40" x2="680" y1="120" y2="120"></line>
+<line stroke="#eff4ff" stroke-dasharray="4 4" stroke-width="1.5" x1="40" x2="680" y1="170" y2="170"></line>
+<line stroke="#d3e4fe" stroke-width="1.5" x1="40" x2="680" y1="200" y2="200"></line>
+<!-- Area Path for MTTR Curve -->
+<path d="M 60 200 
+                     C 100 180, 110 90, 140 90 
+                     C 180 90, 220 30, 260 30 
+                     C 320 30, 360 48, 410 48 
+                     C 470 48, 520 140, 560 140 
+                     C 600 140, 640 185, 660 185 
+                     L 660 200 Z" fill="url(#mttrGradient)"></path>
+<!-- Main Stroke Curve -->
+<path d="M 60 200 
+                     C 100 180, 110 90, 140 90 
+                     C 180 90, 220 30, 260 30 
+                     C 320 30, 360 48, 410 48 
+                     C 470 48, 520 140, 560 140 
+                     C 600 140, 640 185, 660 185" fill="none" stroke="#cc4900" stroke-linecap="round" stroke-width="3"></path>
+<!-- Threshold Target Line (4h Target) -->
+<line stroke="#ba1a1a" stroke-dasharray="3 3" stroke-width="1.5" x1="410" x2="410" y1="10" y2="200"></line>
+<text fill="#ba1a1a" font-family="Inter" font-size="10" font-weight="600" x="415" y="24">4h SLA Limit</text>
+<!-- Key Histogram Point Markers -->
+<!-- <15m -->
+<circle cx="140" cy="90" fill="#00685f" r="5"></circle>
+<text fill="#0b1c30" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle" x="140" y="75">18% (2,668)</text>
+<!-- 15m - 1h -->
+<circle cx="260" cy="30" fill="#cc4900" r="6"></circle>
+<text fill="#cc4900" font-family="Inter" font-size="12" font-weight="700" text-anchor="middle" x="260" y="16">36% (5,335)</text>
+<!-- 1h - 4h -->
+<circle cx="410" cy="48" fill="#cc4900" r="5"></circle>
+<text fill="#0b1c30" font-family="Inter" font-size="11" font-weight="700" x="425" y="65">32% (4,742)</text>
+<!-- 4h - 24h -->
+<circle cx="560" cy="140" fill="#565d79" r="4"></circle>
+<text fill="#565d79" font-family="Inter" font-size="10" text-anchor="middle" x="560" y="130">11% (1,630)</text>
+<!-- > 24h -->
+<circle cx="660" cy="185" fill="#ba1a1a" r="4"></circle>
+<text fill="#ba1a1a" font-family="Inter" font-size="10" font-weight="600" text-anchor="middle" x="650" y="175">3% (445)</text>
+<!-- X Axis Labels -->
+<text fill="#565d79" font-family="Inter" font-size="11" text-anchor="middle" x="140" y="220">&lt; 15 mins</text>
+<text fill="#565d79" font-family="Inter" font-size="11" text-anchor="middle" x="260" y="220">15m – 1 hour</text>
+<text fill="#565d79" font-family="Inter" font-size="11" text-anchor="middle" x="410" y="220">1h – 4 hours</text>
+<text fill="#565d79" font-family="Inter" font-size="11" text-anchor="middle" x="560" y="220">4h – 24 hours</text>
+<text fill="#565d79" font-family="Inter" font-size="11" text-anchor="middle" x="660" y="220">&gt; 24 hours</text>
+</svg>
+</div>
+<!-- MTTR Summary Bar Highlights -->
+<div class="grid grid-cols-3 gap-space-sm pt-space-md border-t-0">
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Rapid FCR Zone (&lt;1h)</span>
+<span class="font-title-md text-title-md text-tertiary font-bold mt-0.5">54.0% of Total</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Resolved in first interaction</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Standard SLA (1h–4h)</span>
+<span class="font-title-md text-title-md text-on-surface font-bold mt-0.5">32.0% of Total</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Meets contractual SLO</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Escalated / Extended</span>
+<span class="font-title-md text-title-md text-error font-bold mt-0.5">14.0% of Total</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cross-team engineering queue</span>
+</div>
+</div>
+</div>
+<!-- Chart 2: Root Cause Reopen Analysis - 5 cols -->
+<div class="lg:col-span-5 bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Ticket Reopen Root Causes</h2>
+<p class="font-body-sm text-body-sm text-secondary">Breakdown of 420 reopened tickets (2.84% aggregate rate)</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-title-sm cursor-pointer">help_outline</span>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-space-lg py-space-sm">
+<!-- Donut Graphic SVG -->
+<div class="relative w-44 h-44 flex items-center justify-center shrink-0">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+<!-- Customer follow up: 58% (dasharray ~182.2) -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#cc4900" stroke-dasharray="145.8 251.3" stroke-dashoffset="0" stroke-width="12"></circle>
+<!-- Fix incomplete: 24% (dasharray ~60.3) -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#565d79" stroke-dasharray="60.3 251.3" stroke-dashoffset="-145.8" stroke-width="12"></circle>
+<!-- Issue recurred: 12% (dasharray ~30.1) -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#008378" stroke-dasharray="30.1 251.3" stroke-dashoffset="-206.1" stroke-width="12"></circle>
+<!-- Erroneous auto-closure: 6% (dasharray ~15.1) -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="#ba1a1a" stroke-dasharray="15.1 251.3" stroke-dashoffset="-236.2" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">420</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Reopens</span>
+</div>
+</div>
+<!-- Donut Legend & Proportions -->
+<div class="flex flex-col gap-space-xs w-full max-w-xs">
+<div class="flex items-center justify-between p-space-xs rounded hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-xs bg-primary-container shrink-0"></span>
+<span class="font-body-sm text-body-sm text-on-surface">Customer Follow-up Query</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">58% <span class="text-secondary font-normal">(244)</span></span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-xs bg-secondary shrink-0"></span>
+<span class="font-body-sm text-body-sm text-on-surface">Original Fix Incomplete</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">24% <span class="text-secondary font-normal">(101)</span></span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-xs bg-tertiary-container shrink-0"></span>
+<span class="font-body-sm text-body-sm text-on-surface">Bug / Issue Recurred</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">12% <span class="text-secondary font-normal">(50)</span></span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-xs bg-error shrink-0"></span>
+<span class="font-body-sm text-body-sm text-on-surface">Erroneous Auto-Close</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">6% <span class="text-secondary font-normal">(25)</span></span>
+</div>
+</div>
+</div>
+<div class="mt-space-sm p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-primary text-title-sm">lightbulb</span>
+<span>Preventative Action: 82% of customer follow-ups resolve within 1 response.</span>
+</div>
+<a class="font-label-md text-label-md text-primary font-semibold hover:underline" href="#">View Ledger</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Chart 3: Correlation Scatter Plot: FCR vs CSAT & Response Efficiency -->
+<div class="px-margin pb-space-lg">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm mb-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">FCR vs CSAT Correlation by Department &amp; Pod</h2>
+<p class="font-body-sm text-body-sm text-secondary">Illustrates direct correlation between high first contact resolution rates and enterprise customer satisfaction index</p>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-secondary">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span> High Performers (&gt;4.8 CSAT)
+          </div>
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-secondary">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span> Core Enterprise Pods
+          </div>
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-secondary">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span> Attention Required
+          </div>
+</div>
+</div>
+<!-- Scatter Plot Canvas / SVG -->
+<div class="w-full relative h-72">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 1000 280">
+<!-- Background Grid -->
+<line stroke="#eff4ff" stroke-width="1.5" x1="60" x2="980" y1="20" y2="20"></line>
+<line stroke="#eff4ff" stroke-dasharray="3 3" stroke-width="1.5" x1="60" x2="980" y1="80" y2="80"></line>
+<line stroke="#eff4ff" stroke-dasharray="3 3" stroke-width="1.5" x1="60" x2="980" y1="140" y2="140"></line>
+<line stroke="#eff4ff" stroke-dasharray="3 3" stroke-width="1.5" x1="60" x2="980" y1="200" y2="200"></line>
+<line stroke="#d3e4fe" stroke-width="2" x1="60" x2="980" y1="250" y2="250"></line>
+<!-- Vertical Guides (FCR axis) -->
+<line stroke="#d3e4fe" stroke-width="2" x1="60" x2="60" y1="20" y2="250"></line>
+<line stroke="#eff4ff" stroke-dasharray="3 3" stroke-width="1.5" x1="290" x2="290" y1="20" y2="250"></line>
+<line stroke="#eff4ff" stroke-dasharray="3 3" stroke-width="1.5" x1="520" x2="520" y1="20" y2="250"></line>
+<line stroke="#eff4ff" stroke-dasharray="3 3" stroke-width="1.5" x1="750" x2="750" y1="20" y2="250"></line>
+<line stroke="#eff4ff" stroke-dasharray="3 3" stroke-width="1.5" x1="980" x2="980" y1="20" y2="250"></line>
+<!-- Trendline (Positive Correlation) -->
+<line opacity="0.4" stroke="#cc4900" stroke-dasharray="5 5" stroke-width="2" x1="120" x2="920" y1="220" y2="40"></line>
+<!-- Scatter Dots (Teams / Pods) with hover pulse -->
+<!-- VIP High-Touch Support: FCR 88%, CSAT 4.95 -->
+<g class="cursor-pointer group">
+<circle class="group-hover:scale-125 transition-transform" cx="880" cy="45" fill="#00685f" fill-opacity="0.2" r="14"></circle>
+<circle cx="880" cy="45" fill="#00685f" r="7"></circle>
+<text fill="#0b1c30" font-family="Inter" font-size="11" font-weight="700" x="895" y="42">VIP Phone &amp; Esc</text>
+<text fill="#565d79" font-family="Inter" font-size="10" x="895" y="55">FCR: 89.2% • CSAT: 4.96</text>
+</g>
+<!-- Billing & Account Lifecycle: FCR 84%, CSAT 4.88 -->
+<g class="cursor-pointer group">
+<circle cx="810" cy="70" fill="#00685f" fill-opacity="0.2" r="12"></circle>
+<circle cx="810" cy="70" fill="#00685f" r="6"></circle>
+<text fill="#0b1c30" font-family="Inter" font-size="11" font-weight="700" text-anchor="end" x="740" y="65">Billing Lifecycle</text>
+<text fill="#565d79" font-family="Inter" font-size="10" text-anchor="end" x="740" y="78">FCR: 83.5% • CSAT: 4.88</text>
+</g>
+<!-- Tier 1 General Tech: FCR 76%, CSAT 4.78 -->
+<g class="cursor-pointer group">
+<circle cx="680" cy="110" fill="#cc4900" fill-opacity="0.2" r="18"></circle>
+<circle cx="680" cy="110" fill="#cc4900" r="8"></circle>
+<text fill="#0b1c30" font-family="Inter" font-size="11" font-weight="700" x="695" y="108">Tier 1 General Frontline</text>
+<text fill="#565d79" font-family="Inter" font-size="10" x="695" y="121">FCR: 76.1% • CSAT: 4.79 (High Vol)</text>
+</g>
+<!-- API & Webhook Engineers: FCR 72%, CSAT 4.71 -->
+<g class="cursor-pointer group">
+<circle cx="560" cy="135" fill="#cc4900" fill-opacity="0.2" r="10"></circle>
+<circle cx="560" cy="135" fill="#cc4900" r="5.5"></circle>
+<text fill="#0b1c30" font-family="Inter" font-size="11" font-weight="700" x="575" y="132">Developer Integrations</text>
+<text fill="#565d79" font-family="Inter" font-size="10" x="575" y="145">FCR: 72.8% • CSAT: 4.72</text>
+</g>
+<!-- SSO & Identity Specialization: FCR 66%, CSAT 4.62 -->
+<g class="cursor-pointer group">
+<circle cx="430" cy="165" fill="#cc4900" fill-opacity="0.2" r="10"></circle>
+<circle cx="430" cy="165" fill="#cc4900" r="5.5"></circle>
+<text fill="#0b1c30" font-family="Inter" font-size="11" font-weight="700" x="445" y="162">Enterprise SSO Squad</text>
+<text fill="#565d79" font-family="Inter" font-size="10" x="445" y="175">FCR: 66.4% • CSAT: 4.63</text>
+</g>
+<!-- Legacy Data Migration Squad: FCR 54%, CSAT 4.38 -->
+<g class="cursor-pointer group">
+<circle cx="210" cy="215" fill="#ba1a1a" fill-opacity="0.2" r="14"></circle>
+<circle cx="210" cy="215" fill="#ba1a1a" r="7"></circle>
+<text fill="#ba1a1a" font-family="Inter" font-size="11" font-weight="700" x="230" y="212">Legacy Migration Pod</text>
+<text fill="#565d79" font-family="Inter" font-size="10" x="230" y="225">FCR: 54.1% • CSAT: 4.38 (Needs Triage)</text>
+</g>
+<!-- Axis Legends -->
+<text fill="#565d79" font-family="Inter" font-size="10" x="60" y="270">40% FCR</text>
+<text fill="#565d79" font-family="Inter" font-size="10" x="290" y="270">55% FCR</text>
+<text fill="#565d79" font-family="Inter" font-size="10" x="520" y="270">70% FCR</text>
+<text fill="#565d79" font-family="Inter" font-size="10" x="750" y="270">85% FCR</text>
+<text fill="#565d79" font-family="Inter" font-size="10" x="960" y="270">100% FCR</text>
+<text fill="#565d79" font-family="Inter" font-size="10" text-anchor="middle" x="25" y="25">5.0</text>
+<text fill="#565d79" font-family="Inter" font-size="10" text-anchor="middle" x="25" y="85">4.8</text>
+<text fill="#565d79" font-family="Inter" font-size="10" text-anchor="middle" x="25" y="145">4.6</text>
+<text fill="#565d79" font-family="Inter" font-size="10" text-anchor="middle" x="25" y="205">4.4</text>
+<text fill="#565d79" font-family="Inter" font-size="10" text-anchor="middle" x="25" y="255">4.2</text>
+</svg>
+</div>
+<div class="mt-space-sm pt-space-sm flex items-center justify-between text-secondary font-label-sm text-label-sm border-t-0">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-title-sm">insights</span>
+          Statistical Pearson's r = +0.87 (Very Strong Direct Correlation between First Contact Resolution and High CSAT)
+        </span>
+<span class="hidden sm:inline">Confidence Level: 99.4% (p &lt; 0.001)</span>
+</div>
+</div>
+</div>
+<!-- Resolution Category Matrix & Taxonomy Quality Ledger -->
+<div class="px-margin pb-space-lg">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="p-space-lg flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Resolution Category Taxonomy Matrix</h2>
+<p class="font-body-sm text-body-sm text-secondary">Cross-sectional analysis of 10 primary ticket categories ranked by volume, MTTR efficiency, and post-resolution satisfaction</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-secondary text-title-sm">filter_list</span>
+<input class="pl-8 pr-3 py-1 bg-surface-container-low text-on-surface text-body-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary w-48" placeholder="Search category..." type="text"/>
+</div>
+<button class="px-space-md py-1.5 bg-surface-container-low text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-container transition-colors">Columns</button>
+</div>
+</div>
+<!-- High-density Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-space-sm px-space-md">Category Taxonomy</th>
+<th class="py-space-sm px-space-md">30D Ticket Vol</th>
+<th class="py-space-sm px-space-md">FCR Rate</th>
+<th class="py-space-sm px-space-md">MTTR Duration</th>
+<th class="py-space-sm px-space-md">Reopen Rate</th>
+<th class="py-space-sm px-space-md">CSAT Average</th>
+<th class="py-space-sm px-space-md">SLA Compliance</th>
+<th class="py-space-sm px-space-md text-right">Efficacy Health</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-body-md text-body-md text-on-surface font-body-md">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-title-sm">key</span>
+</span>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface">SSO, SAML &amp; Okta Auth</div>
+<div class="font-body-sm text-body-sm text-secondary">SecOps • Identity Service</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-semibold">3,240 <span class="font-normal text-secondary text-body-sm">(21.8%)</span></td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-bold text-tertiary">84.2%</span>
+<span class="material-symbols-outlined text-tertiary text-code-sm">trending_up</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm">1h 14m</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex px-space-xs py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-semibold">1.4%</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1 font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-body-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                  4.92
+                </div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="text-tertiary font-bold">99.1%</span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-tertiary/10 text-tertiary font-label-sm text-label-sm font-bold uppercase">Optimal</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-secondary-container/50 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-title-sm">sync_alt</span>
+</span>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface">Data Sync Engine &amp; Webhooks</div>
+<div class="font-body-sm text-body-sm text-secondary">Backend Integrations</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-semibold">2,890 <span class="font-normal text-secondary text-body-sm">(19.5%)</span></td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-bold text-on-surface">74.6%</span>
+<span class="material-symbols-outlined text-secondary text-code-sm">remove</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm">3h 05m</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex px-space-xs py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-semibold">3.1%</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1 font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-body-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                  4.81
+                </div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="text-tertiary font-bold">96.8%</span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-tertiary/10 text-tertiary font-label-sm text-label-sm font-bold uppercase">Optimal</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-title-sm">receipt_long</span>
+</span>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface">Enterprise Invoicing &amp; VAT</div>
+<div class="font-body-sm text-body-sm text-secondary">Finance &amp; Subscription</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-semibold">2,110 <span class="font-normal text-secondary text-body-sm">(14.2%)</span></td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-bold text-tertiary">91.8%</span>
+<span class="material-symbols-outlined text-tertiary text-code-sm">trending_up</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm">52m</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex px-space-xs py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-semibold">0.9%</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1 font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-body-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                  4.95
+                </div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="text-tertiary font-bold">99.8%</span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-tertiary/10 text-tertiary font-label-sm text-label-sm font-bold uppercase">Optimal</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-title-sm">api</span>
+</span>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface">REST API Rate Limiting &amp; 429s</div>
+<div class="font-body-sm text-body-sm text-secondary">Developer Platform</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-semibold">1,780 <span class="font-normal text-secondary text-body-sm">(12.0%)</span></td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-bold text-on-surface">71.2%</span>
+<span class="material-symbols-outlined text-secondary text-code-sm">trending_flat</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm">3h 48m</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex px-space-xs py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-semibold">4.2%</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1 font-bold text-on-surface">
+<span class="material-symbols-outlined text-primary text-body-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                  4.74
+                </div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="text-tertiary font-bold">95.1%</span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-secondary-container/50 text-secondary font-label-sm text-label-sm font-bold uppercase">Nominal</span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/70 transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-error-container text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-title-sm">database</span>
+</span>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface">Legacy DB Migrations &amp; Schemas</div>
+<div class="font-body-sm text-body-sm text-secondary">Data Operations</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-semibold">890 <span class="font-normal text-secondary text-body-sm">(6.0%)</span></td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-bold text-error">54.1%</span>
+<span class="material-symbols-outlined text-error text-code-sm">trending_down</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-code-sm text-code-sm text-error font-semibold">6h 18m</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex px-space-xs py-0.5 rounded-full bg-error-container text-error font-label-sm text-label-sm font-semibold">8.3%</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1 font-bold text-error">
+<span class="material-symbols-outlined text-error text-body-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                  4.38
+                </div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="text-error font-bold">88.4%</span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded bg-error-container text-error font-label-sm text-label-sm font-bold uppercase">Needs Review</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Ledger Footer -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between flex-wrap gap-space-sm text-secondary font-label-md text-label-md">
+<span>Displaying Top 5 of 10 Taxonomies (Representing 73.5% of Ticket Mass)</span>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface shadow-xs disabled:opacity-50">Prev</button>
+<span class="px-space-sm text-on-surface font-semibold">Page 1 of 2</span>
+<button class="px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface shadow-xs">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Customer Feedback & Verbatim Sentiment Stream -->
+<div class="px-margin pb-space-xl">
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Verified CSAT Verbatim Sentiment Stream</h2>
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold uppercase">Live Ingest</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Unfiltered survey feedback received immediately upon ticket resolution closure</p>
+</div>
+<button class="text-primary font-label-md text-label-md font-semibold hover:underline flex items-center gap-1">
+        Browse All 6,420 Verbatims <span class="material-symbols-outlined text-code-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Sentiment Stream Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1: Fast Resolution Feedback -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative">
+<div>
+<!-- Company & Rating Header -->
+<div class="flex items-center justify-between gap-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<img class="w-7 h-7 rounded-lg object-contain bg-surface-container-high p-1" data-alt="Corporate minimalist logo icon for Vertex Cloud Systems enterprise tech partner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdhW0qLOu5Kmim9Wk3TRX_PN8o3QrKs3Vzr-a15gSPlDTGiXLg2Guh94jyLvXB9Tmzdt_4swvQjAadzcNZCQsjn2iCYkhlXKSYL30TiGhG6TiQ-xrbYpZo8cjl7mhU0jbtrCVtxhi422MX8cbY0FP3vwN1LzbVb_DwJQu-sT-EthcwxCitxsszd0zJTRTXOCj2Pf2pXmb3THwYkzShdhuXe2nzoMdlbfZ4Cte8nng44YcOSWKqd6d7"/>
+<div>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface block leading-tight">Vertex Cloud Labs</span>
+<span class="font-label-sm text-label-sm text-secondary">Ticket #INC-89021 • 14m MTTR</span>
+</div>
+</div>
+<div class="flex items-center text-primary">
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<!-- Quote -->
+<p class="font-body-md text-body-md text-on-surface italic mb-space-md">
+            "Elena diagnosed our SAML assertion mismatch in under 10 minutes. This prevented an entire engineering division lockout on release day. Outstanding speed and clarity."
+          </p>
+<!-- Sentiment Tags -->
+<div class="flex flex-wrap gap-1 mb-space-md">
+<span class="px-space-xs py-0.5 rounded bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-semibold">#LightningSpeed</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-container/50 text-secondary font-label-sm text-label-sm font-semibold">#IdentitySecOps</span>
+<span class="px-space-xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">FCR Verified</span>
+</div>
+</div>
+<!-- Agent Recognition Strip -->
+<div class="pt-space-sm border-t-0 flex items-center justify-between bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-space-xs rounded-b-xl">
+<div class="flex items-center gap-space-xs">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Portrait photo of Senior Support Engineer Elena smiling in modern tech office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyfpmTb9LsszGJ1ame3uBygj39dXldbWUGRe-YhvtCWTxFtoiruaVItwWv-zrCwj1lsSaFouhJrmj9ygu2o8uboZRBz2AF_VRt5xItlv0LownvIWwJvy1G-aUPGSFr0u_eVQMW9tEkU_0hUpMtHoCMPzi2lstQCAdyzTE6b9nw8qV3ugoyUMxQ6d6ovvIVsvG4VyvXnTQgvoRasiOsrRDpvINqUufpQcLi7Y3xIN81Ft2I_jxGel-z"/>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Elena Rostova</span>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">3 mins ago</span>
+</div>
+</div>
+<!-- Card 2: Technical Depth Feedback -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<img class="w-7 h-7 rounded-lg object-contain bg-surface-container-high p-1" data-alt="Modern geometric corporate logo emblem for Fintech Nexus global banking platform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-nmI25eeM7-8Rjk2UCx3sLgAFCXwOFDA-zlkCkzmVl-Kl4Y1eVWInVbr1yv_SH-jluoVTyLT53xDbuKGyDreH9HDZKvwAn_3MT6zfXn6RnRMPrnU5fV1cCbvJy4U8HJ9QiacZebkaa2yl2gWCvEO8hBzcDlyVgSCXWGQ_G2BbzB9dB6iKUDH_ThMgEVd7IWI6jTeiswdhVA6lpNoH0_8GycH5orw14BQEOuozMBoXzPOMOAhVr-Rs"/>
+<div>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface block leading-tight">Nexus Financial</span>
+<span class="font-label-sm text-label-sm text-secondary">Ticket #INC-89004 • 48m MTTR</span>
+</div>
+</div>
+<div class="flex items-center text-primary">
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic mb-space-md">
+            "We were seeing unpredictable 429s across our automated trade settlement webhooks. The engineer supplied customized curl payloads and traced the throttle immediately. True Tier 3 mastery."
+          </p>
+<div class="flex flex-wrap gap-1 mb-space-md">
+<span class="px-space-xs py-0.5 rounded bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-semibold">#DeepTechnicalKnowledge</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-container/50 text-secondary font-label-sm text-label-sm font-semibold">#APIWebhooks</span>
+<span class="px-space-xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">FCR Verified</span>
+</div>
+</div>
+<div class="pt-space-sm border-t-0 flex items-center justify-between bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-space-xs rounded-b-xl">
+<div class="flex items-center gap-space-xs">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Portrait photo of Systems Engineer Marcus working on multi-monitor workstation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkkaqxyQqCGw_Rnw_zNF2FeP4YRpvWDMmzGueXiDsNWxpvW--UW1hWr2vUVJgjpUBfB7ZggQ4Qiev5xNybC2qfGpwVoXeUzdv2XFo_01AUSTuEc5cxOgnIQkOJ6sPErxfIwQBjekHhEP2vNN5RwgL_5PGLOqwGkNYf6g4MGSLxgOYBK2fOVaYi5anqFOS5CjVp6SBko4UOrzjZf18EseCG5FvNq7bZ4rpxUH_-YChAPJ19t-3RIAq_"/>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Marcus Vance</span>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">22 mins ago</span>
+</div>
+</div>
+<!-- Card 3: Compassionate Ownership Feedback -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<img class="w-7 h-7 rounded-lg object-contain bg-surface-container-high p-1" data-alt="Clean corporate logo mark for MedHealth Dynamics medical software enterprise" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2BoMPbS7Vxr8TrHllI4cUJS4_KWcHic2OvfLLKrFLVCM8Qbfo8ENYVDPGCqs-aYn-kx92g3lVGwd-ZqbLlM5iHcGlmJGixTNP0yqhNrkiToBHMI73cjJB4vHXU17-rADuvZb0NHGtGjaUgFn05wBhuh7iKPS_r420ZI59jV7k-day40klK9HtRYuJ6rr9xr7IrAK4dLKNqwi-3QdHA3WYwYX2fu3o67qAVlu1DSDM7RF7OWTlkJTa"/>
+<div>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface block leading-tight">MedHealth Systems</span>
+<span class="font-label-sm text-label-sm text-secondary">Ticket #INC-88981 • 1h 05m MTTR</span>
+</div>
+</div>
+<div class="flex items-center text-primary">
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic mb-space-md">
+            "Flawless handling during a high-stakes patient sync upgrade. Maya remained on the bridge throughout the verification sequence. That is genuine enterprise-tier partnership."
+          </p>
+<div class="flex flex-wrap gap-1 mb-space-md">
+<span class="px-space-xs py-0.5 rounded bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-semibold">#CalmUnderPressure</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-container/50 text-secondary font-label-sm text-label-sm font-semibold">#HealthcareOps</span>
+<span class="px-space-xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">FCR Verified</span>
+</div>
+</div>
+<div class="pt-space-sm border-t-0 flex items-center justify-between bg-surface-container-low -mx-space-md -mb-space-md px-space-md py-space-xs rounded-b-xl">
+<div class="flex items-center gap-space-xs">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Portrait photo of Lead Support Architect Maya in professional conference room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3cpaKwvIZDat8NjTMO05S8xoCa7W1_jw313YevR9SxGN3ZOKgt5AZw-hlhtuv7vis9bHGi8hRhVO9pzCGGKPFYi8n-ZZIkY1n8XEy4cP26TmbkIGQB2i8gn4E6yO7VShZ8sAc1sxV7IHbLgMAqM5Ftz7GJwjOK4s1oSixl-ob9Ft7hd3l-1SwzK0wMqcXJGJDSrdkMFj2lSbMSteR6FRqnHE2-68YNkAXFDAlQA_JKHbYebNx8VLL"/>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Maya Lin</span>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">41 mins ago</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Export Toast (Script-Controlled Notification) -->
+<div class="fixed bottom-6 right-6 z-50 bg-inverse-surface text-inverse-on-surface px-space-md py-space-sm rounded-xl shadow-xl flex items-center gap-space-sm transition-all duration-300 opacity-0 translate-y-4 pointer-events-none" id="export-toast">
+<span class="material-symbols-outlined text-primary text-headline-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div>
+<div class="font-title-sm text-title-sm font-semibold" id="toast-title">Export Scheduled</div>
+<div class="font-body-sm text-body-sm text-surface-container" id="toast-desc">Generating enterprise quality report...</div>
+</div>
+</div>
+<script>
+    // Simple micro-interaction for Export triggers
+    (function() {
+      const toast = document.getElementById('export-toast');
+      const toastTitle = document.getElementById('toast-title');
+      const toastDesc = document.getElementById('toast-desc');
+      let timeoutId;
+
+      function showToast(title, desc) {
+        if (!toast) return;
+        toastTitle.textContent = title;
+        toastDesc.textContent = desc;
+        toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+        toast.classList.add('opacity-100', 'translate-y-0');
+
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+          toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 3200);
+      }
+
+      const pdfBtn = document.getElementById('btn-export-pdf');
+      if (pdfBtn) {
+        pdfBtn.addEventListener('click', () => {
+          showToast('Generating PDF Report', 'Assembling MTTR, FCR, and Reopen telemetry for Q4...');
+        });
+      }
+
+      const csvBtn = document.getElementById('btn-export-csv');
+      if (csvBtn) {
+        csvBtn.addEventListener('click', () => {
+          showToast('Raw Data CSV Exported', '6,420 surveyed verbatims and timestamps compiled.');
+        });
+      }
+    })();
+  </script>
+</div></main></div></body></html>

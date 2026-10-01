@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,700;1,400&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#a33900","on-secondary":"#ffffff","error":"#ba1a1a","surface-dim":"#cbdbf5","secondary":"#565d79","surface":"#f8f9ff","inverse-surface":"#213145","on-tertiary-fixed-variant":"#005049","inverse-on-surface":"#eaf1ff","tertiary-container":"#008378","on-primary-container":"#fffbff","tertiary":"#00685f","surface-container-highest":"#d3e4fe","outline":"#8e7166","tertiary-fixed":"#89f5e7","on-surface":"#0b1c30","on-error":"#ffffff","tertiary-fixed-dim":"#6bd8cb","on-primary":"#ffffff","on-background":"#0b1c30","on-primary-fixed-variant":"#7f2b00","on-secondary-fixed-variant":"#3e4660","surface-container-low":"#eff4ff","surface-container":"#e5eeff","primary-fixed-dim":"#ffb599","inverse-primary":"#ffb599","on-tertiary":"#ffffff","secondary-fixed":"#dbe1ff","on-secondary-container":"#5a627e","surface-container-lowest":"#ffffff","on-tertiary-fixed":"#00201d","surface-tint":"#a73a00","secondary-container":"#d8deff","on-primary-fixed":"#370e00","background":"#f8f9ff","outline-variant":"#e2bfb2","on-secondary-fixed":"#131a33","primary-fixed":"#ffdbce","on-surface-variant":"#5a4138","primary-container":"#cc4900","error-container":"#ffdad6","surface-container-high":"#dce9ff","on-tertiary-container":"#f4fffc","surface-variant":"#d3e4fe","secondary-fixed-dim":"#bec5e5","surface-bright":"#f8f9ff","on-error-container":"#93000a"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xs":"0.25rem","gutter-lg":"1.5rem","margin-mobile":"1rem","space-md":"0.75rem","margin":"1.5rem","space-xl":"2rem","gutter":"1rem","space-lg":"1.25rem","space-sm":"0.5rem"},fontFamily:{"headline-md":["Hanken Grotesk"],"code-sm":["JetBrains Mono"],"label-sm":["Inter"],"display-lg":["Hanken Grotesk"],"title-sm":["Inter"],"body-lg":["Inter"],"body-sm":["Inter"],"body-md":["Inter"],"headline-lg":["Hanken Grotesk"],"title-md":["Inter"],"headline-sm":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"],"label-md":["Inter"]},fontSize:{"headline-md":["22px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"600"}],"code-sm":["12px",{lineHeight:"18px",fontWeight:"500"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"600"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.025em",fontWeight:"700"}],"title-sm":["14px",{lineHeight:"20px",letterSpacing:"-0.005em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}],"title-md":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-sm":["18px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg-mobile":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-14 px-gutter flex items-center gap-space-sm bg-surface-container-low/40"><img alt="Brand logo. - Primary color: #ea580c
+- Font: hankenGrotesk
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight leading-none">SupportHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Enterprise Ops</span></div></div><div class="px-gutter pt-space-lg pb-space-xs"><span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workspace</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="font-body-md text-body-md">Dashboard</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="tickets" href="#"><span class="font-body-md text-body-md">Tickets</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="my-tickets" href="#"><span class="font-body-md text-body-md">My Tickets</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customers" href="#"><span class="font-body-md text-body-md">Customers</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="departments" href="#"><span class="font-body-md text-body-md">Departments</span></a></nav><div class="px-gutter pt-space-lg pb-space-xs"><span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Governance</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="users" href="#"><span class="font-body-md text-body-md">Users</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="roles-permissions" href="#"><span class="font-body-md text-body-md">Roles &amp; Permissions</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports" href="#"><span class="font-body-md text-body-md">Reports</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="automation-routing-rules" href="#"><span class="font-body-md text-body-md">Automation</span></a><a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="ticket-number-configuration" href="#"><span class="font-body-md text-body-md">Ticket Number Configuration</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="font-body-md text-body-md">Settings</span></a></nav></div><div class="p-gutter bg-surface-container-low/60 m-space-sm rounded-xl flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-secondary font-semibold uppercase">SLA Health</span><span class="font-code-sm text-code-sm text-tertiary font-bold">99.8%</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-tertiary h-full rounded-full" style="width: 99.8%"></div></div><div class="flex items-center gap-space-xs text-tertiary"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span><span class="font-label-sm text-label-sm">Operational Target Met</span></div></div></aside><div class="pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-64 right-0 h-14 bg-surface-container-lowest/90 backdrop-blur-xl z-40 px-gutter flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-gutter flex-1 max-w-lg"><div class="w-full flex items-center gap-space-sm px-space-md py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-secondary">search</span><span class="font-body-sm text-body-sm flex-1 text-secondary">Search tickets, teams, logs...</span><kbd class="font-code-sm text-code-sm px-1.5 py-0.5 rounded bg-surface-container-lowest text-secondary shadow-sm">⌘K</kbd></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-tertiary-container/10"><span class="w-2 h-2 rounded-full bg-tertiary"></span><span class="font-label-sm text-label-sm font-semibold text-tertiary uppercase">Systems Live</span></div></div><div class="flex items-center gap-gutter"><div class="flex items-center gap-space-xs"><button class="relative p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span></button><button class="p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">help</span></button></div><div class="h-6 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm"><div class="flex flex-col text-right"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-secondary">Administrator</span></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/></div></div></header><main class="w-full pt-14 flex-1 bg-surface"><div class="flex flex-col w-full">
+<!-- Immutability & SOC-2 Compliance Banner -->
+<div class="bg-primary/5 px-gutter py-space-sm border-b border-primary/20 flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-space-sm">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Non-Retroactive Policy</span>
+<span class="hidden sm:inline text-on-surface-variant/40">|</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Changing ticket sequence syntax applies <span class="font-semibold text-on-surface">strictly to newly created tickets</span>. All historical records (e.g. <span class="font-code-sm text-code-sm text-primary font-bold">#TKT-2026-000125</span>) retain their immutable identifiers for SOC-2 audit and customer reference integrity.
+        </p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm text-tertiary uppercase font-semibold">Ledger Locked</span>
+</div>
+</div>
+<div class="p-gutter lg:p-gutter-lg flex flex-col gap-gutter-lg max-w-[1600px] w-full mx-auto">
+<!-- Header Section with Breadcrumb & Global Triggers -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-gutter">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<span>Settings</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Workspace &amp; Tickets</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">Ticket Number Configuration</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+          Ticket Number Generation &amp; Sequence Formatting
+        </h1>
+<p class="font-body-md text-body-md text-secondary max-w-3xl">
+          Configure structural syntax, auto-incrementing counters, contextual metadata tokens, and automated sequence resets for incoming support inquiries.
+        </p>
+</div>
+<!-- Action Cluster -->
+<div class="flex items-center gap-space-sm self-start md:self-auto">
+<button class="px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm font-semibold transition-colors flex items-center gap-space-xs shadow-sm" id="btn-reset">
+<span class="material-symbols-outlined text-[18px]">replay</span>
+          Reset to Default
+        </button>
+<button class="px-space-md py-2 rounded-lg bg-inverse-surface hover:bg-inverse-surface/90 text-inverse-on-surface font-title-sm text-title-sm font-semibold transition-colors flex items-center gap-space-xs shadow-sm" id="btn-test">
+<span class="material-symbols-outlined text-[18px]">play_circle</span>
+          Test Generator
+        </button>
+<button class="px-space-lg py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm font-semibold transition-all flex items-center gap-space-xs shadow-sm shadow-primary/20" id="btn-open-confirm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+          Save Configuration
+        </button>
+</div>
+</div>
+<!-- Telemetry & Status Strip -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Active Syntax</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm font-bold">PROD</span>
+</div>
+<div class="font-code-sm text-code-sm font-bold text-on-surface truncate tracking-tight">
+          {prefix}-{year}-{number}
+        </div>
+<div class="mt-space-sm pt-space-xs border-t border-surface-container-high/60 flex items-center justify-between text-secondary">
+<span class="font-body-sm text-body-sm">Active since</span>
+<span class="font-code-sm text-code-sm">Jan 1, 2026</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Next In Sequence</span>
+<span class="material-symbols-outlined text-[18px] text-primary">pin</span>
+</div>
+<div class="font-code-sm text-title-md font-bold text-primary tracking-tight">
+          TKT-2026-000126
+        </div>
+<div class="mt-space-sm pt-space-xs border-t border-surface-container-high/60 flex items-center justify-between text-secondary">
+<span class="font-body-sm text-body-sm">Counter state</span>
+<span class="font-code-sm text-code-sm font-semibold">125 issued</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Reset Cadence</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">schedule</span>
+</div>
+<div class="font-title-sm text-title-sm font-bold text-on-surface">
+          Yearly (Jan 1 @ 00:00 UTC)
+        </div>
+<div class="mt-space-sm pt-space-xs border-t border-surface-container-high/60 flex items-center justify-between text-secondary">
+<span class="font-body-sm text-body-sm">Next reset</span>
+<span class="font-code-sm text-code-sm">277d 14h rem.</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Historical Integrity</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary">lock</span>
+</div>
+<div class="font-title-sm text-title-sm font-bold text-tertiary flex items-center gap-space-xs">
+<span>100% Immutable</span>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-surface-container-high/60 flex items-center justify-between text-secondary">
+<span class="font-body-sm text-body-sm">Audited records</span>
+<span class="font-code-sm text-code-sm font-semibold">5,804 tickets</span>
+</div>
+</div>
+</div>
+<!-- Main Dual-Column Workbench -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-lg items-start">
+<!-- LEFT COLUMN: Format Builder & Counter Settings (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col gap-gutter-lg">
+<!-- Section 1: Syntax & Token Builder -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between border-b border-surface-container-high pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Sequence Syntax Builder</h2>
+<span class="font-body-sm text-body-sm text-secondary">Define delimiters and alphanumeric metadata placeholders</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary bg-tertiary-container/10 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Drafting Mode</span>
+</div>
+<!-- Prefix Input -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center justify-between" for="prefix-input">
+<span>Organization Prefix</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase font-normal">Max 6 Chars</span>
+</label>
+<div class="flex items-center gap-space-sm">
+<input class="uppercase font-code-sm text-code-sm tracking-wider w-36 px-space-md py-2 rounded-lg bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" id="prefix-input" maxlength="6" placeholder="e.g. TKT" type="text" value="TKT"/>
+<p class="font-body-sm text-body-sm text-secondary flex-1">
+                Workspace code identifier inserted when <code class="font-code-sm text-code-sm text-primary font-semibold">{prefix}</code> is specified.
+              </p>
+</div>
+</div>
+<!-- Pattern Input Field -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center justify-between" for="pattern-input">
+<span>Format Pattern Template</span>
+<span class="font-label-sm text-label-sm text-secondary font-mono">Delimiters: - _ . /</span>
+</label>
+<div class="relative flex items-center">
+<input class="font-code-sm text-code-sm w-full px-space-md py-2.5 rounded-lg bg-surface-container-low text-on-surface font-semibold focus:outline-none focus:ring-2 focus:ring-primary shadow-sm tracking-tight" id="pattern-input" type="text" value="{prefix}-{year}-{department_code}-{number}"/>
+<button class="absolute right-2.5 text-secondary hover:text-on-surface p-1 rounded transition-colors" id="btn-clear-pattern" title="Clear pattern">
+<span class="material-symbols-outlined text-[16px]">backspace</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              Must include at least one unique sequential identifier <code class="font-code-sm text-code-sm text-primary font-semibold">{number}</code> to guarantee record uniqueness.
+            </p>
+</div>
+<!-- Token Insertion Palette -->
+<div class="flex flex-col gap-space-sm bg-surface-container-low/50 p-space-md rounded-lg">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold tracking-wider">Available Variables (Click to Insert)</span>
+<span class="font-label-sm text-label-sm text-primary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">touch_app</span> Click pill to append
+              </span>
+</div>
+<div class="flex flex-wrap gap-2">
+<button class="token-btn px-2.5 py-1.5 rounded-md bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-code-sm text-code-sm shadow-sm flex items-center gap-1.5 transition-colors group" data-token="{prefix}">
+<span class="font-bold text-primary">{prefix}</span>
+<span class="text-secondary font-body-sm text-[11px] group-hover:text-on-surface">Workspace Code (TKT)</span>
+<span class="material-symbols-outlined text-[14px] text-secondary group-hover:text-primary">add_circle</span>
+</button>
+<button class="token-btn px-2.5 py-1.5 rounded-md bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-code-sm text-code-sm shadow-sm flex items-center gap-1.5 transition-colors group" data-token="{number}">
+<span class="font-bold text-primary">{number}</span>
+<span class="text-secondary font-body-sm text-[11px] group-hover:text-on-surface">Auto-Counter (000126)</span>
+<span class="material-symbols-outlined text-[14px] text-secondary group-hover:text-primary">add_circle</span>
+</button>
+<button class="token-btn px-2.5 py-1.5 rounded-md bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-code-sm text-code-sm shadow-sm flex items-center gap-1.5 transition-colors group" data-token="{year}">
+<span class="font-bold text-primary">{year}</span>
+<span class="text-secondary font-body-sm text-[11px] group-hover:text-on-surface">4-Digit Year (2026)</span>
+<span class="material-symbols-outlined text-[14px] text-secondary group-hover:text-primary">add_circle</span>
+</button>
+<button class="token-btn px-2.5 py-1.5 rounded-md bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-code-sm text-code-sm shadow-sm flex items-center gap-1.5 transition-colors group" data-token="{month}">
+<span class="font-bold text-primary">{month}</span>
+<span class="text-secondary font-body-sm text-[11px] group-hover:text-on-surface">Month (03)</span>
+<span class="material-symbols-outlined text-[14px] text-secondary group-hover:text-primary">add_circle</span>
+</button>
+<button class="token-btn px-2.5 py-1.5 rounded-md bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-code-sm text-code-sm shadow-sm flex items-center gap-1.5 transition-colors group" data-token="{day}">
+<span class="font-bold text-primary">{day}</span>
+<span class="text-secondary font-body-sm text-[11px] group-hover:text-on-surface">Day (29)</span>
+<span class="material-symbols-outlined text-[14px] text-secondary group-hover:text-primary">add_circle</span>
+</button>
+<button class="token-btn px-2.5 py-1.5 rounded-md bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-code-sm text-code-sm shadow-sm flex items-center gap-1.5 transition-colors group" data-token="{department_code}">
+<span class="font-bold text-primary">{department_code}</span>
+<span class="text-secondary font-body-sm text-[11px] group-hover:text-on-surface">Dept Code (TECH)</span>
+<span class="material-symbols-outlined text-[14px] text-secondary group-hover:text-primary">add_circle</span>
+</button>
+<button class="token-btn px-2.5 py-1.5 rounded-md bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-code-sm text-code-sm shadow-sm flex items-center gap-1.5 transition-colors group" data-token="{department}">
+<span class="font-bold text-primary">{department}</span>
+<span class="text-secondary font-body-sm text-[11px] group-hover:text-on-surface">Full Dept Slug</span>
+<span class="material-symbols-outlined text-[14px] text-secondary group-hover:text-primary">add_circle</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Section 2: Counter & Reset Policy -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center gap-space-sm border-b border-surface-container-high pb-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">calculate</span>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Counter &amp; Reset Policy</h2>
+<span class="font-body-sm text-body-sm text-secondary">Control zero-padding thresholds and scheduled reset triggers</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Starting Number -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface font-semibold" for="start-num">Starting Number Counter</label>
+<input class="font-code-sm text-code-sm px-space-md py-2 rounded-lg bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" id="start-num" max="9999999" min="1" type="number" value="1"/>
+<span class="font-body-sm text-body-sm text-secondary">Applies if the counter is reset or initialized anew.</span>
+</div>
+<!-- Number Length / Padding -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface font-semibold" for="padding-select">Integer Padding (Leading Zeros)</label>
+<select class="font-body-md text-body-md px-space-md py-2 rounded-lg bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" id="padding-select">
+<option value="4">4 Digits (e.g. 0001)</option>
+<option value="5">5 Digits (e.g. 00001)</option>
+<option selected="" value="6">6 Digits (e.g. 000125 - Recommended)</option>
+<option value="8">8 Digits (e.g. 00000125)</option>
+<option value="0">No Padding (e.g. 125)</option>
+</select>
+<span class="font-body-sm text-body-sm text-secondary">Enforces uniform visual length in data grids &amp; email subjects.</span>
+</div>
+</div>
+<!-- Sequence Reset Schedule -->
+<div class="flex flex-col gap-space-sm">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Sequence Reset Schedule</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<!-- Reset Option 1: Never -->
+<label class="cursor-pointer flex flex-col p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors relative">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Continuous</span>
+<input class="accent-primary" name="reset-schedule" type="radio" value="never"/>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Counter never resets. Increments indefinitely into millions.</span>
+</label>
+<!-- Reset Option 2: Yearly (Recommended) -->
+<label class="cursor-pointer flex flex-col p-space-md rounded-lg bg-primary/10 transition-colors relative ring-2 ring-primary">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Yearly</span>
+<span class="font-label-sm text-label-sm uppercase bg-primary text-on-primary px-1.5 py-0.5 rounded font-bold">Standard</span>
+</div>
+<input checked="" class="accent-primary" name="reset-schedule" type="radio" value="yearly"/>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Resets back to start on Jan 1 @ 00:00 UTC. Recommended when using {year}.</span>
+</label>
+<!-- Reset Option 3: Monthly -->
+<label class="cursor-pointer flex flex-col p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors relative">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Monthly</span>
+<input class="accent-primary" name="reset-schedule" type="radio" value="monthly"/>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Resets on the 1st of each calendar month. For high-velocity ticket queues.</span>
+</label>
+</div>
+</div>
+<!-- Reset Warning Callout -->
+<div class="flex items-start gap-space-sm p-space-md rounded-lg bg-surface-container">
+<span class="material-symbols-outlined text-[20px] text-secondary flex-shrink-0 mt-0.5">info</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Scheduled Sequence Boundary</span>
+<p class="font-body-sm text-body-sm text-secondary">
+                With <span class="font-semibold text-on-surface">Yearly</span> reset active, sequence counter rolls back to starting value on <span class="font-code-sm text-code-sm font-semibold text-on-surface">January 1, 2027 00:00 UTC</span>. Prior sequences are permanently linked to their audit ledger.
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Real-Time Preview & Presets (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col gap-gutter-lg">
+<!-- Live Real-Time Simulator Card -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-lg relative overflow-hidden">
+<div class="flex items-center justify-between border-b border-surface-container-high pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Live Syntax Simulator</h2>
+<span class="font-body-sm text-body-sm text-secondary">Real-time output validation across scenarios</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span> Dynamic
+            </div>
+</div>
+<!-- The Live Display Box -->
+<div class="flex flex-col gap-space-xs p-space-lg rounded-xl bg-inverse-surface text-inverse-on-surface shadow-md">
+<div class="flex items-center justify-between text-secondary-container font-label-sm text-label-sm uppercase tracking-wider">
+<span>Next Ticket Sequence Preview</span>
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed">token</span>
+</div>
+<div class="py-space-md">
+<span class="font-code-sm text-2xl lg:text-3xl text-on-primary-container font-bold tracking-wider select-all break-all" id="preview-ticket-output">
+                TKT-2026-TECH-000126
+              </span>
+</div>
+<div class="flex items-center gap-space-xs pt-space-xs text-secondary-container/80 font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed">event_available</span>
+<span id="preview-caption">Generated for incoming ticket in Department 'Technical Support' on March 29, 2026</span>
+</div>
+</div>
+<!-- Scenario Switcher Pills -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Simulate Department Scenario</span>
+<div class="grid grid-cols-3 gap-space-xs">
+<button class="dept-pill px-space-sm py-2 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm font-semibold transition-all shadow-sm flex flex-col items-center" data-dept="Technical Support" data-dept-code="TECH">
+<span>Tech Support</span>
+<span class="font-code-sm text-[11px] opacity-80 font-normal">TECH</span>
+</button>
+<button class="dept-pill px-space-sm py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm font-semibold transition-all flex flex-col items-center" data-dept="Billing &amp; Invoicing" data-dept-code="BILL">
+<span>Billing</span>
+<span class="font-code-sm text-[11px] text-secondary font-normal">BILL</span>
+</button>
+<button class="dept-pill px-space-sm py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm font-semibold transition-all flex flex-col items-center" data-dept="Security Operations" data-dept-code="SECOPS">
+<span>Security</span>
+<span class="font-code-sm text-[11px] text-secondary font-normal">SECOPS</span>
+</button>
+</div>
+</div>
+<!-- Token Breakdown Inspector Table -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Active Token Resolution</span>
+<div class="rounded-lg bg-surface-container-low overflow-hidden">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container-high/60 text-secondary font-label-sm text-label-sm uppercase">
+<th class="py-2 px-space-md">Token</th>
+<th class="py-2 px-space-md">Resolved Value</th>
+<th class="py-2 px-space-md">Source</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/40">
+<tr>
+<td class="py-2 px-space-md font-code-sm text-code-sm text-primary font-bold">{prefix}</td>
+<td class="py-2 px-space-md font-code-sm text-code-sm" id="token-val-prefix">TKT</td>
+<td class="py-2 px-space-md text-secondary text-xs">Workspace Settings</td>
+</tr>
+<tr>
+<td class="py-2 px-space-md font-code-sm text-code-sm text-primary font-bold">{year}</td>
+<td class="py-2 px-space-md font-code-sm text-code-sm">2026</td>
+<td class="py-2 px-space-md text-secondary text-xs">Server Clock (UTC)</td>
+</tr>
+<tr>
+<td class="py-2 px-space-md font-code-sm text-code-sm text-primary font-bold">{department_code}</td>
+<td class="py-2 px-space-md font-code-sm text-code-sm" id="token-val-dept">TECH</td>
+<td class="py-2 px-space-md text-secondary text-xs">Queue Ingestion Router</td>
+</tr>
+<tr>
+<td class="py-2 px-space-md font-code-sm text-code-sm text-primary font-bold">{number}</td>
+<td class="py-2 px-space-md font-code-sm text-code-sm" id="token-val-number">000126</td>
+<td class="py-2 px-space-md text-secondary text-xs">PostgreSQL Sequence</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Section: Enterprise Presets Card -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm border-b border-surface-container-high pb-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">auto_stories</span>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Industry Recommended Presets</h2>
+<span class="font-body-sm text-body-sm text-secondary">Click to adopt standardized operational schemas</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Preset 1 -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-between gap-space-sm transition-all group">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Standard Support (Legacy Simple)</span>
+<span class="font-code-sm text-code-sm text-secondary">TKT-100001</span>
+</div>
+<button class="btn-preset px- space-md py-1.5 rounded-lg bg-surface-container-lowest group-hover:bg-primary group-hover:text-on-primary text-on-surface font-label-sm text-label-sm font-semibold transition-colors shadow-sm" data-padding="6" data-pattern="{prefix}-{number}" data-start="100001">
+                Apply Preset
+              </button>
+</div>
+<!-- Preset 2 -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-between gap-space-sm transition-all group">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Annual Serialized (Current)</span>
+<span class="font-code-sm text-code-sm text-secondary">TKT-2026-000126</span>
+</div>
+<button class="btn-preset px-space-md py-1.5 rounded-lg bg-surface-container-lowest group-hover:bg-primary group-hover:text-on-primary text-on-surface font-label-sm text-label-sm font-semibold transition-colors shadow-sm" data-padding="6" data-pattern="{prefix}-{year}-{number}" data-start="1">
+                Apply Preset
+              </button>
+</div>
+<!-- Preset 3 -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-between gap-space-sm transition-all group">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Departmental Routing Code</span>
+<span class="font-code-sm text-code-sm text-secondary">SUP-2026-BILL-000126</span>
+</div>
+<button class="btn-preset px-space-md py-1.5 rounded-lg bg-surface-container-lowest group-hover:bg-primary group-hover:text-on-primary text-on-surface font-label-sm text-label-sm font-semibold transition-colors shadow-sm" data-padding="6" data-pattern="SUP-{year}-{department_code}-{number}" data-start="1">
+                Apply Preset
+              </button>
+</div>
+<!-- Preset 4 -->
+<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-between gap-space-sm transition-all group">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Date Stamped Extended</span>
+<span class="font-code-sm text-code-sm text-secondary">TKT-20260329-00126</span>
+</div>
+<button class="btn-preset px-space-md py-1.5 rounded-lg bg-surface-container-lowest group-hover:bg-primary group-hover:text-on-primary text-on-surface font-label-sm text-label-sm font-semibold transition-colors shadow-sm" data-padding="5" data-pattern="{prefix}-{year}{month}{day}-{number}" data-start="1">
+                Apply Preset
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- CONFIRMATION MODAL & IMMUTABILITY ATTESTATION -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm hidden items-center justify-center p-gutter" id="confirm-modal">
+<div class="bg-surface-container-lowest rounded-xl max-w-xl w-full shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200">
+<!-- Modal Accent Stripe -->
+<div class="h-1.5 w-full bg-primary"></div>
+<div class="p-space-lg flex flex-col gap-space-lg">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">gavel</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Apply New Ticket Number Syntax?</h3>
+<span class="font-body-sm text-body-sm text-secondary">System-wide operational schema transition</span>
+</div>
+</div>
+<button class="p-1 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors" id="btn-close-modal">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Format Comparison Diff -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md bg-surface-container-low p-space-md rounded-lg">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Current Production Format</span>
+<div class="font-code-sm text-code-sm font-bold text-on-surface">TKT-{year}-{number}</div>
+<span class="font-body-sm text-body-sm text-secondary">e.g. <span class="font-code-sm text-code-sm">TKT-2026-000125</span></span>
+</div>
+<div class="flex flex-col gap-1 md:border-l md:border-surface-container-high md:pl-space-md">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">New Proposed Format</span>
+<div class="font-code-sm text-code-sm font-bold text-primary" id="modal-proposed-format">{prefix}-{year}-{department_code}-{number}</div>
+<span class="font-body-sm text-body-sm text-secondary">Next: <span class="font-code-sm text-code-sm font-bold text-on-surface" id="modal-proposed-sample">TKT-2026-TECH-000126</span></span>
+</div>
+</div>
+<!-- Strict Compliance Immutability Agreement Box -->
+<div class="flex flex-col gap-space-sm p-space-md rounded-lg bg-surface-container">
+<label class="flex items-start gap-space-sm cursor-pointer select-none">
+<input class="mt-1 w-4 h-4 rounded text-primary focus:ring-primary accent-primary" id="attest-checkbox" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">I understand existing tickets remain unchanged</span>
+<p class="font-body-sm text-body-sm text-secondary">
+                I attest that all existing <span class="font-semibold text-on-surface">5,804 tickets</span> will strictly NOT be renamed or reassigned. This change applies exclusively to tickets generated after this commit. SOC-2 audit logs will record this configuration change event.
+              </p>
+</div>
+</label>
+</div>
+<!-- Modal Footer Controls -->
+<div class="flex items-center justify-end gap-space-sm pt-space-xs border-t border-surface-container-high">
+<button class="px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm font-semibold transition-colors" id="btn-cancel-modal">
+            Cancel
+          </button>
+<button class="px-space-lg py-2 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm font-semibold transition-all opacity-50 cursor-not-allowed shadow-sm shadow-primary/20 flex items-center gap-space-xs" disabled="" id="btn-deploy-confirm">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+            Confirm &amp; Deploy Format
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive JavaScript Engine -->
+<script>
+    (function initTicketNumberConfig() {
+      // Elements
+      const patternInput = document.getElementById('pattern-input');
+      const prefixInput = document.getElementById('prefix-input');
+      const paddingSelect = document.getElementById('padding-select');
+      const previewOutput = document.getElementById('preview-ticket-output');
+      const previewCaption = document.getElementById('preview-caption');
+      const tokenValPrefix = document.getElementById('token-val-prefix');
+      const tokenValDept = document.getElementById('token-val-dept');
+      const tokenValNumber = document.getElementById('token-val-number');
+      const clearBtn = document.getElementById('btn-clear-pattern');
+      const deptPills = document.querySelectorAll('.dept-pill');
+      const tokenBtns = document.querySelectorAll('.token-btn');
+      const presetBtns = document.querySelectorAll('.btn-preset');
+      const resetBtn = document.getElementById('btn-reset');
+      const testBtn = document.getElementById('btn-test');
+
+      // Modal Elements
+      const openModalBtn = document.getElementById('btn-open-confirm');
+      const confirmModal = document.getElementById('confirm-modal');
+      const closeModalBtn = document.getElementById('btn-close-modal');
+      const cancelModalBtn = document.getElementById('btn-cancel-modal');
+      const deployBtn = document.getElementById('btn-deploy-confirm');
+      const attestCheckbox = document.getElementById('attest-checkbox');
+      const modalProposedFormat = document.getElementById('modal-proposed-format');
+      const modalProposedSample = document.getElementById('modal-proposed-sample');
+
+      // State
+      let currentDept = 'Technical Support';
+      let currentDeptCode = 'TECH';
+      let sequenceCounter = 126;
+
+      function updatePreview() {
+        const rawPattern = patternInput.value.trim() || '{prefix}-{number}';
+        const prefix = (prefixInput.value.trim() || 'TKT').toUpperCase();
+        const padLen = parseInt(paddingSelect.value, 10);
+        
+        let formattedNumber = String(sequenceCounter);
+        if (padLen > 0) {
+          formattedNumber = formattedNumber.padStart(padLen, '0');
+        }
+
+        const now = new Date();
+        const year = '2026';
+        const month = '03';
+        const day = '29';
+
+        let rendered = rawPattern
+          .replace(/\{prefix\}/g, prefix)
+          .replace(/\{number\}/g, formattedNumber)
+          .replace(/\{year\}/g, year)
+          .replace(/\{month\}/g, month)
+          .replace(/\{day\}/g, day)
+          .replace(/\{department_code\}/g, currentDeptCode)
+          .replace(/\{department\}/g, currentDept.toUpperCase().replace(/\s+/g, '_'));
+
+        previewOutput.textContent = rendered;
+        previewCaption.textContent = `Generated for incoming ticket in Department '${currentDept}' on March 29, 2026`;
+
+        // Update token breakdown table
+        if (tokenValPrefix) tokenValPrefix.textContent = prefix;
+        if (tokenValDept) tokenValDept.textContent = currentDeptCode;
+        if (tokenValNumber) tokenValNumber.textContent = formattedNumber;
+      }
+
+      // Input listeners
+      patternInput.addEventListener('input', updatePreview);
+      prefixInput.addEventListener('input', () => {
+        prefixInput.value = prefixInput.value.toUpperCase();
+        updatePreview();
+      });
+      paddingSelect.addEventListener('change', updatePreview);
+
+      // Token click to append
+      tokenBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const token = btn.getAttribute('data-token');
+          const curVal = patternInput.value;
+          if (curVal.length > 0 && !curVal.endsWith('-') && !curVal.endsWith('_') && !curVal.endsWith('.')) {
+            patternInput.value = curVal + '-' + token;
+          } else {
+            patternInput.value = curVal + token;
+          }
+          updatePreview();
+          patternInput.focus();
+        });
+      });
+
+      // Clear pattern button
+      clearBtn.addEventListener('click', () => {
+        patternInput.value = '{prefix}-';
+        updatePreview();
+        patternInput.focus();
+      });
+
+      // Department Pills
+      deptPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          deptPills.forEach(p => {
+            p.classList.remove('bg-primary', 'text-on-primary');
+            p.classList.add('bg-surface-container-low', 'text-on-surface');
+            const sub = p.querySelector('span:last-child');
+            if (sub) {
+              sub.classList.remove('opacity-80');
+              sub.classList.add('text-secondary');
+            }
+          });
+
+          pill.classList.remove('bg-surface-container-low', 'text-on-surface');
+          pill.classList.add('bg-primary', 'text-on-primary');
+          const sub = pill.querySelector('span:last-child');
+          if (sub) {
+            sub.classList.remove('text-secondary');
+            sub.classList.add('opacity-80');
+          }
+
+          currentDept = pill.getAttribute('data-dept');
+          currentDeptCode = pill.getAttribute('data-dept-code');
+          updatePreview();
+        });
+      });
+
+      // Preset buttons
+      presetBtns.forEach(pBtn => {
+        pBtn.addEventListener('click', () => {
+          const pat = pBtn.getAttribute('data-pattern');
+          const pad = pBtn.getAttribute('data-padding');
+          patternInput.value = pat;
+          if (pad) paddingSelect.value = pad;
+          updatePreview();
+        });
+      });
+
+      // Reset to default
+      resetBtn.addEventListener('click', () => {
+        patternInput.value = '{prefix}-{year}-{number}';
+        prefixInput.value = 'TKT';
+        paddingSelect.value = '6';
+        updatePreview();
+      });
+
+      // Test Inbound Generator
+      testBtn.addEventListener('click', () => {
+        sequenceCounter++;
+        updatePreview();
+        previewOutput.classList.add('scale-105');
+        setTimeout(() => previewOutput.classList.remove('scale-105'), 180);
+      });
+
+      // Modal Controls
+      openModalBtn.addEventListener('click', () => {
+        modalProposedFormat.textContent = patternInput.value;
+        modalProposedSample.textContent = previewOutput.textContent;
+        attestCheckbox.checked = false;
+        deployBtn.disabled = true;
+        deployBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        confirmModal.classList.remove('hidden');
+        confirmModal.classList.add('flex');
+      });
+
+      function hideModal() {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+      }
+
+      closeModalBtn.addEventListener('click', hideModal);
+      cancelModalBtn.addEventListener('click', hideModal);
+
+      attestCheckbox.addEventListener('change', () => {
+        if (attestCheckbox.checked) {
+          deployBtn.disabled = false;
+          deployBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        } else {
+          deployBtn.disabled = true;
+          deployBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+      });
+
+      deployBtn.addEventListener('click', () => {
+        hideModal();
+        alert('Configuration deployed successfully! Format is now active for newly incoming tickets.');
+      });
+
+      // Initial run
+      updatePreview();
+    })();
+  </script>
+</div></main></div></body></html>

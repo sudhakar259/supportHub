@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#131a33","background":"#f8f9ff","surface-container-lowest":"#ffffff","inverse-surface":"#213145","on-error":"#ffffff","tertiary-fixed":"#89f5e7","primary-container":"#cc4900","on-tertiary-fixed":"#00201d","primary-fixed":"#ffdbce","on-surface-variant":"#5a4138","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#3e4660","secondary-fixed":"#dbe1ff","surface-bright":"#f8f9ff","inverse-primary":"#ffb599","on-secondary-container":"#5a627e","surface-container-high":"#dce9ff","error-container":"#ffdad6","tertiary-container":"#008378","surface-container":"#e5eeff","on-surface":"#0b1c30","tertiary":"#00685f","secondary":"#565d79","error":"#ba1a1a","tertiary-fixed-dim":"#6bd8cb","surface-dim":"#cbdbf5","surface-variant":"#d3e4fe","on-background":"#0b1c30","on-primary-fixed-variant":"#7f2b00","on-secondary":"#ffffff","on-primary-container":"#fffbff","secondary-fixed-dim":"#bec5e5","outline":"#8e7166","surface-container-low":"#eff4ff","primary":"#a33900","on-tertiary-container":"#f4fffc","on-error-container":"#93000a","secondary-container":"#d8deff","primary-fixed-dim":"#ffb599","inverse-on-surface":"#eaf1ff","surface-tint":"#a73a00","surface":"#f8f9ff","on-primary":"#ffffff","on-primary-fixed":"#370e00","outline-variant":"#e2bfb2","surface-container-highest":"#d3e4fe","on-tertiary-fixed-variant":"#005049"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-lg":"1.25rem","gutter-lg":"1.5rem","space-xs":"0.25rem","space-md":"0.75rem","margin-mobile":"1rem","space-sm":"0.5rem","gutter":"1rem","space-xl":"2rem","margin":"1.5rem"},fontFamily:{"label-sm":["Inter"],"body-sm":["Inter"],"label-md":["Inter"],"headline-md":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"body-lg":["Inter"],"title-sm":["Inter"],"body-md":["Inter"],"code-sm":["JetBrains Mono"],"display-lg":["Hanken Grotesk"],"title-md":["Inter"],"headline-sm":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"]},fontSize:{"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><aside class="fixed left-0 top-0 h-screen w-64 bg-inverse-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-full overflow-hidden"><div class="h-16 px-gutter flex items-center gap-space-sm bg-inverse-surface"><img alt="Brand logo. - Primary color: #ea580c
+- Font: hankenGrotesk
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-inverse-on-surface leading-tight tracking-tight">SupportHub</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-inverse-primary">Enterprise Core</span></div></div><div class="flex-1 overflow-y-auto px-space-sm py-space-md"><div class="px-space-sm pb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim">Workspace</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[18px]">grid_view</span><span>Dashboard</span></a><a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="tickets" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">confirmation_number</span><span>Tickets</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-primary text-on-primary font-bold">24</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="my-tickets" href="#"><span class="material-symbols-outlined text-[18px]">assignment_ind</span><span>My Tickets</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="customers" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span>Customers</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="departments" href="#"><span class="material-symbols-outlined text-[18px]">apartment</span><span>Departments</span></a></nav><div class="mt-space-lg px-space-sm pb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim">Governance</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="users" href="#"><span class="material-symbols-outlined text-[18px]">manage_accounts</span><span>Users</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="roles-and-permissions" href="#"><span class="material-symbols-outlined text-[18px]">admin_panel_settings</span><span>Roles &amp; Permissions</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="reports" href="#"><span class="material-symbols-outlined text-[18px]">insights</span><span>Reports</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="automation" href="#"><span class="material-symbols-outlined text-[18px]">auto_mode</span><span>Automation</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span>Settings</span></a></nav></div><div class="p-space-md m-space-sm rounded-lg bg-surface-container-high/10"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-secondary-fixed-dim uppercase tracking-wider">SLA Health</span><span class="font-label-sm text-label-sm text-tertiary-fixed font-bold">99.8%</span></div><div class="w-full bg-inverse-surface h-1 rounded-full mt-2 overflow-hidden"><div class="bg-tertiary-container h-full w-[99.8%]"></div></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-gutter-lg flex items-center justify-between gap-gutter"><div class="flex-1 max-w-lg"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-[20px] text-secondary pointer-events-none">search</span><input class="w-full h-9 pl-10 pr-space-md bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search across tickets, requesters, audit logs (⌘K)" type="text"/><kbd class="absolute right-space-md font-code-sm text-code-sm text-secondary bg-surface-container px-1.5 py-0.5 rounded shadow-sm pointer-events-none">⌘K</kbd></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-2 px-space-md py-1 rounded-full bg-surface-container-low"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary-container"></span></span><span class="font-label-sm text-label-sm font-bold text-tertiary tracking-wider">SYSTEMS LIVE</span></div><button aria-label="Notifications" class="relative p-2 text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 flex h-2 w-2"><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span></button><button aria-label="Quick Action" class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><div class="h-6 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="flex flex-col text-left"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-secondary leading-none">Administrator</span></div><span class="material-symbols-outlined text-[18px] text-secondary ml-1">expand_more</span></div></div></div></header><main class="w-full pt-16 bg-background min-h-screen"><div class="flex flex-col w-full pb-space-xl">
+<!-- Top Action & Breadcrumb Control Bar -->
+<div class="px-gutter-lg pt-space-lg pb-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-secondary">
+<span>Workspace</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Tickets</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">All Tickets</span>
+</div>
+<div class="flex items-baseline gap-space-md mt-0.5">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Tickets Directory</h1>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-code-sm text-code-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span>482 Total In-Scope</span>
+</div>
+</div>
+</div>
+<!-- Quick Global Actions -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">download</span>
+<span>Export (CSV / JSON)</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">tune</span>
+<span>Custom View</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Create Ticket</span>
+</button>
+</div>
+</div>
+<!-- SLA Breach Alert Strip -->
+<div class="px-gutter-lg mb-space-md">
+<div class="flex items-center justify-between gap-space-md px-space-md py-2.5 rounded-lg bg-error-container/60 text-on-error-container shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="flex h-2.5 w-2.5 relative flex-shrink-0">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-error"></span>
+</span>
+<span class="material-symbols-outlined text-[18px] text-error flex-shrink-0">bolt</span>
+<p class="font-title-sm text-title-sm truncate">
+<strong class="font-bold">SLA Breach Warning:</strong> Showing 4 tickets with Active Breach Alerts (&lt; 30m response/resolution remaining)
+        </p>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0">
+<button class="font-label-sm text-label-sm text-error underline uppercase tracking-wider hover:opacity-80" type="button">Isolate 4 Breached</button>
+<button aria-label="Dismiss alert" class="p-1 hover:bg-error-container rounded text-error flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Status Metric Tabs Bar -->
+<div class="px-gutter-lg mb-space-md overflow-x-auto">
+<div class="flex items-center gap-1.5 p-1 bg-surface-container-low rounded-lg min-w-max shadow-sm">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface shadow-sm font-title-sm text-title-sm" type="button">
+<span>All Tickets</span>
+<span class="px-1.5 py-0.5 rounded font-code-sm text-[11px] bg-surface-container text-secondary font-semibold">482</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest/60 text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+<span>Open</span>
+<span class="px-1.5 py-0.5 rounded font-code-sm text-[11px] bg-tertiary-fixed text-on-tertiary-fixed font-bold">142</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest/60 text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+<span>In Progress</span>
+<span class="px-1.5 py-0.5 rounded font-code-sm text-[11px] bg-secondary-fixed text-on-secondary-fixed font-bold">194</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest/60 text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+<span>Pending</span>
+<span class="px-1.5 py-0.5 rounded font-code-sm text-[11px] bg-surface-container-high text-secondary font-bold">76</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest/60 text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+<span class="text-error font-semibold">Escalated</span>
+<span class="px-1.5 py-0.5 rounded font-code-sm text-[11px] bg-error-container text-on-error-container font-bold">28</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest/60 text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+<span>Resolved</span>
+<span class="px-1.5 py-0.5 rounded font-code-sm text-[11px] bg-surface-container text-secondary">1,248</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest/60 text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+<span>Closed</span>
+<span class="px-1.5 py-0.5 rounded font-code-sm text-[11px] bg-surface-container text-secondary">3,890</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest/60 text-secondary hover:text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+<span>Reopened</span>
+<span class="px-1.5 py-0.5 rounded font-code-sm text-[11px] bg-primary-fixed text-on-primary-fixed font-bold">14</span>
+</button>
+</div>
+</div>
+<!-- Advanced Enterprise Filter Control Strip -->
+<div class="px-gutter-lg mb-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-sm items-center">
+<!-- Main Search Input -->
+<div class="xl:col-span-4 relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-[20px] text-secondary pointer-events-none">search</span>
+<input class="w-full h-9 pl-9 pr-14 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all" placeholder="Search tickets by title, TKT-#, email, keywords..." type="text"/>
+<kbd class="absolute right-2 font-code-sm text-code-sm text-secondary bg-surface-container px-1.5 py-0.5 rounded pointer-events-none">⌘K</kbd>
+</div>
+<!-- Filter Selects -->
+<div class="xl:col-span-8 flex flex-wrap items-center gap-2">
+<!-- Status Dropdown -->
+<div class="relative">
+<button class="h-9 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="text-secondary font-normal">Status:</span>
+<span class="font-semibold">All Statuses</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+</button>
+</div>
+<!-- Priority Dropdown -->
+<div class="relative">
+<button class="h-9 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="text-secondary font-normal">Priority:</span>
+<span class="font-semibold">All Priorities</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+</button>
+</div>
+<!-- Department Dropdown -->
+<div class="relative">
+<button class="h-9 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="text-secondary font-normal">Dept:</span>
+<span class="font-semibold">All Depts</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+</button>
+</div>
+<!-- Assignee Dropdown -->
+<div class="relative">
+<button class="h-9 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="text-secondary font-normal">Agent:</span>
+<span class="font-semibold">All Assignees</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+</button>
+</div>
+<!-- SLA Status Dropdown -->
+<div class="relative">
+<button class="h-9 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="text-secondary font-normal">SLA:</span>
+<span class="text-primary font-semibold">At Risk (&lt;1h)</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+</button>
+</div>
+<!-- Date Range Dropdown -->
+<div class="relative">
+<button class="h-9 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">calendar_today</span>
+<span>Past 24 Hours</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+</button>
+</div>
+<div class="ml-auto flex items-center gap-2">
+<button class="h-9 px-2.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm uppercase tracking-wider transition-colors" type="button">
+              Reset Filters
+            </button>
+<button class="h-9 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">bookmark</span>
+<span>Save View</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Dynamic Bulk Action Bar (Visible when items selected) -->
+<div class="px-gutter-lg mb-space-md">
+<div class="bg-inverse-surface text-inverse-on-surface rounded-xl p-space-md shadow-md flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold font-code-sm text-code-sm">
+          3
+        </div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-semibold text-inverse-on-surface">3 tickets selected</span>
+<span class="font-code-sm text-[11px] text-secondary-fixed-dim">TKT-2026-000125, TKT-2026-000126, TKT-2026-000128</span>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-wrap">
+<button class="h-8 px-2.5 rounded-lg bg-surface-container-high/15 hover:bg-surface-container-high/25 text-inverse-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+<span>Assign Agent</span>
+<span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
+<button class="h-8 px-2.5 rounded-lg bg-surface-container-high/15 hover:bg-surface-container-high/25 text-inverse-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+<span>Change Status</span>
+<span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
+<button class="h-8 px-2.5 rounded-lg bg-surface-container-high/15 hover:bg-surface-container-high/25 text-inverse-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">flag</span>
+<span>Priority</span>
+<span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
+<button class="h-8 px-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary-container font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">eject</span>
+<span>Escalate to Tier-3</span>
+</button>
+<button class="h-8 px-2.5 rounded-lg bg-surface-container-high/15 hover:bg-error hover:text-on-error text-inverse-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Close Selected</span>
+</button>
+<button class="h-8 px-2.5 rounded-lg bg-surface-container-high/15 hover:bg-surface-container-high/25 text-inverse-on-surface font-title-sm text-title-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Bulk Export</span>
+</button>
+<button class="h-8 px-2 rounded-lg text-secondary-fixed hover:text-inverse-on-surface font-label-sm text-label-sm uppercase tracking-wider ml-1" type="button">
+          Deselect All
+        </button>
+</div>
+</div>
+</div>
+<!-- Primary Enterprise Ticket Table Container -->
+<div class="px-gutter-lg">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider h-10 select-none">
+<th class="pl-space-md pr-2 w-12 text-center" scope="col">
+<input checked="" class="w-4 h-4 rounded bg-surface-container-lowest text-primary accent-primary cursor-pointer" type="checkbox"/>
+</th>
+<th class="px-space-sm py-2" scope="col">Ticket #</th>
+<th class="px-space-sm py-2 min-w-[190px]" scope="col">Customer</th>
+<th class="px-space-sm py-2 min-w-[260px]" scope="col">Subject &amp; Category</th>
+<th class="px-space-sm py-2" scope="col">Dept</th>
+<th class="px-space-sm py-2 min-w-[150px]" scope="col">Assignee</th>
+<th class="px-space-sm py-2" scope="col">Priority</th>
+<th class="px-space-sm py-2" scope="col">Status</th>
+<th class="px-space-sm py-2 min-w-[130px]" scope="col">SLA Target</th>
+<th class="px-space-sm py-2" scope="col">Created</th>
+<th class="px-space-sm py-2" scope="col">Updated</th>
+<th class="pr-space-md pl-2 text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface font-body-sm text-body-sm">
+<!-- Row 1: Selected, Critical, Escalated -->
+<tr class="bg-primary-fixed/20 hover:bg-primary-fixed/30 transition-colors group">
+<td class="pl-space-md pr-2 py-3 text-center">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-3 font-code-sm text-code-sm font-semibold text-primary whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-6 rounded-full bg-primary inline-block"></span>
+<span>TKT-2026-000125</span>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2.5">
+<img class="w-7 h-7 rounded-full object-cover" data-alt="Portrait photo of customer Elena Rostova in business attire with neutral modern lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlIPV_-lCB8TFCSw38LnuS4aIXzMysBqhKdYJsNc9n5_vIz4xBW6rR7F9sn92uUtFvCKm6o-Go6h-HiAIjOHTOIb64aZJLD7UKvEbm-dhNnwkAGK9Coiz7kFzV3KqJhUukq9Jga1wRiEr6nG5hf6JclCDoUkd6jRvrO_1Y27IFDf0vF2ec0NUCgFjgGGFmfhKkO5Fkzfl58oWcoGe07YhQ3-sV2RNXD82A8IFXcuqpXTpFDlBBFrK1"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold truncate leading-tight">Elena Rostova</span>
+<span class="font-body-sm text-[11px] text-secondary truncate">Acme Corp Global</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex flex-col gap-1 max-w-sm">
+<a class="font-title-sm text-title-sm font-bold text-on-surface hover:text-primary transition-colors truncate" href="#">
+                    Payment Gateway Webhook Timeout - Error 504 on Stripe Connect
+                  </a>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-secondary uppercase tracking-wider">Webhook / API</span>
+<span class="font-body-sm text-[11px] text-secondary">#prod-incident</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded-full font-code-sm text-[11px] bg-secondary-fixed text-on-secondary-fixed font-bold">TECH</span>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Agent Marcus Chen studio headshot with blue slate studio backdrop and sharp corporate tone" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx-cFWXA_sl9Xpc54f77JK1xdZem9nQgWPIOppbm9Por1fXMBrbjf6TQe_Z1jhSMXKlCwEz3wwEJFtyral4MGyODW3YFRfAiiMea5M-81oe6Ht0oxSrNEnD3XGLlBK2F-GvvkjcGwOjVol1Y9TH6itT34Gowf-rbSTye355BQg50AyLag1aqfIXirHvwE3Ij7UTCssQ5np4zmYrXrQe3Z6bxU0Iu__0tGREd6RnA79YUxIZnXwmo_m"/>
+<span class="font-title-sm text-title-sm truncate">Marcus Chen</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-error"></span>
+</span>
+<span>CRITICAL</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-error/10 text-error font-title-sm text-title-sm font-bold">Escalated</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1 px-2 py-1 rounded bg-error-container text-error font-code-sm text-[11px] font-bold">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>14m remaining</span>
+</div>
+</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">Today, 09:14 AM</td>
+<td class="px-space-sm py-3 font-semibold text-primary text-[12px] whitespace-nowrap">2m ago</td>
+<td class="pr-space-md pl-2 py-3 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Quick View" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button aria-label="Quick Reassign" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_backward</span>
+</button>
+<button aria-label="More Options" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Selected, High, In Progress -->
+<tr class="bg-primary-fixed/20 hover:bg-primary-fixed/30 transition-colors group">
+<td class="pl-space-md pr-2 py-3 text-center">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-3 font-code-sm text-code-sm font-semibold text-on-surface whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-6 rounded-full bg-primary-container inline-block"></span>
+<span>TKT-2026-000126</span>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2.5">
+<img class="w-7 h-7 rounded-full object-cover" data-alt="Julien Dubois corporate profile photo casual studio professional headshot in grey shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNmWNeG-r3FaEdBuvEf3Jmx2FMnt_bPrsb4rq1wIvTZ8mZgfFBBhCYKboc15d-3oP6rTy--MUTVL-RN8R8fpkIoefrdQCobvvhmFoxITqzP9zMwfc9leRY56SnezdqqCmkncCyZqVid91grb9mrJG6uhC6euS5kKecJneDyoi096G8y28bUC47BQQVpB5aT7_IUaD0dwvoD-jlpfuMN_ZKlSiXwp1IeEXLXKMKDy7w1IL5mu2uKW87"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold truncate leading-tight">Julien Dubois</span>
+<span class="font-body-sm text-[11px] text-secondary truncate">Docker Enterprise</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex flex-col gap-1 max-w-sm">
+<a class="font-title-sm text-title-sm font-bold text-on-surface hover:text-primary transition-colors truncate" href="#">
+                    Kubernetes Cluster Ingress 502 Bad Gateway under Load
+                  </a>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-secondary uppercase tracking-wider">Infrastructure</span>
+<span class="font-body-sm text-[11px] text-secondary">#k8s-ingress</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded-full font-code-sm text-[11px] bg-secondary-fixed text-on-secondary-fixed font-bold">TECH</span>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Elena Rostova senior technical lead avatar warm office natural backlight headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0aJqO6-9nut5Ulsh3WdH_UkgosQkqueNLd4oH9zyGU_C_G1W11djuTwERtmnwytzGcu3Ks2J5IylyoDiX7zxWVrjZpYD8RvIHbBzkT3pbwFggQ0Mo71AJlcaX0dQIjYdKDCF12Ut7JkkDWToOYpJkj1zQoZmrzv0cmuVLLyq6uoCb37vDxdJGG0KicDfPOsWDVjMx9cc3oD8iUfoftSCP6wN268DZHRpVREY9b8B8a6yHun122299"/>
+<span class="font-title-sm text-title-sm truncate">Elena Rostova</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">
+<span>HIGH</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-secondary-fixed/40 text-on-secondary-fixed font-title-sm text-title-sm">In Progress</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1 px-2 py-1 rounded bg-surface-container-high text-on-surface font-code-sm text-[11px]">
+<span class="material-symbols-outlined text-[14px] text-tertiary">schedule</span>
+<span>1h 45m left</span>
+</div>
+</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">Today, 08:30 AM</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">8m ago</td>
+<td class="pr-space-md pl-2 py-3 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Quick View" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button aria-label="Quick Reassign" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_backward</span>
+</button>
+<button aria-label="More Options" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Medium, Pending -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="pl-space-md pr-2 py-3 text-center">
+<input class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-3 font-code-sm text-code-sm font-semibold text-secondary whitespace-nowrap">
+                TKT-2026-000127
+              </td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">
+                    DC
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold truncate leading-tight">David Chen</span>
+<span class="font-body-sm text-[11px] text-secondary truncate">FinTech Global</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex flex-col gap-1 max-w-sm">
+<a class="font-title-sm text-title-sm font-bold text-on-surface hover:text-primary transition-colors truncate" href="#">
+                    Enterprise Invoice Tax Recalculation Discrepancy for Q3
+                  </a>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-secondary uppercase tracking-wider">Billing</span>
+<span class="font-body-sm text-[11px] text-secondary">#vat-exemption</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded-full font-code-sm text-[11px] bg-surface-container-high text-secondary font-bold">BILLING</span>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Sarah Jenkins billing account specialist portrait photo professional studio clean headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs7H50YvQIQcoGwRxsfDOSnC5fBQ0QDFHwHmn2TVu7IwAQk3AH9_6FYeJyNhpciKZOZmfrWLc92mHhNEb0IxEWM8C3zNEH5PF8BI2UCsKScUzj4DttjFlVkMOdOr26_Xi9TWQW3GRrxr_0HVUzOUYHFWv2NVDNPjDMzYqnVwL-oV3rII7Y5kWzjnxrBB087JlEzEWLpSPXINK_tVRc6LVpCqVmtEdiOkFEYsHGzhsMzyIM2RH5_Y8w"/>
+<span class="font-title-sm text-title-sm truncate">Sarah Jenkins</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-label-sm font-semibold">MEDIUM</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-surface-container text-secondary font-title-sm text-title-sm">Pending</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1 px-2 py-1 rounded bg-tertiary-fixed/30 text-on-tertiary-fixed font-code-sm text-[11px]">
+<span class="material-symbols-outlined text-[14px] text-tertiary">check</span>
+<span>4h 10m left</span>
+</div>
+</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">Today, 07:45 AM</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">25m ago</td>
+<td class="pr-space-md pl-2 py-3 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Quick View" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button aria-label="Quick Reassign" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_backward</span>
+</button>
+<button aria-label="More Options" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Selected, Critical, SAML Error -->
+<tr class="bg-primary-fixed/20 hover:bg-primary-fixed/30 transition-colors group">
+<td class="pl-space-md pr-2 py-3 text-center">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-3 font-code-sm text-code-sm font-semibold text-primary whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-6 rounded-full bg-error inline-block"></span>
+<span>TKT-2026-000128</span>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2.5">
+<img class="w-7 h-7 rounded-full object-cover" data-alt="Marcus Vance enterprise security architect headshot sharp modern corporate tech style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu-i5-QvUBPZTlQGe-g3tKba7lUFJKdCashKCTuiscF3xDkScYNgk3YdZ1Q7s-KpbEY65TUk3d7lcuaoVavsnOtS2USObkg7B9I_BYssriJyeUQiMJfh_pfiLS5x6nOz7AzWQafExL60PUX8WIdTnhQq0nSRnzrMEYfap0gGTFvSpcF6j9hp4BnpakKoSqmLigpZa77KmWq-rd3khggpqTRUU_u3VoUxSb0NPShcE3XKUzP4ckDS99"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold truncate leading-tight">Marcus Vance</span>
+<span class="font-body-sm text-[11px] text-secondary truncate">Cloudflare Edge</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex flex-col gap-1 max-w-sm">
+<a class="font-title-sm text-title-sm font-bold text-on-surface hover:text-primary transition-colors truncate" href="#">
+                    SSO Federation SAML Error: Cert Expired on Entra ID
+                  </a>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-secondary uppercase tracking-wider">Authentication</span>
+<span class="font-body-sm text-[11px] text-secondary">#security-blocker</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded-full font-code-sm text-[11px] bg-tertiary-container text-on-tertiary-container font-bold">SECOPS</span>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Sarah Lindqvist security support engineer professional modern workplace headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByvQCVfopc_mbiqhaSKGLSXwbMrL5utRZDg4E5yPv4QryH0gVRDMjZyrryFlQuzSQjUhtll3p63kPTiI8vG30A59Lt91esb8-IDzRvdvAtPIx6PQCHvfpgEcVyoDn4dCxr-WqmAn3YctqacfA8lwtMBo-mwIGkHwoNxhKbLu7vJHSie5pQa0kKBrQ68Q2SF7lW9up75mzBfsopfgA5NynB0lp9jh7s56Js1aTOROrOIHp1vxy35eOJ"/>
+<span class="font-title-sm text-title-sm truncate">Sarah Lindqvist</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-error"></span>
+</span>
+<span>CRITICAL</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-secondary-fixed/40 text-on-secondary-fixed font-title-sm text-title-sm">In Progress</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1 px-2 py-1 rounded bg-error-container text-error font-code-sm text-[11px] font-bold">
+<span class="material-symbols-outlined text-[14px]">timer</span>
+<span>22m left</span>
+</div>
+</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">Yesterday, 14:22 PM</td>
+<td class="px-space-sm py-3 text-error font-semibold text-[12px] whitespace-nowrap">14m ago</td>
+<td class="pr-space-md pl-2 py-3 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Quick View" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button aria-label="Quick Reassign" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_backward</span>
+</button>
+<button aria-label="More Options" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: High, Open -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="pl-space-md pr-2 py-3 text-center">
+<input class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-3 font-code-sm text-code-sm font-semibold text-secondary whitespace-nowrap">
+                TKT-2026-000129
+              </td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2.5">
+<img class="w-7 h-7 rounded-full object-cover" data-alt="Portrait photo of customer Elena Rostova in business attire with neutral modern lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL1cDGq1COUxPrTlgm_tmn-7b6RZS5D7zsiZEp5eiXyBj_N993ivTZPiKZDI45iJbYQxDCL8P7KBy1wInxH_ZWTlQlvAvR5ul3PnGpW2jCMnxtX0feUgnV3rDhYg07Qn-SzILecUakwtJ3ESc2rHan0taDaao7Gzl344-AuKlNFSVYHzJWeoz31tRMY0CXjTZ2NAkENTAGu-o60jvb2i3-GCfwWnkPs0g328JBZUPBdqDqyM7yxlXz"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold truncate leading-tight">Elena Rostova</span>
+<span class="font-body-sm text-[11px] text-secondary truncate">Acme Corp Global</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex flex-col gap-1 max-w-sm">
+<a class="font-title-sm text-title-sm font-bold text-on-surface hover:text-primary transition-colors truncate" href="#">
+                    Custom Webhook Signature Verification Failure in Sandbox
+                  </a>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-secondary uppercase tracking-wider">API</span>
+<span class="font-body-sm text-[11px] text-secondary">#sandbox-env</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded-full font-code-sm text-[11px] bg-secondary-fixed text-on-secondary-fixed font-bold">TECH</span>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Agent Marcus Chen studio headshot with blue slate studio backdrop and sharp corporate tone" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRNQ3xUtTvyjc-dMlSKWkcbvNN0v3QNWquJdG1VUwvXt1vyA9vOB6t4kD6M4vSxEsLqd8f9QjBDY6FdsAEP-V6V0ILL9_kNVdqEZnumnaKAu6v1j3Na9uFCxBlnSNcdR2fuxn_DeblPgSlF72cAgUdz5BJGVyRRKxlqlOKEhPONCK7RUMPLdCx88Vevxc6EM8n5yKSb2CN6lrpPA_zZc4V53tKnkzHjO3i72lWq8Crs4qCtBnczd7b"/>
+<span class="font-title-sm text-title-sm truncate">Marcus Chen</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">HIGH</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-tertiary-fixed text-on-tertiary-fixed font-title-sm text-title-sm font-semibold">Open</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1 px-2 py-1 rounded bg-surface-container-high text-on-surface font-code-sm text-[11px]">
+<span class="material-symbols-outlined text-[14px] text-tertiary">schedule</span>
+<span>2h 15m left</span>
+</div>
+</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">Yesterday, 16:40 PM</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">32m ago</td>
+<td class="pr-space-md pl-2 py-3 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Quick View" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button aria-label="Quick Reassign" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_backward</span>
+</button>
+<button aria-label="More Options" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Low, Resolved -->
+<tr class="hover:bg-surface-container-low transition-colors group opacity-85 hover:opacity-100">
+<td class="pl-space-md pr-2 py-3 text-center">
+<input class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-3 font-code-sm text-code-sm font-semibold text-secondary whitespace-nowrap">
+                TKT-2026-000130
+              </td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-xs">
+                    AO
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold truncate leading-tight">Amara Okafor</span>
+<span class="font-body-sm text-[11px] text-secondary truncate">Spotify Media</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex flex-col gap-1 max-w-sm">
+<a class="font-title-sm text-title-sm font-semibold text-on-surface hover:text-primary transition-colors truncate" href="#">
+                    Quarterly SOC-2 Compliance Audit Log Export Request
+                  </a>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-secondary uppercase tracking-wider">Security</span>
+<span class="font-body-sm text-[11px] text-secondary">#compliance</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded-full font-code-sm text-[11px] bg-tertiary-container text-on-tertiary-container font-bold">SECOPS</span>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Kenji Sato enterprise operations manager portrait photography bright studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBdJgGr0G8nMNKzf3hvYq4jLB2pn6qYreLTFswFDCcK6ktPMXf1laKnLgd-tN-XiV4m6SiU4Lfw6IPWPy5AIs3yvWr2FL3MT6p9i0m6JvJX30HNMAknKHGaPJOectk64tIVRCdWgwrKyWt4s0TtVgeUoSj4n1W5yeukBHouEbG1xL4MOpvuCAAAeQKNv8MbkzhThCnR9UZqRfcmkrKAeIRHoV9-mP32tSFfjMqMAXdIDcxDoz4G4vN"/>
+<span class="font-title-sm text-title-sm truncate">Kenji Sato</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-secondary font-semibold">LOW</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-tertiary-container/20 text-tertiary font-title-sm text-title-sm font-bold flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+<span>Resolved</span>
+</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1 px-2 py-1 rounded bg-tertiary/10 text-tertiary font-code-sm text-[11px] font-semibold">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+<span>Target Met (6m)</span>
+</div>
+</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">Oct 28, 2024</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">1d ago</td>
+<td class="pr-space-md pl-2 py-3 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Quick View" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button aria-label="Quick Reassign" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_backward</span>
+</button>
+<button aria-label="More Options" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: Unassigned, High, Open -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="pl-space-md pr-2 py-3 text-center">
+<input class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-3 font-code-sm text-code-sm font-semibold text-secondary whitespace-nowrap">
+                TKT-2026-000131
+              </td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2.5">
+<img class="w-7 h-7 rounded-full object-cover" data-alt="Sarah Lin corporate partner director professional studio photography sharp portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAApzdfuBZ9WaKv_pVcyIouaV5dKH3uiDiYY26G7doT1oQi5pIrJuNlQ0qu0mat7xnZm7wbk33mfssgKg48UBsxVBZ376q1OnrmPlVBH86ChGPYllVF4N_WDijhwqbzwClaQBSHSQ5rRuh935ElPxyoJ4_WktqN5PkxCiIdpIOoIMSJc0DiY2p0T3xfluaFQRU3TZL-1Rr0CbrPtvnW0ewBn6KpOhKtyjsEsIrm3fjaSzbVPpCry7yb"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold truncate leading-tight">Sarah Lin</span>
+<span class="font-body-sm text-[11px] text-secondary truncate">Datadog Partner</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex flex-col gap-1 max-w-sm">
+<a class="font-title-sm text-title-sm font-bold text-on-surface hover:text-primary transition-colors truncate" href="#">
+                    Production REST API Rate Limit 429 Throttle Bug during Sync
+                  </a>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-secondary uppercase tracking-wider">Infrastructure</span>
+<span class="font-body-sm text-[11px] text-secondary">#rate-limiting</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded-full font-code-sm text-[11px] bg-secondary-fixed text-on-secondary-fixed font-bold">TECH</span>
+</td>
+<td class="px-space-sm py-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container/60 text-error font-title-sm text-title-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">person_off</span>
+<span>Unassigned</span>
+</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">HIGH</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-tertiary-fixed text-on-tertiary-fixed font-title-sm text-title-sm font-semibold">Open</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1 px-2 py-1 rounded bg-error-container text-error font-code-sm text-[11px] font-bold">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>45m left</span>
+</div>
+</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">Oct 28, 2024</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">1h ago</td>
+<td class="pr-space-md pl-2 py-3 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Quick View" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button aria-label="Quick Reassign" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_backward</span>
+</button>
+<button aria-label="More Options" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 8: Reopened -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="pl-space-md pr-2 py-3 text-center">
+<input class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-space-sm py-3 font-code-sm text-code-sm font-semibold text-secondary whitespace-nowrap">
+                TKT-2026-000132
+              </td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2.5">
+<img class="w-7 h-7 rounded-full object-cover" data-alt="Sarah Lin corporate partner director professional studio photography sharp portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUoJp5HzyLFSZ5BumxE0ScR6Ce_Rt3hkZk5jDSc4gjTGM1nKnBXIfZ0A_p4CbCQT9J31LyUSksRII45tLgwu8TzM4xKcw1isDOIK6noFufpU-x0KR7J4VVDxLRmCfPsWD_Nh1MkshP6UfG4Lwg2bcOjZiYapGufQCDlOZcYuGW4GdIZ_G5gBLz7m1cG1CINdOVMkFbolxTWz8NaVrV_sSOYdN5l8iF6XAuKbpjJkmp8jh0ZAL56T9J"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold truncate leading-tight">Sarah Lin</span>
+<span class="font-body-sm text-[11px] text-secondary truncate">Datadog Partner</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex flex-col gap-1 max-w-sm">
+<a class="font-title-sm text-title-sm font-bold text-on-surface hover:text-primary transition-colors truncate" href="#">
+                    SCIM Provisioning Sync Loop for Deactivated Users
+                  </a>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] text-secondary uppercase tracking-wider">Security</span>
+<span class="font-body-sm text-[11px] text-secondary">#identity-scim</span>
+</div>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded-full font-code-sm text-[11px] bg-tertiary-container text-on-tertiary-container font-bold">SECOPS</span>
+</td>
+<td class="px-space-sm py-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">
+                    LV
+                  </div>
+<span class="font-title-sm text-title-sm truncate">Liam Vance</span>
+</div>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">HIGH</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<span class="px-2 py-1 rounded bg-primary-fixed/60 text-on-primary-fixed font-title-sm text-title-sm font-bold">Reopened</span>
+</td>
+<td class="px-space-sm py-3 whitespace-nowrap">
+<div class="inline-flex items-center gap-1 px-2 py-1 rounded bg-surface-container-high text-on-surface font-code-sm text-[11px]">
+<span class="material-symbols-outlined text-[14px] text-secondary">schedule</span>
+<span>1h 30m left</span>
+</div>
+</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">Oct 27, 2024</td>
+<td class="px-space-sm py-3 text-secondary text-[12px] whitespace-nowrap">2h ago</td>
+<td class="pr-space-md pl-2 py-3 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Quick View" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button aria-label="Quick Reassign" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_backward</span>
+</button>
+<button aria-label="More Options" class="p-1 text-secondary hover:text-on-surface hover:bg-surface-container rounded transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Bottom Controls -->
+<div class="px-space-md py-space-sm bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md text-secondary font-body-sm text-body-sm">
+<span>Showing <strong class="text-on-surface font-semibold">1-8</strong> of <strong class="text-on-surface font-semibold">482</strong> tickets</span>
+<div class="flex items-center gap-1.5">
+<span class="text-secondary font-label-sm text-label-sm uppercase">Per page:</span>
+<select class="bg-surface-container-lowest text-on-surface rounded-lg px-2 py-1 text-body-sm font-semibold focus:outline-none">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+<option>100</option>
+</select>
+</div>
+</div>
+<!-- Page Numbers -->
+<div class="flex items-center gap-1 select-none">
+<button class="p-1 rounded text-secondary opacity-50 cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm font-bold shadow-sm" type="button">1</button>
+<button class="w-8 h-8 rounded-lg text-secondary hover:bg-surface-container font-title-sm text-title-sm" type="button">2</button>
+<button class="w-8 h-8 rounded-lg text-secondary hover:bg-surface-container font-title-sm text-title-sm" type="button">3</button>
+<button class="w-8 h-8 rounded-lg text-secondary hover:bg-surface-container font-title-sm text-title-sm" type="button">4</button>
+<span class="px-1 text-secondary font-code-sm">...</span>
+<button class="w-8 h-8 rounded-lg text-secondary hover:bg-surface-container font-title-sm text-title-sm" type="button">48</button>
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive State Previews (Enterprise Edge Case Gallery) -->
+<div class="px-gutter-lg mt-space-xl">
+<div class="bg-surface-container-low rounded-xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-md">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Component State Validation Suite</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Edge Case Demonstrations</h2>
+</div>
+<div class="flex items-center gap-1 bg-surface-container rounded-lg p-1">
+<button class="px-3 py-1 rounded text-secondary hover:text-on-surface font-title-sm text-title-sm active-state-tab" id="btn-show-empty" type="button">Empty State</button>
+<button class="px-3 py-1 rounded text-secondary hover:text-on-surface font-title-sm text-title-sm" id="btn-show-loading" type="button">Loading Skeletons</button>
+<button class="px-3 py-1 rounded text-secondary hover:text-on-surface font-title-sm text-title-sm" id="btn-show-error" type="button">Sync Error State</button>
+</div>
+</div>
+<!-- Preview 1: Empty State -->
+<div class="state-preview-panel bg-surface-container-lowest rounded-xl p-space-xl flex flex-col items-center justify-center text-center py-12" id="preview-empty">
+<div class="w-16 h-16 rounded-2xl bg-surface-container flex items-center justify-center text-secondary mb-space-md">
+<span class="material-symbols-outlined text-[36px]">filter_alt_off</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">No Tickets Matching Applied Filters</h3>
+<p class="font-body-md text-body-md text-secondary max-w-md mb-space-md">
+          There are no active or historical tickets matching <span class="font-code-sm text-primary font-semibold">Priority: Critical + Dept: Billing</span>. Try loosening filter parameters.
+        </p>
+<div class="flex items-center gap-2">
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors" type="button">
+            Clear Active Filters
+          </button>
+<button class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-colors" type="button">
+            Create New Ticket
+          </button>
+</div>
+</div>
+<!-- Preview 2: Loading Skeletons -->
+<div class="state-preview-panel hidden bg-surface-container-lowest rounded-xl p-space-lg flex flex-col gap-space-md animate-pulse" id="preview-loading">
+<div class="flex items-center justify-between pb-2">
+<div class="h-5 w-48 bg-surface-container rounded"></div>
+<div class="h-5 w-24 bg-surface-container rounded"></div>
+</div>
+<div class="space-y-3">
+<div class="h-12 bg-surface-container-low rounded-lg w-full"></div>
+<div class="h-12 bg-surface-container-low rounded-lg w-full"></div>
+<div class="h-12 bg-surface-container-low rounded-lg w-full"></div>
+<div class="h-12 bg-surface-container-low rounded-lg w-full"></div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<div class="h-4 w-32 bg-surface-container rounded"></div>
+<div class="h-6 w-56 bg-surface-container rounded"></div>
+</div>
+</div>
+<!-- Preview 3: Sync Error State -->
+<div class="state-preview-panel hidden bg-surface-container-lowest rounded-xl p-space-lg" id="preview-error">
+<div class="p-space-md rounded-lg bg-error-container text-on-error-container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-[28px] text-error flex-shrink-0">cloud_off</span>
+<div>
+<span class="font-title-sm text-title-sm font-bold block">Live Ticket Sync Interrupted (WebSocket 1006 Connection Closed)</span>
+<span class="font-body-sm text-body-sm text-on-error-container/80">SupportHub failed to subscribe to real-time incident message queues. Showing cached state from 14:02 UTC.</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-space-md py-1.5 rounded-lg bg-error text-on-error font-title-sm text-title-sm font-semibold shadow-sm hover:opacity-95" type="button">
+              Force Reconnect
+            </button>
+<button class="px-space-sm py-1.5 rounded-lg text-error hover:bg-error-container font-label-sm text-label-sm uppercase tracking-wider" type="button">
+              Diagnose
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const btnEmpty = document.getElementById('btn-show-empty');
+    const btnLoading = document.getElementById('btn-show-loading');
+    const btnError = document.getElementById('btn-show-error');
+
+    const pEmpty = document.getElementById('preview-empty');
+    const pLoading = document.getElementById('preview-loading');
+    const pError = document.getElementById('preview-error');
+
+    function selectTab(button, activePanel) {
+      [btnEmpty, btnLoading, btnError].forEach(btn => {
+        btn.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'font-semibold', 'shadow-sm');
+        btn.classList.add('text-secondary');
+      });
+      button.classList.add('bg-surface-container-lowest', 'text-on-surface', 'font-semibold', 'shadow-sm');
+      button.classList.remove('text-secondary');
+
+      [pEmpty, pLoading, pError].forEach(panel => panel.classList.add('hidden'));
+      activePanel.classList.remove('hidden');
+    }
+
+    if (btnEmpty && btnLoading && btnError) {
+      btnEmpty.addEventListener('click', () => selectTab(btnEmpty, pEmpty));
+      btnLoading.addEventListener('click', () => selectTab(btnLoading, pLoading));
+      btnError.addEventListener('click', () => selectTab(btnError, pError));
+      
+      // Default to empty state view tab styling
+      selectTab(btnEmpty, pEmpty);
+    }
+  })();
+</script></main></div></body></html>

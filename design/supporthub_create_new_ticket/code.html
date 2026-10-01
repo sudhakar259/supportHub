@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#131a33","background":"#f8f9ff","surface-container-lowest":"#ffffff","inverse-surface":"#213145","on-error":"#ffffff","tertiary-fixed":"#89f5e7","primary-container":"#cc4900","on-tertiary-fixed":"#00201d","primary-fixed":"#ffdbce","on-surface-variant":"#5a4138","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#3e4660","secondary-fixed":"#dbe1ff","surface-bright":"#f8f9ff","inverse-primary":"#ffb599","on-secondary-container":"#5a627e","surface-container-high":"#dce9ff","error-container":"#ffdad6","tertiary-container":"#008378","surface-container":"#e5eeff","on-surface":"#0b1c30","tertiary":"#00685f","secondary":"#565d79","error":"#ba1a1a","tertiary-fixed-dim":"#6bd8cb","surface-dim":"#cbdbf5","surface-variant":"#d3e4fe","on-background":"#0b1c30","on-primary-fixed-variant":"#7f2b00","on-secondary":"#ffffff","on-primary-container":"#fffbff","secondary-fixed-dim":"#bec5e5","outline":"#8e7166","surface-container-low":"#eff4ff","primary":"#a33900","on-tertiary-container":"#f4fffc","on-error-container":"#93000a","secondary-container":"#d8deff","primary-fixed-dim":"#ffb599","inverse-on-surface":"#eaf1ff","surface-tint":"#a73a00","surface":"#f8f9ff","on-primary":"#ffffff","on-primary-fixed":"#370e00","outline-variant":"#e2bfb2","surface-container-highest":"#d3e4fe","on-tertiary-fixed-variant":"#005049"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-lg":"1.25rem","gutter-lg":"1.5rem","space-xs":"0.25rem","space-md":"0.75rem","margin-mobile":"1rem","space-sm":"0.5rem","gutter":"1rem","space-xl":"2rem","margin":"1.5rem"},fontFamily:{"label-sm":["Inter"],"body-sm":["Inter"],"label-md":["Inter"],"headline-md":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"body-lg":["Inter"],"title-sm":["Inter"],"body-md":["Inter"],"code-sm":["JetBrains Mono"],"display-lg":["Hanken Grotesk"],"title-md":["Inter"],"headline-sm":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"]},fontSize:{"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><aside class="fixed left-0 top-0 h-screen w-64 bg-inverse-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-full overflow-hidden"><div class="h-16 px-gutter flex items-center gap-space-sm bg-inverse-surface"><img alt="Brand logo. - Primary color: #ea580c
+- Font: hankenGrotesk
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-inverse-on-surface leading-tight tracking-tight">SupportHub</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-inverse-primary">Enterprise Core</span></div></div><div class="flex-1 overflow-y-auto px-space-sm py-space-md"><div class="px-space-sm pb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim">Workspace</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[18px]">grid_view</span><span>Dashboard</span></a><a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="tickets" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">confirmation_number</span><span>Tickets</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-primary text-on-primary font-bold">24</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="my-tickets" href="#"><span class="material-symbols-outlined text-[18px]">assignment_ind</span><span>My Tickets</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="customers" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span>Customers</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="departments" href="#"><span class="material-symbols-outlined text-[18px]">apartment</span><span>Departments</span></a></nav><div class="mt-space-lg px-space-sm pb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim">Governance</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="users" href="#"><span class="material-symbols-outlined text-[18px]">manage_accounts</span><span>Users</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="roles-and-permissions" href="#"><span class="material-symbols-outlined text-[18px]">admin_panel_settings</span><span>Roles &amp; Permissions</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="reports" href="#"><span class="material-symbols-outlined text-[18px]">insights</span><span>Reports</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="automation" href="#"><span class="material-symbols-outlined text-[18px]">auto_mode</span><span>Automation</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span>Settings</span></a></nav></div><div class="p-space-md m-space-sm rounded-lg bg-surface-container-high/10"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-secondary-fixed-dim uppercase tracking-wider">SLA Health</span><span class="font-label-sm text-label-sm text-tertiary-fixed font-bold">99.8%</span></div><div class="w-full bg-inverse-surface h-1 rounded-full mt-2 overflow-hidden"><div class="bg-tertiary-container h-full w-[99.8%]"></div></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-gutter-lg flex items-center justify-between gap-gutter"><div class="flex-1 max-w-lg"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-[20px] text-secondary pointer-events-none">search</span><input class="w-full h-9 pl-10 pr-space-md bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search across tickets, requesters, audit logs (⌘K)" type="text"/><kbd class="absolute right-space-md font-code-sm text-code-sm text-secondary bg-surface-container px-1.5 py-0.5 rounded shadow-sm pointer-events-none">⌘K</kbd></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-2 px-space-md py-1 rounded-full bg-surface-container-low"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary-container"></span></span><span class="font-label-sm text-label-sm font-bold text-tertiary tracking-wider">SYSTEMS LIVE</span></div><button aria-label="Notifications" class="relative p-2 text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 flex h-2 w-2"><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span></button><button aria-label="Quick Action" class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><div class="h-6 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="flex flex-col text-left"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-secondary leading-none">Administrator</span></div><span class="material-symbols-outlined text-[18px] text-secondary ml-1">expand_more</span></div></div></div></header><main class="w-full pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Workflow Action & Allocation Bar -->
+<div class="w-full bg-surface-container-lowest px-gutter-lg py-space-md shadow-sm">
+<div class="max-w-[1720px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<!-- Breadcrumb & Context Title -->
+<div class="flex flex-col gap-1 min-w-0">
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs font-label-sm text-label-sm text-secondary">
+<span class="hover:text-primary transition-colors cursor-pointer">Workspace</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-primary transition-colors cursor-pointer">Tickets</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Create Ticket</span>
+</nav>
+<div class="flex items-center gap-space-md flex-wrap">
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Create New Support Ticket</h1>
+<div class="flex items-center gap-2 px-2.5 py-1 rounded bg-surface-container-low text-secondary">
+<span class="font-code-sm text-code-sm font-semibold text-primary">Allocating ID: TKT-2026-000133</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary px-1.5 py-0.5 rounded bg-surface-container font-bold">Draft</span>
+</div>
+</div>
+</div>
+<!-- Action Button Group -->
+<div class="flex items-center gap-space-sm self-start md:self-auto flex-wrap">
+<button class="px-space-md py-2 rounded bg-surface-container-low hover:bg-surface-container text-on-surface font-title-sm text-title-sm transition-colors flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+<span>Discard Draft</span>
+</button>
+<button class="px-space-md py-2 rounded bg-surface-container hover:bg-surface-variant text-on-surface font-title-sm text-title-sm transition-colors flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Save as Draft</span>
+</button>
+<button class="px-gutter py-2 rounded bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm shadow-sm transition-all flex items-center gap-2" id="submit-ticket-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Submit Ticket</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Notification Banner (Simulated Instant Routing Live Link) -->
+<div class="w-full bg-surface-container-high/40 px-gutter-lg py-2">
+<div class="max-w-[1720px] mx-auto flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-space-sm font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">bolt</span>
+<span class="font-semibold text-on-surface">Telemetry Link Active:</span>
+<span class="text-secondary">Connected to Stripe Webhook Ingestion Cluster (us-east-1) &amp; PagerDuty Bridge.</span>
+</div>
+<div class="flex items-center gap-space-sm font-code-sm text-code-sm text-secondary">
+<span>SESSION: #774-ALPHA</span>
+<span class="w-1 h-1 rounded-full bg-tertiary"></span>
+<span class="text-tertiary font-bold">STABLE</span>
+</div>
+</div>
+</div>
+<!-- Success Notification Drawer / Modal (Initially Hidden, Toggled via Submit or Test Pill) -->
+<div class="hidden w-full bg-tertiary-container text-on-tertiary-container px-gutter-lg py-space-md shadow-md transition-all" id="success-banner">
+<div class="max-w-[1720px] mx-auto flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest text-tertiary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-sm text-headline-sm font-bold text-on-tertiary-container">Ticket #TKT-2026-000133 Dispatched Successfully</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold uppercase">Escalated P1</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-tertiary-container/90">
+            Routing confirmed to <span class="font-semibold underline">Technical Support (DEPT-TECH)</span>. PagerDuty alert queued for SRE on-call lead <span class="font-semibold">Marcus Chen</span>.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-1.5 rounded bg-surface-container-lowest text-tertiary hover:bg-surface font-title-sm text-title-sm transition-colors shadow-sm" type="button">
+          View Ticket #TKT-2026-000133
+        </button>
+<button class="px-space-md py-1.5 rounded bg-tertiary hover:bg-on-tertiary-fixed-variant text-on-tertiary font-title-sm text-title-sm transition-colors" id="create-another-btn" type="button">
+          Create Another Ticket
+        </button>
+</div>
+</div>
+</div>
+<!-- Main Split-Screen Workbench Body -->
+<div class="w-full px-gutter-lg py-gutter-lg">
+<div class="max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter-lg items-start">
+<!-- LEFT & CENTER CONTAINER: The Multi-Section Ticket Form (Col 7 or 8 on wide displays) -->
+<form class="lg:col-span-8 flex flex-col gap-gutter-lg" id="create-ticket-form" onsubmit="event.preventDefault();">
+<!-- Section 1: Customer & Reporter Identification -->
+<div class="bg-surface-container-lowest rounded-xl p-gutter-lg shadow-sm flex flex-col gap-gutter">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded bg-primary/10 text-primary flex items-center justify-center font-bold text-label-md">01</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-snug">Customer &amp; Reporter Identification</h2>
+<p class="font-body-sm text-body-sm text-secondary">Establish account context, SLA entitlements, and primary dispatch hooks</p>
+</div>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              Identity Synced
+            </span>
+</div>
+<!-- Customer Lookup & Channel Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Account Search / Selected Card -->
+<div class="md:col-span-2 flex flex-col gap-1.5">
+<label class="font-label-md text-label-md uppercase tracking-wider text-secondary flex items-center justify-between">
+<span>Account &amp; Requester Identity *</span>
+<span class="text-primary font-bold cursor-pointer hover:underline text-[11px]">Change Account</span>
+</label>
+<!-- Customer Profile Pill Container -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md min-w-0">
+<img class="w-12 h-12 rounded-full object-cover shadow-sm shrink-0" data-alt="Professional studio portrait of Elena Rostova, VP of Engineering, with clean neutral architectural studio lighting, wearing navy blazer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ6rD6PyuLp2sYiWUS1I_99FM1-gC_H_cAEuply2tMLZCnekKi89GmTHhSSOoWaGbMiy9C9VvEcfdJEX2htj-IyjUKWv520LQMLznUNznmlsVG1LMke_lASZUipWcVCsGSfrolbaO6uAy0GpA9Ke1Chvjh4qIDj3LjHw22kQOhQLcMO1lk9laaolJxWYr91iMPsOYeiGLHexwAQ1OISw2p5ym9mRoUGIpmrNx7ji2_9V_B6i5R5iqn"/>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-title-md text-title-md text-on-surface font-bold truncate">Acme Corporation</span>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold uppercase tracking-wider">VIP Platinum 24/7 SLA</span>
+</div>
+<div class="flex items-center gap-2 text-secondary font-body-sm text-body-sm truncate">
+<span class="text-on-surface font-medium">Elena Rostova</span>
+<span>•</span>
+<span class="font-code-sm text-code-sm truncate">elena.rostova@acme-corp.com</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end md:self-auto shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[20px]">verified_user</span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold uppercase">Contract Active</span>
+</div>
+</div>
+</div>
+<!-- Inbound Channel Dropdown -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md uppercase tracking-wider text-secondary" for="inbound-channel">
+                Inbound Ingestion Channel *
+              </label>
+<div class="relative">
+<select class="w-full h-10 px-space-md bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer pr-10" id="inbound-channel">
+<option selected="" value="web">Web Portal (Authenticated Customer Console)</option>
+<option value="email">Direct Inbound Email (priority-support@hub.io)</option>
+<option value="slack">Slack Connect (#acme-supporthub)</option>
+<option value="phone">Emergency Telephony / IVR Escalation</option>
+<option value="api">Automated API Monitoring Webhook</option>
+</select>
+<span class="material-symbols-outlined absolute right-space-md top-2.5 text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+<!-- CC Stakeholders Input -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md uppercase tracking-wider text-secondary" for="cc-stakeholders">
+                CC / Additional Stakeholders
+              </label>
+<div class="relative flex items-center">
+<input class="w-full h-10 px-space-md bg-surface-container-lowest text-on-surface font-body-sm text-body-sm rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" id="cc-stakeholders" type="text" value="marcus.vance@acme-corp.com, devops-team@acme-corp.com"/>
+<span class="material-symbols-outlined absolute right-space-md text-secondary text-[18px]">group_add</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Ticket Core Details -->
+<div class="bg-surface-container-lowest rounded-xl p-gutter-lg shadow-sm flex flex-col gap-gutter">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded bg-primary/10 text-primary flex items-center justify-center font-bold text-label-md">02</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-snug">Incident Core Details</h2>
+<p class="font-body-sm text-body-sm text-secondary">Classify urgency, surface failure modes, and provide reproducible artifacts</p>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">SCHEMA: V2.4</span>
+</div>
+<!-- Subject Line with Dynamic Counter -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md uppercase tracking-wider text-secondary" for="ticket-subject">
+                Subject Line *
+              </label>
+<span class="font-code-sm text-code-sm text-secondary font-medium" id="subject-counter">71/150 characters</span>
+</div>
+<input class="w-full h-11 px-space-md bg-surface-container-lowest text-on-surface font-title-md text-title-md font-semibold rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" id="ticket-subject" maxlength="150" type="text" value="Payment Gateway Webhook Signature Mismatch on Stripe Live Endpoint"/>
+</div>
+<!-- Category & Subcategory Selectors -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md uppercase tracking-wider text-secondary" for="ticket-category">
+                Primary Category *
+              </label>
+<div class="relative">
+<select class="w-full h-10 px-space-md bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer pr-10" id="ticket-category">
+<option selected="" value="api">API &amp; Webhooks</option>
+<option value="infra">Infrastructure &amp; Hosting</option>
+<option value="auth">Authentication &amp; SAML SSO</option>
+<option value="billing">Billing &amp; Invoicing</option>
+<option value="security">Security &amp; Compliance Audit</option>
+<option value="general">General Operational Inquiry</option>
+</select>
+<span class="material-symbols-outlined absolute right-space-md top-2.5 text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md uppercase tracking-wider text-secondary" for="ticket-subcategory">
+                Subcategory (Context-Filtered) *
+              </label>
+<div class="relative">
+<select class="w-full h-10 px-space-md bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer pr-10" id="ticket-subcategory">
+<option selected="" value="sig">Webhook Signature Verification (HMAC-SHA256)</option>
+<option value="rate">Rate Limiting &amp; 429 Throttle</option>
+<option value="latency">Endpoint Latency / 504 Timeout</option>
+<option value="idempotency">Idempotency Key Collisions</option>
+</select>
+<span class="material-symbols-outlined absolute right-space-md top-2.5 text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Priority Radios with Rich Visual Cards -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md uppercase tracking-wider text-secondary">
+                Severity Level &amp; Priority Tier *
+              </label>
+<span class="font-label-sm text-label-sm text-error font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+                P1 Selection Triggers On-Call Escalation
+              </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-sm">
+<!-- P4 Low -->
+<label class="relative flex flex-col p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">P4 • Low</span>
+<input class="accent-primary" name="priority" type="radio" value="p4"/>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Cosmetic or general non-blocking inquiry.</span>
+<span class="mt-2 font-label-sm text-label-sm text-secondary-fixed-variant uppercase">SLA: 48h Response</span>
+</label>
+<!-- P3 Medium -->
+<label class="relative flex flex-col p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">P3 • Medium</span>
+<input class="accent-primary" name="priority" type="radio" value="p3"/>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Standard inquiry, minor workflow friction.</span>
+<span class="mt-2 font-label-sm text-label-sm text-secondary uppercase font-semibold">SLA: 24h Response</span>
+</label>
+<!-- P2 High -->
+<label class="relative flex flex-col p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">P2 • High</span>
+<input class="accent-primary" name="priority" type="radio" value="p2"/>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Core service degraded, workaround exists.</span>
+<span class="mt-2 font-label-sm text-label-sm text-primary font-bold uppercase">SLA: 8h Response</span>
+</label>
+<!-- P1 Critical (Selected) -->
+<label class="relative flex flex-col p-space-md rounded-lg bg-error-container text-on-error-container shadow-md cursor-pointer transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-sm text-title-sm font-bold text-error flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+                    P1 • Critical
+                  </span>
+<input checked="" class="accent-error h-4 w-4" name="priority" type="radio" value="p1"/>
+</div>
+<span class="font-body-sm text-body-sm text-on-error-container font-medium">Complete outage, revenue impact, or data loss risk.</span>
+<div class="mt-2 flex items-center justify-between font-label-sm text-label-sm">
+<span class="font-bold text-error uppercase">SLA: 15m Response</span>
+<span class="text-[10px] bg-error text-on-error px-1.5 py-0.2 rounded font-bold uppercase tracking-wider">AUTO-PAGE SRE</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Rich Text Incident Description Editor -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md uppercase tracking-wider text-secondary flex items-center justify-between">
+<span>Incident Narrative &amp; Stack Traces *</span>
+<span class="font-label-sm text-label-sm text-secondary">Markdown &amp; Codeblocks Supported</span>
+</label>
+<!-- Editor Container -->
+<div class="flex flex-col rounded-lg shadow-sm bg-surface-container-lowest overflow-hidden">
+<!-- Formatting Toolbar -->
+<div class="flex items-center gap-1 p-1.5 bg-surface-container-low flex-wrap">
+<button aria-label="Bold" class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">format_bold</span>
+</button>
+<button aria-label="Italic" class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">format_italic</span>
+</button>
+<button aria-label="Code Block" class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</button>
+<div class="h-4 w-px bg-surface-container-high mx-1"></div>
+<button aria-label="Bullet List" class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+</button>
+<button aria-label="Numbered List" class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">format_list_numbered</span>
+</button>
+<button aria-label="Quote" class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">format_quote</span>
+</button>
+<div class="h-4 w-px bg-surface-container-high mx-1"></div>
+<button class="flex items-center gap-1 px-2 py-1 rounded bg-surface hover:bg-surface-container text-primary font-label-sm text-label-sm font-semibold transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+<span>Insert Log Snippet</span>
+</button>
+<button class="flex items-center gap-1 px-2 py-1 rounded bg-surface hover:bg-surface-container text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">link</span>
+<span>Attach Endpoint URL</span>
+</button>
+</div>
+<!-- Textarea with Pre-populated Incident Diagnostic Copy -->
+<textarea class="w-full p-space-md font-body-md text-body-md text-on-surface bg-transparent focus:outline-none resize-y leading-relaxed font-mono" rows="9">### Incident Summary
+Starting at 14:22 UTC, all production inbound payments triggered via our Stripe webhook listener began throwing HTTP 504 Gateway Timeouts and consecutive cryptographic validation errors.
+
+### Diagnostics &amp; Observed Behavior
+- Webhook Ingestion URL: `https://api.acme-corp.com/v2/integrations/stripe/webhook`
+- Error Message: `StripeSignatureVerificationException: Signature verification failed for payload hash: 0x9b3f4c1e...`
+- Root Cause Hypothesis: The automated secret rollover performed at 14:00 UTC appears to have desynced the shared secret between SupportHub and the Stripe dashboard live signing secrets.
+- Current Impact: 2,400+ consumer checkouts are suspended in 'pending_verification' status.
+- Immediate Request: Please execute manual validation of webhook secret token `whsec_99af08a...` and sync with Tier-3 SRE dispatch.</textarea>
+</div>
+</div>
+</div>
+<!-- Section 3: Diagnostic Artifacts & Attachments -->
+<div class="bg-surface-container-lowest rounded-xl p-gutter-lg shadow-sm flex flex-col gap-gutter">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-7 h-7 rounded bg-primary/10 text-primary flex items-center justify-center font-bold text-label-md">03</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-snug">Attachments &amp; Diagnostic Artifacts</h2>
+<p class="font-body-sm text-body-sm text-secondary">Upload encrypted HAR traces, telemetry payloads, or reproduction screenshots</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">MAX 25MB PER FILE</span>
+</div>
+<!-- Drag and Drop Zone -->
+<div class="p-gutter-lg rounded-xl bg-surface-container-low flex flex-col items-center justify-center gap-space-sm cursor-pointer hover:bg-surface-container transition-all text-center">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<div class="flex flex-col">
+<p class="font-title-sm text-title-sm text-on-surface font-semibold">
+                Drag &amp; drop diagnostic files, or <span class="text-primary underline">browse local directory</span>
+</p>
+<p class="font-body-sm text-body-sm text-secondary">Supported extensions: .log, .har, .json, .pcap, .png, .mp4, .pdf</p>
+</div>
+</div>
+<!-- Uploaded Files Pills -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Attached Diagnostic Artifacts (2 files staged)</span>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- File 1 -->
+<div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-primary text-[24px]">description</span>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface truncate">stripe_webhook_trace_20260214.log</span>
+<div class="flex items-center gap-2 font-code-sm text-code-sm text-secondary">
+<span>2.4 MB</span>
+<span>•</span>
+<span class="text-tertiary flex items-center gap-0.5 font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                        SHA-256 Validated
+                      </span>
+</div>
+</div>
+</div>
+<button aria-label="Remove File" class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- File 2 -->
+<div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-tertiary text-[24px]">data_object</span>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface truncate">payload_signature_dump.json</span>
+<div class="flex items-center gap-2 font-code-sm text-code-sm text-secondary">
+<span>480 KB</span>
+<span>•</span>
+<span class="text-tertiary flex items-center gap-0.5 font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                        Parsed Schema
+                      </span>
+</div>
+</div>
+</div>
+<button aria-label="Remove File" class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Internal Diagnostic Switch & Bottom Actions -->
+<div class="bg-surface-container-lowest rounded-xl p-gutter-lg shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-primary text-[24px]">lock</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-bold">Confidential Internal Dispatch</span>
+<span class="font-body-sm text-body-sm text-secondary">Keep initial SRE triage findings masked from customer notification portal</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<button class="px-space-xl py-2.5 rounded bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm shadow-sm transition-all flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>Execute Ticket Dispatch</span>
+</button>
+</div>
+</div>
+</form>
+<!-- RIGHT CONTAINER: AI Department Routing Heuristics, SLA Targets & Customer Dossier (Col 4 or 5) -->
+<aside class="lg:col-span-4 flex flex-col gap-gutter-lg sticky top-20">
+<!-- 1. Automatic Department Routing Engine Card -->
+<div class="bg-surface-container-lowest rounded-xl p-gutter-lg shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+<!-- Ambient AI Accent Glow -->
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">auto_awesome</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Automatic Routing Engine</h3>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-bold">NLP v4.2</span>
+</div>
+<!-- Matched Target Department Pill -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Target Department Assignment</span>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="font-title-md text-title-md font-bold text-on-surface">Technical Support</span>
+<span class="font-code-sm text-code-sm text-secondary">(DEPT-TECH)</span>
+</div>
+<span class="material-symbols-outlined text-tertiary text-[20px]">check_circle</span>
+</div>
+</div>
+<!-- Heuristic NLP Match Visual Bar -->
+<div class="flex flex-col gap-1.5 p-space-md rounded-lg bg-surface-container-low">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-secondary font-semibold">NLP Match Confidence:</span>
+<span class="text-primary font-bold">98.4% Match</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full w-[98.4%] transition-all duration-500"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+              Trigger Keywords: <span class="font-code-sm text-code-sm text-on-surface bg-surface-container px-1 py-0.5 rounded">webhook</span>, <span class="font-code-sm text-code-sm text-on-surface bg-surface-container px-1 py-0.5 rounded">stripe</span>, <span class="font-code-sm text-code-sm text-on-surface bg-surface-container px-1 py-0.5 rounded">endpoint</span>, <span class="font-code-sm text-code-sm text-on-surface bg-surface-container px-1 py-0.5 rounded">signature</span>
+</p>
+</div>
+<!-- Recommended Specialist Profile Card -->
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Recommended Escalation Lead</span>
+<div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-space-sm min-w-0">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0" data-alt="Portrait of Marcus Chen, Senior DevOps Engineer with eyeglasses, modern office backdrop, soft cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOSlu1MafLgXqwYRgr8r-k9Rb8T3j9J9Cc53q4tUMbQ0cWM14-Y9sT2CFukIYfGLEIbUQNCKGFKdOKDXtj6aay1dgnUsHl8BxsXjQkZmJCvX7gjWHoyo2_E4jrXup3B6MjrPYkT6tUPbn2sJeyUc_HhEbJI7m2JjfohJs3cUh2XMsC7JatV70ZhI-NFE8ftocmNt4jA5D1vieuw0PYixR49rOsxpY-kQYPOE9jKUJ9lnZsc5jarX_r"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm font-bold text-on-surface truncate">Marcus Chen</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">Lead DevOps &amp; Cloud Reliability</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-label-sm text-label-sm font-bold text-tertiary">3 / 8 Capacity</span>
+<span class="font-label-sm text-label-sm text-secondary">Active Queue</span>
+</div>
+</div>
+</div>
+<!-- Strategy & PagerDuty Trigger Info -->
+<div class="flex flex-col gap-2 pt-2">
+<div class="flex items-center justify-between text-body-sm font-body-sm text-secondary">
+<span>Dispatch Method:</span>
+<span class="font-semibold text-on-surface">Skill-Weighted Round Robin</span>
+</div>
+<div class="flex items-start gap-2 p-2.5 rounded bg-error-container/40 text-on-error-container text-body-sm font-body-sm">
+<span class="material-symbols-outlined text-error text-[18px] shrink-0 mt-0.5">crisis_alert</span>
+<span><strong>⚡ P1 Rule Active:</strong> Submitting will immediately trigger an urgent broadcast to <code>#eng-incident-room</code>.</span>
+</div>
+</div>
+</div>
+<!-- 2. SLA Entitlement Benchmark Card (Acme Corp Platinum) -->
+<div class="bg-surface-container-lowest rounded-xl p-gutter-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[22px]">timer</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">SLA Benchmark</h3>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-bold uppercase tracking-wider">Tier-1 Contract</span>
+</div>
+<div class="grid grid-cols-3 gap-2 text-center">
+<div class="p-space-sm bg-surface-container-low rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">First Response</span>
+<span class="font-headline-sm text-headline-sm font-bold text-error mt-1">15m</span>
+<span class="font-label-sm text-label-sm text-secondary">Strict SLA</span>
+</div>
+<div class="p-space-sm bg-surface-container-low rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Resolution</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface mt-1">2h</span>
+<span class="font-label-sm text-label-sm text-secondary">Deadline</span>
+</div>
+<div class="p-space-sm bg-surface-container-low rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Target MTTR</span>
+<span class="font-headline-sm text-headline-sm font-bold text-tertiary mt-1">1h 48m</span>
+<span class="font-label-sm text-label-sm text-secondary">Predicted</span>
+</div>
+</div>
+<!-- Escalation Pathway Stepper -->
+<div class="flex flex-col gap-2 pt-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Breach Avoidance Protocol</span>
+<div class="flex items-center justify-between text-body-sm font-body-sm relative py-1">
+<div class="flex items-center gap-1.5">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-bold text-label-sm flex items-center justify-center">1</span>
+<span class="font-semibold text-on-surface">L1 Triage</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-secondary">arrow_forward</span>
+<div class="flex items-center gap-1.5">
+<span class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface font-bold text-label-sm flex items-center justify-center">2</span>
+<span class="text-secondary">SRE (+30m)</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-secondary">arrow_forward</span>
+<div class="flex items-center gap-1.5">
+<span class="w-6 h-6 rounded-full bg-surface-container-high text-on-surface font-bold text-label-sm flex items-center justify-center">3</span>
+<span class="text-secondary">VP Eng (+1h)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Customer Health & Account Dossier -->
+<div class="bg-surface-container-lowest rounded-xl p-gutter-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">corporate_fare</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Customer Dossier</h3>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">ACM-88301</span>
+</div>
+<!-- Metric Grid -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Active Support Tickets</span>
+<div class="flex items-baseline gap-1.5 mt-1">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">5</span>
+<span class="font-body-sm text-body-sm text-secondary">of 142 Lifetime</span>
+</div>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Average CSAT Rating</span>
+<div class="flex items-baseline gap-1 mt-1 text-tertiary">
+<span class="font-headline-sm text-headline-sm font-bold">4.95</span>
+<span class="font-body-sm text-body-sm text-secondary">/ 5.0</span>
+</div>
+</div>
+</div>
+<!-- Assigned Strategic Account Manager -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm shrink-0" data-alt="Corporate headshot of Sarah Jenkins, Strategic Customer Success Director, warm welcoming smile, modern high-tech enterprise backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFCCL0jt4jOQCHEG7-N4A8Ll6NMijwN3ZngGWv0-rH5xy264dlAGE2baCbkoXWouy_RzhDM9EgOAzEnVb6CJGcNjX9k4iSUGCTQxaIckdSDIow5dnCR3fXnu3JkzZaq6JqzjTa9Nmrso1Ho0OEhXrIs8SV3lyzRqlF_yC1uhn5vI_oZhIV4pwXI1g-9kwllu28ehNefvdUKOyFWtlX4IbJeGOtSV74RhhETtlAgLtquJifbVJBClxg"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">Sarah Jenkins</span>
+<span class="font-body-sm text-body-sm text-secondary">Principal Strategic Account Exec</span>
+</div>
+</div>
+<button aria-label="Message Account Manager" class="p-2 rounded hover:bg-surface-container text-secondary hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+</div>
+<!-- Interactive Test Dispatch Toggle for Demonstration -->
+<div class="pt-2 flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Preview Feedback Mode</span>
+<button class="font-label-sm text-label-sm font-bold text-primary hover:underline" id="simulate-success-btn" type="button">
+              Test Success State
+            </button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+<script>
+  // Character counter for the ticket subject
+  const subjectInput = document.getElementById('ticket-subject');
+  const subjectCounter = document.getElementById('subject-counter');
+  
+  if (subjectInput && subjectCounter) {
+    subjectInput.addEventListener('input', (e) => {
+      const len = e.target.value.length;
+      subjectCounter.textContent = `${len}/150 characters`;
+    });
+  }
+
+  // Trigger Confirmation Banner
+  const submitBtn = document.getElementById('submit-ticket-btn');
+  const simulateBtn = document.getElementById('simulate-success-btn');
+  const successBanner = document.getElementById('success-banner');
+  const createAnotherBtn = document.getElementById('create-another-btn');
+  const ticketForm = document.getElementById('create-ticket-form');
+
+  function showSuccess() {
+    if (successBanner) {
+      successBanner.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function hideSuccess() {
+    if (successBanner) {
+      successBanner.classList.add('hidden');
+    }
+  }
+
+  if (submitBtn) submitBtn.addEventListener('click', showSuccess);
+  if (simulateBtn) simulateBtn.addEventListener('click', showSuccess);
+  if (ticketForm) ticketForm.addEventListener('submit', showSuccess);
+  if (createAnotherBtn) createAnotherBtn.addEventListener('click', hideSuccess);
+</script></main></div></body></html>

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Department Members — Technical Support</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-secondary-container": "#5a627e",
+            "surface-tint": "#a73a00",
+            "on-tertiary": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "surface-bright": "#f8f9ff",
+            "on-background": "#0b1c30",
+            "outline": "#8e7166",
+            "on-primary-fixed-variant": "#7f2b00",
+            "secondary-fixed-dim": "#bec5e5",
+            "primary-fixed-dim": "#ffb599",
+            "on-secondary-fixed-variant": "#3e4660",
+            "surface-container-highest": "#d3e4fe",
+            "tertiary": "#00685f",
+            "on-primary": "#ffffff",
+            "surface": "#f8f9ff",
+            "tertiary-fixed": "#89f5e7",
+            "surface-dim": "#cbdbf5",
+            "on-surface-variant": "#5a4138",
+            "on-primary-fixed": "#370e00",
+            "on-primary-container": "#fffbff",
+            "secondary": "#565d79",
+            "surface-container-lowest": "#ffffff",
+            "surface-variant": "#d3e4fe",
+            "on-secondary-fixed": "#131a33",
+            "on-tertiary-fixed": "#00201d",
+            "background": "#f8f9ff",
+            "on-surface": "#0b1c30",
+            "on-tertiary-container": "#f4fffc",
+            "on-error": "#ffffff",
+            "surface-container-high": "#dce9ff",
+            "inverse-surface": "#213145",
+            "surface-container-low": "#eff4ff",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#dbe1ff",
+            "primary-container": "#cc4900",
+            "secondary-container": "#d8deff",
+            "primary": "#a33900",
+            "tertiary-container": "#008378",
+            "outline-variant": "#e2bfb2",
+            "error": "#ba1a1a",
+            "surface-container": "#e5eeff",
+            "inverse-primary": "#ffb599",
+            "inverse-on-surface": "#eaf1ff",
+            "tertiary-fixed-dim": "#6bd8cb",
+            "on-tertiary-fixed-variant": "#005049",
+            "primary-fixed": "#ffdbce"
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+          },
+          spacing: {
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "gutter": "1rem",
+            "gutter-lg": "1.5rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "margin-mobile": "1rem",
+            "margin": "1.5rem",
+            "space-md": "0.75rem"
+          },
+          fontFamily: {
+            "headline-md": ["Hanken Grotesk", "sans-serif"],
+            "headline-lg": ["Hanken Grotesk", "sans-serif"],
+            "display-lg": ["Hanken Grotesk", "sans-serif"],
+            "headline-lg-mobile": ["Hanken Grotesk", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "title-md": ["Inter", "sans-serif"],
+            "code-sm": ["JetBrains Mono", "monospace"],
+            "body-lg": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "title-sm": ["Inter", "sans-serif"],
+            "headline-sm": ["Hanken Grotesk", "sans-serif"]
+          },
+          fontSize: {
+            "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.015em", fontWeight: "600" }],
+            "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.02em", fontWeight: "600" }],
+            "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.025em", fontWeight: "700" }],
+            "headline-lg-mobile": ["24px", { lineHeight: "32px", letterSpacing: "-0.015em", fontWeight: "600" }],
+            "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }],
+            "title-md": ["16px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "code-sm": ["12px", { lineHeight: "18px", fontWeight: "500" }],
+            "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "600" }],
+            "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }],
+            "title-sm": ["14px", { lineHeight: "20px", letterSpacing: "-0.005em", fontWeight: "600" }],
+            "headline-sm": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Persistent Dark Left Sidebar -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-inverse-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.12)] border-r border-surface-container/10">
+<div class="flex flex-col flex-1 min-h-0">
+<!-- App Header / Logo -->
+<div class="h-16 px-space-lg flex items-center justify-between gap-space-sm bg-inverse-surface border-b border-surface-container/10">
+<div class="flex items-center gap-space-sm min-w-0">
+<img alt="SupportHub Enterprise" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/>
+<span class="font-headline-sm text-headline-sm text-inverse-on-surface tracking-tight truncate">SupportHub</span>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container/20 text-inverse-on-surface font-code-sm text-[10px] tracking-wide uppercase">v2.4</span>
+</div>
+<!-- Quick Jump Search -->
+<div class="px-space-md py-space-sm">
+<div class="relative flex items-center w-full">
+<span class="material-symbols-outlined absolute left-2.5 text-secondary-fixed-dim text-lg pointer-events-none">search</span>
+<input class="w-full pl-8 pr-space-xs py-1.5 rounded-lg bg-surface-container/10 border border-surface-container/10 text-inverse-on-surface placeholder:text-secondary-fixed-dim font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary/50" placeholder="Quick Jump..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 px-space-md py-space-xs space-y-0.5 overflow-y-auto">
+<div class="px-space-sm pt-space-xs pb-1 font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim">Workspace</div>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span class="truncate">Dashboard</span>
+</a>
+<a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-lg">confirmation_number</span>
+<span class="truncate">Tickets</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-surface-container/20 text-inverse-on-surface font-code-sm text-xs">42</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-lg">inbox</span>
+<span class="truncate">My Tickets</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-lg">groups</span>
+<span class="truncate">Customers</span>
+</a>
+<div class="px-space-sm pt-space-md pb-1 font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim">Administration</div>
+<a aria-current="page" class="flex items-center justify-between px-space-sm py-2 bg-primary text-on-primary font-title-sm font-semibold rounded-lg shadow-sm" href="#">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-lg">corporate_fare</span>
+<span class="truncate">Departments</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-white/20 text-on-primary font-code-sm text-xs">8</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-lg">person</span>
+<span class="truncate">Users</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-lg">shield_person</span>
+<span class="truncate">Roles &amp; Permissions</span>
+</a>
+<div class="px-space-sm pt-space-md pb-1 font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim">System</div>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-lg">monitoring</span>
+<span class="truncate">Reports</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-lg">bolt</span>
+<span class="truncate">Automation</span>
+</a>
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span class="truncate">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Bottom Profile & Help -->
+<div class="p-space-md space-y-space-xs bg-inverse-surface border-t border-surface-container/10">
+<a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-inverse-on-surface/80 hover:bg-surface-container/10 hover:text-inverse-on-surface transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-lg">help_center</span>
+<span class="truncate">Help &amp; Support</span>
+</a>
+<div class="pt-space-xs">
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container/10 hover:bg-surface-container/15 transition-colors cursor-pointer border border-surface-container/10">
+<img alt="Elena Rostova" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary/50 flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-title-sm text-title-sm text-inverse-on-surface truncate leading-tight">Elena Rostova</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim truncate">Administrator</span>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed-dim text-base">expand_more</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="pl-64 min-h-screen flex flex-col bg-background">
+<!-- Fixed Top Navigation Bar -->
+<header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/95 backdrop-blur-md z-40 px-gutter-lg flex items-center justify-between border-b border-surface-container shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-base text-primary">corporate_fare</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Administration</span>
+<span class="text-outline-variant font-medium">/</span>
+<span class="text-on-surface font-title-sm text-title-sm">Departments</span>
+</div>
+<div class="hidden md:flex items-center gap-space-sm px-space-md py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm w-72 cursor-pointer border border-surface-container hover:border-outline-variant/60 transition-colors">
+<span class="material-symbols-outlined text-lg text-secondary">search</span>
+<span class="flex-1 text-secondary">Global Search...</span>
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-code-sm text-xs border border-surface-container-high shadow-xs">⌘K</kbd>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm border border-tertiary/20">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-semibold">Operational</span>
+</div>
+<button aria-label="Notifications" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface-container-lowest"></span>
+</button>
+<div class="flex items-center gap-space-sm pl-space-xs border-l border-surface-container">
+<img alt="Elena Rostova" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary/30" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/>
+<span class="material-symbols-outlined text-on-surface-variant text-base cursor-pointer hover:text-on-surface">more_vert</span>
+</div>
+</div>
+</header>
+<!-- Main Department Page Area -->
+<main class="relative pt-16 w-full flex-1 bg-background px-gutter-lg py-margin">
+<div class="flex flex-col w-full space-y-space-lg max-w-7xl mx-auto">
+<!-- Top Context & Utility Breadcrumbs Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-2">
+<div class="flex items-center flex-wrap gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-base text-secondary">corporate_fare</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Administration</span>
+<span class="text-outline-variant">/</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Departments</span>
+<span class="text-outline-variant">/</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-xs text-on-surface font-semibold border border-surface-container-high">DEPT-TECH</span>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-title-sm text-title-sm">Members Roster</span>
+</div>
+<!-- Live Telemetry Badge -->
+<div class="flex items-center gap-space-sm self-start sm:self-auto">
+<div class="flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-lowest text-on-surface font-code-sm text-xs border border-surface-container shadow-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-medium text-secondary">SYNC:</span>
+<span class="text-on-surface font-semibold">NODE-US-EAST (0.8s)</span>
+</div>
+</div>
+</div>
+<!-- Primary Page Header Block -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-sm border border-surface-container p-space-lg flex flex-col xl:flex-row xl:items-center justify-between gap-space-lg">
+<div class="relative z-10 flex flex-col space-y-1.5 max-w-3xl">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-xs uppercase tracking-wide font-semibold">Unit Operations</span>
+<span class="text-secondary font-code-sm text-xs">SYS-TIER-01</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Department Members — Technical Support</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Manage agent allocations, skill tiers, schedule shifts, and workload concurrency for 38 assigned specialists.
+            </p>
+</div>
+<!-- Actions Rail -->
+<div class="relative z-10 flex flex-wrap items-center gap-space-sm">
+<button class="inline-flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-title-sm text-title-sm border border-surface-container transition-all shadow-xs">
+<span class="material-symbols-outlined text-lg text-secondary">download</span>
+<span>Export Roster CSV</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm border border-surface-container-high transition-all shadow-xs">
+<span class="material-symbols-outlined text-lg text-primary">swap_horiz</span>
+<span>Bulk Reassign Dept</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-space-md py-2 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm transition-all shadow-xs">
+<span class="material-symbols-outlined text-lg">person_add</span>
+<span>+ Assign New Member</span>
+</button>
+</div>
+<div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-primary/5 blur-3xl pointer-events-none"></div>
+</div>
+<!-- Roster Capacity & Availability Overview (3 Rich Widgets) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Card 1: Total Headcount Composition -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm border border-surface-container flex flex-col justify-between space-y-space-md">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Roster Density</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-display-lg text-on-surface font-bold leading-none">38</span>
+<span class="font-title-sm text-title-sm text-secondary">Assigned Members</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-primary-fixed/40 text-primary border border-primary-fixed">
+<span class="material-symbols-outlined text-2xl">badge</span>
+</div>
+</div>
+<!-- Linear Breakdown Segment Bar -->
+<div class="space-y-space-xs">
+<div class="w-full h-2.5 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-primary transition-all duration-300" style="width: 78%;" title="34 Active Agents"></div>
+<div class="h-full bg-secondary transition-all duration-300" style="width: 12%;" title="2 Shift Leads"></div>
+<div class="h-full bg-tertiary transition-all duration-300" style="width: 6%;" title="1 Manager"></div>
+<div class="h-full bg-inverse-primary transition-all duration-300" style="width: 4%;" title="1 SecOps Liaison"></div>
+</div>
+<div class="flex items-center justify-between font-code-sm text-xs text-on-surface-variant pt-1">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>34 Agents</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>2 Leads</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>1 Mgr</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-inverse-primary"></span>
+<span>1 SecOps</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Real-time Shift Availability -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm border border-surface-container flex flex-col justify-between space-y-space-md">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Live Presence</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-display-lg text-tertiary font-bold leading-none">29</span>
+<span class="font-title-sm text-title-sm text-on-surface">Online Now</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-tertiary-container/15 text-tertiary border border-tertiary/20">
+<span class="material-symbols-outlined text-2xl">sensors</span>
+</div>
+</div>
+<!-- Radial Micro Gauge + Status Summary -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-12 h-12 flex items-center justify-center">
+<svg class="w-12 h-12 transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-tertiary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="76, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-code-sm text-[10px] font-bold text-tertiary">76%</span>
+</div>
+<div>
+<span class="font-title-sm text-title-sm text-on-surface block font-bold leading-tight">76% Occupancy</span>
+<span class="font-body-sm text-body-sm text-secondary">Active Queue Handling</span>
+</div>
+</div>
+<div class="text-right font-code-sm text-xs text-on-surface-variant space-y-0.5">
+<div class="text-secondary font-medium">7 Break / Off-shift</div>
+<div class="text-secondary-fixed-dim">2 Approved PTO</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Workload Load Balance -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm border border-surface-container flex flex-col justify-between space-y-space-md">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Concurrency Ratio</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-display-lg text-primary font-bold leading-none">3.2</span>
+<span class="font-title-sm text-title-sm text-secondary">Avg Tickets / Agent</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container text-primary border border-surface-container-high">
+<span class="material-symbols-outlined text-2xl">speed</span>
+</div>
+</div>
+<!-- Threshold Indicator -->
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="text-tertiary font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> OPTIMAL LOAD
+                </span>
+<span class="font-code-sm text-xs text-secondary">Max Ceiling: 8.0</span>
+</div>
+<div class="w-full h-2.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-tertiary rounded-full transition-all duration-500" style="width: 40%;"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-secondary pt-0.5">
+<span>0 Bottlenecks detected</span>
+<span class="text-on-surface font-semibold">2 Specialists at Cap (8)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter, Search & Segment Controls Rail -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm border border-surface-container space-y-space-md">
+<!-- Segment Tabs -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-sm border-b border-surface-container">
+<div class="flex items-center gap-1 p-1 rounded-lg bg-surface-container-low border border-surface-container">
+<button class="px-space-md py-1.5 rounded-lg bg-inverse-surface text-inverse-on-surface font-title-sm text-title-sm shadow-xs transition-colors">
+                All Members <span class="ml-1 px-1.5 py-0.5 rounded bg-surface-container/20 font-code-sm text-xs">38</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container font-title-sm text-title-sm transition-colors">
+                Active On Queue <span class="ml-1 px-1.5 py-0.5 rounded bg-tertiary/10 text-tertiary font-code-sm text-xs font-semibold">29</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container font-title-sm text-title-sm transition-colors">
+                Leads &amp; Managers <span class="ml-1 px-1.5 py-0.5 rounded bg-surface-container font-code-sm text-xs">3</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container font-title-sm text-title-sm transition-colors">
+                Offline / Away <span class="ml-1 px-1.5 py-0.5 rounded bg-surface-container font-code-sm text-xs">9</span>
+</button>
+</div>
+<!-- Quick Roster Telemetry Indicators -->
+<div class="hidden xl:flex items-center gap-space-md font-body-sm text-body-sm text-secondary">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-tertiary"></span> Ready for Auto-routing</span>
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary"></span> Max Cap Reached</span>
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-outline"></span> On Standby</span>
+</div>
+</div>
+<!-- Search bar & Secondary Filter Dropdowns -->
+<div class="flex flex-col lg:flex-row items-center gap-space-sm">
+<div class="relative flex-1 w-full">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-secondary text-lg pointer-events-none">search</span>
+<input class="w-full pl-10 pr-space-md py-2 rounded-lg bg-surface-container-low text-on-surface placeholder:text-secondary font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary border border-surface-container" placeholder="Search agents by name, email, employee ID, or skill set..." type="text"/>
+</div>
+<div class="flex flex-wrap items-center gap-space-xs w-full lg:w-auto">
+<!-- Shift Filter -->
+<div class="relative">
+<select class="appearance-none pl-3 pr-8 py-2 rounded-lg bg-surface-container-low text-on-surface font-title-sm text-title-sm cursor-pointer hover:bg-surface-container focus:outline-none border border-surface-container">
+<option>Shift: All Schedules</option>
+<option>Morning US-East (09:00 - 17:00 EST)</option>
+<option>EMEA Day (08:00 - 16:00 GMT)</option>
+<option>APAC Night (22:00 - 06:00 SGT)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-secondary pointer-events-none text-base">expand_more</span>
+</div>
+<!-- Role Tier Filter -->
+<div class="relative">
+<select class="appearance-none pl-3 pr-8 py-2 rounded-lg bg-surface-container-low text-on-surface font-title-sm text-title-sm cursor-pointer hover:bg-surface-container focus:outline-none border border-surface-container">
+<option>Tier: All Roles</option>
+<option>Department Manager</option>
+<option>Senior Specialist</option>
+<option>Tier-2 Support Agent</option>
+<option>Incident Commander</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-secondary pointer-events-none text-base">expand_more</span>
+</div>
+<!-- Availability Filter -->
+<div class="relative">
+<select class="appearance-none pl-3 pr-8 py-2 rounded-lg bg-surface-container-low text-on-surface font-title-sm text-title-sm cursor-pointer hover:bg-surface-container focus:outline-none border border-surface-container">
+<option>Presence: Any Status</option>
+<option>Online (Ready)</option>
+<option>In Call / Active Triage</option>
+<option>Busy (At Limit)</option>
+<option>Offline / Off-shift</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-secondary pointer-events-none text-base">expand_more</span>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary hover:text-on-surface transition-colors border border-surface-container" title="Reset Filters">
+<span class="material-symbols-outlined text-lg">filter_alt_off</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Multi-Select Batch Actions Bar -->
+<div class="flex items-center justify-between px-space-md py-2.5 rounded-lg bg-inverse-surface text-inverse-on-surface shadow-sm border border-inverse-surface">
+<div class="flex items-center gap-space-md">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="w-4 h-4 rounded bg-surface-container/20 accent-primary cursor-pointer border-secondary/40" id="selectAllCheckbox" type="checkbox"/>
+<span class="font-title-sm text-title-sm select-none">Select All (38 Specialists)</span>
+</label>
+<div class="h-4 w-px bg-surface-container/20 hidden sm:block"></div>
+<span class="hidden sm:inline-block font-code-sm text-xs text-secondary-fixed-dim">3 members currently selected</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1.5 rounded bg-surface-container/15 hover:bg-surface-container/25 text-inverse-on-surface font-title-sm text-xs transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">tune</span>
+<span>Set Concurrency Limit</span>
+</button>
+<button class="px-space-sm py-1.5 rounded bg-surface-container/15 hover:bg-surface-container/25 text-inverse-on-surface font-title-sm text-xs transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>Reassign Shift</span>
+</button>
+<button class="px-space-sm py-1.5 rounded bg-error/90 hover:bg-error text-on-error font-title-sm text-xs transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">person_remove</span>
+<span class="hidden md:inline">Batch Remove</span>
+</button>
+</div>
+</div>
+<!-- Primary Members Roster Table Block -->
+<div class="rounded-xl bg-surface-container-lowest shadow-sm border border-surface-container overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider border-b border-surface-container">
+<th class="py-3 px-space-md w-12 text-center">
+<span class="sr-only">Select</span>
+</th>
+<th class="py-3 px-space-md">Member &amp; Specialization</th>
+<th class="py-3 px-space-md">Employee ID &amp; Work Email</th>
+<th class="py-3 px-space-md">Dept Functional Role</th>
+<th class="py-3 px-space-md">Assigned Shift</th>
+<th class="py-3 px-space-md">Workload (Max Cap 8)</th>
+<th class="py-3 px-space-md">Joined Dept</th>
+<th class="py-3 px-space-md text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-md text-body-md">
+<!-- Row 1: Elena Rostova (Selected) -->
+<tr class="bg-primary/5 hover:bg-surface-container-low transition-colors group">
+<td class="py-3.5 px-space-md text-center">
+<input checked="" class="w-4 h-4 rounded accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img alt="Elena Rostova" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdJt4dHLk8AS90X2BKgcznEtf2-DPSLtyb4jAhvnrthvlp4yLePcivNKnDJFkXtxTz5kCF6JePTehBxiE3lZILOrwR3lueiWB2VvMlnDfVK0owCy2VRYxxvi1oe-Tdzi7YtHmTpUPTWY6NcWeFTm-gIjtEqKh2hWiLhOp4keN0D6loGzNjintCu1N4rcgCOmR_TkDbgalVmWPCFMYRtLiHKEIUmZa8sg3cX3Lw5yjH6Xvy6H1Ri5m-"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-tertiary ring-2 ring-surface-container-lowest" title="Online: Ready"></span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Elena Rostova</span>
+<span class="px-1.5 py-0.5 rounded bg-primary/10 text-primary font-code-sm text-[10px] font-bold border border-primary/20">LEAD</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary truncate block">Lead Systems Architect &amp; Escalations</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">EMP-1042</span>
+<span class="font-body-sm text-body-sm text-secondary">elena.rostova@acme-corp.com</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-title-sm text-title-sm border border-surface-container-high">
+<span class="material-symbols-outlined text-sm text-primary">security</span>
+<span>Incident Commander</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">US-East Morning</span>
+<span class="font-code-sm text-xs text-secondary">09:00 - 17:00 EST (UTC-5)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="w-40 space-y-1">
+<div class="flex items-center justify-between font-code-sm text-xs">
+<span class="text-on-surface font-medium">5 / 8 tickets</span>
+<span class="text-secondary">62%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all" style="width: 62%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary">
+                    Jan 2024
+                  </td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Edit Roster Assignment">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Reassign Department">
+<span class="material-symbols-outlined text-base">drive_file_move</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-error-container text-error transition-colors" title="Remove Member">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Marcus Chen (Selected) -->
+<tr class="bg-primary/5 hover:bg-surface-container-low transition-colors group">
+<td class="py-3.5 px-space-md text-center">
+<input checked="" class="w-4 h-4 rounded accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img alt="Marcus Chen" class="w-10 h-10 rounded-full object-cover ring-2 ring-error" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQniBA0KntBLyzviD6WLmnOLJsV-qYddUC6hLB7xFCJFDN74s9IPiZB7lazdxf7L_xUBVTEocw5U88HlfS3pmiyoEZ1hARdg8krX55SGkjqyrJIyIQC_bBCXsYtxM6D6t5xrkkP_KENtyZbjdh7ws2VJZmtFcfDEMjNUokwTJstpXZjz9YkPCereWVmzr9hHp4vXlfCSSzcmmBtOok0HogYgnAWq6VuO7metRChyDIunJ_nRJUQ7EL"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-error ring-2 ring-surface-container-lowest" title="Busy: In Critical Triage"></span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Marcus Chen</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary truncate block">DevOps &amp; Infrastructure Support</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">EMP-2190</span>
+<span class="font-body-sm text-body-sm text-secondary">marcus.chen@acme-corp.com</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-title-sm text-title-sm border border-surface-container-high">
+<span class="material-symbols-outlined text-sm text-secondary">terminal</span>
+<span>Senior Specialist</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">EMEA Standard</span>
+<span class="font-code-sm text-xs text-secondary">08:00 - 16:00 GMT (UTC+0)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="w-40 space-y-1">
+<div class="flex items-center justify-between font-code-sm text-xs">
+<span class="text-error font-semibold">8 / 8 [AT MAX CAP]</span>
+<span class="text-error font-semibold">100%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-error-container overflow-hidden">
+<div class="h-full bg-error rounded-full transition-all" style="width: 100%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary">
+                    Mar 2023
+                  </td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Edit Roster Assignment">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Reassign Department">
+<span class="material-symbols-outlined text-base">drive_file_move</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-error-container text-error transition-colors" title="Remove Member">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Amina Al-Mansoor (Selected) -->
+<tr class="bg-primary/5 hover:bg-surface-container-low transition-colors group">
+<td class="py-3.5 px-space-md text-center">
+<input checked="" class="w-4 h-4 rounded accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img alt="Amina Al-Mansoor" class="w-10 h-10 rounded-full object-cover ring-2 ring-tertiary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy71sHlvuTvonYWibnrqyp5drysp24LyqUpuMQFdWgAZJbxFJuqG2N6KltD-eMxMi9FjvpBOSPkzU92u4PG6IQazP9ijrB7yb4Y1Usk0ikheAgAOIHe9quuWHIEfLMevCPOWWXF0IjbNVNe-L7uwRHqfzQjMiHoLXxBNhXmncSIFPGie5n8WyLxGoQTmfp7KSF9lGYRJrdV74BQgcSNWdiRlLr8wTJEkiWPFJjvlopxA_fTX94nGKH"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-tertiary ring-2 ring-surface-container-lowest" title="Online: Ready"></span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Amina Al-Mansoor</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary truncate block">API Integration &amp; Webhooks Tier 2</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">EMP-3044</span>
+<span class="font-body-sm text-body-sm text-secondary">amina.m@acme-corp.com</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-title-sm text-title-sm border border-surface-container-high">
+<span class="material-symbols-outlined text-sm text-tertiary">api</span>
+<span>Senior Specialist</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">EMEA Standard</span>
+<span class="font-code-sm text-xs text-secondary">08:00 - 16:00 GMT (UTC+0)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="w-40 space-y-1">
+<div class="flex items-center justify-between font-code-sm text-xs">
+<span class="text-on-surface font-medium">3 / 8 tickets</span>
+<span class="text-secondary">37%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-tertiary rounded-full transition-all" style="width: 37%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary">
+                    Apr 2024
+                  </td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Edit Roster Assignment">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Reassign Department">
+<span class="material-symbols-outlined text-base">drive_file_move</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-error-container text-error transition-colors" title="Remove Member">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Liam Thorne -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-space-md text-center">
+<input class="w-4 h-4 rounded accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img alt="Liam Thorne" class="w-10 h-10 rounded-full object-cover ring-2 ring-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPGxOr9ew70-NPJekYSb9iZqEwKHKCzGrWz6ALtTnEsS0Wxi_djwG_M5g8CfauuEV-bchP0xELG1h7zrF5Khvc3r2iTsDwneorpGshXqijV90TxdLWuzOl68D4_XUQ0GuGUOw_Zs0Cgz0wnXKP2ASOTuISDtWZxXRRZMhWhkpbvaiLiqASK3mNHJ7iX8H5TY-jAG4ZY18d7RCS6uskAWpaA3b_I0_SFiQIZc8YtHMzFS_K-guVHdkD"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-tertiary ring-2 ring-surface-container-lowest" title="Online"></span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Liam Thorne</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary truncate block">Database &amp; SQL Query Triage</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">EMP-4882</span>
+<span class="font-body-sm text-body-sm text-secondary">liam.thorne@acme-corp.com</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-title-sm text-title-sm border border-surface-container-high">
+<span class="material-symbols-outlined text-sm text-secondary">headset_mic</span>
+<span>Tier-2 Support Agent</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">US-East Morning</span>
+<span class="font-code-sm text-xs text-secondary">09:00 - 17:00 EST (UTC-5)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="w-40 space-y-1">
+<div class="flex items-center justify-between font-code-sm text-xs">
+<span class="text-on-surface font-medium">2 / 8 tickets</span>
+<span class="text-secondary">25%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-tertiary rounded-full transition-all" style="width: 25%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary">
+                    Jun 2024
+                  </td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Edit Roster Assignment">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Reassign Department">
+<span class="material-symbols-outlined text-base">drive_file_move</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-error-container text-error transition-colors" title="Remove Member">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Priya Nair -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-space-md text-center">
+<input class="w-4 h-4 rounded accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img alt="Priya Nair" class="w-10 h-10 rounded-full object-cover ring-2 ring-secondary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa80w4IHNAuYmiJfubGgxl1c0g86PwMo6tBIBFu0KilBEZMNTkiF_CJMHT7LKpvN4N2YvmJ3bCrNHU8pKxcb-EzGsLDl3l1cGMC0Cro0KhEcuRVCvYtCEIz64oqet3HG1GZiWZVETQpzrBb9pwJdWHJL25Xu_0C5-fDSd7BMhLQUgY5Lz5V-Be44R_GqEwktbG_XhhK6ucYHdPs27stQZjlQ432f2jsCKRe4P2MBKi_NimnOcu0m09"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-tertiary ring-2 ring-surface-container-lowest" title="Online"></span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Priya Nair</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-code-sm text-[10px] font-bold border border-surface-container-high">MGR</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary truncate block">Director of Technical Support Ops</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">EMP-0911</span>
+<span class="font-body-sm text-body-sm text-secondary">priya.nair@acme-corp.com</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-title-sm text-title-sm font-semibold border border-surface-container-high">
+<span class="material-symbols-outlined text-sm text-primary">manage_accounts</span>
+<span>Department Manager</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">APAC Operations</span>
+<span class="font-code-sm text-xs text-secondary">22:00 - 06:00 SGT (UTC+8)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="w-40 space-y-1">
+<div class="flex items-center justify-between font-code-sm text-xs">
+<span class="text-secondary font-medium">0 / 8 (Supervisory)</span>
+<span class="text-secondary">0%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary rounded-full transition-all" style="width: 0%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary">
+                    Nov 2021
+                  </td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Edit Roster Assignment">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Reassign Department">
+<span class="material-symbols-outlined text-base">drive_file_move</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-error-container text-error transition-colors" title="Remove Member">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Kenji Sato -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-space-md text-center">
+<input class="w-4 h-4 rounded accent-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative flex-shrink-0">
+<img alt="Kenji Sato" class="w-10 h-10 rounded-full object-cover ring-2 ring-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeEbdbAEusLL6Srsxd2_VDk60K2aSztaP0Zro2DOh30zebEmey0z1KwTBOPehIak5J-w_5DHfhIpJf8md4iFJOfp33l3v0YVz6HLiJjTY4MoAUsDXuD3YjIig9Tb92n4gx1BExvsblqJE3xFnOqh7i2XTppB0VvfT77SAQy8JDOi5GMJ7ojdSVVA8B5Nui8MdPsrWbalJOtGm70EmupNUxRvx1hI4T3aRHlLIIoKUBaIboMCMS7Tje"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-secondary-fixed-dim ring-2 ring-surface-container-lowest" title="Offline: Scheduled Break"></span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Kenji Sato</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary truncate block">SecOps &amp; Compliance Escalation</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">EMP-5519</span>
+<span class="font-body-sm text-body-sm text-secondary">kenji.sato@acme-corp.com</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-title-sm text-title-sm border border-surface-container-high">
+<span class="material-symbols-outlined text-sm text-primary">policy</span>
+<span>SecOps Liaison</span>
+</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">APAC Night Shift</span>
+<span class="font-code-sm text-xs text-secondary">22:00 - 06:00 SGT (UTC+8)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="w-40 space-y-1">
+<div class="flex items-center justify-between font-code-sm text-xs">
+<span class="text-on-surface font-medium">1 / 8 tickets</span>
+<span class="text-secondary">12%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-tertiary rounded-full transition-all" style="width: 12%;"></div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md font-code-sm text-code-sm text-secondary">
+                    Aug 2023
+                  </td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Edit Roster Assignment">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Reassign Department">
+<span class="material-symbols-outlined text-base">drive_file_move</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-error-container text-error transition-colors" title="Remove Member">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="px-space-lg py-space-md bg-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-space-sm border-t border-surface-container">
+<div class="flex items-center gap-space-sm font-body-sm text-body-sm text-secondary">
+<span>Showing <strong class="text-on-surface font-semibold">1 - 6</strong> of <strong class="text-on-surface font-semibold">38</strong> active department specialists</span>
+<div class="h-3 w-px bg-outline-variant hidden sm:block"></div>
+<div class="hidden sm:flex items-center gap-1">
+<span>Per page:</span>
+<select class="bg-surface-container-low border border-surface-container text-on-surface font-code-sm text-xs rounded px-2 py-0.5 focus:outline-none">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+</select>
+</div>
+</div>
+<!-- Segmented Pagination Controls -->
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary border border-surface-container disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-base">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded-lg bg-primary text-on-primary font-code-sm text-xs font-semibold shadow-xs">1</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-code-sm text-xs border border-surface-container transition-colors">2</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-code-sm text-xs border border-surface-container transition-colors">3</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-code-sm text-xs border border-surface-container transition-colors">4</button>
+<button class="p-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary border border-surface-container transition-colors">
+<span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Inline Operational Guideline Callout -->
+<div class="rounded-xl bg-surface-container-lowest border border-surface-container p-space-md flex items-start gap-space-md shadow-sm">
+<div class="p-2 rounded-lg bg-primary/10 text-primary border border-primary/20 flex-shrink-0">
+<span class="material-symbols-outlined text-xl">info</span>
+</div>
+<div class="flex-1 min-w-0">
+<h2 class="font-title-sm text-title-sm text-on-surface font-semibold">Automated Routing &amp; Load Balancing Policy</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Tickets are automatically assigned based on Tier seniority and available capacity. If an agent hits 8 active tickets, they are dropped from the round-robin pool until a ticket is resolved or escalated. Incident Commanders hold supervisor override permissions.
+            </p>
+</div>
+<button class="flex-shrink-0 px-space-md py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-surface-container-high text-on-surface font-label-sm text-xs uppercase tracking-wide font-semibold transition-colors">
+            Configure Rules
+          </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

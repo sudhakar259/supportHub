@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,700;1,400&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#a33900","on-secondary":"#ffffff","error":"#ba1a1a","surface-dim":"#cbdbf5","secondary":"#565d79","surface":"#f8f9ff","inverse-surface":"#213145","on-tertiary-fixed-variant":"#005049","inverse-on-surface":"#eaf1ff","tertiary-container":"#008378","on-primary-container":"#fffbff","tertiary":"#00685f","surface-container-highest":"#d3e4fe","outline":"#8e7166","tertiary-fixed":"#89f5e7","on-surface":"#0b1c30","on-error":"#ffffff","tertiary-fixed-dim":"#6bd8cb","on-primary":"#ffffff","on-background":"#0b1c30","on-primary-fixed-variant":"#7f2b00","on-secondary-fixed-variant":"#3e4660","surface-container-low":"#eff4ff","surface-container":"#e5eeff","primary-fixed-dim":"#ffb599","inverse-primary":"#ffb599","on-tertiary":"#ffffff","secondary-fixed":"#dbe1ff","on-secondary-container":"#5a627e","surface-container-lowest":"#ffffff","on-tertiary-fixed":"#00201d","surface-tint":"#a73a00","secondary-container":"#d8deff","on-primary-fixed":"#370e00","background":"#f8f9ff","outline-variant":"#e2bfb2","on-secondary-fixed":"#131a33","primary-fixed":"#ffdbce","on-surface-variant":"#5a4138","primary-container":"#cc4900","error-container":"#ffdad6","surface-container-high":"#dce9ff","on-tertiary-container":"#f4fffc","surface-variant":"#d3e4fe","secondary-fixed-dim":"#bec5e5","surface-bright":"#f8f9ff","on-error-container":"#93000a"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xs":"0.25rem","gutter-lg":"1.5rem","margin-mobile":"1rem","space-md":"0.75rem","margin":"1.5rem","space-xl":"2rem","gutter":"1rem","space-lg":"1.25rem","space-sm":"0.5rem"},fontFamily:{"headline-md":["Hanken Grotesk"],"code-sm":["JetBrains Mono"],"label-sm":["Inter"],"display-lg":["Hanken Grotesk"],"title-sm":["Inter"],"body-lg":["Inter"],"body-sm":["Inter"],"body-md":["Inter"],"headline-lg":["Hanken Grotesk"],"title-md":["Inter"],"headline-sm":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"],"label-md":["Inter"]},fontSize:{"headline-md":["22px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"600"}],"code-sm":["12px",{lineHeight:"18px",fontWeight:"500"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"600"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.025em",fontWeight:"700"}],"title-sm":["14px",{lineHeight:"20px",letterSpacing:"-0.005em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.02em",fontWeight:"600"}],"title-md":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-sm":["18px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg-mobile":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-14 px-gutter flex items-center gap-space-sm bg-surface-container-low/40"><img alt="Brand logo. - Primary color: #ea580c
+- Font: hankenGrotesk
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight leading-none">SupportHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Enterprise Ops</span></div></div><div class="px-gutter pt-space-lg pb-space-xs"><span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workspace</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">dashboard</span><span class="font-body-md text-body-md">Dashboard</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="tickets" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">inbox</span><span class="font-body-md text-body-md">Tickets</span></div><span class="px-space-xs py-0.5 rounded-full font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed font-bold leading-none">24</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="my-tickets" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">assignment_ind</span><span class="font-body-md text-body-md">My Tickets</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="customers" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">domain</span><span class="font-body-md text-body-md">Customers</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="departments" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">lan</span><span class="font-body-md text-body-md">Departments</span></div></a></nav><div class="px-gutter pt-space-lg pb-space-xs"><span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Governance</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="users" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">group</span><span class="font-body-md text-body-md">Users</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="roles-permissions" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">admin_panel_settings</span><span class="font-body-md text-body-md">Roles &amp; Permissions</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="reports" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">bar_chart</span><span class="font-body-md text-body-md">Reports</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="automation-routing-rules" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">alt_route</span><span class="font-body-md text-body-md">Automation</span></div><span class="w-1.5 h-1.5 rounded-full bg-primary"></span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="settings" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">settings</span><span class="font-body-md text-body-md">Settings</span></div></a></nav></div><div class="p-gutter bg-surface-container-low/60 m-space-sm rounded-xl flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-secondary font-semibold uppercase">SLA Health</span><span class="font-code-sm text-code-sm text-tertiary font-bold">99.8%</span></div><div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden"><div class="bg-tertiary h-full rounded-full" style="width: 99.8%"></div></div><div class="flex items-center gap-space-xs text-tertiary"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span><span class="font-label-sm text-label-sm">Operational Target Met</span></div></div></aside><div class="pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-64 right-0 h-14 bg-surface-container-lowest/90 backdrop-blur-xl z-40 px-gutter flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-gutter flex-1 max-w-lg"><div class="w-full flex items-center gap-space-sm px-space-md py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-secondary">search</span><span class="font-body-sm text-body-sm flex-1 text-secondary">Search tickets, teams, logs...</span><kbd class="font-code-sm text-code-sm px-1.5 py-0.5 rounded bg-surface-container-lowest text-secondary shadow-sm">⌘K</kbd></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-tertiary-container/10"><span class="w-2 h-2 rounded-full bg-tertiary"></span><span class="font-label-sm text-label-sm font-semibold text-tertiary uppercase">Systems Live</span></div></div><div class="flex items-center gap-gutter"><div class="flex items-center gap-space-xs"><button class="relative p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span></button><button class="p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">help</span></button></div><div class="h-6 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm"><div class="flex flex-col text-right"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-secondary">Administrator</span></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/></div></div></header><main class="w-full pt-14 flex-1 bg-surface"><div class="flex flex-col w-full">
+<!-- Interactive Top Action & Context Area -->
+<div class="px-gutter-lg pt-space-lg pb-space-md flex flex-col gap-space-lg bg-surface">
+<!-- Breadcrumb & Status Ribbon -->
+<div class="flex items-center justify-between flex-wrap gap-space-sm">
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs font-label-md text-label-md text-secondary">
+<span class="hover:text-on-surface transition-colors cursor-pointer">Workspace</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-on-surface transition-colors cursor-pointer">Automation</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Routing Rules</span>
+</nav>
+<div class="flex items-center gap-space-sm">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-code-sm text-code-sm font-bold text-tertiary">ENGINE v4.2.1-LIVE</span>
+<span class="text-secondary">• Hot-reload Active</span>
+</div>
+</div>
+</div>
+<!-- Title & Primary Command Bar -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+<div class="max-w-3xl flex flex-col gap-space-xs">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-bold">
+          Automatic Ticket Routing &amp; Automation Rules
+        </h1>
+<p class="font-body-md text-body-md text-secondary leading-relaxed">
+          Evaluate incoming customer tickets against sequential condition blocks to automatically route to specialized departments, assign available on-call agents, bind strict SLA clocks, and dispatch operational webhooks.
+        </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center flex-wrap gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-surface-container-lowest text-on-surface shadow-sm hover:bg-surface-container-high transition-colors font-title-sm text-title-sm inline-flex items-center gap-space-xs" id="btn-export-json">
+<span class="material-symbols-outlined text-[18px] text-secondary">data_object</span>
+<span>Export JSON</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container-lowest text-on-surface shadow-sm hover:bg-surface-container-high transition-colors font-title-sm text-title-sm inline-flex items-center gap-space-xs" id="btn-reorder-mode">
+<span class="material-symbols-outlined text-[18px] text-secondary">swap_vert</span>
+<span>Reorder Mode</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-inverse-surface text-inverse-on-surface shadow-sm hover:bg-inverse-surface/90 transition-colors font-title-sm text-title-sm inline-flex items-center gap-space-xs" id="btn-open-simulator">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed">play_circle</span>
+<span>Rule Simulator</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-primary-container text-on-primary-container shadow-sm hover:brightness-105 active:scale-95 transition-all font-title-sm text-title-sm inline-flex items-center gap-space-xs font-semibold" id="btn-create-rule">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Create New Rule</span>
+</button>
+</div>
+</div>
+<!-- Live Operational KPI Bar -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-gutter pt-space-xs">
+<!-- Card 1 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Active Rules</span>
+<span class="p-1.5 rounded-lg bg-surface-container-low text-primary">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">14</span>
+<span class="font-body-sm text-body-sm text-secondary">of 16 enabled</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-tertiary font-label-sm text-label-sm">
+<span class="flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> 2 Staging rules paused
+          </span>
+<span class="font-code-sm text-code-sm text-secondary">87.5%</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-container to-primary"></div>
+</div>
+<!-- Card 2 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Auto-Routed Today</span>
+<span class="p-1.5 rounded-lg bg-tertiary-container/10 text-tertiary">
+<span class="material-symbols-outlined text-[20px]">alt_route</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">1,842</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-tertiary font-semibold">+12.4%</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>98.6% bypass manual triage</span>
+<span class="font-code-sm text-code-sm text-tertiary font-bold">HIGH AUTO</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-tertiary to-tertiary-fixed"></div>
+</div>
+<!-- Card 3 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Avg Latency</span>
+<span class="p-1.5 rounded-lg bg-surface-container-low text-secondary">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">12<span class="text-headline-sm font-normal text-secondary">ms</span></span>
+<span class="font-body-sm text-body-sm text-tertiary font-semibold flex items-center">
+<span class="material-symbols-outlined text-[14px]">arrow_drop_down</span> -3ms
+          </span>
+</div>
+<div class="mt-space-sm flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>Target &lt; 50ms SLA</span>
+<span class="font-code-sm text-code-sm text-secondary">p99: 28ms</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-surface-container-highest to-surface-dim"></div>
+</div>
+<!-- Card 4 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Fallback Triage Rate</span>
+<span class="p-1.5 rounded-lg bg-error-container text-error">
+<span class="material-symbols-outlined text-[20px]">call_received</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">1.4%</span>
+<span class="font-body-sm text-body-sm text-secondary">26 tickets</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>Unmatched routed to Lead Desk</span>
+<span class="font-code-sm text-code-sm text-tertiary font-semibold">Nominal</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary to-primary-container"></div>
+</div>
+</div>
+</div>
+<!-- Main Sequential Evaluation Body -->
+<div class="px-gutter-lg py-space-md flex flex-col gap-space-md">
+<!-- Sequential Architecture Banner -->
+<div class="p-space-md rounded-xl bg-surface-container-high/60 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start md:items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">
+            Strict Sequential Evaluation Top-to-Bottom
+          </span>
+<p class="font-body-sm text-body-sm text-secondary">
+            Rules execute from Priority #1 sequentially. Once a terminal route matches, subsequent evaluation halts unless flagged with <code class="font-code-sm text-code-sm bg-surface-container-lowest px-1 py-0.5 rounded text-primary font-bold">Continue Evaluation</code>.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0">
+<span class="font-label-sm text-label-sm text-secondary font-medium">Evaluation Mode:</span>
+<span class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface font-code-sm text-code-sm shadow-sm font-semibold">First-Match Terminal</span>
+</div>
+</div>
+<!-- Rule Control Filter Bar -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Search Input -->
+<div class="flex-1 max-w-xl relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-secondary">search</span>
+<input class="w-full pl-9 pr-space-md py-1.5 rounded-lg bg-surface-container-low text-on-surface placeholder:text-secondary font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all" id="rule-search-input" placeholder="Filter by rule name, department, trigger condition, keyword or SLA tag..." type="text"/>
+</div>
+<!-- Quick Filter Dropdowns -->
+<div class="flex items-center flex-wrap gap-space-sm">
+<div class="flex items-center rounded-lg bg-surface-container-low p-0.5">
+<button class="filter-tab px-3 py-1 rounded-lg text-primary font-title-sm text-title-sm font-semibold bg-surface-container-lowest shadow-sm">All (16)</button>
+<button class="filter-tab px-3 py-1 rounded-lg text-secondary font-title-sm text-title-sm hover:text-on-surface">Active (14)</button>
+<button class="filter-tab px-3 py-1 rounded-lg text-secondary font-title-sm text-title-sm hover:text-on-surface">Paused (2)</button>
+</div>
+<div class="h-6 w-px bg-surface-container-high hidden sm:block"></div>
+<select class="px-3 py-1.5 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface focus:outline-none cursor-pointer">
+<option>All Departments</option>
+<option>Core Infrastructure (Tier-3)</option>
+<option>VIP Global Success</option>
+<option>Billing &amp; Revenue Ops</option>
+<option>SecOps &amp; Compliance</option>
+<option>Support Tier-1</option>
+</select>
+<select class="px-3 py-1.5 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface focus:outline-none cursor-pointer">
+<option>All Trigger Types</option>
+<option>Ticket Created</option>
+<option>Ticket Reopened</option>
+<option>Customer Portal SLA</option>
+<option>Webhook Ingestion</option>
+</select>
+<button class="p-1.5 rounded-lg text-secondary hover:bg-surface-container-high transition-colors" title="Clear filters">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+</button>
+</div>
+</div>
+<!-- Multi-Select Bulk Actions Bar (Visible when selected > 0) -->
+<div class="hidden transition-all duration-200 p-space-md rounded-xl bg-inverse-surface text-inverse-on-surface shadow-md flex items-center justify-between flex-wrap gap-space-md" id="bulk-bar">
+<div class="flex items-center gap-space-md">
+<span class="flex items-center justify-center w-6 h-6 rounded-full bg-primary-container text-on-primary-container font-code-sm text-code-sm font-bold" id="selected-count">0</span>
+<span class="font-title-sm text-title-sm">Rules selected for batch updates</span>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-highest/20 hover:bg-surface-container-highest/30 font-label-md text-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Enable Selected
+        </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-highest/20 hover:bg-surface-container-highest/30 font-label-md text-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">pause_circle</span> Pause Selected
+        </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-highest/20 hover:bg-surface-container-highest/30 font-label-md text-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">move_up</span> Reassign Department
+        </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-highest/20 hover:bg-surface-container-highest/30 font-label-md text-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">file_download</span> Export Selection
+        </button>
+<button class="px-2 py-1.5 text-secondary hover:text-inverse-on-surface font-label-md text-label-md" id="clear-selection">Deselect All</button>
+</div>
+</div>
+<!-- Rules Directory Table Container -->
+<div class="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden flex flex-col">
+<!-- Table Header Row -->
+<div class="grid grid-cols-12 gap-space-sm px-space-lg py-space-sm bg-surface-container-low font-label-sm text-label-sm text-secondary uppercase tracking-wider items-center">
+<div class="col-span-1 flex items-center gap-space-xs">
+<input class="rounded w-4 h-4 text-primary focus:ring-0 cursor-pointer" id="select-all-rules" type="checkbox"/>
+<span class="ml-1">Order</span>
+</div>
+<div class="col-span-3">Rule Definition &amp; Target</div>
+<div class="col-span-3">Conditions Evaluated</div>
+<div class="col-span-2">Execution Actions</div>
+<div class="col-span-1 text-center">Matches Today</div>
+<div class="col-span-1 text-center">Status</div>
+<div class="col-span-1 text-right">Actions</div>
+</div>
+<!-- Rule Rows Container -->
+<div class="flex flex-col divide-y divide-surface-container-high/40" id="rules-list">
+<!-- Rule #1: P1 Critical Infrastructure -->
+<div class="rule-row grid grid-cols-12 gap-space-sm px-space-lg py-space-md items-center hover:bg-surface-container-low/40 transition-colors group" data-rule-id="1">
+<!-- Col 1: Order / Drag Handle -->
+<div class="col-span-1 flex items-center gap-space-xs">
+<input class="rule-checkbox rounded w-4 h-4 text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+<div class="flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined text-[18px] cursor-grab active:cursor-grabbing hover:text-on-surface transition-colors">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-bold text-on-surface">#01</span>
+</div>
+<div class="flex flex-col -gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_up</span></button>
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_down</span></button>
+</div>
+</div>
+<!-- Col 2: Name & Target -->
+<div class="col-span-3 flex flex-col gap-0.5 pr-2">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-bold hover:text-primary transition-colors cursor-pointer">P1 Critical Infrastructure Outage</span>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-error font-label-sm text-label-sm uppercase font-bold tracking-tight">Terminal</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary truncate">
+              Detects 504 gateway failures, database downtime or core auth service degradation.
+            </p>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[12px]">lan</span> Core Infrastructure (Tier-3)
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">ID: RUL-8801</span>
+</div>
+</div>
+<!-- Col 3: Condition Summary Pills -->
+<div class="col-span-3 flex flex-wrap gap-1 items-center">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">IF</span> Category = <strong class="text-on-surface">"Tech Support"</strong>
+</span>
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">AND</span> Priority == <strong class="text-error font-bold">"Critical"</strong>
+</span>
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">AND</span> Keywords ∋ <strong class="text-secondary">"504, timeout, deadlock"</strong>
+</span>
+</div>
+<!-- Col 4: Actions Executed -->
+<div class="col-span-2 flex flex-col gap-1 text-on-surface">
+<div class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary">person_add</span>
+<span class="font-semibold text-on-surface">Available SRE Lead</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-error">timer</span>
+<span>15m First Response SLA</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-primary">campaign</span>
+<span>Notify <code class="font-code-sm text-code-sm text-primary font-bold">#incident-war-room</code></span>
+</div>
+</div>
+<!-- Col 5: Matches Today -->
+<div class="col-span-1 flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">412</span>
+<span class="font-label-sm text-label-sm text-secondary">matches</span>
+<div class="w-12 h-1 bg-surface-container-high rounded-full mt-1 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 78%"></div>
+</div>
+</div>
+<!-- Col 6: Status Toggle -->
+<div class="col-span-1 flex flex-col items-center justify-center gap-1">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer status-switch" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-sm text-label-sm text-tertiary font-bold tracking-tight">Active</span>
+</div>
+<!-- Col 7: Actions Menu -->
+<div class="col-span-1 flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-primary transition-colors" title="Quick Test Simulator">
+<span class="material-symbols-outlined text-[18px]">bug_report</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="Edit Rule Configuration">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="More actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Rule #2: VIP Enterprise Accounts Auto-Assign -->
+<div class="rule-row grid grid-cols-12 gap-space-sm px-space-lg py-space-md items-center hover:bg-surface-container-low/40 transition-colors group" data-rule-id="2">
+<!-- Col 1 -->
+<div class="col-span-1 flex items-center gap-space-xs">
+<input class="rule-checkbox rounded w-4 h-4 text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+<div class="flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined text-[18px] cursor-grab active:cursor-grabbing hover:text-on-surface transition-colors">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-bold text-on-surface">#02</span>
+</div>
+<div class="flex flex-col -gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_up</span></button>
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_down</span></button>
+</div>
+</div>
+<!-- Col 2 -->
+<div class="col-span-3 flex flex-col gap-0.5 pr-2">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-bold hover:text-primary transition-colors cursor-pointer">VIP Enterprise Accounts Auto-Assign</span>
+<span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm uppercase font-bold tracking-tight">Dedicated</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary truncate">
+              Matches ARR &gt; $100K accounts and links to assigned Technical Account Manager.
+            </p>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[12px]">verified</span> VIP Global Success
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">ID: RUL-8802</span>
+</div>
+</div>
+<!-- Col 3 -->
+<div class="col-span-3 flex flex-wrap gap-1 items-center">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">IF</span> Org.Tier == <strong class="text-on-surface">"Tier-1 Enterprise"</strong>
+</span>
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">AND</span> Customer ARR &gt;= <strong class="text-tertiary font-bold">$100,000</strong>
+</span>
+</div>
+<!-- Col 4 -->
+<div class="col-span-2 flex flex-col gap-1 text-on-surface">
+<div class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary">support_agent</span>
+<span class="font-semibold text-on-surface">Dedicated Account TAM</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-error">timer</span>
+<span>30m Strict SLA</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-primary">priority_high</span>
+<span>Set Priority to High</span>
+</div>
+</div>
+<!-- Col 5 -->
+<div class="col-span-1 flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">289</span>
+<span class="font-label-sm text-label-sm text-secondary">matches</span>
+<div class="w-12 h-1 bg-surface-container-high rounded-full mt-1 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 54%"></div>
+</div>
+</div>
+<!-- Col 6 -->
+<div class="col-span-1 flex flex-col items-center justify-center gap-1">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer status-switch" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-sm text-label-sm text-tertiary font-bold tracking-tight">Active</span>
+</div>
+<!-- Col 7 -->
+<div class="col-span-1 flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-primary transition-colors" title="Quick Test Simulator">
+<span class="material-symbols-outlined text-[18px]">bug_report</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="Edit Rule Configuration">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="More actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Rule #3: Payment & Billing Escalations -->
+<div class="rule-row grid grid-cols-12 gap-space-sm px-space-lg py-space-md items-center hover:bg-surface-container-low/40 transition-colors group" data-rule-id="3">
+<!-- Col 1 -->
+<div class="col-span-1 flex items-center gap-space-xs">
+<input class="rule-checkbox rounded w-4 h-4 text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+<div class="flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined text-[18px] cursor-grab active:cursor-grabbing hover:text-on-surface transition-colors">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-bold text-on-surface">#03</span>
+</div>
+<div class="flex flex-col -gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_up</span></button>
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_down</span></button>
+</div>
+</div>
+<!-- Col 2 -->
+<div class="col-span-3 flex flex-col gap-0.5 pr-2">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-bold hover:text-primary transition-colors cursor-pointer">Payment &amp; Billing Escalations</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-label-sm uppercase font-bold tracking-tight">Finance</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary truncate">
+              Invoices, failed Stripe wire transfers, chargeback threats, VAT refund queries.
+            </p>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[12px]">credit_card</span> Billing &amp; Revenue Ops
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">ID: RUL-8803</span>
+</div>
+</div>
+<!-- Col 3 -->
+<div class="col-span-3 flex flex-wrap gap-1 items-center">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">IF</span> Category == <strong class="text-on-surface">"Billing"</strong>
+</span>
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">OR</span> Subject ∋ <strong class="text-secondary">"Invoice, Refund, Tax"</strong>
+</span>
+</div>
+<!-- Col 4 -->
+<div class="col-span-2 flex flex-col gap-1 text-on-surface">
+<div class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">group</span>
+<span class="font-semibold text-on-surface">Billing Round-Robin Queue</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-tertiary">timer</span>
+<span>2h Resolution SLA</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-secondary">label</span>
+<span>Add Tag: <code>finance-review</code></span>
+</div>
+</div>
+<!-- Col 5 -->
+<div class="col-span-1 flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">364</span>
+<span class="font-label-sm text-label-sm text-secondary">matches</span>
+<div class="w-12 h-1 bg-surface-container-high rounded-full mt-1 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 66%"></div>
+</div>
+</div>
+<!-- Col 6 -->
+<div class="col-span-1 flex flex-col items-center justify-center gap-1">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer status-switch" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-sm text-label-sm text-tertiary font-bold tracking-tight">Active</span>
+</div>
+<!-- Col 7 -->
+<div class="col-span-1 flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-primary transition-colors" title="Quick Test Simulator">
+<span class="material-symbols-outlined text-[18px]">bug_report</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="Edit Rule Configuration">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="More actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Rule #4: Security Incident & SAML Triage -->
+<div class="rule-row grid grid-cols-12 gap-space-sm px-space-lg py-space-md items-center hover:bg-surface-container-low/40 transition-colors group" data-rule-id="4">
+<!-- Col 1 -->
+<div class="col-span-1 flex items-center gap-space-xs">
+<input class="rule-checkbox rounded w-4 h-4 text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+<div class="flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined text-[18px] cursor-grab active:cursor-grabbing hover:text-on-surface transition-colors">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-bold text-on-surface">#04</span>
+</div>
+<div class="flex flex-col -gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_up</span></button>
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_down</span></button>
+</div>
+</div>
+<!-- Col 2 -->
+<div class="col-span-3 flex flex-col gap-0.5 pr-2">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-bold hover:text-primary transition-colors cursor-pointer">Security Incident &amp; SAML Triage</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm uppercase font-bold tracking-tight">SecOps</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary truncate">
+              Breach disclosure, Okta/SSO lockouts, and vulnerability bug bounty submissions.
+            </p>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[12px]">security</span> SecOps &amp; Compliance
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">ID: RUL-8804</span>
+</div>
+</div>
+<!-- Col 3 -->
+<div class="col-span-3 flex flex-wrap gap-1 items-center">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">IF</span> Tags ∋ <strong class="text-on-surface">"cve, saml, penetration"</strong>
+</span>
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">OR</span> Category == <strong class="text-on-surface">"Security Vulnerability"</strong>
+</span>
+</div>
+<!-- Col 4 -->
+<div class="col-span-2 flex flex-col gap-1 text-on-surface">
+<div class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary">shield</span>
+<span class="font-semibold text-on-surface">SecOps Duty Officer</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-error">timer</span>
+<span>20m Critical SLA</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-primary">lock</span>
+<span>Enforce Internal Private View</span>
+</div>
+</div>
+<!-- Col 5 -->
+<div class="col-span-1 flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">38</span>
+<span class="font-label-sm text-label-sm text-secondary">matches</span>
+<div class="w-12 h-1 bg-surface-container-high rounded-full mt-1 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 14%"></div>
+</div>
+</div>
+<!-- Col 6 -->
+<div class="col-span-1 flex flex-col items-center justify-center gap-1">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer status-switch" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-sm text-label-sm text-tertiary font-bold tracking-tight">Active</span>
+</div>
+<!-- Col 7 -->
+<div class="col-span-1 flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-primary transition-colors" title="Quick Test Simulator">
+<span class="material-symbols-outlined text-[18px]">bug_report</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="Edit Rule Configuration">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="More actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Rule #5: After-Hours Urgent Routing (Paused Example) -->
+<div class="rule-row grid grid-cols-12 gap-space-sm px-space-lg py-space-md items-center hover:bg-surface-container-low/40 transition-colors opacity-75 group" data-rule-id="5">
+<!-- Col 1 -->
+<div class="col-span-1 flex items-center gap-space-xs">
+<input class="rule-checkbox rounded w-4 h-4 text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+<div class="flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined text-[18px] cursor-grab active:cursor-grabbing hover:text-on-surface transition-colors">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-bold text-on-surface">#05</span>
+</div>
+<div class="flex flex-col -gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_up</span></button>
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_down</span></button>
+</div>
+</div>
+<!-- Col 2 -->
+<div class="col-span-3 flex flex-col gap-0.5 pr-2">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-bold hover:text-primary transition-colors cursor-pointer">After-Hours Urgent Night Routing</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-label-sm uppercase font-bold tracking-tight">Time-Based</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary truncate">
+              Triggers between 22:00 and 06:00 UTC for urgent customers, re-routing to APAC team.
+            </p>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[12px]">public</span> APAC Follow-The-Sun Ops
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">ID: RUL-8805</span>
+</div>
+</div>
+<!-- Col 3 -->
+<div class="col-span-3 flex flex-wrap gap-1 items-center">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">IF</span> TimeInUTC ∈ <strong class="text-on-surface">"22:00..06:00"</strong>
+</span>
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">AND</span> Urgency == <strong class="text-on-surface">"High"</strong>
+</span>
+</div>
+<!-- Col 4 -->
+<div class="col-span-2 flex flex-col gap-1 text-on-surface">
+<div class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">bedtime</span>
+<span class="font-semibold text-on-surface">APAC Shift Dispatcher</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-tertiary">phone_in_talk</span>
+<span>PagerDuty Webhook Trigger</span>
+</div>
+</div>
+<!-- Col 5 -->
+<div class="col-span-1 flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm font-bold text-secondary">0</span>
+<span class="font-label-sm text-label-sm text-secondary">paused</span>
+</div>
+<!-- Col 6 -->
+<div class="col-span-1 flex flex-col items-center justify-center gap-1">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer status-switch" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-sm text-label-sm text-secondary font-bold tracking-tight">Paused</span>
+</div>
+<!-- Col 7 -->
+<div class="col-span-1 flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-primary transition-colors" title="Quick Test Simulator">
+<span class="material-symbols-outlined text-[18px]">bug_report</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="Edit Rule Configuration">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="More actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Rule #6: General Low Priority Auto-Triage -->
+<div class="rule-row grid grid-cols-12 gap-space-sm px-space-lg py-space-md items-center hover:bg-surface-container-low/40 transition-colors group" data-rule-id="6">
+<!-- Col 1 -->
+<div class="col-span-1 flex items-center gap-space-xs">
+<input class="rule-checkbox rounded w-4 h-4 text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+<div class="flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined text-[18px] cursor-grab active:cursor-grabbing hover:text-on-surface transition-colors">drag_indicator</span>
+<span class="font-code-sm text-code-sm font-bold text-on-surface">#06</span>
+</div>
+<div class="flex flex-col -gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_up</span></button>
+<button class="hover:text-primary leading-none text-secondary"><span class="material-symbols-outlined text-[14px]">arrow_drop_down</span></button>
+</div>
+</div>
+<!-- Col 2 -->
+<div class="col-span-3 flex flex-col gap-0.5 pr-2">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-bold hover:text-primary transition-colors cursor-pointer">General Low Priority Auto-Triage</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-label-sm uppercase font-bold tracking-tight">Queue</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary truncate">
+              Standard inbound queries without specialized keywords or contractual VIP tags.
+            </p>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[12px]">headset_mic</span> Support Tier-1
+              </span>
+<span class="font-code-sm text-code-sm text-secondary">ID: RUL-8806</span>
+</div>
+</div>
+<!-- Col 3 -->
+<div class="col-span-3 flex flex-wrap gap-1 items-center">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">IF</span> Priority in <strong class="text-on-surface">["Low", "Medium"]</strong>
+</span>
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-medium">
+<span class="text-primary font-bold">AND</span> Channel == <strong class="text-on-surface">"Email"</strong>
+</span>
+</div>
+<!-- Col 4 -->
+<div class="col-span-2 flex flex-col gap-1 text-on-surface">
+<div class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">shuffle</span>
+<span class="font-semibold text-on-surface">Tier-1 Weighted Pool</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-secondary">timer</span>
+<span>4h Standard SLA</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px] text-tertiary">send</span>
+<span>Auto-reply: Confirmation Template</span>
+</div>
+</div>
+<!-- Col 5 -->
+<div class="col-span-1 flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">739</span>
+<span class="font-label-sm text-label-sm text-secondary">matches</span>
+<div class="w-12 h-1 bg-surface-container-high rounded-full mt-1 overflow-hidden">
+<div class="bg-secondary-container h-full rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<!-- Col 6 -->
+<div class="col-span-1 flex flex-col items-center justify-center gap-1">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer status-switch" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-sm text-label-sm text-tertiary font-bold tracking-tight">Active</span>
+</div>
+<!-- Col 7 -->
+<div class="col-span-1 flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-primary transition-colors" title="Quick Test Simulator">
+<span class="material-symbols-outlined text-[18px]">bug_report</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="Edit Rule Configuration">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-secondary hover:text-on-surface transition-colors" title="More actions">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Mandatory Fallback Rule Card (Pinned at Terminal Level) -->
+<div class="px-space-lg py-space-md bg-surface-container-low flex items-center justify-between flex-wrap gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">turn_slight_right</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-sm text-title-sm text-on-surface font-bold">Default Fallback Rule: Unmatched Inbound Tickets</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm font-semibold uppercase">Engine Catch-All</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              When an incoming ticket satisfies zero previous sequential conditions, route immediately to <span class="text-on-surface font-semibold">General Triage Desk</span> and ping <span class="text-on-surface font-semibold">Lead Dispatcher</span> on duty.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-space-sm text-right">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">26 Fallback Tickets Today</span>
+<span class="font-label-sm text-label-sm text-secondary">1.4% total ingress</span>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface shadow-sm hover:bg-surface-container-high transition-colors font-title-sm text-title-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Configure Fallback</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Live Execution Visualizer & Simulator Modal Preview Drawer -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter pt-space-xs">
+<!-- Panel 1: Rule Simulation Testing Sandbox -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">science</span>
+              Live Test Simulator
+            </span>
+<span class="font-code-sm text-code-sm text-tertiary bg-tertiary-container/10 px-2 py-0.5 rounded font-bold">SANDBOX READY</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+            Paste ticket payload or select a mock profile to trace rule evaluation steps.
+          </p>
+</div>
+<!-- Input Mock -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm text-secondary font-semibold uppercase">Mock Ticket Subject &amp; Body</label>
+<div class="p-space-sm rounded-lg bg-surface-container-low font-code-sm text-code-sm text-on-surface leading-tight">
+<p class="text-primary font-bold">"URGENT: 504 Gateway Timeout on checkout API"</p>
+<p class="text-secondary mt-1">Sender: cto@acme-corp.com • ARR: $140,000</p>
+</div>
+</div>
+<!-- Simulated Execution Result -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between text-label-sm font-label-sm font-semibold">
+<span class="text-secondary">Expected Path:</span>
+<span class="text-tertiary font-bold">MATCH: Rule #01 (Terminal)</span>
+</div>
+<div class="flex items-center gap-1 text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span>Routes to <strong>Tier-3 Core Infra</strong> in <strong>8ms</strong></span>
+</div>
+</div>
+<button class="w-full py-2 rounded-lg bg-inverse-surface text-inverse-on-surface hover:brightness-110 transition-all font-title-sm text-title-sm font-semibold flex items-center justify-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span>Run Custom Simulation</span>
+</button>
+</div>
+<!-- Panel 2: Routing Distribution Donut Visualizer -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">pie_chart</span>
+            Department Distribution
+          </span>
+<span class="font-label-sm text-label-sm text-secondary">Past 24 Hours</span>
+</div>
+<div class="flex items-center justify-center gap-space-lg py-2">
+<!-- Inline Minimal SVG Donut Chart -->
+<div class="relative w-28 h-28 flex items-center justify-center flex-shrink-0">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<!-- Background Ring -->
+<path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4.5"></path>
+<!-- Tier 1 (40%) -->
+<path class="text-secondary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="40, 100" stroke-width="4.5"></path>
+<!-- Billing (22%) -->
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="22, 100" stroke-dashoffset="-40" stroke-width="4.5"></path>
+<!-- Infra (20%) -->
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="20, 100" stroke-dashoffset="-62" stroke-width="4.5"></path>
+<!-- VIP (16%) -->
+<path class="text-tertiary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="16, 100" stroke-dashoffset="-82" stroke-width="4.5"></path>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface leading-none">1.8k</span>
+<span class="font-label-sm text-label-sm text-secondary">total</span>
+</div>
+</div>
+<!-- Legend -->
+<div class="flex flex-col gap-1 text-label-sm font-label-sm">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+<span class="text-on-surface font-medium">Support Tier-1 (40%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="text-on-surface font-medium">Billing Ops (22%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="text-on-surface font-medium">Core Infra (20%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="text-on-surface font-medium">VIP Success (16%)</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 text-secondary font-label-sm text-label-sm">
+<span>Zero queue starvation detected</span>
+<span class="font-code-sm text-code-sm text-tertiary font-bold">BALANCED</span>
+</div>
+</div>
+<!-- Panel 3: Engine Health & Audit Log Stream -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-tertiary">history</span>
+            Audit &amp; Change Stream
+          </span>
+<button class="font-label-sm text-label-sm text-primary hover:underline font-semibold">View All Logs</button>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-start gap-space-xs font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+<div class="flex flex-col">
+<span class="text-on-surface font-medium leading-tight">Priority #03 re-ordered above SecOps</span>
+<span class="font-label-sm text-label-sm text-secondary">by Elena Rostova • 14 mins ago</span>
+</div>
+</div>
+<div class="flex items-start gap-space-xs font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary mt-1.5 flex-shrink-0"></span>
+<div class="flex flex-col">
+<span class="text-on-surface font-medium leading-tight">Rule #05 paused for maintenance window</span>
+<span class="font-label-sm text-label-sm text-secondary">by Marcus Vance • 1 hour ago</span>
+</div>
+</div>
+<div class="flex items-start gap-space-xs font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-surface-variant mt-1.5 flex-shrink-0"></span>
+<div class="flex flex-col">
+<span class="text-on-surface font-medium leading-tight">Rule #01 regex conditions updated (+deadlock)</span>
+<span class="font-label-sm text-label-sm text-secondary">by Automated GitOps • 3 hours ago</span>
+</div>
+</div>
+</div>
+<div class="p-space-xs rounded bg-surface-container-low flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-secondary font-medium">Policy Sync Integrity</span>
+<span class="font-code-sm text-code-sm text-tertiary font-bold">SHA-256 MATCH</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Client-side Scripting for UI Density & Micro-interactions -->
+<script>
+    (function initRoutingRulesUI() {
+      // 1. Bulk Select & Multiselect Actions Bar
+      const selectAll = document.getElementById('select-all-rules');
+      const rowCheckboxes = document.querySelectorAll('.rule-checkbox');
+      const bulkBar = document.getElementById('bulk-bar');
+      const selectedCount = document.getElementById('selected-count');
+      const clearBtn = document.getElementById('clear-selection');
+
+      function updateBulkStatus() {
+        const checkedBoxes = document.querySelectorAll('.rule-checkbox:checked');
+        const count = checkedBoxes.length;
+        if (count > 0) {
+          bulkBar.classList.remove('hidden');
+          selectedCount.textContent = count;
+        } else {
+          bulkBar.classList.add('hidden');
+          selectAll.checked = false;
+        }
+      }
+
+      if (selectAll) {
+        selectAll.addEventListener('change', (e) => {
+          rowCheckboxes.forEach(cb => cb.checked = e.target.checked);
+          updateBulkStatus();
+        });
+      }
+
+      rowCheckboxes.forEach(cb => {
+        cb.addEventListener('change', updateBulkStatus);
+      });
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          rowCheckboxes.forEach(cb => cb.checked = false);
+          if (selectAll) selectAll.checked = false;
+          updateBulkStatus();
+        });
+      }
+
+      // 2. Client-side Search Filtering
+      const searchInput = document.getElementById('rule-search-input');
+      const ruleRows = document.querySelectorAll('.rule-row');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const val = e.target.value.toLowerCase().trim();
+          ruleRows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            if (text.includes(val)) {
+              row.style.display = 'grid';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        });
+      }
+
+      // 3. Dynamic Status Toggle Micro-feedback
+      const switches = document.querySelectorAll('.status-switch');
+      switches.forEach(sw => {
+        sw.addEventListener('change', function() {
+          const statusText = this.closest('.col-span-1').querySelector('span');
+          const row = this.closest('.rule-row');
+          if (this.checked) {
+            statusText.textContent = 'Active';
+            statusText.className = 'font-label-sm text-label-sm text-tertiary font-bold tracking-tight';
+            row.classList.remove('opacity-75');
+          } else {
+            statusText.textContent = 'Paused';
+            statusText.className = 'font-label-sm text-label-sm text-secondary font-bold tracking-tight';
+            row.classList.add('opacity-75');
+          }
+        });
+      });
+
+      // 4. Filter Tabs active styling
+      const filterTabs = document.querySelectorAll('.filter-tab');
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          filterTabs.forEach(t => {
+            t.className = 'filter-tab px-3 py-1 rounded-lg text-secondary font-title-sm text-title-sm hover:text-on-surface';
+          });
+          this.className = 'filter-tab px-3 py-1 rounded-lg text-primary font-title-sm text-title-sm font-semibold bg-surface-container-lowest shadow-sm';
+        });
+      });
+    })();
+  </script>
+</div></main></div></body></html>

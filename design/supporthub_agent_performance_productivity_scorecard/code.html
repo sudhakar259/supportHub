@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-primary-container":"#fffbff","outline-variant":"#e2bfb2","secondary-fixed-dim":"#bec5e5","background":"#f8f9ff","on-tertiary-fixed-variant":"#005049","tertiary-container":"#008378","surface-container-highest":"#d3e4fe","outline":"#8e7166","error":"#ba1a1a","primary":"#a33900","secondary-container":"#d8deff","on-primary-fixed-variant":"#7f2b00","surface-dim":"#cbdbf5","tertiary-fixed-dim":"#6bd8cb","secondary":"#565d79","on-surface":"#0b1c30","on-secondary-fixed":"#131a33","primary-fixed-dim":"#ffb599","primary-fixed":"#ffdbce","surface":"#f8f9ff","on-tertiary":"#ffffff","on-surface-variant":"#5a4138","on-secondary-fixed-variant":"#3e4660","inverse-on-surface":"#eaf1ff","on-secondary-container":"#5a627e","surface-variant":"#d3e4fe","surface-container-high":"#dce9ff","surface-bright":"#f8f9ff","inverse-primary":"#ffb599","surface-container":"#e5eeff","on-error":"#ffffff","error-container":"#ffdad6","surface-tint":"#a73a00","surface-container-lowest":"#ffffff","on-primary-fixed":"#370e00","tertiary":"#00685f","tertiary-fixed":"#89f5e7","primary-container":"#cc4900","secondary-fixed":"#dbe1ff","on-tertiary-fixed":"#00201d","on-background":"#0b1c30","on-tertiary-container":"#f4fffc","surface-container-low":"#eff4ff","inverse-surface":"#213145","on-primary":"#ffffff","on-secondary":"#ffffff","on-error-container":"#93000a"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"gutter-lg":"1.5rem","space-xs":"0.25rem","space-lg":"1.25rem","margin-mobile":"1rem","margin":"1.5rem","space-sm":"0.5rem","space-xl":"2rem","gutter":"1rem","space-md":"0.75rem"},"fontFamily":{"code-sm":["JetBrains Mono"],"headline-lg":["Hanken Grotesk"],"headline-md":["Hanken Grotesk"],"title-md":["Inter"],"headline-lg-mobile":["Hanken Grotesk"],"body-sm":["Inter"],"label-sm":["Inter"],"label-md":["Inter"],"display-lg":["Hanken Grotesk"],"headline-sm":["Hanken Grotesk"],"body-lg":["Inter"],"title-sm":["Inter"],"body-md":["Inter"]},"fontSize":{"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-xl z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-gutter"><img alt="Brand logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">SupportHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Enterprise Ops</span></div></div><div class="flex-1 max-w-xl mx-space-xl hidden md:flex items-center"><div class="w-full relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-secondary text-title-md pointer-events-none">search</span><input class="w-full h-9 pl-10 pr-14 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-secondary font-body-md text-body-md shadow-[0_1px_4px_rgba(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Search configurations, queues, tickets, or incident IDs..." type="search"/><div class="absolute right-space-sm flex items-center gap-space-xs pointer-events-none"><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">⌘</kbd><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">K</kbd></div></div></div><div class="flex items-center gap-gutter"><div class="hidden sm:flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Systems Live</span></div><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">notifications</span></button><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">help</span></button><div class="flex items-center gap-space-md pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="hidden lg:flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Administrator</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low z-40 overflow-y-auto pb-space-xl flex flex-col shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><nav class="flex-1 px-space-md py-space-lg space-y-space-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workspace</div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="tickets" href="#">Tickets</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="my-tickets" href="#">My Tickets</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customers" href="#">Customers</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="departments" href="#">Departments</a><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-secondary">bar_chart</span><span>Reports &amp; Analytics</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="reports-analytics-dashboard" href="#">Overview &amp; Telemetry</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="department-performance" href="#">Department Performance</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="agent-performance-scorecard" href="#">Agent Performance Scorecard</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="sla-compliance-breach-analysis" href="#">SLA Compliance &amp; Breaches</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="escalation-incident-velocity" href="#">Escalation &amp; Velocity</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="resolution-fcr-quality" href="#">Resolution &amp; FCR Quality</a></div></div></div><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Governance &amp; Settings</div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="users" href="#">Users</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="roles-permissions" href="#">Roles &amp; Permissions</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="automation" href="#">Automation</a><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-secondary">timer</span><span>SLA Management</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="sla-policies-directory" href="#">Policies Directory</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="sla-rule-builder" href="#">Rule Builder / Editor</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="sla-policy-details" href="#">Policy Details &amp; Ledger</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="sla-assignment-rules" href="#">Target Routing Rules</a></div></div><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-primary">mail</span><span>Notifications &amp; Email</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="email-templates" href="#">Email Templates</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="notification-matrix-settings" href="#">Notification Matrix / Settings</a></div></div><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-secondary">tune</span><span>Ticket Configuration</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-numbering" href="#">Ticket Numbering</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="statuses-priorities" href="#">Statuses &amp; Priorities</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="categories-taxonomies" href="#">Categories &amp; Taxonomies</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-settings" href="#">Settings</a></div></div></div></nav></aside><div class="pl-64"><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- Command Header & Breadcrumb Strip -->
+<div class="px-margin pt-space-md pb-space-lg flex flex-col gap-space-md bg-surface-container-low shadow-sm">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs font-label-md text-label-md text-secondary">
+<a class="hover:text-primary transition-colors" href="#">Reports &amp; Analytics</a>
+<span class="material-symbols-outlined text-title-sm">chevron_right</span>
+<span class="text-on-surface font-semibold">Agent Performance Scorecard</span>
+<span class="ml-space-sm px-space-xs py-0.5 rounded bg-tertiary-fixed font-code-sm text-code-sm text-on-tertiary-fixed">LIVE REFRESH: 42s</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-sm text-secondary">table_view</span>
+          Download CSV Metrics
+        </button>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-sm text-secondary">assignment_ind</span>
+          Generate 1-on-1 Review Packets
+        </button>
+<button class="px-space-md py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm hover:bg-primary-container transition-all flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-sm">archive</span>
+          Export Scorecards (PDF/ZIP)
+        </button>
+</div>
+</div>
+<!-- Title & Summary -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Agent Performance &amp; Productivity Scorecard</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-4xl">Individual and team-level operational metrics, response velocities, resolution efficacy, customer satisfaction feedback, and quality assurance benchmarks across tier queues.</p>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-code-sm text-code-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span>BENCHMARK AUDIT: ISO-27001 / SOC2 REV-4</span>
+</div>
+</div>
+<!-- Operational Filter Control Matrix -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex flex-wrap items-center gap-space-sm flex-1 min-w-[280px]">
+<!-- Date Selector -->
+<div class="flex items-center gap-space-xs px-space-md py-1.5 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm shadow-sm">
+<span class="material-symbols-outlined text-title-sm text-primary">calendar_today</span>
+<span class="font-semibold">Last 30 Days:</span>
+<span class="text-secondary">Oct 1 – Oct 31, 2026</span>
+<span class="material-symbols-outlined text-title-sm text-secondary">expand_more</span>
+</div>
+<!-- Department Filter -->
+<div class="flex items-center gap-space-xs px-space-md py-1.5 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm shadow-sm">
+<span class="material-symbols-outlined text-title-sm text-secondary">hub</span>
+<span class="font-semibold">Department:</span>
+<span class="text-primary font-medium">Tier-2 Technical Escalations</span>
+<span class="px-1.5 py-0.2 bg-secondary-container text-on-secondary-container font-code-sm text-code-sm rounded">18 Staff</span>
+<span class="material-symbols-outlined text-title-sm text-secondary">expand_more</span>
+</div>
+<!-- Role Filter -->
+<div class="flex items-center gap-space-xs px-space-md py-1.5 bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm shadow-sm">
+<span class="material-symbols-outlined text-title-sm text-secondary">badge</span>
+<span class="font-semibold">Role:</span>
+<span class="text-secondary">All Roles (Sr. Agent, Specialist, Lead)</span>
+<span class="material-symbols-outlined text-title-sm text-secondary">expand_more</span>
+</div>
+</div>
+<!-- Live Search Filter -->
+<div class="relative w-full sm:w-72">
+<span class="material-symbols-outlined absolute left-space-sm top-2 text-secondary text-title-sm pointer-events-none">search</span>
+<input class="w-full h-8 pl-8 pr- space-sm rounded-lg bg-surface-container-low text-on-surface placeholder:text-secondary font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest shadow-sm" id="agentSearchInput" onkeyup="filterAgentGrid()" placeholder="Filter by agent name or EMP-ID..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Operational Telemetry Banner (KPI Metric Mosaic) -->
+<div class="px-margin py-space-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<!-- Active Agents on Duty -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Agents on Duty</span>
+<span class="material-symbols-outlined text-title-md text-tertiary">group</span>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">18 / 18</div>
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-tertiary mt-1">
+<span class="material-symbols-outlined text-title-sm">check_circle</span>
+<span>100% Shift Allocation Met</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-1.5 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<!-- Average Throughput -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Avg Agent Velocity</span>
+<span class="material-symbols-outlined text-title-md text-primary">speed</span>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">312 <span class="font-title-sm text-title-sm text-secondary font-normal">tix/mo</span></div>
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-primary mt-1">
+<span class="material-symbols-outlined text-title-sm">trending_up</span>
+<span>+8.2% vs target quota</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 78%"></div>
+</div>
+</div>
+<!-- Team Median First Response -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Median First Response</span>
+<span class="material-symbols-outlined text-title-md text-secondary">avg_pace</span>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">9m 14s</div>
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-tertiary mt-1">
+<span class="material-symbols-outlined text-title-sm">arrow_downward</span>
+<span>-1m 45s faster SLA</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-1.5 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<!-- First Contact Resolution (FCR) -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Team FCR Rate</span>
+<span class="material-symbols-outlined text-title-md text-secondary">done_all</span>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">78.4%</div>
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-primary mt-1">
+<span class="material-symbols-outlined text-title-sm">verified</span>
+<span>+3.1% benchmark delta</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 78.4%"></div>
+</div>
+</div>
+<!-- Team Aggregate CSAT -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Aggregate CSAT</span>
+<div class="flex text-primary">
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-title-sm" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">4.88 <span class="font-title-sm text-title-sm text-secondary font-normal">/ 5.0</span></div>
+<div class="font-label-sm text-label-sm text-secondary mt-1">
+          96.2% positive across 3,420 ratings
+        </div>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-1.5 overflow-hidden">
+<div class="bg-tertiary-container h-full rounded-full" style="width: 97.6%"></div>
+</div>
+</div>
+</div>
+<!-- Deep Dive Visual Analytics Panels (Scatter Matrix & Heatmap Grid) -->
+<div class="px-margin pb-space-lg grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Chart 1: Quadrant Matrix (Agent Velocity vs CSAT Quality) -->
+<div class="lg:col-span-7 bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-md">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-primary">scatter_plot</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Efficiency Matrix: Velocity vs. CSAT</h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Quadrant identification for high-velocity and high-retention enterprise solvers</p>
+</div>
+<div class="flex items-center gap-space-sm font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-primary"></span><span>Senior Staff</span></div>
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span><span>Specialists</span></div>
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-secondary"></span><span>L2 Techs</span></div>
+</div>
+</div>
+<!-- Quadrant Visual Map Container -->
+<div class="relative w-full h-72 bg-surface-container-low rounded-lg p-space-md flex flex-col justify-between overflow-hidden">
+<!-- Quadrant labels -->
+<div class="absolute top-2 right-3 font-code-sm text-code-sm text-tertiary font-bold tracking-wider uppercase opacity-80">★ Champion Quadrant (High Volume + High CSAT)</div>
+<div class="absolute bottom-2 left-3 font-code-sm text-code-sm text-secondary opacity-60">Escalation Ramp Quadrant</div>
+<div class="absolute top-2 left-3 font-code-sm text-code-sm text-secondary opacity-60">Thorough / Research Heavy</div>
+<div class="absolute bottom-2 right-3 font-code-sm text-code-sm text-primary opacity-70">Speed Focused / Velocity Lead</div>
+<!-- Crosshair lines -->
+<div class="absolute top-0 bottom-0 left-1/2 w-px bg-surface-dim"></div>
+<div class="absolute left-0 right-0 top-1/2 h-px bg-surface-dim"></div>
+<!-- Inline SVG Plot Canvas -->
+<svg class="w-full h-full relative z-10" fill="none" viewbox="0 0 600 240">
+<!-- Guide lines -->
+<line opacity="0.4" stroke="#d8deff" stroke-dasharray="4 4" x1="0" x2="600" y1="60" y2="60"></line>
+<line opacity="0.4" stroke="#d8deff" stroke-dasharray="4 4" x1="0" x2="600" y1="180" y2="180"></line>
+<line opacity="0.4" stroke="#d8deff" stroke-dasharray="4 4" x1="150" x2="150" y1="0" y2="240"></line>
+<line opacity="0.4" stroke="#d8deff" stroke-dasharray="4 4" x1="450" x2="450" y1="0" y2="240"></line>
+<!-- Agent Data Nodes -->
+<!-- Elena Rostova (EMP-1042): 384 tix, 4.96 CSAT -->
+<g class="cursor-pointer group/node" transform="translate(490, 38)">
+<circle class="animate-ping" cx="0" cy="0" fill="#a33900" fill-opacity="0.2" r="14"></circle>
+<circle cx="0" cy="0" fill="#a33900" r="8"></circle>
+<text class="font-code-sm text-[11px] font-semibold" fill="#0b1c30" x="12" y="4">E. Rostova (4.96 / 384)</text>
+</g>
+<!-- Marcus Chen (EMP-0891): 348 tix, 4.91 CSAT -->
+<g class="cursor-pointer" transform="translate(440, 52)">
+<circle cx="0" cy="0" fill="#00685f" r="7"></circle>
+<text class="font-code-sm text-[11px]" fill="#0b1c30" x="10" y="4">M. Chen (4.91)</text>
+</g>
+<!-- Sarah Lindqvist: 312 tix, 4.88 CSAT -->
+<g class="cursor-pointer" transform="translate(380, 68)">
+<circle cx="0" cy="0" fill="#a33900" r="7"></circle>
+<text class="font-code-sm text-[11px]" fill="#0b1c30" x="10" y="4">S. Lindqvist</text>
+</g>
+<!-- Tariq Khan: 298 tix, 4.79 CSAT -->
+<g class="cursor-pointer" transform="translate(340, 96)">
+<circle cx="0" cy="0" fill="#565d79" r="6"></circle>
+<text class="font-code-sm text-[10px]" fill="#565d79" x="9" y="4">T. Khan</text>
+</g>
+<!-- Ananya Patel: 360 tix, 4.94 CSAT -->
+<g class="cursor-pointer" transform="translate(460, 44)">
+<circle cx="0" cy="0" fill="#00685f" r="7"></circle>
+<text class="font-code-sm text-[11px]" fill="#0b1c30" x="10" y="4">A. Patel</text>
+</g>
+<!-- Dmitri Kovalev: 280 tix, 4.72 CSAT -->
+<g class="cursor-pointer" transform="translate(290, 130)">
+<circle cx="0" cy="0" fill="#565d79" r="6"></circle>
+<text class="font-code-sm text-[10px]" fill="#565d79" x="9" y="4">D. Kovalev</text>
+</g>
+<!-- Amina Larsson: 326 tix, 4.89 CSAT -->
+<g class="cursor-pointer" transform="translate(410, 62)">
+<circle cx="0" cy="0" fill="#a33900" r="6.5"></circle>
+<text class="font-code-sm text-[10px]" fill="#0b1c30" x="9" y="4">A. Larsson</text>
+</g>
+<!-- Team Median Marker -->
+<circle cx="300" cy="120" fill="#00685f" r="4"></circle>
+<text class="font-code-sm text-[10px] font-bold" fill="#00685f" x="310" y="124">MEDIAN BASELINE (312 / 4.88)</text>
+</svg>
+<div class="flex items-center justify-between text-secondary font-code-sm text-code-sm border-t-0 pt-1">
+<span>X-AXIS: Resolved Volume (180 to 450 Tickets/mo)</span>
+<span>Y-AXIS: CSAT Quality Rating (4.0 to 5.0)</span>
+</div>
+</div>
+</div>
+<!-- Chart 2: Resolution Cadence Heatmap across 8h Shift Windows -->
+<div class="lg:col-span-5 bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-tertiary">grid_on</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Hourly Resolution Density</h2>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">UTC-4 EST SHIFTS</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">Ticket closures clustered by hour across active shift windows</p>
+<!-- Mini Matrix Table / Heatmap representation -->
+<div class="space-y-1.5 font-code-sm text-code-sm">
+<div class="grid grid-cols-9 gap-1 text-center text-secondary font-semibold text-[10px]">
+<div>DAY</div>
+<div>08:00</div>
+<div>10:00</div>
+<div>12:00</div>
+<div>14:00</div>
+<div>16:00</div>
+<div>18:00</div>
+<div>20:00</div>
+<div>22:00</div>
+</div>
+<!-- Monday -->
+<div class="grid grid-cols-9 gap-1 items-center">
+<span class="text-secondary text-[11px] font-semibold">MON</span>
+<span class="h-6 rounded bg-primary/20 flex items-center justify-center text-[10px]">12</span>
+<span class="h-6 rounded bg-primary/60 text-on-primary flex items-center justify-center text-[10px] font-bold">42</span>
+<span class="h-6 rounded bg-primary/80 text-on-primary flex items-center justify-center text-[10px] font-bold">58</span>
+<span class="h-6 rounded bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold">71</span>
+<span class="h-6 rounded bg-primary/70 text-on-primary flex items-center justify-center text-[10px] font-bold">53</span>
+<span class="h-6 rounded bg-primary/40 flex items-center justify-center text-[10px]">28</span>
+<span class="h-6 rounded bg-primary/20 flex items-center justify-center text-[10px]">14</span>
+<span class="h-6 rounded bg-surface-container-high flex items-center justify-center text-[10px]">4</span>
+</div>
+<!-- Tuesday -->
+<div class="grid grid-cols-9 gap-1 items-center">
+<span class="text-secondary text-[11px] font-semibold">TUE</span>
+<span class="h-6 rounded bg-primary/30 flex items-center justify-center text-[10px]">19</span>
+<span class="h-6 rounded bg-primary/70 text-on-primary flex items-center justify-center text-[10px] font-bold">48</span>
+<span class="h-6 rounded bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold">79</span>
+<span class="h-6 rounded bg-primary/90 text-on-primary flex items-center justify-center text-[10px] font-bold">66</span>
+<span class="h-6 rounded bg-primary/60 text-on-primary flex items-center justify-center text-[10px] font-bold">49</span>
+<span class="h-6 rounded bg-primary/30 flex items-center justify-center text-[10px]">22</span>
+<span class="h-6 rounded bg-primary/20 flex items-center justify-center text-[10px]">11</span>
+<span class="h-6 rounded bg-surface-container-high flex items-center justify-center text-[10px]">3</span>
+</div>
+<!-- Wednesday -->
+<div class="grid grid-cols-9 gap-1 items-center">
+<span class="text-secondary text-[11px] font-semibold">WED</span>
+<span class="h-6 rounded bg-primary/40 flex items-center justify-center text-[10px]">24</span>
+<span class="h-6 rounded bg-primary/80 text-on-primary flex items-center justify-center text-[10px] font-bold">61</span>
+<span class="h-6 rounded bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold">84</span>
+<span class="h-6 rounded bg-primary/80 text-on-primary flex items-center justify-center text-[10px] font-bold">62</span>
+<span class="h-6 rounded bg-primary/50 text-on-primary flex items-center justify-center text-[10px]">39</span>
+<span class="h-6 rounded bg-primary/30 flex items-center justify-center text-[10px]">20</span>
+<span class="h-6 rounded bg-primary/10 flex items-center justify-center text-[10px]">9</span>
+<span class="h-6 rounded bg-surface-container-high flex items-center justify-center text-[10px]">5</span>
+</div>
+<!-- Thursday -->
+<div class="grid grid-cols-9 gap-1 items-center">
+<span class="text-secondary text-[11px] font-semibold">THU</span>
+<span class="h-6 rounded bg-primary/20 flex items-center justify-center text-[10px]">16</span>
+<span class="h-6 rounded bg-primary/60 text-on-primary flex items-center justify-center text-[10px] font-bold">44</span>
+<span class="h-6 rounded bg-primary/90 text-on-primary flex items-center justify-center text-[10px] font-bold">72</span>
+<span class="h-6 rounded bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold">80</span>
+<span class="h-6 rounded bg-primary/60 text-on-primary flex items-center justify-center text-[10px] font-bold">46</span>
+<span class="h-6 rounded bg-primary/30 flex items-center justify-center text-[10px]">25</span>
+<span class="h-6 rounded bg-primary/20 flex items-center justify-center text-[10px]">13</span>
+<span class="h-6 rounded bg-surface-container-high flex items-center justify-center text-[10px]">2</span>
+</div>
+<!-- Friday -->
+<div class="grid grid-cols-9 gap-1 items-center">
+<span class="text-secondary text-[11px] font-semibold">FRI</span>
+<span class="h-6 rounded bg-primary/30 flex items-center justify-center text-[10px]">21</span>
+<span class="h-6 rounded bg-primary/70 text-on-primary flex items-center justify-center text-[10px] font-bold">54</span>
+<span class="h-6 rounded bg-primary/80 text-on-primary flex items-center justify-center text-[10px] font-bold">69</span>
+<span class="h-6 rounded bg-primary/60 text-on-primary flex items-center justify-center text-[10px] font-bold">51</span>
+<span class="h-6 rounded bg-primary/30 flex items-center justify-center text-[10px]">27</span>
+<span class="h-6 rounded bg-primary/20 flex items-center justify-center text-[10px]">15</span>
+<span class="h-6 rounded bg-surface-container-high flex items-center justify-center text-[10px]">6</span>
+<span class="h-6 rounded bg-surface-container-high flex items-center justify-center text-[10px]">1</span>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between text-secondary font-label-sm text-label-sm">
+<div class="flex items-center gap-space-xs">
+<span>Less dense</span>
+<span class="w-3 h-3 rounded bg-surface-container-high"></span>
+<span class="w-3 h-3 rounded bg-primary/30"></span>
+<span class="w-3 h-3 rounded bg-primary/70"></span>
+<span class="w-3 h-3 rounded bg-primary"></span>
+<span>Peak flow</span>
+</div>
+<span class="text-primary font-semibold">Peak Congestion: 12:00-14:00</span>
+</div>
+</div>
+</div>
+<!-- Comprehensive Agent Productivity Ledger (Data Grid) -->
+<div class="px-margin pb-space-lg">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<!-- Grid Topbar -->
+<div class="p-space-md bg-surface-container-low flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-md text-title-md text-on-surface">Tier-2 Operational Personnel</span>
+<span class="px-space-sm py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-code-sm text-code-sm font-semibold">18 Operators Registered</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-body-sm text-body-sm text-secondary">Sort by:</span>
+<select class="h-8 px-space-sm rounded bg-surface-container-lowest text-on-surface font-body-sm text-body-sm focus:outline-none shadow-sm cursor-pointer">
+<option>CSAT Rating (Highest)</option>
+<option>Tickets Resolved (Volume)</option>
+<option>First Contact Resolution (FCR)</option>
+<option>Lowest MTTR</option>
+<option>SLA Compliance Rate</option>
+</select>
+<button class="p-1.5 rounded bg-surface-container-lowest text-secondary hover:text-on-surface shadow-sm">
+<span class="material-symbols-outlined text-title-sm">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm" id="agentTable">
+<thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<tr>
+<th class="py-space-sm px-space-md" scope="col">Agent Profile &amp; Role</th>
+<th class="py-space-sm px-space-md text-center" scope="col">Handled / Active</th>
+<th class="py-space-sm px-space-md" scope="col">Resolved (Rate %)</th>
+<th class="py-space-sm px-space-md" scope="col">Median 1st Resp</th>
+<th class="py-space-sm px-space-md" scope="col">MTTR Duration</th>
+<th class="py-space-sm px-space-md text-center" scope="col">FCR %</th>
+<th class="py-space-sm px-space-md text-center" scope="col">SLA Compliance</th>
+<th class="py-space-sm px-space-md" scope="col">CSAT Score</th>
+<th class="py-space-sm px-space-md text-center" scope="col">QA Audit</th>
+<th class="py-space-sm px-space-md text-center" scope="col">Status</th>
+<th class="py-space-sm px-space-md text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface" id="agentTableBody">
+<!-- Row 1: Elena Rostova -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group cursor-pointer" onclick="toggleDetails('agent-row-1')">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Elena Rostova professional headshot in an enterprise tech environment with subtle warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxT3QVufIamICGvutcJmvVTvOO9w3FKSQ79-rl3n7auC5cie80QFllN7v1Kk-Q8WICmQuZUnetO04azgyEtBBmFE6JFRszdVox4dlMuElHvUK9Xx-Xf4oTgJR_z3xqHUIFoZITvXa9KzBfiCfGI3ev3x2sVJbLNjUiVMfx-TbsZjsFn0hyJS6IGAo3yIae95UHZPMYURZCHsraTwZBUkWENniHgUltsLls92vsc0QOdHGjqxcfxg4y"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary shadow-sm"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate flex items-center gap-1">
+                      Elena Rostova
+                      <span class="material-symbols-outlined text-title-sm text-primary" title="Team Quality Champion">stars</span>
+</span>
+<span class="font-code-sm text-code-sm text-secondary">EMP-1042 • Lead Specialist</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-semibold text-on-surface">392</span>
+<span class="text-secondary text-body-sm font-code-sm"> (8 open)</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-between font-code-sm text-code-sm mb-1">
+<span class="font-bold text-primary">384</span>
+<span class="text-secondary">98.0%</span>
+</div>
+<div class="w-24 bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 98%"></div>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="font-code-sm font-semibold">4m 12s</div>
+<span class="font-label-sm text-[10px] text-tertiary bg-tertiary-fixed/30 px-1 py-0.2 rounded">-48% fast</span>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="font-code-sm">1h 14m</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-semibold bg-tertiary-fixed text-on-tertiary-fixed">88.5%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-bold bg-surface-container-high text-tertiary">99.2%</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">4.96</span>
+<span class="material-symbols-outlined text-title-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-[11px] text-secondary">318 reviews</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-code-sm text-code-sm font-bold text-on-surface">99.0%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-tertiary font-semibold flex items-center justify-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Active Online
+                </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Deep 360 Analysis">
+<span class="material-symbols-outlined text-title-sm">analytics</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download Report">
+<span class="material-symbols-outlined text-title-sm">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Expanded Inline Coaching & Audit Flyout for Elena (Demonstrative) -->
+<tr class="bg-surface-container-low/40" id="agent-row-1">
+<td class="p-space-md" colspan="11">
+<div class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider mb-space-xs">Lead QA Coaching Notes</div>
+<p class="font-body-sm text-body-sm text-on-surface">Consistently exceeds L2 SLAs on webhook &amp; gateway issues. Mentoring junior agents on API payloads. Recommended for Tier-3 Staff Principal promotion pipeline.</p>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider mb-space-xs">Top Verified Praise</div>
+<blockquote class="italic font-body-sm text-body-sm text-on-surface-variant bg-surface-container-low p-space-xs rounded">
+                      "Elena resolved our production Stripe webhook deadlock in minutes. Absolutely world-class engineer!"
+                    </blockquote>
+</div>
+<div class="flex flex-col justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider mb-space-xs">Target Competencies</div>
+<div class="flex flex-wrap gap-1">
+<span class="px-1.5 py-0.5 bg-surface-container font-code-sm text-code-sm rounded">Webhook Debugging (Master)</span>
+<span class="px-1.5 py-0.5 bg-surface-container font-code-sm text-code-sm rounded">SQL Telemetry</span>
+<span class="px-1.5 py-0.5 bg-surface-container font-code-sm text-code-sm rounded">Crisis Comms</span>
+</div>
+</div>
+<div class="pt-2 flex justify-end">
+<button class="text-primary hover:underline font-label-md text-label-md flex items-center gap-1">
+                        Open Full 360 Assessment Dossier
+                        <span class="material-symbols-outlined text-title-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 2: Marcus Chen -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group cursor-pointer" onclick="toggleDetails('agent-row-2')">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Marcus Chen corporate portrait with headphones smiling focused at work modern corporate aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU1rboEmsXtK2fZ-cVj3PVv7Cl-ux921sfU5mRsvY7mmWXeP1eSzJif3mpbEN0NR8dZ6lg3zJqTopr7CsmBhHx3u2mPMBJdRUvk7YY8MyjSj8pRnIFo1pIPyZhRVI8hfHa9b0YQMF0t_rO_F1Pz8BAhReDFaTxK5RSr-g4PnTgn0bykBmCEqjVFaycWWwnmd414i6ub3SBi-i9l9kBGSpijE3e1SKGS-Jv6ObbExYXxK4bydUyBRrO"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary shadow-sm"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Marcus Chen</span>
+<span class="font-code-sm text-code-sm text-secondary">EMP-0891 • Senior Escalations</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-semibold text-on-surface">354</span>
+<span class="text-secondary text-body-sm font-code-sm"> (6 open)</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-between font-code-sm text-code-sm mb-1">
+<span class="font-bold text-primary">348</span>
+<span class="text-secondary">98.3%</span>
+</div>
+<div class="w-24 bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 98.3%"></div>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="font-code-sm font-semibold">6m 40s</div>
+<span class="font-label-sm text-[10px] text-tertiary bg-tertiary-fixed/30 px-1 py-0.2 rounded">-28% fast</span>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="font-code-sm">1h 48m</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-semibold bg-tertiary-fixed text-on-tertiary-fixed">84.2%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-bold bg-surface-container-high text-tertiary">98.5%</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">4.91</span>
+<span class="material-symbols-outlined text-title-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-[11px] text-secondary">274 reviews</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-code-sm text-code-sm font-bold text-on-surface">97.5%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-tertiary font-semibold flex items-center justify-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Active Online
+                </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Deep 360 Analysis">
+<span class="material-symbols-outlined text-title-sm">analytics</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download Report">
+<span class="material-symbols-outlined text-title-sm">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Sarah Lindqvist -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group cursor-pointer" onclick="toggleDetails('agent-row-3')">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Sarah Lindqvist professional headshot Scandinavian technical analyst in modern office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASPO_Mq-2BqJvdChBedTDQQF1pJ2aBxnoNV5jYVS4xBIuAlf9MZAk_CeazG2cK_9UubUxZKeINRB2GggGCD1PyZirazwYYS4lCgyADzx9CtgMlPr0fwaiCBAcjz07OHjAWyqReHxiEanhu_l_-NaLvCP1Spb7tbOhaI1TuC5xf01DOnl7AJuxuGfNqwFxVlI7un-PgvNGNts7ujZatc899rdexnMSrj7FoJlnEhfczomV9I58781Ns"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-primary-container shadow-sm"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Sarah Lindqvist</span>
+<span class="font-code-sm text-code-sm text-secondary">EMP-1104 • Database Specialist</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-semibold text-on-surface">320</span>
+<span class="text-secondary text-body-sm font-code-sm"> (8 open)</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-between font-code-sm text-code-sm mb-1">
+<span class="font-bold text-primary">312</span>
+<span class="text-secondary">97.5%</span>
+</div>
+<div class="w-24 bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 97.5%"></div>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="font-code-sm font-semibold">8m 50s</div>
+<span class="font-label-sm text-[10px] text-tertiary bg-tertiary-fixed/30 px-1 py-0.2 rounded">-4% avg</span>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="font-code-sm">2h 05m</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-semibold bg-tertiary-fixed text-on-tertiary-fixed">79.0%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-bold bg-surface-container-high text-tertiary">97.8%</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">4.88</span>
+<span class="material-symbols-outlined text-title-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-[11px] text-secondary">240 reviews</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-code-sm text-code-sm font-bold text-on-surface">96.0%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-container text-on-secondary-container font-semibold flex items-center justify-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  In Triage
+                </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Deep 360 Analysis">
+<span class="material-symbols-outlined text-title-sm">analytics</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download Report">
+<span class="material-symbols-outlined text-title-sm">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Tariq Khan -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group cursor-pointer" onclick="toggleDetails('agent-row-4')">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Tariq Khan smiling tech support engineer profile headshot in navy blazer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzvu4r4pSAR3JHRl1BT64UwZGA7ToBq4fLWPb3hvgFblBD9tYmr0O2MC_Bkb9bghsnAvXMYTAu2rR0SIB_hMBXh-37MrU8ov7MADjfTZEnBFhoJZr5mTHJMZNiqiNKC_IgC5DmyNz2iQYZ9Tj_8cvqG0P_2_HKCcAZSvmhSYwMRDChXlFdMv2RHTXNIycAdoxVyLdC83yK-We6jtq554-n0Uu1j8hGFFOrg2dzr97-hExYbHTkLBN_"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary shadow-sm"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Tariq Khan</span>
+<span class="font-code-sm text-code-sm text-secondary">EMP-0922 • Tier-2 Analyst</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-semibold text-on-surface">310</span>
+<span class="text-secondary text-body-sm font-code-sm"> (12 open)</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-between font-code-sm text-code-sm mb-1">
+<span class="font-bold text-primary">298</span>
+<span class="text-secondary">96.1%</span>
+</div>
+<div class="w-24 bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 96.1%"></div>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="font-code-sm font-semibold">10m 15s</div>
+<span class="font-label-sm text-[10px] text-secondary bg-surface-container px-1 py-0.2 rounded">+9% delta</span>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="font-code-sm">2h 45m</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-semibold bg-tertiary-fixed text-on-tertiary-fixed">76.2%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-bold bg-surface-container-high text-tertiary">96.4%</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">4.79</span>
+<span class="material-symbols-outlined text-title-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-[11px] text-secondary">215 reviews</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-code-sm text-code-sm font-bold text-on-surface">94.8%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-tertiary font-semibold flex items-center justify-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Active Online
+                </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Deep 360 Analysis">
+<span class="material-symbols-outlined text-title-sm">analytics</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download Report">
+<span class="material-symbols-outlined text-title-sm">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Ananya Patel -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group cursor-pointer" onclick="toggleDetails('agent-row-5')">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Ananya Patel portrait in high-tech customer operations office with natural window light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATgfq3kf3_Yhuss3aMjaE8A3G_GBBQIJe1lSFMSWVDWRPgDxUw9jC-GAhWud3eCEcU9cGNSxVD8D3b67uQHrXGc7PiV81gvcueMYDtkIgcVkNq_a1Rz7VQ7eGUgpV_lh0MDTHhBAA6lDEqqsgllnjb1wOE7w2xJUBdSxuyzNAYYCP9Oa0pptSA_wf3Ob1H15T3S2497yznIf6mzAjUt32iw3H5vcReDxtdop2r1jh2cQCFfqLs2QmQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary shadow-sm"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Ananya Patel</span>
+<span class="font-code-sm text-code-sm text-secondary">EMP-1280 • Security Operations Lead</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-semibold text-on-surface">368</span>
+<span class="text-secondary text-body-sm font-code-sm"> (8 open)</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-between font-code-sm text-code-sm mb-1">
+<span class="font-bold text-primary">360</span>
+<span class="text-secondary">97.8%</span>
+</div>
+<div class="w-24 bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 97.8%"></div>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="font-code-sm font-semibold">5m 02s</div>
+<span class="font-label-sm text-[10px] text-tertiary bg-tertiary-fixed/30 px-1 py-0.2 rounded">-40% fast</span>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="font-code-sm">1h 22m</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-semibold bg-tertiary-fixed text-on-tertiary-fixed">87.1%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-bold bg-surface-container-high text-tertiary">99.1%</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">4.94</span>
+<span class="material-symbols-outlined text-title-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-[11px] text-secondary">295 reviews</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-code-sm text-code-sm font-bold text-on-surface">98.2%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-tertiary font-semibold flex items-center justify-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Active Online
+                </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Deep 360 Analysis">
+<span class="material-symbols-outlined text-title-sm">analytics</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download Report">
+<span class="material-symbols-outlined text-title-sm">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Dmitri Kovalev -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group cursor-pointer" onclick="toggleDetails('agent-row-6')">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Dmitri Kovalev engineer portrait sharp focus neutral expression modern tech workplace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-pRwdHIj7nd8NFf0YwlxL1jscR39MPQfEvVCumFG1DBZD7hzTZH3cndyokjJ8OuSOn2qW5s_y4aMx3nmwaN_GFQ-k7VnHLwsSte2hqzDg0iUc4av2w1wawStyXgUOGp-jXRpbtMbQtHK06RMH2lNNAMLpw8ZE5-5gsQfyuHK2ta9NDgoROtFVADb-7bSULRMCCMnHTVu93_51g9XdsacMPhQh5gkiFbHS_n30VqI537DE-0Gv5diy"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary shadow-sm"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Dmitri Kovalev</span>
+<span class="font-code-sm text-code-sm text-secondary">EMP-1411 • Cloud Infra Support</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-semibold text-on-surface">294</span>
+<span class="text-secondary text-body-sm font-code-sm"> (14 open)</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-between font-code-sm text-code-sm mb-1">
+<span class="font-bold text-primary">280</span>
+<span class="text-secondary">95.2%</span>
+</div>
+<div class="w-24 bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 95.2%"></div>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="font-code-sm font-semibold">12m 30s</div>
+<span class="font-label-sm text-[10px] text-error bg-error-container/40 px-1 py-0.2 rounded">+28% lag</span>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="font-code-sm">3h 10m</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-semibold bg-surface-container text-secondary">71.0%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-bold bg-surface-container-high text-tertiary">94.1%</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">4.72</span>
+<span class="material-symbols-outlined text-title-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-[11px] text-secondary">188 reviews</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-code-sm text-code-sm font-bold text-on-surface">93.4%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-secondary font-semibold flex items-center justify-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Break (15m)
+                </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Deep 360 Analysis">
+<span class="material-symbols-outlined text-title-sm">analytics</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download Report">
+<span class="material-symbols-outlined text-title-sm">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: Amina Larsson -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group cursor-pointer" onclick="toggleDetails('agent-row-7')">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover shadow-sm" data-alt="Amina Larsson corporate technology headshot warm expression confident professional look" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu2Fo9Nk2t_U9NCJ0oCFlwNwph-PlYNRA4sCPZoAqBZm_nEOCpYXnKSwEAHNYk8adGg1GRCpxRCk4RdN0AqKje8NhYrRWitnmkMp2eeZharOa93hrJvOi7nSkZAWsj2eqK8L-WQWpOzlMNy-4p16K38qVcCQOstt9yTPnN2emcxjYZRaCcIndYw_x_YIbfotIbJCi3Z4eb7ZYpDFy2FuUTnbzL1hKTwptdbOPm8XVgO9NJmCmMjfM5"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary shadow-sm"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold truncate">Amina Larsson</span>
+<span class="font-code-sm text-code-sm text-secondary">EMP-1309 • Senior Integrations</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-semibold text-on-surface">334</span>
+<span class="text-secondary text-body-sm font-code-sm"> (8 open)</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-between font-code-sm text-code-sm mb-1">
+<span class="font-bold text-primary">326</span>
+<span class="text-secondary">97.6%</span>
+</div>
+<div class="w-24 bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 97.6%"></div>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="font-code-sm font-semibold">7m 18s</div>
+<span class="font-label-sm text-[10px] text-tertiary bg-tertiary-fixed/30 px-1 py-0.2 rounded">-21% fast</span>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="font-code-sm">1h 55m</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-semibold bg-tertiary-fixed text-on-tertiary-fixed">82.8%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm font-bold bg-surface-container-high text-tertiary">98.2%</span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1">
+<span class="font-title-sm text-title-sm font-bold text-on-surface">4.89</span>
+<span class="material-symbols-outlined text-title-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-[11px] text-secondary">254 reviews</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="font-code-sm text-code-sm font-bold text-on-surface">97.1%</span>
+</td>
+<td class="py-space-sm px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-tertiary font-semibold flex items-center justify-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  Active Online
+                </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Deep 360 Analysis">
+<span class="material-symbols-outlined text-title-sm">analytics</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Download Report">
+<span class="material-symbols-outlined text-title-sm">download</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Ledger Footer -->
+<div class="p-space-md bg-surface-container-low flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-secondary">
+<span>Showing</span>
+<span class="font-semibold text-on-surface">1 - 7</span>
+<span>of</span>
+<span class="font-semibold text-on-surface">18 Active Agents</span>
+<span class="mx-2">•</span>
+<span>Shift Schedule: 24/7 Follow-the-Sun Rotation</span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md">
+<button class="px-2 py-1 rounded bg-surface-container-lowest text-secondary hover:text-on-surface shadow-sm disabled:opacity-50" disabled="">Previous</button>
+<button class="w-7 h-7 rounded bg-primary text-on-primary font-bold shadow-sm">1</button>
+<button class="w-7 h-7 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container shadow-sm">2</button>
+<button class="w-7 h-7 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container shadow-sm">3</button>
+<button class="px-2 py-1 rounded bg-surface-container-lowest text-secondary hover:text-on-surface shadow-sm">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- QA Audit & Coaching Intelligence Section -->
+<div class="px-margin pb-space-xl grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<!-- Feedback Snippet & Live Verbatim Feed -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-primary">format_quote</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Customer Sentiment Stream</h3>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">VERIFIED ENTERPRISE</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">Unfiltered CSAT verbatim highlights collected over the last 24 hours.</p>
+<div class="space-y-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">Acme Corp (P1 Incident)</span>
+<span class="text-tertiary font-code-sm text-code-sm">Elena Rostova</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              "Elena resolved our production Stripe webhook deadlock in minutes! Incredible technical poise."
+            </p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between mb-1">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">DataPulse Global</span>
+<span class="text-tertiary font-code-sm text-code-sm">Marcus Chen</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              "Marcus stayed with us through the DB replication failover till 2 AM. Exemplary commitment."
+            </p>
+</div>
+</div>
+</div>
+<button class="mt-space-md w-full py-1.5 rounded-lg bg-surface-container-low text-primary hover:bg-surface-container font-label-md text-label-md transition-colors">
+        Read All 3,420 Review Responses
+      </button>
+</div>
+<!-- Peer QA Audit Matrix -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-tertiary">fact_check</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Lead QA Benchmark Drift</h3>
+</div>
+<span class="font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed px-1.5 py-0.5 rounded font-bold">96.8% AVG</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">Lead evaluation categories scoring against compliance rubrics.</p>
+<div class="space-y-space-sm">
+<div>
+<div class="flex justify-between font-body-sm text-body-sm mb-1">
+<span class="text-on-surface">Technical Accuracy &amp; Fix Quality</span>
+<span class="font-bold text-tertiary">98.4%</span>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-2 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 98.4%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-body-sm text-body-sm mb-1">
+<span class="text-on-surface">Tone, Empathy &amp; De-escalation</span>
+<span class="font-bold text-primary">97.2%</span>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 97.2%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-body-sm text-body-sm mb-1">
+<span class="text-on-surface">SOP &amp; Escalation Path Adherence</span>
+<span class="font-bold text-on-surface">94.8%</span>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 94.8%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-body-sm text-body-sm mb-1">
+<span class="text-on-surface">Knowledge Base Documentation Created</span>
+<span class="font-bold text-primary">92.0%</span>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-2 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 92%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md flex items-center justify-between text-secondary font-code-sm text-code-sm">
+<span>Sample Rate: 12% Tickets Audited</span>
+<a class="text-primary hover:underline" href="#">Edit QA Rubric</a>
+</div>
+</div>
+<!-- Targeted Coaching & Capacity Upgrades -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-primary">psychology</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Coaching Action Plan</h3>
+</div>
+<span class="font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed px-1.5 py-0.5 rounded font-bold">3 SESSIONS DUE</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">Automated suggestions generated from ticket cycle telemetry.</p>
+<div class="space-y-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-title-md mt-0.5">school</span>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface">Kafka Partition Lag Module</div>
+<p class="font-body-sm text-body-sm text-secondary">Assigned to: D. Kovalev, T. Khan to decrease resolution MTTR on streaming tickets.</p>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-title-md mt-0.5">verified_user</span>
+<div>
+<div class="font-title-sm text-title-sm font-semibold text-on-surface">PCI DSS L2 Compliance Re-cert</div>
+<p class="font-body-sm text-body-sm text-secondary">16 of 18 completed. Final sign-off scheduled before Q4 maintenance cycle.</p>
+</div>
+</div>
+</div>
+</div>
+<button class="mt-space-md w-full py-1.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md transition-colors shadow-sm">
+        Schedule Team Retrospective
+      </button>
+</div>
+</div>
+</div>
+<script>
+  function toggleDetails(rowId) {
+    const row = document.getElementById(rowId);
+    if (row) {
+      if (row.classList.contains('hidden')) {
+        row.classList.remove('hidden');
+      } else {
+        row.classList.add('hidden');
+      }
+    }
+  }
+
+  function filterAgentGrid() {
+    const input = document.getElementById('agentSearchInput');
+    const filter = input.value.toLowerCase();
+    const tableBody = document.getElementById('agentTableBody');
+    const rows = tableBody.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+      // Skip expanded details rows during basic string matching
+      if (rows[i].id && rows[i].id.startsWith('agent-row-')) {
+        continue;
+      }
+      const text = rows[i].textContent || rows[i].innerText;
+      if (text.toLowerCase().indexOf(filter) > -1) {
+        rows[i].style.display = "";
+      } else {
+        rows[i].style.display = "none";
+      }
+    }
+  }
+</script></main></div></body></html>

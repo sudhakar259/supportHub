@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#131a33","background":"#f8f9ff","surface-container-lowest":"#ffffff","inverse-surface":"#213145","on-error":"#ffffff","tertiary-fixed":"#89f5e7","primary-container":"#cc4900","on-tertiary-fixed":"#00201d","primary-fixed":"#ffdbce","on-surface-variant":"#5a4138","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#3e4660","secondary-fixed":"#dbe1ff","surface-bright":"#f8f9ff","inverse-primary":"#ffb599","on-secondary-container":"#5a627e","surface-container-high":"#dce9ff","error-container":"#ffdad6","tertiary-container":"#008378","surface-container":"#e5eeff","on-surface":"#0b1c30","tertiary":"#00685f","secondary":"#565d79","error":"#ba1a1a","tertiary-fixed-dim":"#6bd8cb","surface-dim":"#cbdbf5","surface-variant":"#d3e4fe","on-background":"#0b1c30","on-primary-fixed-variant":"#7f2b00","on-secondary":"#ffffff","on-primary-container":"#fffbff","secondary-fixed-dim":"#bec5e5","outline":"#8e7166","surface-container-low":"#eff4ff","primary":"#a33900","on-tertiary-container":"#f4fffc","on-error-container":"#93000a","secondary-container":"#d8deff","primary-fixed-dim":"#ffb599","inverse-on-surface":"#eaf1ff","surface-tint":"#a73a00","surface":"#f8f9ff","on-primary":"#ffffff","on-primary-fixed":"#370e00","outline-variant":"#e2bfb2","surface-container-highest":"#d3e4fe","on-tertiary-fixed-variant":"#005049"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-lg":"1.25rem","gutter-lg":"1.5rem","space-xs":"0.25rem","space-md":"0.75rem","margin-mobile":"1rem","space-sm":"0.5rem","gutter":"1rem","space-xl":"2rem","margin":"1.5rem"},fontFamily:{"label-sm":["Inter"],"body-sm":["Inter"],"label-md":["Inter"],"headline-md":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"body-lg":["Inter"],"title-sm":["Inter"],"body-md":["Inter"],"code-sm":["JetBrains Mono"],"display-lg":["Hanken Grotesk"],"title-md":["Inter"],"headline-sm":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"]},fontSize:{"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><aside class="fixed left-0 top-0 h-screen w-64 bg-inverse-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-full overflow-hidden"><div class="h-16 px-gutter flex items-center gap-space-sm bg-inverse-surface"><img alt="Brand logo. - Primary color: #ea580c
+- Font: hankenGrotesk
+- Mode: light
+- Roundness: rounded-sm
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-inverse-on-surface leading-tight tracking-tight">SupportHub</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-inverse-primary">Enterprise Core</span></div></div><div class="flex-1 overflow-y-auto px-space-sm py-space-md"><div class="px-space-sm pb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim">Workspace</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center justify-between px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[18px]">grid_view</span><span class="">Dashboard</span></a><a class="flex items-center justify-between px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="tickets" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">confirmation_number</span><span class="">Tickets</span></div><span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-primary text-on-primary font-bold">24</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="my-tickets" href="#"><span class="material-symbols-outlined text-[18px]">assignment_ind</span><span class="">My Tickets</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="customers" href="#"><span class="material-symbols-outlined text-[18px]">group</span><span class="">Customers</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="departments" href="#"><span class="material-symbols-outlined text-[18px]">apartment</span><span class="">Departments</span></a></nav><div class="mt-space-lg px-space-sm pb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed-dim">Governance</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="users" href="#"><span class="material-symbols-outlined text-[18px]">manage_accounts</span><span class="">Users</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="roles-and-permissions" href="#"><span class="material-symbols-outlined text-[18px]">admin_panel_settings</span><span class="">Roles &amp; Permissions</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="reports" href="#"><span class="material-symbols-outlined text-[18px]">insights</span><span class="">Reports</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="automation" href="#"><span class="material-symbols-outlined text-[18px]">auto_mode</span><span class="">Automation</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-secondary-fixed hover:bg-surface-variant hover:text-on-surface rounded-lg transition-colors font-title-sm text-title-sm" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span class="">Settings</span></a></nav></div><div class="p-space-md m-space-sm rounded-lg bg-surface-container-high/10"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-secondary-fixed-dim uppercase tracking-wider">SLA Health</span><span class="font-label-sm text-label-sm text-tertiary-fixed font-bold">99.8%</span></div><div class="w-full bg-inverse-surface h-1 rounded-full mt-2 overflow-hidden"><div class="bg-tertiary-container h-full w-[99.8%]"></div></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-gutter-lg flex items-center justify-between gap-gutter"><div class="flex-1 max-w-lg"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-[20px] text-secondary pointer-events-none">search</span><input class="w-full h-9 pl-10 pr-space-md bg-surface-container-low rounded-lg text-on-surface font-body-sm text-body-sm placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search across tickets, requesters, audit logs (⌘K)" type="text"/><kbd class="absolute right-space-md font-code-sm text-code-sm text-secondary bg-surface-container px-1.5 py-0.5 rounded shadow-sm pointer-events-none">⌘K</kbd></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-2 px-space-md py-1 rounded-full bg-surface-container-low"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary-container"></span></span><span class="font-label-sm text-label-sm font-bold text-tertiary tracking-wider">SYSTEMS LIVE</span></div><button aria-label="Notifications" class="relative p-2 text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 flex h-2 w-2"><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span></button><button aria-label="Quick Action" class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><div class="h-6 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="flex flex-col text-left"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-secondary leading-none">Administrator</span></div><span class="material-symbols-outlined text-[18px] text-secondary ml-1">expand_more</span></div></div></div></header><main class="w-full pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Underlying Incident Workspace Background (Ticket Detail Context) -->
+<div class="w-full px-gutter-lg py-space-lg flex flex-col gap-space-lg select-none filter blur-[2px] opacity-40 pointer-events-none">
+<!-- Mock Workspace Top Bar -->
+<div class="flex items-center justify-between bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex items-center gap-space-md">
+<span class="font-code-sm text-code-sm bg-inverse-surface text-inverse-on-surface px-space-sm py-1 rounded">#TKT-2026-000125</span>
+<h1 class="font-headline-md text-headline-md text-on-surface">Payment Gateway Webhook Timeout - Error 504 on Stripe Connect</h1>
+<span class="px-space-sm py-0.5 rounded-full bg-error-container text-error font-label-sm text-label-sm uppercase tracking-wider font-bold">P1 Critical</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-body-sm text-body-sm text-secondary">Assigned: Tier-2 Integration Engineering</span>
+<button class="bg-primary text-on-primary px-space-md py-space-sm rounded font-title-sm text-title-sm">Escalate</button>
+</div>
+</div>
+<!-- Mock Grid Content -->
+<div class="grid grid-cols-12 gap-gutter">
+<div class="col-span-8 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm h-64 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Incident Telemetry &amp; Payload Traces</span>
+<span class="font-code-sm text-code-sm text-secondary">Latency Peak: 54,200ms</span>
+</div>
+<div class="w-full bg-surface-container h-32 rounded flex items-center justify-center text-secondary font-label-md text-label-md">
+            [Realtime Webhook Worker Trace Graphic]
+          </div>
+</div>
+</div>
+<div class="col-span-4 bg-surface-container-lowest p-space-lg rounded-xl shadow-sm h-64">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold mb-space-sm block">Customer Context</span>
+<div class="flex flex-col gap-space-xs font-body-sm text-body-sm text-secondary">
+<span class="text-on-surface font-semibold">Stripe Global Logistics LLC</span>
+<span>ARR: $120,000 (Platinum SLA)</span>
+<span>Executive Sponsor: Sarah Chen (VP FinTech)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Multi-Tier Incident Escalation High-Z Backdrop & Master Modal System -->
+<div class="fixed inset-0 z-50 overflow-y-auto bg-inverse-surface/75 backdrop-blur-sm flex justify-center items-start p-space-md md:p-space-xl">
+<div class="relative w-full max-w-6xl flex flex-col my-auto rounded-xl shadow-2xl overflow-hidden bg-surface-container-lowest animate-fadeIn">
+<!-- Top Critical Protocol Alert Strip -->
+<div class="bg-error text-on-error px-gutter-lg py-2.5 flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] animate-pulse">crisis_alert</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Escalate Incident — P1 Critical Protocol Active</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-code-sm text-code-sm bg-black/20 px-2 py-0.5 rounded font-bold text-on-error">SESSION: ESC-9021-X</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-error/80">War Room Trigger: Ready</span>
+</div>
+</div>
+<!-- Modal Core Header -->
+<div class="px-gutter-lg pt-space-lg pb-space-md bg-surface-container-lowest flex flex-col md:flex-row justify-between items-start md:items-center gap-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Escalate Ticket #TKT-2026-000125</span>
+<span class="px-2 py-0.5 rounded bg-error/10 text-error font-code-sm text-code-sm font-bold uppercase tracking-wider">P1 • Critical</span>
+</div>
+<p class="font-body-md text-body-md text-secondary">
+            Trigger emergency SLA tier escalation, on-call dispatch, and multi-department war room orchestration.
+          </p>
+</div>
+<!-- Live SLA Meter Box -->
+<div class="flex items-center gap-space-md bg-surface-container-low px-space-md py-space-sm rounded-lg self-stretch md:self-auto">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Time to SLA Breach</span>
+<div class="flex items-center gap-1.5">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-error"></span>
+</span>
+<span class="font-headline-sm text-headline-sm text-error font-bold font-code-sm">14m 28s</span>
+</div>
+</div>
+<div class="h-8 w-px bg-surface-container-high"></div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">SLA Contract</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Platinum 24/7 Enterprise</span>
+</div>
+</div>
+</div>
+<!-- Workflow Split Container: Configuration Engine vs. Audit Ledger -->
+<div class="grid grid-cols-1 lg:grid-cols-12 bg-surface-container-low/50">
+<!-- Left: Escalation Configuration Deck (7 Cols) -->
+<div class="lg:col-span-7 p-gutter-lg bg-surface-container-lowest flex flex-col gap-space-lg">
+<!-- Section 1: Department & On-Call Dispatch -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Department Selector -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary flex items-center justify-between">
+<span>Target Department Tier</span>
+<span class="text-primary font-bold">Tier 3</span>
+</label>
+<div class="relative">
+<select class="w-full h-10 pl-3 pr-8 bg-surface rounded text-on-surface font-title-sm text-title-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm appearance-none" id="escalateDeptSelect">
+<option selected="" value="sre">Tier-3 Core Infrastructure SRE</option>
+<option value="secops">Security &amp; SecOps (DEPT-SECOPS)</option>
+<option value="database">Database Operations &amp; SRE</option>
+<option value="finops">FinTech Core Protocol Engineering</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+                Auto-routes to SRE On-Call Primary &amp; Secondary rotation
+              </p>
+</div>
+<!-- Agent / Lead Commander Selector -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary flex items-center justify-between">
+<span>Escalation Commander</span>
+<span class="text-tertiary-container font-bold">Verified Available</span>
+</label>
+<div class="relative">
+<select class="w-full h-10 pl-3 pr-8 bg-surface rounded text-on-surface font-title-sm text-title-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm appearance-none">
+<option selected="">Sarah Lindqvist (SecOps Lead &amp; IC)</option>
+<option>Next Round-Robin Senior Architect (Auto)</option>
+<option>Tarek Al-Mansoor (Principal SRE On-Call)</option>
+<option>Devon Vance (Director of Systems Ops)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-tertiary/10 text-tertiary w-fit">
+<span class="h-1.5 w-1.5 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label-sm text-label-sm font-semibold">Active On-Duty (Shift: AMER East)</span>
+</div>
+</div>
+</div>
+<!-- Section 2: Escalation Reasons (Multi-Choice Chips) -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">
+              Escalation Categorization &amp; Triggers <span class="text-error">*</span>
+</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-xs pt-1">
+<!-- Chip 1 (Selected) -->
+<label class="flex items-center gap-2 p-2.5 rounded bg-primary/10 text-on-surface cursor-pointer shadow-sm hover:bg-primary/15 transition-all">
+<input checked="" class="h-4 w-4 rounded accent-primary text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-semibold text-primary">SLA Breach Imminent (&lt; 15 mins)</span>
+<span class="font-body-sm text-body-sm text-secondary">Critical threshold trigger activated</span>
+</div>
+</label>
+<!-- Chip 2 (Selected) -->
+<label class="flex items-center gap-2 p-2.5 rounded bg-primary/10 text-on-surface cursor-pointer shadow-sm hover:bg-primary/15 transition-all">
+<input checked="" class="h-4 w-4 rounded accent-primary text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-semibold text-primary">Complex Technical Root-Cause</span>
+<span class="font-body-sm text-body-sm text-secondary">K8s / Gateway Ingress 504 drops</span>
+</div>
+</label>
+<!-- Chip 3 -->
+<label class="flex items-center gap-2 p-2.5 rounded bg-surface text-on-surface cursor-pointer shadow-sm hover:bg-surface-variant transition-all">
+<input class="h-4 w-4 rounded accent-primary text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-medium">Customer VIP Impact</span>
+<span class="font-body-sm text-body-sm text-secondary">$120k ARR Platinum Account</span>
+</div>
+</label>
+<!-- Chip 4 -->
+<label class="flex items-center gap-2 p-2.5 rounded bg-surface text-on-surface cursor-pointer shadow-sm hover:bg-surface-variant transition-all">
+<input class="h-4 w-4 rounded accent-primary text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-medium">Unresponsive 3rd Party Dependency</span>
+<span class="font-body-sm text-body-sm text-secondary">Upstream Stripe Connect Webhook</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Section 3: Situation Report (Detailed Incident Context) -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">
+                Situation Report &amp; Technical Handover Note
+              </label>
+<span class="font-code-sm text-code-sm text-secondary">Markdown Supported</span>
+</div>
+<textarea class="w-full p-3 bg-surface rounded text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm leading-relaxed" placeholder="Summarize technical telemetry, steps taken, and desired action..." rows="4">Ingress HMAC SHA256 worker exhausted memory under jumbo webhook payload (4.8MB). Buffer bump deployed to canary; requires SecOps token validation and DB replication verification before full production unpause.</textarea>
+<div class="flex items-center justify-between text-secondary">
+<span class="font-body-sm text-body-sm text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+                Verified canary pod: staging-gateway-worker-99bf
+              </span>
+<span class="font-code-sm text-code-sm">214 characters logged</span>
+</div>
+</div>
+<!-- Section 4: Target Priority / Severity Adjustment -->
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">
+              Severity Level Protocol
+            </label>
+<div class="grid grid-cols-2 gap-space-md">
+<label class="flex items-start gap-space-sm p-space-md rounded bg-surface cursor-pointer shadow-sm hover:bg-surface-variant transition-all">
+<input checked="" class="mt-1 h-4 w-4 accent-primary" name="severity_level" type="radio"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">Maintain P1 • Critical</span>
+<span class="font-body-sm text-body-sm text-secondary">Immediate Auto-Page to Primary On-Call</span>
+</div>
+</label>
+<label class="flex items-start gap-space-sm p-space-md rounded bg-error-container/20 cursor-pointer shadow-sm hover:bg-error-container/30 transition-all">
+<input class="mt-1 h-4 w-4 accent-error" name="severity_level" type="radio"/>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-semibold text-error">Elevate to SEV-0 Outage</span>
+<span class="font-body-sm text-body-sm text-secondary">Company-wide Incident broadcast + C-level bridge</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Section 5: Urgent Broadcast Protocols -->
+<div class="bg-surface p-space-md rounded-lg flex flex-col gap-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold text-secondary">Automated War Room &amp; Dispatch Actions</span>
+<label class="flex items-center gap-space-sm cursor-pointer">
+<input checked="" class="h-4 w-4 rounded accent-primary text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">
+                Broadcast notification to executive stakeholder list <strong class="text-on-surface font-semibold">(Elena Rostova, Marcus Vance)</strong>
+</span>
+</label>
+<label class="flex items-center gap-space-sm cursor-pointer">
+<input checked="" class="h-4 w-4 rounded accent-primary text-primary focus:ring-primary" type="checkbox"/>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-on-surface">
+                  Spin up dedicated Zoom War Room &amp; Slack Bridge:
+                </span>
+<span class="font-code-sm text-code-sm bg-inverse-surface text-inverse-on-surface px-1.5 py-0.5 rounded">#incident-tkt-000125</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Right: Escalation Ledger Timeline & Telemetry (5 Cols) -->
+<div class="lg:col-span-5 p-gutter-lg bg-surface flex flex-col justify-between">
+<div class="flex flex-col gap-space-md">
+<!-- Ledger Header -->
+<div class="flex items-center justify-between pb-space-sm bg-surface">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-secondary">history</span>
+<h3 class="font-title-md text-title-md text-on-surface">Incident Escalation Ledger</h3>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-code-sm text-code-sm font-bold">3 Events Logged</span>
+</div>
+<!-- Ledger Timeline List -->
+<div class="relative pl-6 flex flex-col gap-space-lg">
+<!-- Vertical Track Line -->
+<div class="absolute left-2.5 top-2 bottom-2 w-0.5 bg-surface-container-high"></div>
+<!-- Event 1 -->
+<div class="relative flex flex-col gap-1">
+<div class="absolute -left-[19px] top-1 h-3 w-3 rounded-full bg-secondary ring-4 ring-surface"></div>
+<div class="flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-secondary">Today, 09:35 AM</span>
+<span class="font-label-sm text-label-sm bg-surface-container px-1.5 py-0.5 rounded text-secondary font-semibold">Tier-1 → Tier-2</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+                  Tier-1 Triage escalated to Tier-2 Technical Support.
+                </p>
+<div class="font-label-sm text-label-sm text-secondary bg-surface-container-low p-2 rounded flex flex-col gap-0.5">
+<span>Trigger: NLP Classifier confidence <strong>98.4%</strong></span>
+<span>Agent: <strong>Marcus Chen</strong> initiated triage handover</span>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="relative flex flex-col gap-1">
+<div class="absolute -left-[19px] top-1 h-3 w-3 rounded-full bg-error ring-4 ring-surface"></div>
+<div class="flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-secondary">Today, 09:40 AM</span>
+<span class="font-label-sm text-label-sm bg-error/10 text-error px-1.5 py-0.5 rounded font-bold">P2 → P1 CRITICAL</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+                  Priority escalated from P2 High to P1 Critical.
+                </p>
+<div class="font-label-sm text-label-sm text-secondary bg-surface-container-low p-2 rounded flex flex-col gap-0.5">
+<span>Trigger: Auto-Routing VIP Threshold exceeded</span>
+<span>Impacted Revenue Velocity: <strong>$84,000 / hr</strong></span>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="relative flex flex-col gap-1">
+<div class="absolute -left-[19px] top-1 h-3 w-3 rounded-full bg-tertiary-container ring-4 ring-surface animate-pulse"></div>
+<div class="flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-secondary">Today, 10:48 AM</span>
+<span class="font-label-sm text-label-sm bg-tertiary/10 text-tertiary px-1.5 py-0.5 rounded font-bold">CANARY HOTFIX</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+                  Diagnostic canary hotfix v2.14.9 deployed.
+                </p>
+<div class="font-label-sm text-label-sm text-secondary bg-surface-container-low p-2 rounded flex flex-col gap-0.5">
+<span>Scope: Ingress buffer bumped to 8MB in staging canary</span>
+<span class="text-primary font-bold">Pending final Escalation to Tier-3 SRE</span>
+</div>
+</div>
+</div>
+<!-- Context Card: Current On-Call Rotation -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-xs mt-space-md">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-secondary">Target Response Fleet</span>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="h-8 w-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold font-title-sm text-title-sm">
+                    SL
+                  </div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">Sarah Lindqvist</span>
+<span class="font-body-sm text-body-sm text-secondary">Incident Commander (Tier-3 SRE)</span>
+</div>
+</div>
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-tertiary text-on-tertiary font-bold">PAGER ON</span>
+</div>
+</div>
+</div>
+<!-- Bottom Metric Safeguard -->
+<div class="pt-space-md mt-space-md bg-surface flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">security</span>
+<span>SOC-2 Incident Compliance Engine Active</span>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">HASH: 994a..e8c1</span>
+</div>
+</div>
+</div>
+<!-- Action Footer & Safety Guardrails -->
+<div class="px-gutter-lg py-space-md bg-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-space-md shadow-md">
+<div class="flex items-center gap-space-sm text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary">warning</span>
+<span class="font-body-sm text-body-sm">
+            Action will immediately notify on-call leads via SMS, Phone Call, and War Room webhook.
+          </span>
+</div>
+<div class="flex items-center gap-space-md w-full sm:w-auto justify-end">
+<button class="px-space-lg py-2.5 rounded bg-surface hover:bg-surface-variant text-on-surface font-title-sm text-title-sm transition-colors" id="cancelEscalationBtn" type="button">
+            Cancel
+          </button>
+<button class="px-gutter-lg py-2.5 rounded bg-primary hover:bg-primary-container text-on-primary font-title-sm text-title-sm font-bold flex items-center gap-2 shadow-lg transition-transform active:scale-95" id="triggerEscalationBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+<span>Trigger Emergency Escalation</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- State Previews & Validation Verification Deck (Interactive Floating Drawer / Demonstration Rack) -->
+<div class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-md w-full pointer-events-auto">
+<!-- State Switcher Toolbar for Visual Evaluation -->
+<div class="bg-inverse-surface text-inverse-on-surface p-2 rounded-lg shadow-xl flex items-center justify-between text-label-sm font-label-sm">
+<span class="uppercase tracking-widest text-primary-fixed-dim font-bold pl-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">tune</span> State Verification Deck
+      </span>
+<div class="flex items-center gap-1">
+<button class="px-2 py-1 rounded bg-surface-container-high/20 hover:bg-surface-container-high/40 text-inverse-on-surface transition-all" onclick="toggleDeckView('confirm')">Confirm Prompt</button>
+<button class="px-2 py-1 rounded bg-tertiary-container text-on-tertiary font-bold transition-all" onclick="toggleDeckView('success')">Success Dispatched</button>
+<button class="px-2 py-1 rounded bg-error-container text-on-error-container font-bold transition-all" onclick="toggleDeckView('error')">Blocked Error</button>
+<button class="px-1.5 py-1 text-secondary-fixed hover:text-white" onclick="toggleDeckView('hide')">×</button>
+</div>
+</div>
+<!-- 1. Escalation Confirmation Modal Overlay Preview -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-space-md shadow-2xl flex flex-col gap-space-sm animate-fadeIn" id="deckConfirmPreview">
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded bg-error-container text-error">
+<span class="material-symbols-outlined text-[22px]">notification_important</span>
+</div>
+<div class="flex flex-col">
+<h4 class="font-title-md text-title-md text-on-surface font-bold">Authorize Tier-3 Escalation Dispatch?</h4>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+            This will immediately page <strong>3 engineers</strong>, initiate phone override protocols, and broadcast to the executive war room.
+          </p>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-2 bg-surface-container-lowest">
+<button class="px-3 py-1.5 rounded bg-surface text-secondary hover:text-on-surface font-title-sm text-title-sm" onclick="toggleDeckView('hide')">Back to Edit</button>
+<button class="px-4 py-1.5 rounded bg-primary text-on-primary font-title-sm text-title-sm font-bold shadow-md" onclick="toggleDeckView('success')">Confirm Escalation</button>
+</div>
+</div>
+<!-- 2. Escalation Success Notification Card -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-space-md shadow-2xl flex flex-col gap-space-sm animate-fadeIn" id="deckSuccessPreview">
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded bg-tertiary/10 text-tertiary">
+<span class="material-symbols-outlined text-[22px]">check_circle</span>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface font-bold">Escalation Dispatched Successfully</span>
+<span class="font-code-sm text-code-sm text-tertiary font-bold">PD-8821</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+            Incident <strong class="text-on-surface font-code-sm">#TKT-2026-000125</strong> escalated to <strong>Tier-3 SRE (Sarah Lindqvist)</strong>. PagerDuty on-call dispatched.
+          </p>
+<div class="mt-2 p-2 rounded bg-surface-container-low flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-primary font-bold">#incident-tkt-000125</span>
+<a class="font-label-sm text-label-sm text-tertiary font-bold hover:underline flex items-center gap-0.5" href="#">
+              Launch Zoom War Room →
+            </a>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Escalation Error & Recovery State (Missing Logs Blocked) -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-space-md shadow-2xl flex flex-col gap-space-sm animate-fadeIn" id="deckErrorPreview">
+<div class="flex items-start gap-space-sm">
+<div class="p-2 rounded bg-error-container text-error">
+<span class="material-symbols-outlined text-[22px]">gpp_maybe</span>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-error font-bold">Escalation Blocked: Missing Trace Logs</span>
+<span class="font-label-sm text-label-sm bg-error/10 text-error px-1.5 py-0.5 rounded uppercase font-bold">SOC-2 Guardrail</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+            SOC-2 Enterprise Compliance requires diagnostic trace logs attached prior to Tier-3 SRE escalation on Platinum SLA tier accounts.
+          </p>
+<div class="mt-2.5 flex items-center gap-2">
+<button class="px-3 py-1 rounded bg-error text-on-error font-title-sm text-title-sm font-semibold flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">upload_file</span>
+              Attach Logs &amp; Retry
+            </button>
+<button class="px-2 py-1 text-secondary hover:text-on-surface font-body-sm text-body-sm" onclick="toggleDeckView('hide')">Dismiss</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Logic Harness -->
+<script>
+    function toggleDeckView(state) {
+      const confirmBox = document.getElementById('deckConfirmPreview');
+      const successBox = document.getElementById('deckSuccessPreview');
+      const errorBox = document.getElementById('deckErrorPreview');
+      
+      confirmBox.classList.add('hidden');
+      successBox.classList.add('hidden');
+      errorBox.classList.add('hidden');
+
+      if (state === 'confirm') {
+        confirmBox.classList.remove('hidden');
+      } else if (state === 'success') {
+        successBox.classList.remove('hidden');
+      } else if (state === 'error') {
+        errorBox.classList.remove('hidden');
+      }
+    }
+
+    document.getElementById('triggerEscalationBtn')?.addEventListener('click', () => {
+      toggleDeckView('confirm');
+    });
+
+    document.getElementById('cancelEscalationBtn')?.addEventListener('click', () => {
+      toggleDeckView('error');
+    });
+  </script>
+</div></main></div>
+</body></html>

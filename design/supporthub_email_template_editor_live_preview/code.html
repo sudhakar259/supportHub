@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-primary-container":"#fffbff","outline-variant":"#e2bfb2","secondary-fixed-dim":"#bec5e5","background":"#f8f9ff","on-tertiary-fixed-variant":"#005049","tertiary-container":"#008378","surface-container-highest":"#d3e4fe","outline":"#8e7166","error":"#ba1a1a","primary":"#a33900","secondary-container":"#d8deff","on-primary-fixed-variant":"#7f2b00","surface-dim":"#cbdbf5","tertiary-fixed-dim":"#6bd8cb","secondary":"#565d79","on-surface":"#0b1c30","on-secondary-fixed":"#131a33","primary-fixed-dim":"#ffb599","primary-fixed":"#ffdbce","surface":"#f8f9ff","on-tertiary":"#ffffff","on-surface-variant":"#5a4138","on-secondary-fixed-variant":"#3e4660","inverse-on-surface":"#eaf1ff","on-secondary-container":"#5a627e","surface-variant":"#d3e4fe","surface-container-high":"#dce9ff","surface-bright":"#f8f9ff","inverse-primary":"#ffb599","surface-container":"#e5eeff","on-error":"#ffffff","error-container":"#ffdad6","surface-tint":"#a73a00","surface-container-lowest":"#ffffff","on-primary-fixed":"#370e00","tertiary":"#00685f","tertiary-fixed":"#89f5e7","primary-container":"#cc4900","secondary-fixed":"#dbe1ff","on-tertiary-fixed":"#00201d","on-background":"#0b1c30","on-tertiary-container":"#f4fffc","surface-container-low":"#eff4ff","inverse-surface":"#213145","on-primary":"#ffffff","on-secondary":"#ffffff","on-error-container":"#93000a"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"gutter-lg":"1.5rem","space-xs":"0.25rem","space-lg":"1.25rem","margin-mobile":"1rem","margin":"1.5rem","space-sm":"0.5rem","space-xl":"2rem","gutter":"1rem","space-md":"0.75rem"},"fontFamily":{"code-sm":["JetBrains Mono"],"headline-lg":["Hanken Grotesk"],"headline-md":["Hanken Grotesk"],"title-md":["Inter"],"headline-lg-mobile":["Hanken Grotesk"],"body-sm":["Inter"],"label-sm":["Inter"],"label-md":["Inter"],"display-lg":["Hanken Grotesk"],"headline-sm":["Hanken Grotesk"],"body-lg":["Inter"],"title-sm":["Inter"],"body-md":["Inter"]},"fontSize":{"code-sm":["12px",{"lineHeight":"18px","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"title-sm":["14px",{"lineHeight":"20px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-xl z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-margin flex items-center justify-between gap-gutter"><div class="flex items-center gap-gutter"><img alt="Brand logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VSSWAYIYYSfMOuQTKRDpaaRjSTbG6EkA-WVAtFic9NvqyA2CtrvrzSyNu6PLDezkxTORZVKcxI_6z8jVjE7MpflAI3v7td-5yYwus-VgI4NvjjhvwMMBmicoIPaOcMOhlp_itdnYAQMnLzdt0FhsW-jEAv1ETtWEsJjGggNwhajTqiE2-ln0o5KyjEAgP7R6GlrdxZkg6jMM6LHOPew7eGb6ad7xE73AfcoKDZcTXWZUvmpucC0uSbgII"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">SupportHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Enterprise Ops</span></div></div><div class="flex-1 max-w-xl mx-space-xl hidden md:flex items-center"><div class="w-full relative flex items-center"><span class="material-symbols-outlined absolute left-space-md text-secondary text-title-md pointer-events-none">search</span><input class="w-full h-9 pl-10 pr-14 rounded-lg bg-surface-container-lowest text-on-surface placeholder:text-secondary font-body-md text-body-md shadow-[0_1px_4px_rgba(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Search configurations, queues, tickets, or incident IDs..." type="search"/><div class="absolute right-space-sm flex items-center gap-space-xs pointer-events-none"><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">⌘</kbd><kbd class="px-space-xs py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-secondary">K</kbd></div></div></div><div class="flex items-center gap-gutter"><div class="hidden sm:flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Systems Live</span></div><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">notifications</span></button><button class="p-space-sm text-secondary hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-title-md">help</span></button><div class="flex items-center gap-space-md pl-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/><div class="hidden lg:flex flex-col"><span class="font-title-sm text-title-sm text-on-surface leading-tight">Elena Rostova</span><span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Administrator</span></div></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low z-40 overflow-y-auto pb-space-xl flex flex-col shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><nav class="flex-1 px-space-md py-space-lg space-y-space-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workspace</div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="tickets" href="#">Tickets</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="my-tickets" href="#">My Tickets</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="customers" href="#">Customers</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="departments" href="#">Departments</a></div><div class="space-y-space-xs"><div class="px-space-md py-space-xs font-label-sm text-label-sm text-secondary uppercase tracking-wider">Governance &amp; Settings</div><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="users" href="#">Users</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="roles-permissions" href="#">Roles &amp; Permissions</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reports" href="#">Reports</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="automation" href="#">Automation</a><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-primary">mail</span><span>Notifications &amp; Email</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a aria-current="page" class="flex items-center px-space-md py-1.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg" data-path="email-templates" href="#">Email Templates</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="notification-matrix-settings" href="#">Notification Matrix / Settings</a></div></div><div class="pt-space-xs space-y-space-xs"><div class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface font-title-sm text-title-sm"><span class="material-symbols-outlined text-title-md text-secondary">tune</span><span>Ticket Configuration</span></div><div class="pl-8 pr-space-xs space-y-space-xs"><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-numbering" href="#">Ticket Numbering</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="statuses-priorities" href="#">Statuses &amp; Priorities</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="categories-taxonomies" href="#">Categories &amp; Taxonomies</a><a class="flex items-center px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="ticket-settings" href="#">Settings</a></div></div></div></nav></aside><div class="pl-64"><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<div class="w-full bg-surface-container-low px-margin py-space-sm shadow-sm">
+<div class="flex flex-wrap items-center justify-between gap-gutter">
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs text-secondary font-label-md text-label-md">
+<a class="hover:text-on-surface transition-colors" href="#">Settings</a>
+<span class="material-symbols-outlined text-code-sm text-secondary">chevron_right</span>
+<a class="hover:text-on-surface transition-colors" href="#">Notifications &amp; Email</a>
+<span class="material-symbols-outlined text-code-sm text-secondary">chevron_right</span>
+<a class="hover:text-on-surface transition-colors" href="#">Email Templates</a>
+<span class="material-symbols-outlined text-code-sm text-secondary">chevron_right</span>
+<span class="text-primary font-semibold">Edit: Ticket Created (Customer Receipt)</span>
+</nav>
+<div class="flex items-center gap-space-md">
+<span class="flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container text-secondary font-code-sm text-code-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+          Autosaved 1m ago
+        </span>
+<span class="px-space-sm py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-code-sm text-code-sm font-semibold">
+          v3.2.0-prod
+        </span>
+</div>
+</div>
+</div>
+<div class="w-full px-margin py-space-md">
+<div class="flex flex-col lg:flex-row gap-gutter items-start">
+<!-- LEFT COLUMN: Template Editor (55%) -->
+<section class="w-full lg:w-[55%] flex flex-col gap-space-md">
+<!-- Top Metadata Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-md">
+<div class="flex flex-wrap items-start justify-between gap-gutter">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-space-sm">
+<h1 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">
+                  Ticket Created — Customer Confirmation
+                </h1>
+<span class="inline-flex items-center gap-1 px-space-xs py-0.5 rounded bg-surface-container-high text-secondary font-code-sm text-code-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                  tpl_ticket_created_customer
+                </span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+                Dispatched immediately when an inbound ticket is received via customer portal, email ingestion, or public API.
+              </p>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1 rounded-lg">
+<span class="font-label-sm text-label-sm text-secondary">Locale</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">EN-US</span>
+</div>
+<label class="flex items-center gap-space-xs cursor-pointer select-none bg-surface-container px-space-sm py-1 rounded-lg">
+<input checked="" class="sr-only peer" id="toggle-active" type="checkbox"/>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold text-secondary peer-checked:text-tertiary">Active</span>
+<div class="w-8 h-4 bg-secondary/30 peer-checked:bg-tertiary rounded-full relative transition-colors duration-200">
+<div class="w-3 h-3 bg-on-tertiary rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-4"></div>
+</div>
+</label>
+</div>
+</div>
+<!-- Subject Line Section -->
+<div class="space-y-space-xs bg-surface-container-low p-space-md rounded-lg">
+<div class="flex items-center justify-between">
+<label class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-space-xs" for="email-subject-input">
+                Email Subject Template
+                <span class="text-primary">*</span>
+</label>
+<span class="font-code-sm text-code-sm text-secondary">Liquid syntax enabled</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full h-10 px-space-md rounded-lg bg-surface-container-lowest font-body-md text-body-md text-on-surface placeholder:text-secondary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" id="email-subject-input" type="text" value="[SupportHub] We received your request: {ticket_subject} (#{ticket_number})"/>
+</div>
+</div>
+<!-- Dynamic Variables Tokens Palette -->
+<div class="space-y-space-xs bg-surface-container-low p-space-md rounded-lg">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-title-md">data_object</span>
+                Dynamic Variable Tokens
+              </span>
+<span class="font-label-sm text-label-sm text-secondary">Click token to insert</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              Tokens auto-populate from incident metadata during dynamic rendering at dispatch time.
+            </p>
+<div class="flex flex-wrap gap-space-xs pt-space-xs" id="variable-palette">
+<button class="variable-token inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-code-sm text-code-sm font-semibold shadow-sm transition-all active:scale-95" data-token="{ticket_number}" type="button">
+<span class="text-secondary opacity-60">#</span>{ticket_number}
+              </button>
+<button class="variable-token inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-code-sm text-code-sm font-semibold shadow-sm transition-all active:scale-95" data-token="{customer_name}" type="button">
+<span class="text-secondary opacity-60">@</span>{customer_name}
+              </button>
+<button class="variable-token inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-code-sm text-code-sm font-semibold shadow-sm transition-all active:scale-95" data-token="{agent_name}" type="button">
+<span class="text-secondary opacity-60">@</span>{agent_name}
+              </button>
+<button class="variable-token inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-code-sm text-code-sm font-semibold shadow-sm transition-all active:scale-95" data-token="{department}" type="button">
+<span class="text-secondary opacity-60">🏢</span>{department}
+              </button>
+<button class="variable-token inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-code-sm text-code-sm font-semibold shadow-sm transition-all active:scale-95" data-token="{ticket_subject}" type="button">
+<span class="text-secondary opacity-60">¶</span>{ticket_subject}
+              </button>
+<button class="variable-token inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-code-sm text-code-sm font-semibold shadow-sm transition-all active:scale-95" data-token="{ticket_status}" type="button">
+<span class="text-secondary opacity-60">●</span>{ticket_status}
+              </button>
+<button class="variable-token inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-code-sm text-code-sm font-semibold shadow-sm transition-all active:scale-95" data-token="{ticket_priority}" type="button">
+<span class="text-secondary opacity-60">⚡</span>{ticket_priority}
+              </button>
+<button class="variable-token inline-flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-code-sm text-code-sm font-semibold shadow-sm transition-all active:scale-95" data-token="{ticket_url}" type="button">
+<span class="text-secondary opacity-60">↗</span>{ticket_url}
+              </button>
+</div>
+</div>
+<!-- Rich Text / Code Editor Box -->
+<div class="rounded-lg overflow-hidden bg-surface-container-low shadow-sm">
+<!-- Toolbar -->
+<div class="flex flex-wrap items-center justify-between px-space-md py-space-xs bg-surface-container gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<button class="p-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Bold" type="button">
+<span class="material-symbols-outlined text-[18px]">format_bold</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Italic" type="button">
+<span class="material-symbols-outlined text-[18px]">format_italic</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Hyperlink" type="button">
+<span class="material-symbols-outlined text-[18px]">link</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Inline Code" type="button">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</button>
+<div class="h-4 w-px bg-surface-container-highest mx-0.5"></div>
+<button class="p-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Bullet List" type="button">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Numbered List" type="button">
+<span class="material-symbols-outlined text-[18px]">format_list_numbered</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Insert Quote" type="button">
+<span class="material-symbols-outlined text-[18px]">format_quote</span>
+</button>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container-high text-label-sm font-label-sm transition-colors" id="btn-toggle-source" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">html</span>
+<span>HTML Source</span>
+</button>
+<button class="flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container-high text-label-sm font-label-sm transition-colors" id="btn-reset-template" type="button">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+<span>Reset</span>
+</button>
+</div>
+</div>
+<!-- Editor Body Textarea -->
+<div class="relative">
+<textarea class="w-full h-80 p-space-md bg-surface-container-lowest text-on-surface font-body-md text-body-md font-normal leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-primary font-sans" id="email-body-editor" spellcheck="false">Hi {customer_name},
+
+Thank you for reaching out to SupportHub Customer Engineering. We have received your request and our {department} team has begun reviewing the details.
+
+Ticket Summary:
+• Ticket ID: {ticket_number}
+• Subject: {ticket_subject}
+• Priority: {ticket_priority}
+• Status: {ticket_status}
+
+You can track the progress, reply directly to this email, or manage your case online at:
+{ticket_url}
+
+Best regards,
+The {department} Team at SupportHub Enterprise</textarea>
+</div>
+<div class="px-space-md py-space-xs bg-surface-container-low flex justify-between items-center text-secondary font-code-sm text-code-sm">
+<span id="char-word-count">84 words • 568 characters</span>
+<span class="text-tertiary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                Valid syntax (0 errors)
+              </span>
+</div>
+</div>
+<!-- Routing & Transmission Header Settings -->
+<div class="bg-surface-container-low p-space-md rounded-lg space-y-space-md">
+<h2 class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-title-md text-primary">forward_to_inbox</span>
+              Dispatch &amp; Mailer Routing Parameters
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="space-y-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant font-semibold">From Sender Name &amp; Mailbox</label>
+<input class="w-full h-9 px-space-md rounded-lg bg-surface-container-lowest text-body-md font-body-md text-on-surface shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" readonly="" type="text" value="SupportHub Support &lt;support@acme-corp.com&gt;"/>
+</div>
+<div class="space-y-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant font-semibold">Reply-To Address (Ingestion Hook)</label>
+<input class="w-full h-9 px-space-md rounded-lg bg-surface-container-lowest font-code-sm text-code-sm text-on-surface shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" readonly="" type="text" value="inbound-parse+{ticket_number}@tickets.acme-corp.com"/>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+<div class="flex items-center gap-space-sm">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer accent-primary" id="allow-attachments" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface cursor-pointer select-none" for="allow-attachments">
+                  Allow file attachments (Auto-forward up to 25MB customer payload)
+                </label>
+</div>
+<div class="flex items-center gap-space-sm">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary cursor-pointer accent-primary" id="include-tracking-pixel" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface cursor-pointer select-none" for="include-tracking-pixel">
+                  Inject open-rate telemetry pixel
+                </label>
+</div>
+</div>
+</div>
+<!-- Bottom Action Buttons -->
+<div class="flex flex-wrap items-center justify-between gap-gutter pt-space-sm">
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors" type="button">
+                Cancel
+              </button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors" type="button">
+                Save Draft
+              </button>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-secondary text-on-secondary font-title-sm text-title-sm hover:bg-secondary/90 transition-all shadow-sm" id="btn-test-email" type="button">
+<span class="material-symbols-outlined text-title-md">send</span>
+                Test Email to Admin
+              </button>
+<button class="flex items-center gap-space-xs px-space-lg py-2 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-container transition-all shadow-md active:scale-95" id="btn-publish-template" type="button">
+<span class="material-symbols-outlined text-title-md">cloud_done</span>
+                Save &amp; Publish Template
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Realistic Live Email Preview (45%) -->
+<section class="w-full lg:w-[45%] flex flex-col gap-space-md">
+<!-- Controls & Environment Presets -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm space-y-space-sm">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<!-- Viewport Switcher -->
+<div class="flex items-center bg-surface-container-low p-0.5 rounded-lg">
+<button class="preview-mode-btn flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-lowest text-primary font-label-md text-label-md shadow-sm" data-mode="desktop" type="button">
+<span class="material-symbols-outlined text-[16px]">desktop_windows</span>
+<span>Desktop Client</span>
+</button>
+<button class="preview-mode-btn flex items-center gap-1 px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" data-mode="mobile" type="button">
+<span class="material-symbols-outlined text-[16px]">smartphone</span>
+<span>Mobile View</span>
+</button>
+<button class="preview-mode-btn flex items-center gap-1 px-space-sm py-1 rounded text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" data-mode="dark" type="button">
+<span class="material-symbols-outlined text-[16px]">dark_mode</span>
+<span>Dark Mode</span>
+</button>
+</div>
+<!-- Refresh Mock Payload -->
+<button class="flex items-center gap-1 px-space-sm py-1 rounded bg-surface-container-low text-secondary hover:text-on-surface text-label-sm font-label-sm transition-colors" id="btn-refresh-preview" title="Re-render liquid template" type="button">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span>Sync</span>
+</button>
+</div>
+<!-- Preset Selector -->
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Sample Data Scenario:</span>
+<div class="flex items-center gap-space-xs">
+<select class="h-8 px-space-sm rounded-lg bg-surface-container font-code-sm text-code-sm text-on-surface border-none focus:ring-1 focus:ring-primary cursor-pointer" id="sample-scenario-select">
+<option selected="" value="stripe-timeout">Preset: P1 Stripe Gateway Timeout (Elena Rostova)</option>
+<option value="sso-failure">Preset: P2 SAML SSO Signature Mismatch (Marcus Chen)</option>
+<option value="billing-dispute">Preset: P3 Annual Invoice Reconciliation (Sarah Jenkins)</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Realistic Mail Client Mockup -->
+<div class="w-full flex justify-center transition-all duration-300" id="preview-outer-container">
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-md overflow-hidden transition-all duration-300" id="mail-client-window">
+<!-- Window Titlebar Chrome -->
+<div class="bg-inverse-surface px-space-md py-space-xs flex items-center justify-between text-inverse-on-surface">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#ff5f56] inline-block shadow-sm"></span>
+<span class="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block shadow-sm"></span>
+<span class="w-3 h-3 rounded-full bg-[#27c93f] inline-block shadow-sm"></span>
+<span class="ml-2 font-code-sm text-code-sm text-inverse-on-surface/80 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">mail</span>
+                  Acme Mail Enterprise
+                </span>
+</div>
+<div class="flex items-center gap-space-sm text-inverse-on-surface/70">
+<span class="material-symbols-outlined text-[16px]">archive</span>
+<span class="material-symbols-outlined text-[16px]">report</span>
+<span class="material-symbols-outlined text-[16px]">delete</span>
+<span class="material-symbols-outlined text-[16px]">reply</span>
+</div>
+</div>
+<!-- Email Meta Headers Bar -->
+<div class="bg-surface-container-low p-space-md space-y-space-xs shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight" id="preview-subject-header">
+                [SupportHub] We received your request: Payment Gateway Webhook Timeout - Error 504 on Stripe Connect (#TKT-2026-000125)
+              </h3>
+<div class="flex items-start justify-between gap-gutter pt-space-xs">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-sm font-bold shadow-sm">
+                    SH
+                  </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">SupportHub Customer Operations</span>
+<span class="font-body-sm text-body-sm text-secondary">&lt;support@acme-corp.com&gt;</span>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-body-sm text-body-sm">
+<span>to</span>
+<span class="font-semibold text-on-surface" id="preview-recipient-label">Elena Rostova &lt;elena.rostova@acme-corp.com&gt;</span>
+</div>
+</div>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="font-code-sm text-code-sm text-secondary">Today, 09:14 AM (SGT)</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-tertiary">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                    SPF &amp; DKIM Signed
+                  </span>
+</div>
+</div>
+</div>
+<!-- Email Content Canvas (Realistic HTML Render) -->
+<div class="p-space-lg bg-surface transition-colors" id="email-rendered-canvas">
+<div class="max-w-xl mx-auto bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden p-space-lg space-y-space-lg">
+<!-- Email Header Brand Banner -->
+<div class="flex items-center justify-between pb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">confirmation_number</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">SupportHub</div>
+<div class="font-label-sm text-label-sm text-secondary tracking-widest uppercase">Global Incident Ops</div>
+</div>
+</div>
+<div class="text-right">
+<span class="px-space-sm py-1 rounded bg-error-container text-on-error-container font-code-sm text-code-sm font-semibold uppercase tracking-wider" id="preview-priority-badge">
+                      P1 - Critical
+                    </span>
+</div>
+</div>
+<!-- Live Body Container -->
+<div class="space-y-space-md text-on-surface font-body-md text-body-md leading-relaxed" id="preview-body-content">
+<p>Hi <strong class="text-primary font-semibold" id="render-customer-name">Elena Rostova</strong>,</p>
+<p>
+                    Thank you for reaching out to SupportHub Customer Engineering. We have received your request and our <strong class="font-semibold text-on-surface" id="render-department">Technical Support</strong> team has begun reviewing the details.
+                  </p>
+<!-- Structured Ticket Summary Box -->
+<div class="bg-surface-container-low rounded-lg p-space-md space-y-space-xs">
+<div class="font-title-sm text-title-sm text-on-surface font-semibold flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-title-md">receipt_long</span>
+                      Ticket Incident Manifest
+                    </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm pt-space-xs font-body-sm text-body-sm">
+<div>
+<span class="text-secondary block font-label-sm uppercase tracking-wider">Ticket ID</span>
+<span class="font-code-sm text-code-sm font-semibold text-on-surface" id="render-ticket-id">TKT-2026-000125</span>
+</div>
+<div>
+<span class="text-secondary block font-label-sm uppercase tracking-wider">Status</span>
+<span class="font-semibold text-tertiary" id="render-status">Open (Assigned)</span>
+</div>
+<div class="sm:col-span-2">
+<span class="text-secondary block font-label-sm uppercase tracking-wider">Subject</span>
+<span class="font-title-sm text-title-sm text-on-surface font-medium" id="render-subject">Payment Gateway Webhook Timeout - Error 504 on Stripe Connect</span>
+</div>
+<div class="sm:col-span-2">
+<span class="text-secondary block font-label-sm uppercase tracking-wider">Assigned Engineer</span>
+<span class="font-body-md text-body-md text-on-surface font-medium" id="render-agent">Marcus Chen (Tier 3 Core Infrastructure)</span>
+</div>
+</div>
+</div>
+<p>
+                    You can track the live triage progress, upload diagnostic logs, or communicate directly with our engineers by replying directly to this message or accessing the portal link below.
+                  </p>
+<!-- Call To Action Button -->
+<div class="py-space-xs text-center">
+<a class="inline-flex items-center justify-center gap-space-xs w-full sm:w-auto px-space-xl py-3 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm font-semibold shadow-md hover:bg-primary-container transition-all" href="#" id="preview-cta-btn">
+<span class="material-symbols-outlined text-title-md">open_in_new</span>
+<span id="preview-cta-text">View Ticket #TKT-2026-000125 in Portal</span>
+</a>
+</div>
+<p class="pt-space-xs font-body-sm text-body-sm text-secondary">
+                    Best regards,<br/>
+<strong class="text-on-surface font-semibold">The Technical Support Team</strong><br/>
+                    SupportHub Enterprise Inc.
+                  </p>
+</div>
+<!-- SOC-2 Compliance & Security Footer Notice -->
+<div class="pt-space-lg space-y-space-xs bg-surface-container-lowest text-secondary font-body-sm text-body-sm">
+<div class="flex items-center gap-space-xs text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">shield_with_heart</span>
+<span>SOC-2 Type II Certified Communication Channel • TLS 1.3 Encrypted</span>
+</div>
+<p class="text-secondary/80 text-[11px] leading-relaxed">
+                    This automated message was generated by SupportHub on behalf of Acme Corporation. If you did not originate this inquiry, please notify security@acme-corp.com immediately.
+                  </p>
+<div class="flex flex-wrap items-center gap-space-md text-[11px] text-secondary/70 pt-space-xs">
+<a class="underline hover:text-on-surface" href="#">Notification Preferences</a>
+<span>•</span>
+<a class="underline hover:text-on-surface" href="#">Incident Portal</a>
+<span>•</span>
+<a class="underline hover:text-on-surface" href="#">Privacy Governance</a>
+<span>•</span>
+<span>Reference: MSG-9942-8812</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Render Diagnostics & Engine Telemetry -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm font-title-sm text-title-sm text-on-surface font-semibold">
+<span class="material-symbols-outlined text-tertiary text-title-md">speed</span>
+              Compilation &amp; Delivery Telemetry
+            </div>
+<span class="font-code-sm text-code-sm text-secondary">Engine: EdgeLiquid v4.1</span>
+</div>
+<div class="grid grid-cols-3 gap-space-md pt-space-sm">
+<div class="bg-surface-container-low p-space-sm rounded-lg text-center">
+<span class="block font-label-sm text-label-sm text-secondary uppercase">Parse Time</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">1.4ms</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg text-center">
+<span class="block font-label-sm text-label-sm text-secondary uppercase">Payload Size</span>
+<span class="font-headline-sm text-headline-sm text-tertiary font-bold">4.2 KB</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg text-center">
+<span class="block font-label-sm text-label-sm text-secondary uppercase">Dark Mode Score</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">99.8%</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Toast Notification Modal for Preview Actions -->
+<div class="fixed bottom-space-lg right-space-lg z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="action-toast">
+<div class="bg-inverse-surface text-inverse-on-surface px-space-lg py-space-md rounded-xl shadow-xl flex items-center gap-space-md">
+<span class="material-symbols-outlined text-tertiary-fixed text-headline-sm" id="toast-icon">check_circle</span>
+<div>
+<div class="font-title-sm text-title-sm font-semibold" id="toast-title">Template Published</div>
+<div class="font-body-sm text-body-sm text-inverse-on-surface/80" id="toast-message">Configuration pushed to 14 production edge dispatchers.</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function initEmailTemplateEditor() {
+    // Mock Scenarios Data
+    const scenarios = {
+      'stripe-timeout': {
+        ticket_number: 'TKT-2026-000125',
+        customer_name: 'Elena Rostova',
+        customer_email: 'elena.rostova@acme-corp.com',
+        agent_name: 'Marcus Chen (Tier 3 Core Infrastructure)',
+        department: 'Technical Support',
+        ticket_subject: 'Payment Gateway Webhook Timeout - Error 504 on Stripe Connect',
+        ticket_status: 'Open (Assigned)',
+        ticket_priority: 'P1 - Critical',
+        ticket_url: 'https://support.acme.com/tickets/125'
+      },
+      'sso-failure': {
+        ticket_number: 'TKT-2026-000142',
+        customer_name: 'Marcus Chen',
+        customer_email: 'm.chen@datadynamics.io',
+        agent_name: 'Aisha Varma (Identity & Access)',
+        department: 'Identity Systems',
+        ticket_subject: 'Okta SAML 2.0 Certificate Expiration & Handshake Rejection',
+        ticket_status: 'In Investigation',
+        ticket_priority: 'P2 - High',
+        ticket_url: 'https://support.acme.com/tickets/142'
+      },
+      'billing-dispute': {
+        ticket_number: 'TKT-2026-000189',
+        customer_name: 'Sarah Jenkins',
+        customer_email: 's.jenkins@fintechglobal.com',
+        agent_name: 'David Kim (Customer Accounts)',
+        department: 'Billing Operations',
+        ticket_subject: 'Annual Enterprise True-up Invoice Overage Reconciliation',
+        ticket_status: 'Waiting on Customer',
+        ticket_priority: 'P3 - Moderate',
+        ticket_url: 'https://support.acme.com/tickets/189'
+      }
+    };
+
+    let activeScenarioKey = 'stripe-timeout';
+
+    const subjectInput = document.getElementById('email-subject-input');
+    const bodyEditor = document.getElementById('email-body-editor');
+    const scenarioSelect = document.getElementById('sample-scenario-select');
+    const wordCountSpan = document.getElementById('char-word-count');
+
+    // Live Preview Elements
+    const previewSubjectHeader = document.getElementById('preview-subject-header');
+    const previewRecipientLabel = document.getElementById('preview-recipient-label');
+    const previewPriorityBadge = document.getElementById('preview-priority-badge');
+    const renderCustomerName = document.getElementById('render-customer-name');
+    const renderDepartment = document.getElementById('render-department');
+    const renderTicketId = document.getElementById('render-ticket-id');
+    const renderStatus = document.getElementById('render-status');
+    const renderSubject = document.getElementById('render-subject');
+    const renderAgent = document.getElementById('render-agent');
+    const previewCtaBtn = document.getElementById('preview-cta-btn');
+    const previewCtaText = document.getElementById('preview-cta-text');
+
+    function updatePreview() {
+      const data = scenarios[activeScenarioKey];
+      if (!data) return;
+
+      // Update Subject
+      let subjectText = subjectInput.value || '';
+      for (const [key, val] of Object.entries(data)) {
+        subjectText = subjectText.split('{' + key + '}').join(val);
+      }
+      previewSubjectHeader.textContent = subjectText;
+
+      // Update Recipient and Meta
+      previewRecipientLabel.textContent = data.customer_name + ' <' + data.customer_email + '>';
+      previewPriorityBadge.textContent = data.ticket_priority;
+
+      // Update Rendered Body Dynamic Nodes
+      if (renderCustomerName) renderCustomerName.textContent = data.customer_name;
+      if (renderDepartment) renderDepartment.textContent = data.department;
+      if (renderTicketId) renderTicketId.textContent = data.ticket_number;
+      if (renderStatus) renderStatus.textContent = data.ticket_status;
+      if (renderSubject) renderSubject.textContent = data.ticket_subject;
+      if (renderAgent) renderAgent.textContent = data.agent_name;
+
+      if (previewCtaText) {
+        previewCtaText.textContent = 'View Ticket #' + data.ticket_number + ' in Portal';
+      }
+      if (previewCtaBtn) {
+        previewCtaBtn.href = data.ticket_url;
+      }
+
+      // Word & char count calculation
+      const text = bodyEditor.value;
+      const chars = text.length;
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      if (wordCountSpan) {
+        wordCountSpan.textContent = words + ' words • ' + chars + ' characters';
+      }
+    }
+
+    // Attach variable click to append at cursor in active field
+    const tokens = document.querySelectorAll('.variable-token');
+    tokens.forEach(function(tokenBtn) {
+      tokenBtn.addEventListener('click', function() {
+        const token = tokenBtn.getAttribute('data-token');
+        const activeElem = (document.activeElement === subjectInput) ? subjectInput : bodyEditor;
+        
+        const start = activeElem.selectionStart || activeElem.value.length;
+        const end = activeElem.selectionEnd || activeElem.value.length;
+        const currentVal = activeElem.value;
+        
+        activeElem.value = currentVal.substring(0, start) + token + currentVal.substring(end);
+        activeElem.focus();
+        activeElem.selectionStart = activeElem.selectionEnd = start + token.length;
+
+        updatePreview();
+        showToast('Variable Token Inserted', 'Appended ' + token + ' to cursor position.', 'data_object');
+      });
+    });
+
+    // Scenario changer
+    scenarioSelect.addEventListener('change', function(e) {
+      activeScenarioKey = e.target.value;
+      updatePreview();
+      showToast('Scenario Context Swapped', 'Populated ' + scenarios[activeScenarioKey].ticket_number + ' demo attributes.', 'tune');
+    });
+
+    // Inputs change listeners
+    subjectInput.addEventListener('input', updatePreview);
+    bodyEditor.addEventListener('input', updatePreview);
+
+    // Viewport Modes Toggle
+    const modeButtons = document.querySelectorAll('.preview-mode-btn');
+    const mailClientWindow = document.getElementById('mail-client-window');
+    const emailCanvas = document.getElementById('email-rendered-canvas');
+
+    modeButtons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        modeButtons.forEach(function(b) {
+          b.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+          b.classList.add('text-secondary');
+        });
+        btn.classList.remove('text-secondary');
+        btn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+
+        const mode = btn.getAttribute('data-mode');
+        if (mode === 'mobile') {
+          mailClientWindow.style.maxWidth = '375px';
+          emailCanvas.classList.remove('bg-inverse-surface');
+        } else if (mode === 'dark') {
+          mailClientWindow.style.maxWidth = '100%';
+          emailCanvas.classList.add('bg-inverse-surface');
+        } else {
+          mailClientWindow.style.maxWidth = '100%';
+          emailCanvas.classList.remove('bg-inverse-surface');
+        }
+      });
+    });
+
+    // Refresh Sync Button
+    document.getElementById('btn-refresh-preview').addEventListener('click', function() {
+      updatePreview();
+      showToast('Preview Synced', 'Live engine recalculated all liquid tokens.', 'sync');
+    });
+
+    // Reset Template
+    document.getElementById('btn-reset-template').addEventListener('click', function() {
+      bodyEditor.value = `Hi {customer_name},
+
+Thank you for reaching out to SupportHub Customer Engineering. We have received your request and our {department} team has begun reviewing the details.
+
+Ticket Summary:
+• Ticket ID: {ticket_number}
+• Subject: {ticket_subject}
+• Priority: {ticket_priority}
+• Status: {ticket_status}
+
+You can track the progress, reply directly to this email, or manage your case online at:
+{ticket_url}
+
+Best regards,
+The {department} Team at SupportHub Enterprise`;
+      updatePreview();
+      showToast('Template Reset', 'Reverted content to factory default copy.', 'history');
+    });
+
+    // HTML Source Mode toggle
+    let isHtmlSource = false;
+    document.getElementById('btn-toggle-source').addEventListener('click', function() {
+      isHtmlSource = !isHtmlSource;
+      this.classList.toggle('bg-primary');
+      this.classList.toggle('text-on-primary');
+      showToast('View Mode Toggled', isHtmlSource ? 'Switched to HTML Source markup view.' : 'Returned to Rich Text visual mode.', 'code');
+    });
+
+    // Toast Notification Utility
+    const toast = document.getElementById('action-toast');
+    const toastTitle = document.getElementById('toast-title');
+    const toastMessage = document.getElementById('toast-message');
+    const toastIcon = document.getElementById('toast-icon');
+    let toastTimeout;
+
+    function showToast(title, message, icon) {
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTitle.textContent = title;
+      toastMessage.textContent = message;
+      toastIcon.textContent = icon || 'check_circle';
+
+      toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      toastTimeout = setTimeout(function() {
+        toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    // Action Buttons
+    document.getElementById('btn-publish-template').addEventListener('click', function() {
+      showToast('Template Published', 'Changes propagated to 14 production edge dispatchers.', 'cloud_done');
+    });
+
+    document.getElementById('btn-test-email').addEventListener('click', function() {
+      showToast('Test Email Dispatched', 'Diagnostic receipt sent to admin@acme-corp.com.', 'outgoing_mail');
+    });
+
+    // Initial render
+    updatePreview();
+  })();
+</script></main></div></body></html>

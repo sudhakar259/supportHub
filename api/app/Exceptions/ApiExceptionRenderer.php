@@ -26,6 +26,13 @@ class ApiExceptionRenderer
             return null;
         }
 
+        if ($e instanceof InvalidTicketStatusTransitionException) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+
         if ($e instanceof ValidationException) {
             return response()->json([
                 'success' => false,

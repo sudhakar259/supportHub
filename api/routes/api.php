@@ -19,3 +19,4 @@ require __DIR__.'/api/customers.php';
 require __DIR__.'/api/categories.php';
 require __DIR__.'/api/statuses.php';
 require __DIR__.'/api/priorities.php';
+require __DIR__.'/api/tickets.php';

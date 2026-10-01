@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>SupportHub — Edit Department</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<!-- Lucide Icons via unpkg -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "solar-orange": "#EA580C",
+            "solar-orange-hover": "#C2410C",
+            "solar-orange-light": "#FFF7ED",
+            "solar-navy-dark": "#0B1528",
+            "solar-navy": "#111C38",
+            "solar-navy-card": "#1E293B",
+            "on-secondary-container": "#5a627e",
+            "surface-tint": "#ea580c",
+            "on-tertiary": "#ffffff",
+            "error-container": "#fee2e2",
+            "on-error-container": "#991b1b",
+            "surface-bright": "#f8f9ff",
+            "on-background": "#0b1c30",
+            "outline": "#cbd5e1",
+            "outline-variant": "#e2e8f0",
+            "surface-container-highest": "#e2e8f0",
+            "tertiary": "#00685f",
+            "on-primary": "#ffffff",
+            "surface": "#f8f9ff",
+            "tertiary-fixed": "#89f5e7",
+            "surface-dim": "#cbdbf5",
+            "on-surface-variant": "#475569",
+            "on-primary-container": "#fffbff",
+            "secondary": "#475569",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#d8deff",
+            "error": "#dc2626",
+            "surface-container-low": "#f8fafc",
+            "inverse-surface": "#0f172a",
+            "inverse-on-surface": "#f1f5f9",
+            "surface-container-high": "#e2e8f0",
+            "primary": "#ea580c",
+            "primary-hover": "#c2410c",
+            "primary-container": "#ea580c",
+            "tertiary-container": "#008378",
+            "surface-container": "#f1f5f9",
+            "on-surface": "#0b1c30",
+            "on-error": "#ffffff"
+          },
+          fontFamily: {
+            "headline-md": ["Hanken Grotesk", "sans-serif"],
+            "headline-lg": ["Hanken Grotesk", "sans-serif"],
+            "display-lg": ["Hanken Grotesk", "sans-serif"],
+            "title-md": ["Inter", "sans-serif"],
+            "title-sm": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "code-sm": ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; height: 100%; }
+      body { overscroll-behavior: none; }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 font-body-md text-slate-900 antialiased selection:bg-orange-500 selection:text-white overflow-hidden">
+<!-- Left Sidebar (Solar Navy Dark Theme) -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#0B1528] z-30 flex flex-col justify-between border-r border-slate-800 shadow-xl">
+<div class="flex flex-col flex-1 min-h-0">
+<!-- App Brand -->
+<div class="h-16 px-5 flex items-center justify-between border-b border-slate-800/80 bg-[#0B1528]">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center text-white font-bold shadow-md shadow-orange-600/30">
+<i class="w-5 h-5" data-lucide="life-buoy"></i>
+</div>
+<span class="font-headline-md text-lg text-white font-bold tracking-tight truncate">SupportHub</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-slate-800 text-orange-400 font-code-sm text-[11px] font-semibold tracking-wider">v2.4</span>
+</div>
+<!-- Quick Jump / Search -->
+<div class="px-4 py-3 border-b border-slate-800/60">
+<div class="relative flex items-center w-full">
+<i class="w-4 h-4 text-slate-400 absolute left-3 pointer-events-none" data-lucide="search"></i>
+<input class="w-full pl-9 pr-3 py-1.5 rounded-lg bg-slate-800/60 border border-slate-700/60 text-slate-200 placeholder:text-slate-400 font-body-sm text-xs focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all" placeholder="Quick Jump..." type="text"/>
+</div>
+</div>
+<!-- Nav Items -->
+<nav class="flex-1 px-3 py-3 space-y-1 overflow-y-auto custom-scrollbar">
+<div class="px-3 pt-2 pb-1 font-label-sm text-[10px] font-bold uppercase tracking-wider text-slate-400">Workspace</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors font-title-sm text-sm" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="layout-dashboard"></i>
+<span class="truncate">Dashboard</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors font-title-sm text-sm" href="#">
+<div class="flex items-center gap-3 min-w-0">
+<i class="w-4 h-4 text-slate-400" data-lucide="ticket"></i>
+<span class="truncate">Tickets</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-code-sm text-xs">42</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors font-title-sm text-sm" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="inbox"></i>
+<span class="truncate">My Tickets</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors font-title-sm text-sm" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="users"></i>
+<span class="truncate">Customers</span>
+</a>
+<div class="px-3 pt-5 pb-1 font-label-sm text-[10px] font-bold uppercase tracking-wider text-slate-400">Administration</div>
+<a class="flex items-center justify-between px-3 py-2 rounded-lg bg-orange-600 text-white font-title-sm text-sm font-semibold shadow-md shadow-orange-600/20" href="#">
+<div class="flex items-center gap-3 min-w-0">
+<i class="w-4 h-4" data-lucide="building-2"></i>
+<span class="truncate">Departments</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-orange-700/60 text-white font-code-sm text-xs font-semibold">8</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors font-title-sm text-sm" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="user"></i>
+<span class="truncate">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors font-title-sm text-sm" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="shield-check"></i>
+<span class="truncate">Roles &amp; Permissions</span>
+</a>
+<div class="px-3 pt-5 pb-1 font-label-sm text-[10px] font-bold uppercase tracking-wider text-slate-400">System</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors font-title-sm text-sm" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="bar-chart-3"></i>
+<span class="truncate">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors font-title-sm text-sm" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="zap"></i>
+<span class="truncate">Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors font-title-sm text-sm" href="#">
+<i class="w-4 h-4 text-slate-400" data-lucide="settings"></i>
+<span class="truncate">Settings</span>
+</a>
+</nav>
+</div>
+<!-- User Profile Footer -->
+<div class="p-3 border-t border-slate-800 bg-[#080F1E]">
+<a class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition-colors font-body-sm text-xs mb-2" href="#">
+<i class="w-4 h-4" data-lucide="help-circle"></i>
+<span>Help &amp; Support</span>
+</a>
+<div class="flex items-center gap-3 p-2 rounded-xl bg-slate-800/60 border border-slate-700/50 hover:bg-slate-800 transition-colors cursor-pointer">
+<img alt="Elena Rostova" class="w-8 h-8 rounded-full object-cover ring-2 ring-orange-500/60 flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-title-sm text-xs text-white font-medium truncate">Elena Rostova</span>
+<span class="font-label-sm text-[11px] text-slate-400 truncate">Administrator</span>
+</div>
+<i class="w-4 h-4 text-slate-400" data-lucide="chevron-up"></i>
+</div>
+</div>
+</aside>
+<!-- Main Background Container -->
+<div class="pl-64 min-h-screen flex flex-col bg-slate-50">
+<!-- Top Header -->
+<header class="fixed top-0 left-64 right-0 h-16 bg-white/95 backdrop-blur-md z-20 px-8 flex items-center justify-between border-b border-slate-200">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 font-body-sm text-sm text-slate-500">
+<i class="w-4 h-4 text-slate-400" data-lucide="building-2"></i>
+<span>Administration</span>
+<span class="text-slate-300">/</span>
+<span class="text-slate-900 font-semibold">Departments</span>
+</div>
+<div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-400 font-body-sm text-xs w-64 border border-slate-200 cursor-pointer">
+<i class="w-3.5 h-3.5" data-lucide="search"></i>
+<span class="flex-1">Global Search...</span>
+<kbd class="px-1.5 py-0.5 rounded bg-white text-slate-600 font-code-sm text-[10px] border border-slate-200 shadow-2xs">⌘K</kbd>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-sm text-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span>Operational</span>
+</div>
+<button class="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors" type="button">
+<i class="w-5 h-5" data-lucide="bell"></i>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-orange-600"></span>
+</button>
+<div class="flex items-center gap-2 pl-2">
+<img alt="Elena Rostova" class="w-8 h-8 rounded-full object-cover ring-1 ring-slate-200" src="https://lh3.googleusercontent.com/aida/AEtjO1VaGj4MMK3xarq1H9mfZDD6eSqBJ-jYAX3cFVL2ULD3otQFgFnNzGnxx4ysWQHF5gUMd8q9mnSPy_-MI8Ov51uUAThPgj6efgMIeHnannhkzN67JGrpFFffWkZ_QfQV0J_ll7b6F2py51crKGPP3hgpT53WQcCKy4qP0V1YP4akO8nljGY2_QIbG7TyVdI30NE7p2XSFB106YDVNVuWGBeoOtfN-REg55a87FOMQ0pmD71vjDGPv2UlyME"/>
+</div>
+</div>
+</header>
+<!-- Underlying Blurred Directory Screen -->
+<main class="relative pt-16 w-full flex-1 bg-slate-50 p-8 filter blur-[2px] opacity-40 pointer-events-none select-none">
+<div class="flex items-center justify-between pb-6">
+<div>
+<span class="font-label-sm text-xs uppercase tracking-wider text-slate-500 font-semibold">Organization Hierarchy</span>
+<h1 class="font-headline-lg text-2xl text-slate-900 font-bold tracking-tight">Departments &amp; Workgroups</h1>
+<p class="font-body-md text-sm text-slate-500">8 operational divisions serving 14,280 global enterprise organizations.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-600 font-label-md text-sm">
+<i class="w-4 h-4" data-lucide="filter"></i>
+<span>Filter: All Active</span>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg font-title-sm text-sm font-semibold shadow-sm" type="button">
+<i class="w-4 h-4" data-lucide="plus"></i>
+<span>New Department</span>
+</button>
+</div>
+</div>
+<!-- Table Skeleton -->
+<div class="w-full bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+<div class="grid grid-cols-12 px-6 py-3.5 bg-slate-50 border-b border-slate-200 font-label-sm text-xs font-bold text-slate-500 uppercase tracking-wider">
+<div class="col-span-4">Department Name</div>
+<div class="col-span-2">Lead Manager</div>
+<div class="col-span-2">Routing Type</div>
+<div class="col-span-2 text-center">Active Agents</div>
+<div class="col-span-2 text-right">Status</div>
+</div>
+<div class="divide-y divide-slate-100">
+<div class="grid grid-cols-12 px-6 py-4 items-center">
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-sm">TS</div>
+<div>
+<div class="font-semibold text-slate-900 text-sm">Technical Support</div>
+<div class="text-xs text-slate-500 font-code-sm">SYS-TECH-SUP • tech-support@acme-corp.com</div>
+</div>
+</div>
+<div class="col-span-2 text-sm text-slate-700">Elena Rostova</div>
+<div class="col-span-2"><span class="px-2.5 py-1 rounded bg-slate-100 text-slate-700 text-xs font-medium">Round Robin</span></div>
+<div class="col-span-2 text-center text-xs font-code-sm text-slate-600">24 Online / 30</div>
+<div class="col-span-2 text-right"><span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">Active</span></div>
+</div>
+<div class="grid grid-cols-12 px-6 py-4 items-center">
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">CS</div>
+<div>
+<div class="font-semibold text-slate-900 text-sm">Customer Success Tier 1</div>
+<div class="text-xs text-slate-500 font-code-sm">CS-GLOBAL • success@acme-corp.com</div>
+</div>
+</div>
+<div class="col-span-2 text-sm text-slate-700">David Vance</div>
+<div class="col-span-2"><span class="px-2.5 py-1 rounded bg-slate-100 text-slate-700 text-xs font-medium">Least Occupied</span></div>
+<div class="col-span-2 text-center text-xs font-code-sm text-slate-600">48 Online / 52</div>
+<div class="col-span-2 text-right"><span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">Active</span></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Modal / Drawer Backdrop Overlay -->
+<div class="fixed inset-0 bg-slate-950/60 backdrop-blur-[3px] z-40 transition-opacity"></div>
+<!-- Slide-Over Drawer Container (Solar Navy Enterprise Design) -->
+<aside class="fixed top-0 right-0 h-screen w-full max-w-[720px] bg-white z-50 shadow-2xl flex flex-col border-l border-slate-200">
+<!-- Drawer Header Zone -->
+<header class="px-8 py-5 border-b border-slate-200 bg-white flex flex-col gap-3.5 flex-shrink-0 shadow-2xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 rounded bg-[#0B1528] text-white font-code-sm text-xs font-semibold tracking-wider uppercase">DEPT-TECH</span>
+<span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-sm text-xs font-semibold flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+            Active Department
+          </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="Audit Trail" type="button">
+<i class="w-4 h-4" data-lucide="history"></i>
+</button>
+<button class="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="Settings" type="button">
+<i class="w-4 h-4" data-lucide="sliders-horizontal"></i>
+</button>
+<div class="h-4 w-px bg-slate-200 mx-1"></div>
+<button aria-label="Close drawer" class="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors" type="button">
+<i class="w-5 h-5" data-lucide="x"></i>
+</button>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex items-center gap-3">
+<h2 class="font-headline-md text-xl font-bold text-slate-900 tracking-tight">Edit Department — Technical Support</h2>
+<span class="px-2 py-0.5 rounded font-code-sm text-xs bg-orange-50 text-orange-700 border border-orange-200 font-semibold">ID #841</span>
+</div>
+<p class="font-body-sm text-sm text-slate-500">
+          Configure organizational structure, queue ownership, routing thresholds, and department leads.
+        </p>
+</div>
+<!-- Segmented Tab Navigation -->
+<nav aria-label="Department Configuration Tabs" class="flex items-center gap-2 pt-2 border-t border-slate-100 overflow-x-auto">
+<button class="px-3.5 py-2 rounded-lg bg-orange-600 text-white font-title-sm text-xs font-semibold flex items-center gap-2 shadow-sm transition-all" type="button">
+<i class="w-3.5 h-3.5" data-lucide="badge-info"></i>
+<span>1. General Info &amp; Lead</span>
+</button>
+<button class="px-3.5 py-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 font-title-sm text-xs font-medium flex items-center gap-2 transition-colors whitespace-nowrap" type="button">
+<i class="w-3.5 h-3.5 text-slate-500" data-lucide="git-branch"></i>
+<span>2. Queue &amp; Routing</span>
+</button>
+<button class="px-3.5 py-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 font-title-sm text-xs font-medium flex items-center gap-2 transition-colors whitespace-nowrap" type="button">
+<i class="w-3.5 h-3.5 text-slate-500" data-lucide="clock"></i>
+<span>3. SLA &amp; Thresholds</span>
+</button>
+<button class="px-3.5 py-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 font-title-sm text-xs font-medium flex items-center gap-2 transition-colors whitespace-nowrap" type="button">
+<i class="w-3.5 h-3.5 text-slate-500" data-lucide="zap"></i>
+<span>4. Automation</span>
+</button>
+</nav>
+</header>
+<!-- Scrollable Form Body -->
+<main class="flex-1 overflow-y-auto px-8 py-6 space-y-7 bg-white custom-scrollbar">
+<!-- Section 1: Core Department Information -->
+<section class="space-y-4">
+<div class="flex items-center justify-between pb-1 border-b border-slate-100">
+<div class="flex items-center gap-2.5">
+<div class="w-6 h-6 rounded-md bg-orange-100 text-orange-600 flex items-center justify-center">
+<i class="w-3.5 h-3.5" data-lucide="building"></i>
+</div>
+<h3 class="font-title-md text-sm font-bold text-slate-900">Core Department Information</h3>
+</div>
+<span class="font-code-sm text-xs text-slate-400 font-medium">Sec 01 / 04</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Department Name -->
+<div class="col-span-2 sm:col-span-1 flex flex-col gap-1.5">
+<label class="font-label-sm text-xs font-semibold text-slate-700">Department Name <span class="text-orange-600">*</span></label>
+<input class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-body-md text-sm focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all shadow-2xs" type="text" value="Technical Support"/>
+<span class="font-body-sm text-xs text-slate-400">Public facing department title displayed across portals.</span>
+</div>
+<!-- Department Code -->
+<div class="col-span-2 sm:col-span-1 flex flex-col gap-1.5">
+<label class="font-label-sm text-xs font-semibold text-slate-700">Department Code <span class="text-orange-600">*</span></label>
+<div class="relative flex items-center">
+<span class="absolute left-3 font-code-sm text-xs font-semibold text-slate-400">SYS-</span>
+<input class="w-full pl-12 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-code-sm text-sm uppercase tracking-wider focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all shadow-2xs font-semibold" type="text" value="TECH-SUP"/>
+</div>
+<span class="font-body-sm text-xs text-slate-400">Used in ticket prefixes (e.g. TECH-SUP-10928).</span>
+</div>
+<!-- Enterprise Inbound Email -->
+<div class="col-span-2 flex flex-col gap-1.5">
+<label class="font-label-sm text-xs font-semibold text-slate-700">Department Inbound Email &amp; Alias</label>
+<div class="flex items-center gap-2">
+<div class="relative flex-1">
+<i class="w-4 h-4 text-slate-400 absolute left-3 top-2.5 pointer-events-none" data-lucide="mail"></i>
+<input class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-body-md text-sm focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all shadow-2xs" type="email" value="tech-support@acme-corp.com"/>
+</div>
+<span class="px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-label-sm text-xs font-semibold flex items-center gap-1.5 flex-shrink-0">
+<i class="w-3.5 h-3.5 text-emerald-600" data-lucide="check-circle-2"></i>
+                Verified DNS
+              </span>
+</div>
+</div>
+<!-- Department Description -->
+<div class="col-span-2 flex flex-col gap-1.5">
+<label class="font-label-sm text-xs font-semibold text-slate-700">Department Scope &amp; Routing Description</label>
+<textarea class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-body-md text-sm focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all shadow-2xs resize-none" rows="3">Specialized Tier-2 and Tier-3 engineering support staff handling complex infrastructure, API integrations, and code-level customer tickets.</textarea>
+<div class="flex justify-between font-body-sm text-xs text-slate-400 pt-0.5">
+<span>Ingested by NLP Auto-classifier to match incoming ticket semantics.</span>
+<span class="font-code-sm text-slate-500 font-medium">138 / 300 chars</span>
+</div>
+</div>
+<!-- Parent Business Unit -->
+<div class="col-span-2 flex flex-col gap-1.5">
+<label class="font-label-sm text-xs font-semibold text-slate-700">Parent Business Unit</label>
+<div class="relative">
+<select class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-body-md text-sm appearance-none focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all shadow-2xs cursor-pointer">
+<option selected="">Global Engineering Operations (BU-ENG-01)</option>
+<option>Customer Experience &amp; Success (BU-CX-04)</option>
+<option>FinOps &amp; Enterprise Procurement (BU-FIN-09)</option>
+<option>Information Security &amp; Compliance (BU-SEC-02)</option>
+</select>
+<i class="w-4 h-4 text-slate-400 absolute right-3 top-3 pointer-events-none" data-lucide="chevron-down"></i>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Leadership & Incident Owners -->
+<section class="space-y-4">
+<div class="flex items-center justify-between pb-1 border-b border-slate-100">
+<div class="flex items-center gap-2.5">
+<div class="w-6 h-6 rounded-md bg-orange-100 text-orange-600 flex items-center justify-center">
+<i class="w-3.5 h-3.5" data-lucide="shield"></i>
+</div>
+<h3 class="font-title-md text-sm font-bold text-slate-900">Leadership &amp; Incident Owners</h3>
+</div>
+<span class="font-code-sm text-xs text-slate-400 font-medium">Sec 02 / 04</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Primary Manager -->
+<div class="col-span-2 sm:col-span-1 flex flex-col gap-1.5">
+<label class="font-label-sm text-xs font-semibold text-slate-700">Department Manager</label>
+<div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between hover:border-slate-300 transition-colors cursor-pointer group">
+<div class="flex items-center gap-3 min-w-0">
+<img alt="Elena Rostova" class="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8s-QbAHGUrCTAqJnTZn0FuJHllejVE37hjhnp8CwD4eE_rWKoZn1GBv-94vvLG1LDUCw0uCnO4It-t3popsAiPnHxtNuOwxAEBNODNSGZ3yMnIPvAjqI3q2LrO2lp_l8wlAu1KKB9SwuaLlvDpv8BI_mg-OfSCtr7eoPgiwLhDtX5MztXfRTCpAoKThatqXsHFsqoOtDDDXNd9zR_OGhsdm4PwkxG3xB_Xh6nwfoqnlFXehEyiFZP"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-sm text-slate-900 font-semibold truncate group-hover:text-orange-600 transition-colors">Elena Rostova</span>
+<span class="font-body-sm text-xs text-slate-500 truncate">Lead Solutions Eng.</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-orange-600 font-label-sm text-xs font-semibold flex items-center gap-1 shadow-2xs group-hover:border-orange-300">
+                Change
+                <i class="w-3 h-3 text-orange-600" data-lucide="chevrons-up-down"></i>
+</span>
+</div>
+</div>
+<!-- Secondary Escalation Lead -->
+<div class="col-span-2 sm:col-span-1 flex flex-col gap-1.5">
+<label class="font-label-sm text-xs font-semibold text-slate-700">Secondary Escalation Lead</label>
+<div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between hover:border-slate-300 transition-colors cursor-pointer group">
+<div class="flex items-center gap-3 min-w-0">
+<img alt="Marcus Chen" class="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKvqLF7IsNoabEmic9mTUVd7xH8Us_J9sa7MgoABpWsQDwAQOxZhHAfq3YM5KARe6wpBvtGe0Jj5O5bHalk8Fg9xQAAMX-Y9ZNeaxMKFudBf7oWNrMI8AdwH4i8dEjPC_E6Yc5moDj4xktHmWLbGo8Z7QLYMdQCUW15NVBBVYa3YDNEp7PytOEjhwMZtcunnXN2UPW177LMM5I4BIpMVjpOz8kprDNF3WBKWb1k9Eu-bsHawkXeMfW"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-sm text-slate-900 font-semibold truncate group-hover:text-orange-600 transition-colors">Marcus Chen</span>
+<span class="font-body-sm text-xs text-slate-500 truncate">Staff DevOps Engineer</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-orange-600 font-label-sm text-xs font-semibold flex items-center gap-1 shadow-2xs group-hover:border-orange-300">
+                Change
+                <i class="w-3 h-3 text-orange-600" data-lucide="chevrons-up-down"></i>
+</span>
+</div>
+</div>
+<!-- Slack Channel Notification -->
+<div class="col-span-2 p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 shadow-2xs flex-shrink-0">
+<i class="w-4 h-4" data-lucide="hash"></i>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-sm font-semibold text-slate-900">Direct Alert Notification Channel</span>
+<span class="font-body-sm text-xs text-slate-500 truncate">Slack webhook pinged upon P0/P1 emergency ticket escalations</span>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<span class="font-code-sm text-xs px-2.5 py-1 bg-white border border-slate-200 rounded text-slate-800 font-semibold shadow-2xs">#dept-tech-escalations</span>
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors" type="button">
+<i class="w-4 h-4" data-lucide="edit-3"></i>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Operational Assignment & Capacity -->
+<section class="space-y-4">
+<div class="flex items-center justify-between pb-1 border-b border-slate-100">
+<div class="flex items-center gap-2.5">
+<div class="w-6 h-6 rounded-md bg-orange-100 text-orange-600 flex items-center justify-center">
+<i class="w-3.5 h-3.5" data-lucide="network"></i>
+</div>
+<h3 class="font-title-md text-sm font-bold text-slate-900">Operational Assignment &amp; Load Balancing</h3>
+</div>
+<span class="font-code-sm text-xs text-slate-400 font-medium">Sec 03 / 04</span>
+</div>
+<div class="space-y-2.5">
+<label class="font-label-sm text-xs font-semibold text-slate-700 block">Ticket Dispatch Policy</label>
+<div class="space-y-2">
+<!-- Option 1: Round Robin (Selected) -->
+<label class="flex items-start gap-3.5 p-3.5 rounded-xl border-2 border-orange-600 bg-orange-50/40 cursor-pointer transition-all shadow-2xs">
+<input checked="" class="mt-0.5 w-4 h-4 text-orange-600 accent-orange-600 cursor-pointer" name="dispatch_policy" type="radio"/>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-sm text-slate-900 font-bold">Round Robin (Strict Queue Balancing)</span>
+<span class="px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 font-label-sm text-[11px] font-semibold">Recommended</span>
+</div>
+<p class="font-body-sm text-xs text-slate-600 pt-0.5">Tickets rotate cyclically across currently authenticated active agents on duty.</p>
+</div>
+</label>
+<!-- Option 2: Skill-Based Routing -->
+<label class="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all shadow-2xs">
+<input class="mt-0.5 w-4 h-4 text-orange-600 accent-orange-600 cursor-pointer" name="dispatch_policy" type="radio"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-sm text-slate-800 font-semibold">Skill-Based Routing</span>
+<p class="font-body-sm text-xs text-slate-500 pt-0.5">Matches ticket technical tags (e.g. <span class="font-code-sm text-slate-700 font-medium">Kubernetes</span>, <span class="font-code-sm text-slate-700 font-medium">OAuth-2</span>) to certified engineer tags.</p>
+</div>
+</label>
+<!-- Option 3: Least Occupied -->
+<label class="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all shadow-2xs">
+<input class="mt-0.5 w-4 h-4 text-orange-600 accent-orange-600 cursor-pointer" name="dispatch_policy" type="radio"/>
+<div class="flex flex-col min-w-0">
+<span class="font-title-sm text-sm text-slate-800 font-semibold">Least Occupied (Queue Drainage)</span>
+<p class="font-body-sm text-xs text-slate-500 pt-0.5">Prioritizes assignment to the agent with the lowest total active unresolved ticket count.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Concurrency & Idle Parameters Grid -->
+<div class="grid grid-cols-2 gap-4 pt-1">
+<!-- Maximum Concurrency -->
+<div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2.5">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-xs font-semibold text-slate-800">Max Agent Concurrency</span>
+<i class="w-4 h-4 text-slate-400" data-lucide="gauge"></i>
+</div>
+<div class="flex items-center gap-3">
+<input class="w-20 px-2 py-1 bg-white border border-slate-200 text-center rounded-lg font-headline-md text-base font-bold text-slate-900 shadow-2xs focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500" max="25" min="1" type="number" value="8"/>
+<span class="font-body-sm text-xs text-slate-500">open tickets maximum per individual staff</span>
+</div>
+<div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+<div class="bg-orange-600 h-full rounded-full" style="width: 45%;"></div>
+</div>
+</div>
+<!-- Inactive Reassignment -->
+<div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2.5">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-xs font-semibold text-slate-800">Auto-Reassign Inactive</span>
+<i class="w-4 h-4 text-slate-400" data-lucide="timer-reset"></i>
+</div>
+<div class="flex items-center gap-3">
+<input class="w-20 px-2 py-1 bg-white border border-slate-200 text-center rounded-lg font-headline-md text-base font-bold text-slate-900 shadow-2xs focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500" max="48" min="1" type="number" value="4"/>
+<span class="font-body-sm text-xs text-slate-500">hours without first touch re-enters triage pool</span>
+</div>
+<div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+<div class="bg-teal-600 h-full rounded-full" style="width: 30%;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Lifecycle & Safety Controls -->
+<section class="space-y-4 pb-4">
+<div class="flex items-center justify-between pb-1 border-b border-slate-100">
+<div class="flex items-center gap-2.5">
+<div class="w-6 h-6 rounded-md bg-orange-100 text-orange-600 flex items-center justify-center">
+<i class="w-3.5 h-3.5" data-lucide="power"></i>
+</div>
+<h3 class="font-title-md text-sm font-bold text-slate-900">Department Lifecycle &amp; Safety</h3>
+</div>
+<span class="font-code-sm text-xs text-slate-400 font-medium">Sec 04 / 04</span>
+</div>
+<div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-4">
+<!-- Operational Status Toggle -->
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-title-sm text-sm font-semibold text-slate-900">Operational Status</span>
+<span class="font-body-sm text-xs text-slate-500">Control whether tickets can be accepted into this unit</span>
+</div>
+<div class="flex items-center bg-white p-1 rounded-lg border border-slate-200 shadow-2xs gap-1">
+<button class="px-3 py-1 rounded bg-teal-600 text-white font-label-sm text-xs font-semibold shadow-xs" type="button">Active</button>
+<button class="px-3 py-1 rounded text-slate-600 hover:text-slate-900 font-label-sm text-xs font-medium" type="button">Maint.</button>
+<button class="px-3 py-1 rounded text-slate-600 hover:text-slate-900 font-label-sm text-xs font-medium" type="button">Suspended</button>
+</div>
+</div>
+<!-- Danger Action -->
+<div class="flex items-center justify-between bg-white border border-rose-200 p-3.5 rounded-lg">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center flex-shrink-0">
+<i class="w-4 h-4" data-lucide="alert-triangle"></i>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-sm text-rose-700 font-semibold">Deactivate Department</span>
+<span class="font-body-sm text-xs text-slate-500">Reassign 42 active unresolved tickets before deactivation</span>
+</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-600 hover:text-white transition-colors font-title-sm text-xs font-semibold" type="button">
+              Deactivate
+            </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Drawer Footer Controls with Solar Orange Action Button -->
+<footer class="px-8 py-4 bg-white border-t border-slate-200 flex items-center justify-between flex-shrink-0 shadow-lg">
+<div class="flex items-center gap-2 text-slate-500 font-body-sm text-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span>Auto-saving draft...</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 hover:text-slate-900 transition-colors font-title-sm text-sm font-medium" type="button">
+          Cancel
+        </button>
+<button class="px-5 py-2 rounded-lg bg-[#EA580C] hover:bg-[#C2410C] text-white shadow-md shadow-orange-600/25 flex items-center gap-2 font-title-sm text-sm font-semibold transition-all cursor-pointer" type="button">
+<i class="w-4 h-4" data-lucide="check"></i>
+<span>Save Changes</span>
+</button>
+</div>
+</footer>
+</aside>
+<!-- Lucide Icon Initialization -->
+<script>
+    lucide.createIcons();
+  </script>
+</body></html>
