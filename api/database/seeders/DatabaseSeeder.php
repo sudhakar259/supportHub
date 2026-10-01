@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             TicketNumberSettingSeeder::class,
             NotificationTemplateSeeder::class,
             UsersSeeder::class,
-            // DemoTicketSeeder is called separately after ticket actions exist (see Phase 4).
+            DemoTicketSeeder::class,
         ]);
     }
 }
