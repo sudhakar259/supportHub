@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TicketAssignmentType;
+use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 ])]
 class TicketAssignment extends Model
 {
+    use BelongsToTenant;
+
     protected function casts(): array
     {
         return [

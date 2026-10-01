@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\NotificationLogStatus;
+use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 #[Fillable(['notifiable_type', 'notifiable_id', 'channel', 'event_key', 'notification_template_id', 'status', 'error', 'sent_at'])]
 class NotificationLog extends Model
 {
+    use BelongsToTenant;
+
     protected function casts(): array
     {
         return [

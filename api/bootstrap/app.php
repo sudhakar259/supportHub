@@ -2,6 +2,9 @@
 
 use App\Exceptions\ApiExceptionRenderer;
 use App\Http\Middleware\ForceJsonResponse;
+use App\Http\Middleware\RequirePlatformAdmin;
+use App\Http\Middleware\ResolveIntegrationTenantContext;
+use App\Http\Middleware\ResolveTenantContext;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -29,6 +32,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => PermissionMiddleware::class,
             'role' => RoleMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
+            'tenant.context' => ResolveTenantContext::class,
+            'platform.admin' => RequirePlatformAdmin::class,
+            'integration.auth' => ResolveIntegrationTenantContext::class,
+            'scope' => \App\Http\Middleware\RequireApiScope::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

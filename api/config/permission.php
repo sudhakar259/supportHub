@@ -110,7 +110,7 @@ return [
          * foreign key is other than `team_id`.
          */
 
-        'team_foreign_key' => 'team_id',
+        'team_foreign_key' => 'tenant_id',
     ],
 
     /*
@@ -148,7 +148,12 @@ return [
      * (view the latest version of this package's migration file)
      */
 
-    'teams' => false,
+    // Enabled: each tenant gets its own independent set of role<->permission
+    // assignments, keyed by the 'tenant_id' team_foreign_key above. A
+    // Platform Admin's role assignment uses tenant_id = NULL (the "no
+    // team" case spatie's own teams feature supports natively), which is
+    // exactly the "exists outside any tenant" semantics it needs.
+    'teams' => true,
 
     /*
      * The class to use to resolve the permissions team id

@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasTenantOverride;
+use App\Support\TenantContext;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
-#[Fillable(['key', 'value', 'type', 'group', 'is_public'])]
+#[Fillable(['tenant_id', 'key', 'value', 'type', 'group', 'is_public'])]
 class SystemSetting extends Model
 {
+    use HasTenantOverride;
+
     protected function casts(): array
     {
         return [
@@ -18,8 +22,8 @@ class SystemSetting extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn () => Cache::forget('system_settings.all'));
-        static::deleted(fn () => Cache::forget('system_settings.all'));
+        static::saved(fn (self $setting) => Cache::forget(self::cacheKey($setting->tenant_id)));
+        static::deleted(fn (self $setting) => Cache::forget(self::cacheKey($setting->tenant_id)));
     }
 
     public function castValue(): mixed
@@ -32,13 +36,31 @@ class SystemSetting extends Model
         };
     }
 
+    /**
+     * A tenant's own override wins over the platform default for the
+     * same key — both are in scope (HasTenantOverride) but this picks
+     * the more specific row when both exist.
+     */
     public static function get(string $key, mixed $default = null): mixed
     {
-        $settings = Cache::rememberForever('system_settings.all', fn () => static::all()->keyBy('key'));
+        $tenantId = app(TenantContext::class)->id();
+
+        // Ascending puts the platform default (tenant_id null) first and
+        // the tenant's own override last; keyBy() keeps the LAST row per
+        // key, so the override correctly wins when both exist.
+        $settings = Cache::rememberForever(
+            self::cacheKey($tenantId),
+            fn () => static::all()->sortBy('tenant_id')->keyBy('key')
+        );
 
         /** @var self|null $setting */
         $setting = $settings->get($key);
 
         return $setting ? $setting->castValue() : $default;
+    }
+
+    private static function cacheKey(?int $tenantId): string
+    {
+        return 'system_settings.all.'.($tenantId ?? 'platform');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 ])]
 class TicketAttachment extends Model
 {
-    use HasFactory, HasUlids, SoftDeletes;
+    use BelongsToTenant, HasFactory, HasUlids, SoftDeletes;
 
     protected function casts(): array
     {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToTenant;
 use App\Models\Concerns\HasExclusiveDefault;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['name', 'slug', 'level', 'color', 'is_default'])]
 class TicketPriority extends Model
 {
-    use HasExclusiveDefault;
+    use BelongsToTenant, HasExclusiveDefault;
 
     protected function casts(): array
     {
