@@ -1,9 +1,13 @@
 <?php
 
+use App\Models\TicketPriority;
+use Database\Seeders\RolesAndPermissionsSeeder;
+use Database\Seeders\TicketPrioritySeeder;
+
 beforeEach(function () {
     $this->seed([
-        \Database\Seeders\RolesAndPermissionsSeeder::class,
-        \Database\Seeders\TicketPrioritySeeder::class,
+        RolesAndPermissionsSeeder::class,
+        TicketPrioritySeeder::class,
     ]);
 });
 
@@ -48,7 +52,7 @@ it('forbids an agent from managing routing rules', function () {
 
 it('lets an admin create an SLA policy scoped to a priority', function () {
     $admin = actingAsAdministrator();
-    $priority = \App\Models\TicketPriority::where('slug', 'urgent')->first();
+    $priority = TicketPriority::where('slug', 'urgent')->first();
 
     $this->actingAs($admin, 'api')
         ->postJson('/api/v1/sla-policies', [

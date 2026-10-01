@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\TicketRoutingRule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\TicketRoutingRule */
+/** @mixin TicketRoutingRule */
 class TicketRoutingRuleResource extends JsonResource
 {
     public function toArray(Request $request): array

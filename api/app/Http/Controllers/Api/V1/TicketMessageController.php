@@ -32,6 +32,7 @@ class TicketMessageController extends Controller
      * List messages on a ticket
      *
      * @urlParam ticket string required The ticket's id. Example: 01hxyz0123456789abcdefghj
+     *
      * @queryParam per_page Items per page (max 100). Example: 25
      *
      * @response 200 {"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "type": "agent_reply", "body": "Thanks for reaching out..."}]}
@@ -61,6 +62,7 @@ class TicketMessageController extends Controller
      * sending `is_internal` has it silently ignored, never honored.
      *
      * @urlParam ticket string required Example: 01hxyz0123456789abcdefghj
+     *
      * @bodyParam body string required Example: Thanks for reaching out — can you share a screenshot of the error?
      * @bodyParam is_internal boolean Staff only. Example: false
      * @bodyParam attachments file[] Up to 5 files, 25MB each.

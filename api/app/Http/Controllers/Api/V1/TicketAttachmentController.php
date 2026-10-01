@@ -50,6 +50,7 @@ class TicketAttachmentController extends Controller
      * field on POST /tickets/{ticket}/messages instead.
      *
      * @urlParam ticket string required Example: 01hxyz0123456789abcdefghj
+     *
      * @bodyParam file file required Max 25MB. One of jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, csv, zip.
      *
      * @response 201 {"success": true, "message": "Attachment uploaded successfully.", "data": {"id": "01HXYZ...", "original_filename": "invoice.pdf"}}

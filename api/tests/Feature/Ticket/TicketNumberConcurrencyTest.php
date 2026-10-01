@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Process;
+use Symfony\Component\Process\PhpExecutableFinder;
 
 /**
  * Ticket-number generation must be safe when many requests race to
@@ -47,7 +48,7 @@ it('never generates a duplicate ticket number under concurrent requests', functi
     ]);
 
     $concurrency = 15;
-    $phpBinary = (new \Symfony\Component\Process\PhpExecutableFinder)->find() ?: 'php';
+    $phpBinary = (new PhpExecutableFinder)->find() ?: 'php';
 
     $pool = Process::pool(function ($pool) use ($concurrency, $dbPath, $phpBinary) {
         for ($i = 0; $i < $concurrency; $i++) {

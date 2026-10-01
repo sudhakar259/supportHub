@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Routing;
 
+use App\Models\TicketRoutingRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRoutingRuleRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create', \App\Models\TicketRoutingRule::class);
+        return $this->user()->can('create', TicketRoutingRule::class);
     }
 
     public function rules(): array

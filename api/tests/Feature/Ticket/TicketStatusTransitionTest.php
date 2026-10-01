@@ -1,13 +1,20 @@
 <?php
 
+use App\Models\Customer;
+use App\Models\SlaPolicy;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
+use App\Models\User;
+use Database\Seeders\RolesAndPermissionsSeeder;
+use Database\Seeders\TicketPrioritySeeder;
+use Database\Seeders\TicketStatusSeeder;
+use Spatie\Permission\Models\Role;
 
 beforeEach(function () {
     $this->seed([
-        \Database\Seeders\RolesAndPermissionsSeeder::class,
-        \Database\Seeders\TicketStatusSeeder::class,
-        \Database\Seeders\TicketPrioritySeeder::class,
+        RolesAndPermissionsSeeder::class,
+        TicketStatusSeeder::class,
+        TicketPrioritySeeder::class,
     ]);
 });
 
@@ -77,7 +84,7 @@ it('rejects escalating a ticket that is already closed', function () {
 });
 
 it('lets the owning customer reopen their own resolved ticket', function () {
-    $customer = \App\Models\Customer::factory()->create();
+    $customer = Customer::factory()->create();
     $ticket = setTicketStatus(Ticket::factory()->create(['customer_id' => $customer->id]), 'resolved');
 
     $this->actingAs($customer->user, 'api')
@@ -90,9 +97,9 @@ it('forbids an agent without tickets.resolve from resolving a ticket', function 
     $ticket = Ticket::factory()->create();
 
     // Build a role with no resolve permission to prove the gate is checked.
-    $role = \Spatie\Permission\Models\Role::create(['name' => 'Read Only Agent', 'guard_name' => 'api']);
+    $role = Role::create(['name' => 'Read Only Agent', 'guard_name' => 'api']);
     $role->syncPermissions(['tickets.view']);
-    $user = \App\Models\User::factory()->create();
+    $user = User::factory()->create();
     $user->assignRole('Read Only Agent');
 
     $this->actingAs($user, 'api')
@@ -103,7 +110,7 @@ it('forbids an agent without tickets.resolve from resolving a ticket', function 
 it('marks the SLA as breached when resolved after the resolution deadline', function () {
     $ticket = Ticket::factory()->create();
     $ticket->sla()->create([
-        'sla_policy_id' => \App\Models\SlaPolicy::factory()->create([
+        'sla_policy_id' => SlaPolicy::factory()->create([
             'priority_id' => $ticket->priority_id,
             'first_response_minutes' => 60,
             'resolution_minutes' => 60,

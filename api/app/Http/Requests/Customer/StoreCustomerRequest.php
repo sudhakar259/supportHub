@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Customer;
 
+use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
@@ -9,7 +10,7 @@ class StoreCustomerRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create', \App\Models\Customer::class);
+        return $this->user()->can('create', Customer::class);
     }
 
     public function rules(): array

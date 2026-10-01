@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Sla;
 
+use App\Models\SlaPolicy;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreSlaPolicyRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create', \App\Models\SlaPolicy::class);
+        return $this->user()->can('create', SlaPolicy::class);
     }
 
     public function rules(): array

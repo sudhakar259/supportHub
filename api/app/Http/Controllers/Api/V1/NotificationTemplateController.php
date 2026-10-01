@@ -33,6 +33,7 @@ class NotificationTemplateController extends Controller
      * Update a notification template
      *
      * @urlParam template integer required Example: 1
+     *
      * @bodyParam subject string Example: We received your ticket {ticket_number}
      * @bodyParam body string Example: Hi {customer_name}, your ticket has been created...
      * @bodyParam is_active boolean Example: true

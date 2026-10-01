@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Priority;
 
+use App\Models\TicketPriority;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePriorityRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create', \App\Models\TicketPriority::class);
+        return $this->user()->can('create', TicketPriority::class);
     }
 
     public function rules(): array

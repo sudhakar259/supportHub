@@ -1,9 +1,10 @@
 <?php
 
 use App\Models\Customer;
+use Database\Seeders\RolesAndPermissionsSeeder;
 
 beforeEach(function () {
-    $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
+    $this->seed(RolesAndPermissionsSeeder::class);
 });
 
 it('lets an admin create a customer with an underlying user account', function () {

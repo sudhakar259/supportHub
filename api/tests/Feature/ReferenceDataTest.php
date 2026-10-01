@@ -1,14 +1,20 @@
 <?php
 
+use App\Models\Customer;
 use App\Models\TicketCategory;
 use App\Models\TicketPriority;
 use App\Models\TicketStatus;
+use Database\Seeders\RolesAndPermissionsSeeder;
+use Database\Seeders\TicketPrioritySeeder;
+use Database\Seeders\TicketStatusSeeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 beforeEach(function () {
     $this->seed([
-        \Database\Seeders\RolesAndPermissionsSeeder::class,
-        \Database\Seeders\TicketStatusSeeder::class,
-        \Database\Seeders\TicketPrioritySeeder::class,
+        RolesAndPermissionsSeeder::class,
+        TicketStatusSeeder::class,
+        TicketPrioritySeeder::class,
     ]);
 });
 
@@ -49,10 +55,10 @@ it('refuses to delete a status that is in use by a ticket', function () {
     $status = TicketStatus::where('slug', 'open')->firstOrFail();
 
     // A ticket factory belongs to a later phase; simulate usage directly.
-    \Illuminate\Support\Facades\DB::table('tickets')->insert([
-        'id' => (string) \Illuminate\Support\Str::ulid(),
+    DB::table('tickets')->insert([
+        'id' => (string) Str::ulid(),
         'ticket_number' => 'TKT-TEST-1',
-        'customer_id' => \App\Models\Customer::factory()->create()->id,
+        'customer_id' => Customer::factory()->create()->id,
         'subject' => 'Test',
         'description' => 'Test',
         'priority_id' => TicketPriority::first()->id,

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\TicketCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<TicketCategory>
@@ -18,7 +19,7 @@ class TicketCategoryFactory extends Factory
 
         return [
             'name' => ucfirst($name),
-            'slug' => \Illuminate\Support\Str::slug($name),
+            'slug' => Str::slug($name),
             'is_active' => true,
             'sort_order' => 0,
         ];

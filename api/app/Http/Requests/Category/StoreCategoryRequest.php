@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Category;
 
+use App\Models\TicketCategory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
@@ -9,7 +10,7 @@ class StoreCategoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create', \App\Models\TicketCategory::class);
+        return $this->user()->can('create', TicketCategory::class);
     }
 
     public function rules(): array

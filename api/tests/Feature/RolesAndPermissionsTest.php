@@ -1,7 +1,10 @@
 <?php
 
+use Database\Seeders\RolesAndPermissionsSeeder;
+use Spatie\Permission\Models\Role;
+
 beforeEach(function () {
-    $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
+    $this->seed(RolesAndPermissionsSeeder::class);
 });
 
 it('lists roles with their permissions for an administrator', function () {
@@ -38,7 +41,7 @@ it('creates a custom role with a permission subset', function () {
 
 it('refuses to delete the built-in Administrator role', function () {
     $admin = actingAsAdministrator();
-    $role = \Spatie\Permission\Models\Role::where('name', 'Administrator')->first();
+    $role = Role::where('name', 'Administrator')->first();
 
     $this->actingAs($admin, 'api')
         ->deleteJson("/api/v1/roles/{$role->id}")

@@ -2,12 +2,15 @@
 
 use App\Models\Customer;
 use App\Models\Ticket;
+use Database\Seeders\RolesAndPermissionsSeeder;
+use Database\Seeders\TicketPrioritySeeder;
+use Database\Seeders\TicketStatusSeeder;
 
 beforeEach(function () {
     $this->seed([
-        \Database\Seeders\RolesAndPermissionsSeeder::class,
-        \Database\Seeders\TicketStatusSeeder::class,
-        \Database\Seeders\TicketPrioritySeeder::class,
+        RolesAndPermissionsSeeder::class,
+        TicketStatusSeeder::class,
+        TicketPrioritySeeder::class,
     ]);
 });
 

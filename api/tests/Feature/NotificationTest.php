@@ -1,19 +1,25 @@
 <?php
 
+use App\Enums\NotificationLogStatus;
 use App\Models\Customer;
 use App\Models\NotificationLog;
 use App\Models\NotificationPreference;
 use App\Models\Ticket;
 use App\Notifications\TicketEventNotification;
+use Database\Seeders\NotificationTemplateSeeder;
+use Database\Seeders\RolesAndPermissionsSeeder;
+use Database\Seeders\TicketNumberSettingSeeder;
+use Database\Seeders\TicketPrioritySeeder;
+use Database\Seeders\TicketStatusSeeder;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
     $this->seed([
-        \Database\Seeders\RolesAndPermissionsSeeder::class,
-        \Database\Seeders\TicketStatusSeeder::class,
-        \Database\Seeders\TicketPrioritySeeder::class,
-        \Database\Seeders\TicketNumberSettingSeeder::class,
-        \Database\Seeders\NotificationTemplateSeeder::class,
+        RolesAndPermissionsSeeder::class,
+        TicketStatusSeeder::class,
+        TicketPrioritySeeder::class,
+        TicketNumberSettingSeeder::class,
+        NotificationTemplateSeeder::class,
     ]);
 });
 
@@ -39,7 +45,7 @@ it('sends a rendered ticket_created notification to the customer and logs it', f
     $log = NotificationLog::where('event_key', 'ticket_created')->first();
     expect($log)->not->toBeNull();
     expect($log->notifiable_id)->toBe($customer->user->id);
-    expect($log->status)->toBe(\App\Enums\NotificationLogStatus::Queued);
+    expect($log->status)->toBe(NotificationLogStatus::Queued);
 });
 
 it('notifies the assignee when a ticket is manually assigned', function () {

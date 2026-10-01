@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -40,25 +41,25 @@ pest()->extend(TestCase::class)
 |
 */
 
-function actingAsCustomer(): \App\Models\User
+function actingAsCustomer(): User
 {
-    $user = \App\Models\User::factory()->create();
+    $user = User::factory()->create();
     $user->assignRole('Customer');
 
     return $user;
 }
 
-function actingAsAgent(): \App\Models\User
+function actingAsAgent(): User
 {
-    $user = \App\Models\User::factory()->create();
+    $user = User::factory()->create();
     $user->assignRole('Agent');
 
     return $user;
 }
 
-function actingAsAdministrator(): \App\Models\User
+function actingAsAdministrator(): User
 {
-    $user = \App\Models\User::factory()->create();
+    $user = User::factory()->create();
     $user->assignRole('Administrator');
 
     return $user;

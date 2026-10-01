@@ -3,15 +3,20 @@
 use App\Models\AuditLog;
 use App\Models\Customer;
 use App\Models\NotificationPreference;
+use App\Models\NotificationTemplate;
 use App\Models\SystemSetting;
 use App\Models\Ticket;
+use Database\Seeders\NotificationTemplateSeeder;
+use Database\Seeders\RolesAndPermissionsSeeder;
+use Database\Seeders\TicketPrioritySeeder;
+use Database\Seeders\TicketStatusSeeder;
 
 beforeEach(function () {
     $this->seed([
-        \Database\Seeders\RolesAndPermissionsSeeder::class,
-        \Database\Seeders\TicketStatusSeeder::class,
-        \Database\Seeders\TicketPrioritySeeder::class,
-        \Database\Seeders\NotificationTemplateSeeder::class,
+        RolesAndPermissionsSeeder::class,
+        TicketStatusSeeder::class,
+        TicketPrioritySeeder::class,
+        NotificationTemplateSeeder::class,
     ]);
 });
 
@@ -37,7 +42,7 @@ it('lets a user view and update their own notification preferences', function ()
 
 it('lets an admin edit notification template content', function () {
     $admin = actingAsAdministrator();
-    $template = \App\Models\NotificationTemplate::where('key', 'ticket_created')->first();
+    $template = NotificationTemplate::where('key', 'ticket_created')->first();
 
     $this->actingAs($admin, 'api')
         ->putJson("/api/v1/notification-templates/{$template->id}", [
@@ -48,7 +53,7 @@ it('lets an admin edit notification template content', function () {
 
 it('forbids a non-admin from editing notification templates', function () {
     $agent = actingAsAgent();
-    $template = \App\Models\NotificationTemplate::first();
+    $template = NotificationTemplate::first();
 
     $this->actingAs($agent, 'api')
         ->putJson("/api/v1/notification-templates/{$template->id}", ['subject' => 'Hacked'])

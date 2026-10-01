@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Status;
 
+use App\Models\TicketStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreStatusRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('create', \App\Models\TicketStatus::class);
+        return $this->user()->can('create', TicketStatus::class);
     }
 
     public function rules(): array

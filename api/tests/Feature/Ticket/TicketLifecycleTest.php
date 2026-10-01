@@ -4,13 +4,19 @@ use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Ticket;
 use App\Models\TicketCategory;
+use App\Models\TicketRoutingRule;
+use App\Models\TicketStatus;
+use Database\Seeders\RolesAndPermissionsSeeder;
+use Database\Seeders\TicketNumberSettingSeeder;
+use Database\Seeders\TicketPrioritySeeder;
+use Database\Seeders\TicketStatusSeeder;
 
 beforeEach(function () {
     $this->seed([
-        \Database\Seeders\RolesAndPermissionsSeeder::class,
-        \Database\Seeders\TicketStatusSeeder::class,
-        \Database\Seeders\TicketPrioritySeeder::class,
-        \Database\Seeders\TicketNumberSettingSeeder::class,
+        RolesAndPermissionsSeeder::class,
+        TicketStatusSeeder::class,
+        TicketPrioritySeeder::class,
+        TicketNumberSettingSeeder::class,
     ]);
 });
 
@@ -92,7 +98,7 @@ it('runs an active routing rule on ticket creation', function () {
     $department = Department::factory()->create();
     $category = TicketCategory::factory()->create();
 
-    \App\Models\TicketRoutingRule::create([
+    TicketRoutingRule::create([
         'name' => 'Route category to department',
         'is_active' => true,
         'priority' => 1,
@@ -118,7 +124,7 @@ it('auto-assigns the agent with the lightest workload when a routing rule sets a
 
     $busyAgent = actingAsAgent();
     $busyAgent->departments()->attach($department->id);
-    $openStatusId = \App\Models\TicketStatus::where('slug', 'open')->value('id');
+    $openStatusId = TicketStatus::where('slug', 'open')->value('id');
     Ticket::factory()->count(3)->create([
         'department_id' => $department->id,
         'assignee_id' => $busyAgent->id,
@@ -128,7 +134,7 @@ it('auto-assigns the agent with the lightest workload when a routing rule sets a
     $freeAgent = actingAsAgent();
     $freeAgent->departments()->attach($department->id);
 
-    \App\Models\TicketRoutingRule::create([
+    TicketRoutingRule::create([
         'name' => 'Everything to this department',
         'is_active' => true,
         'priority' => 1,

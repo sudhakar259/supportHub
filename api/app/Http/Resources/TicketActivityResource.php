@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\TicketActivity;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\TicketActivity */
+/** @mixin TicketActivity */
 class TicketActivityResource extends JsonResource
 {
     public function toArray(Request $request): array
