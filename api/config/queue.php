@@ -70,7 +70,13 @@ return [
             'queue' => env('REDIS_QUEUE', 'default'),
             'retry_after' => (int) env('REDIS_QUEUE_RETRY_AFTER', 90),
             'block_for' => null,
-            'after_commit' => false,
+            // Required here: several ticket Actions (AssignTicketAction,
+            // UpdateTicketStatusAction, ...) wrap their own DB transaction
+            // and dispatch events/notifications from inside it. Without
+            // after_commit, a queue worker could pick up the job and
+            // query the ticket before that transaction (or an outer one
+            // it's nested in) actually commits.
+            'after_commit' => true,
         ],
 
         'deferred' => [

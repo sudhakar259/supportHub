@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Ticket;
 use App\Models\TicketPriority;
 use App\Models\TicketStatus;
+use App\Models\User;
 use App\Services\AuditLogger;
 use App\Services\TicketActivityLogger;
 use App\Services\TicketStatusWorkflow;
@@ -34,15 +35,18 @@ class CreateTicketAction
         private CalculateSlaAction $calculateSla,
         private TicketActivityLogger $activity,
         private AuditLogger $audit,
+        private SendTicketNotificationAction $sendNotification,
     ) {}
 
     public function execute(Customer $customer, array $data): Ticket
     {
+        $notifyTemplateKeys = [];
+
         // The event (and its queued notification listener) is dispatched
         // after the transaction commits, not inside it — a queue worker
         // could otherwise pick the job up before the ticket row is
         // actually visible to other connections.
-        $ticket = DB::transaction(function () use ($customer, $data) {
+        $ticket = DB::transaction(function () use ($customer, $data, &$notifyTemplateKeys) {
             $status = TicketStatus::where('slug', TicketStatusWorkflow::OPEN)->firstOrFail();
             $priority = isset($data['priority_id'])
                 ? TicketPriority::findOrFail($data['priority_id'])
@@ -59,6 +63,7 @@ class CreateTicketAction
             ]);
 
             $routingOutcome = $this->applyRouting->execute($ticket);
+            $notifyTemplateKeys = $routingOutcome['notify_template_keys'];
 
             if ($routingOutcome['escalate']) {
                 $ticket->status_id = TicketStatus::where('slug', TicketStatusWorkflow::ESCALATED)->value('id') ?? $ticket->status_id;
@@ -74,7 +79,7 @@ class CreateTicketAction
                 $assignee = null;
 
                 if ($routingOutcome['assignee_id']) {
-                    $assignee = \App\Models\User::find($routingOutcome['assignee_id']);
+                    $assignee = User::find($routingOutcome['assignee_id']);
                 }
 
                 $assignee ??= $this->autoAssignAgent->execute($ticket->department->fresh());
@@ -90,6 +95,14 @@ class CreateTicketAction
         });
 
         event(new TicketCreated($ticket));
+
+        foreach ($notifyTemplateKeys as $templateKey) {
+            $this->sendNotification->execute($templateKey, [$ticket->customer->user], [
+                'ticket_number' => $ticket->ticket_number,
+                'customer_name' => $ticket->customer->user->name,
+                'ticket_subject' => $ticket->subject,
+            ], rtrim(config('app.frontend_url'), '/')."/tickets/{$ticket->id}");
+        }
 
         return $ticket;
     }

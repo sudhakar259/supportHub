@@ -23,10 +23,31 @@ use App\Policies\TicketPriorityPolicy;
 use App\Policies\TicketRoutingRulePolicy;
 use App\Policies\TicketStatusPolicy;
 use App\Policies\UserPolicy;
+use App\Events\AgentReplied;
+use App\Events\CustomerReplied;
+use App\Events\TicketAssigned;
+use App\Events\TicketClosed;
+use App\Events\TicketCreated;
+use App\Events\TicketEscalated;
+use App\Events\TicketReopened;
+use App\Events\TicketResolved;
+use App\Events\TicketStatusChanged;
+use App\Listeners\Ticket\SendAgentRepliedNotification;
+use App\Listeners\Ticket\SendCustomerRepliedNotification;
+use App\Listeners\Ticket\SendTicketAssignedNotification;
+use App\Listeners\Ticket\SendTicketClosedNotification;
+use App\Listeners\Ticket\SendTicketCreatedNotification;
+use App\Listeners\Ticket\SendTicketEscalatedNotification;
+use App\Listeners\Ticket\SendTicketReopenedNotification;
+use App\Listeners\Ticket\SendTicketResolvedNotification;
+use App\Listeners\Ticket\SendTicketStatusChangedNotification;
+use App\Models\NotificationLog;
+use App\Notifications\TicketEventNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
@@ -49,6 +70,24 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Event::listen(Registered::class, SendEmailVerificationNotification::class);
+
+        Event::listen(NotificationSent::class, function (NotificationSent $event) {
+            if ($event->notification instanceof TicketEventNotification && $event->notification->notificationLogId) {
+                NotificationLog::whereKey($event->notification->notificationLogId)
+                    ->where('status', 'queued')
+                    ->update(['status' => 'sent', 'sent_at' => now()]);
+            }
+        });
+
+        Event::listen(TicketCreated::class, SendTicketCreatedNotification::class);
+        Event::listen(TicketAssigned::class, SendTicketAssignedNotification::class);
+        Event::listen(TicketStatusChanged::class, SendTicketStatusChangedNotification::class);
+        Event::listen(TicketEscalated::class, SendTicketEscalatedNotification::class);
+        Event::listen(TicketResolved::class, SendTicketResolvedNotification::class);
+        Event::listen(TicketClosed::class, SendTicketClosedNotification::class);
+        Event::listen(TicketReopened::class, SendTicketReopenedNotification::class);
+        Event::listen(CustomerReplied::class, SendCustomerRepliedNotification::class);
+        Event::listen(AgentReplied::class, SendAgentRepliedNotification::class);
 
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(Department::class, DepartmentPolicy::class);
