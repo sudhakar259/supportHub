@@ -22,3 +22,7 @@ require __DIR__.'/api/priorities.php';
 require __DIR__.'/api/tickets.php';
 require __DIR__.'/api/routing.php';
 require __DIR__.'/api/sla.php';
+require __DIR__.'/api/notifications.php';
+require __DIR__.'/api/audit-logs.php';
+require __DIR__.'/api/settings.php';
+require __DIR__.'/api/reports.php';
