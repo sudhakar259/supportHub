@@ -1,0 +1,336 @@
+name: Notifications
+description: |-
+
+  Every user manages their own notification preferences — there is no
+  admin override of another user's preferences, since they describe a
+  personal inbox choice, not a permission.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/notification-preferences
+    metadata:
+      custom: []
+      groupName: Notifications
+      groupDescription: |-
+
+        Every user manages their own notification preferences — there is no
+        admin override of another user's preferences, since they describe a
+        personal inbox choice, not a permission.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List my notification preferences'
+      description: |-
+        Any event key without an explicit preference row is enabled by
+        default (opt-out model) and simply won't appear here until set.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "channel": "mail", "event_key": "ticket_created", "enabled": true}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: api/v1/notification-preferences
+    metadata:
+      custom: []
+      groupName: Notifications
+      groupDescription: |-
+
+        Every user manages their own notification preferences — there is no
+        admin override of another user's preferences, since they describe a
+        personal inbox choice, not a permission.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update my notification preferences'
+      description: |-
+        Upserts one or more (channel, event_key) preferences for the
+        authenticated user.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      preferences:
+        custom: []
+        name: preferences
+        description: ''
+        required: true
+        example:
+          - []
+        type: 'object[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'preferences[].channel':
+        custom: []
+        name: 'preferences[].channel'
+        description: ''
+        required: true
+        example: mail
+        type: string
+        enumValues:
+          - mail
+          - database
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'preferences[].event_key':
+        custom: []
+        name: 'preferences[].event_key'
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'preferences[].enabled':
+        custom: []
+        name: 'preferences[].enabled'
+        description: ''
+        required: true
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'preferences.*.channel':
+        custom: []
+        name: 'preferences.*.channel'
+        description: 'mail or database.'
+        required: true
+        example: mail
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'preferences.*.event_key':
+        custom: []
+        name: 'preferences.*.event_key'
+        description: 'One of the notification template keys.'
+        required: true
+        example: ticket_created
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'preferences.*.enabled':
+        custom: []
+        name: 'preferences.*.enabled'
+        description: ''
+        required: true
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      preferences:
+        -
+          channel: mail
+          event_key: architecto
+          enabled: false
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Preferences updated successfully.", "data": [{"channel": "mail", "event_key": "ticket_created", "enabled": false}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/notification-templates
+    metadata:
+      custom: []
+      groupName: Notifications
+      groupDescription: |-
+
+        Admin-editable email content. Supported variables:
+        {ticket_number} {customer_name} {agent_name} {department}
+        {ticket_subject} {ticket_status} {ticket_priority} {ticket_url}
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List notification templates'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"key": "ticket_created", "subject": "We received your ticket {ticket_number}"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/v1/notification-templates/{template_id}'
+    metadata:
+      custom: []
+      groupName: Notifications
+      groupDescription: |-
+
+        Admin-editable email content. Supported variables:
+        {ticket_number} {customer_name} {agent_name} {department}
+        {ticket_subject} {ticket_status} {ticket_priority} {ticket_url}
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a notification template'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      template_id:
+        custom: []
+        name: template_id
+        description: 'The ID of the template.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      template:
+        custom: []
+        name: template
+        description: ''
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      template_id: 1
+      template: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      subject:
+        custom: []
+        name: subject
+        description: ''
+        required: false
+        example: 'We received your ticket {ticket_number}'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      body:
+        custom: []
+        name: body
+        description: ''
+        required: false
+        example: 'Hi {customer_name}, your ticket has been created...'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      subject: 'We received your ticket {ticket_number}'
+      body: 'Hi {customer_name}, your ticket has been created...'
+      is_active: true
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Notification template updated successfully.", "data": {"key": "ticket_created"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

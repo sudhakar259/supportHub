@@ -22,7 +22,7 @@ class StoreTicketRequest extends FormRequest
             // own customer profile); required for staff, who must say
             // which customer the ticket is being created for.
             'customer_id' => [
-                $this->user()->isCustomer() ? 'sometimes' : 'required',
+                $this->user()?->isCustomer() ? 'sometimes' : 'required',
                 'integer',
                 'exists:customers,id',
             ],

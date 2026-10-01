@@ -1,0 +1,3812 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "SupportHub API Documentation",
+        "_postman_id": "f63783c8-1d23-474b-a096-5bbbaa8f32ec",
+        "description": "REST API for SupportHub \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "description": "\nToken-based authentication shared by the web, mobile and third-party\nclients. All endpoints here are unauthenticated except \/auth\/logout,\n\/auth\/me and the email verification resend endpoint, which require a\nBearer token obtained from \/auth\/login or \/auth\/register.",
+            "item": [
+                {
+                    "name": "Register (customer self-service)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"device_name\":\"z\",\"password_confirmation\":\"Secret123!\"}"
+                        },
+                        "description": "Creates a new Customer-role account and an associated customer\nprofile, then returns a Bearer token. A verification email is\nqueued automatically.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Registration successful.\",\n  \"data\": {\n    \"user\": {\"id\": 42, \"name\": \"Jamie Rivera\", \"email\": \"jamie@example.com\", \"roles\": [\"Customer\"]},\n    \"token\": \"1|abcdef123456...\",\n    \"token_type\": \"Bearer\"\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed.\",\n  \"errors\": {\"email\": [\"The email has already been taken.\"]}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"admin@supporthub.test\",\"password\":\"password\",\"device_name\":\"web-browser\"}"
+                        },
+                        "description": "Exchanges email\/password credentials for a Sanctum Bearer token.\nPass a `device_name` so multiple tokens (web, iOS, Android) can be\nmanaged and revoked independently per device.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Login successful.\",\n  \"data\": {\n    \"user\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@supporthub.test\", \"roles\": [\"Administrator\"]},\n    \"token\": \"1|abcdef123456...\",\n    \"token_type\": \"Bearer\"\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"This account has been deactivated.\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed.\",\n  \"errors\": {\"email\": [\"The provided credentials are incorrect.\"]}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Forgot password",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/forgot-password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/forgot-password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"admin@supporthub.test\"}"
+                        },
+                        "description": "Sends a password reset link to the given email if an account\nexists for it. Always returns the same generic success message\nregardless of whether the email is registered, to avoid leaking\nwhich addresses have accounts.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"If an account exists for that email, a password reset link has been sent.\",\n  \"data\": null\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reset password",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/reset-password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/reset-password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"token\":\"9f8e7d6c5b4a\",\"email\":\"admin@supporthub.test\",\"password\":\"NewSecret123!\",\"password_confirmation\":\"NewSecret123!\"}"
+                        },
+                        "description": "Completes a password reset using the token emailed by\n\/auth\/forgot-password.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Password has been reset successfully.\", \"data\": null}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed.\",\n  \"errors\": {\"email\": [\"This password reset token is invalid or has expired.\"]}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Verify email",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/email\/verify\/:id\/:hash",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/email\/verify\/:id\/:hash",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The user id from the verification link."
+                                },
+                                {
+                                    "id": "hash",
+                                    "key": "hash",
+                                    "value": "5f4dcc3b5aa765d61d8327deb882cf99",
+                                    "description": "The sha1 hash of the user's email from the verification link."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Consumes the signed link from the verification email. `id` and\n`hash` come from that link and are not meant to be constructed\nby hand.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Email verified successfully.\", \"data\": null}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"success\": false, \"message\": \"Invalid verification link.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Revokes the Bearer token used to make this request. Other tokens\nissued to the same user (other devices) remain valid."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Logged out successfully.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Current user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/me",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/me"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Returns the authenticated user's profile, roles, permissions and\n(for customers) their customer profile."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Request successful.\",\n  \"data\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@supporthub.test\", \"roles\": [\"Administrator\"], \"permissions\": [\"tickets.view\", \"...\"]}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Resend email verification",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/email\/verification-notification",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/email\/verification-notification"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Resends the verification email if the authenticated user's address\nis not yet verified."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Verification link sent.\", \"data\": null}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Email already verified.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "description": "\nInternal staff accounts (agents, senior agents, department managers,\nadministrators). Customer accounts are managed under the Customers\ngroup instead.",
+            "item": [
+                {
+                    "name": "List users",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users",
+                            "query": [
+                                {
+                                    "key": "filter[name]",
+                                    "value": "Alex",
+                                    "description": "Partial name match.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[email]",
+                                    "value": "alex@",
+                                    "description": "Partial email match.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[is_active]",
+                                    "value": "true",
+                                    "description": "",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[role]",
+                                    "value": "Agent",
+                                    "description": "Exact role name.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "name",
+                                    "description": "Sort by name or created_at.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/users?filter%5Bname%5D=Alex&filter%5Bemail%5D=alex%40&filter%5Bis_active%5D=true&filter%5Brole%5D=Agent&sort=name&per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 2, \"name\": \"Alex Agent\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a staff user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@supporthub.test\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"role\":\"Agent\",\"department_ids\":[1,2],\"password_confirmation\":\"Secret123!\"}"
+                        },
+                        "description": "Creates an internal account (agent, senior agent, department\nmanager or administrator) with a single role and optional\ndepartment memberships."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"User created successfully.\", \"data\": {\"id\": 9, \"name\": \"Alex Agent\", \"roles\": [\"Agent\"]}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/:user_id",
+                            "variable": [
+                                {
+                                    "id": "user_id",
+                                    "key": "user_id",
+                                    "value": 1,
+                                    "description": "The ID of the user."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 2, \"name\": \"Alex Agent\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/:user_id",
+                            "variable": [
+                                {
+                                    "id": "user_id",
+                                    "key": "user_id",
+                                    "value": 1,
+                                    "description": "The ID of the user."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@supporthub.test\",\"phone\":\"+1-555-0199\",\"timezone\":\"Europe\\\/Dublin\",\"is_active\":true}"
+                        },
+                        "description": "Users may update their own name\/phone\/timezone; only holders of\n`users.update` may change another user's record or flip\n`is_active`."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"User updated successfully.\", \"data\": {\"id\": 2, \"name\": \"Alex Agent\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Deactivate\/delete a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/:user_id",
+                            "variable": [
+                                {
+                                    "id": "user_id",
+                                    "key": "user_id",
+                                    "value": 1,
+                                    "description": "The ID of the user."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Soft-deletes the account and revokes all of its API tokens.\nAn administrator cannot delete their own account."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"User deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"success\": false, \"message\": \"You do not have permission to perform this action.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Sync a user's roles",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user_id\/roles",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/:user_id\/roles",
+                            "variable": [
+                                {
+                                    "id": "user_id",
+                                    "key": "user_id",
+                                    "value": 1,
+                                    "description": "The ID of the user."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"roles\":[\"Senior Agent\"]}"
+                        },
+                        "description": "Replaces the user's role assignments with the given list.\nRequires `roles.manage`."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Roles updated successfully.\", \"data\": {\"id\": 2, \"roles\": [\"Senior Agent\"]}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Roles & Permissions",
+            "description": "\nThe 5 built-in roles (Administrator, Department Manager, Senior Agent,\nAgent, Customer) cover the standard workforce shape; additional\ncustom roles can be created here and assigned any subset of the\npermissions listed by GET \/permissions. The Administrator and\nCustomer roles cannot be deleted.",
+            "item": [
+                {
+                    "name": "List roles",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Administrator\", \"permissions\": [\"tickets.view\", \"...\"]}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a role",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Billing Specialist\",\"permissions\":[\"tickets.view\",\"tickets.update\"]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Role created successfully.\", \"data\": {\"id\": 6, \"name\": \"Billing Specialist\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a role",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the role."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Administrator\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a role",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the role."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Billing Specialist\",\"permissions\":[\"tickets.view\"]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Role updated successfully.\", \"data\": {\"id\": 6, \"name\": \"Billing Specialist\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a role",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the role."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Role deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"success\": false, \"message\": \"You do not have permission to perform this action.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List permissions",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/permissions",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/permissions"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"tickets.view\"}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Customers",
+            "description": "\nCustomer profiles. Every customer is backed by a `User` record with\nthe `Customer` role; this resource manages the additional profile\nfields (company, customer type) layered on top of it.",
+            "item": [
+                {
+                    "name": "List customers",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/customers",
+                            "query": [
+                                {
+                                    "key": "filter[customer_type]",
+                                    "value": "business",
+                                    "description": "individual, business or vip.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[company_name]",
+                                    "value": "Acme",
+                                    "description": "Partial match.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "-created_at",
+                                    "description": "Sort by created_at.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/customers?filter%5Bcustomer_type%5D=business&filter%5Bcompany_name%5D=Acme&sort=-created_at&per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"company_name\": \"Acme Corp\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a customer (admin-created account)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/customers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/customers"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"customer_type\":\"business\",\"password_confirmation\":\"Secret123!\"}"
+                        },
+                        "description": "Creates a User with the Customer role plus its Customer profile in\na single call, for support staff onboarding a customer by hand.\nFor self-service signup, use POST \/auth\/register instead."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Customer created successfully.\", \"data\": {\"id\": 4, \"company_name\": \"Acme Corp\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/customers\/:customer_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/customers\/:customer_id",
+                            "variable": [
+                                {
+                                    "id": "customer_id",
+                                    "key": "customer_id",
+                                    "value": 1,
+                                    "description": "The ID of the customer."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"company_name\": \"Acme Corp\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/customers\/:customer_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/customers\/:customer_id",
+                            "variable": [
+                                {
+                                    "id": "customer_id",
+                                    "key": "customer_id",
+                                    "value": 1,
+                                    "description": "The ID of the customer."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"phone\":\"+1-555-0199\",\"company_name\":\"Acme Corporation\",\"customer_type\":\"vip\",\"timezone\":\"Antarctica\\\/Rothera\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Customer updated successfully.\", \"data\": {\"id\": 1, \"company_name\": \"Acme Corporation\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/customers\/:customer_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/customers\/:customer_id",
+                            "variable": [
+                                {
+                                    "id": "customer_id",
+                                    "key": "customer_id",
+                                    "value": 1,
+                                    "description": "The ID of the customer."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Soft-deletes the customer profile and the underlying user account.\nTheir tickets are retained for historical reporting."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Customer deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Departments",
+            "description": "\nDepartments own tickets, staff and category groupings, and are the\nunit that routing rules and SLA policies can be scoped to.",
+            "item": [
+                {
+                    "name": "List departments",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/departments",
+                            "query": [
+                                {
+                                    "key": "filter[name]",
+                                    "value": "Billing",
+                                    "description": "Filter by partial name match.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[code]",
+                                    "value": "BILL",
+                                    "description": "Filter by exact department code.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[is_active]",
+                                    "value": "true",
+                                    "description": "Filter by active status (true\/false).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "-created_at",
+                                    "description": "Sort by name, code or created_at. Prefix with - for descending.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/departments?filter%5Bname%5D=Billing&filter%5Bcode%5D=BILL&filter%5Bis_active%5D=true&sort=-created_at&per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true, \"message\": \"Request successful.\",\n  \"data\": [{\"id\": 1, \"name\": \"Billing\", \"code\": \"BILL\", \"is_active\": true}],\n  \"meta\": {\"current_page\": 1, \"per_page\": 25, \"total\": 3}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a department",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/departments",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/departments"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Billing\",\"code\":\"BILL\",\"description\":\"Invoices, payments and subscriptions.\",\"manager_id\":3,\"is_active\":true}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Department created successfully.\", \"data\": {\"id\": 4, \"name\": \"Billing\", \"code\": \"BILL\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a department",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/departments\/:department_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/departments\/:department_id",
+                            "variable": [
+                                {
+                                    "id": "department_id",
+                                    "key": "department_id",
+                                    "value": 1,
+                                    "description": "The ID of the department."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Billing\", \"code\": \"BILL\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\"success\": false, \"message\": \"Department not found.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a department",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/departments\/:department_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/departments\/:department_id",
+                            "variable": [
+                                {
+                                    "id": "department_id",
+                                    "key": "department_id",
+                                    "value": 1,
+                                    "description": "The ID of the department."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Billing & Payments\",\"code\":\"BILL\",\"description\":\"Updated description.\",\"manager_id\":3,\"is_active\":false}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Department updated successfully.\", \"data\": {\"id\": 1, \"name\": \"Billing & Payments\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a department",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/departments\/:department_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/departments\/:department_id",
+                            "variable": [
+                                {
+                                    "id": "department_id",
+                                    "key": "department_id",
+                                    "value": 1,
+                                    "description": "The ID of the department."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Soft-deletes the department. Existing tickets keep their\ndepartment_id for historical reporting."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Department deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Assign a staff member to a department",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/departments\/:department_id\/users",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/departments\/:department_id\/users",
+                            "variable": [
+                                {
+                                    "id": "department_id",
+                                    "key": "department_id",
+                                    "value": 1,
+                                    "description": "The ID of the department."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":5,\"is_primary\":true}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"User assigned to department.\", \"data\": {\"id\": 1, \"name\": \"Billing\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Remove a staff member from a department",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/departments\/:department_id\/users\/:user_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/departments\/:department_id\/users\/:user_id",
+                            "variable": [
+                                {
+                                    "id": "department_id",
+                                    "key": "department_id",
+                                    "value": 1,
+                                    "description": "The ID of the department."
+                                },
+                                {
+                                    "id": "user_id",
+                                    "key": "user_id",
+                                    "value": 1,
+                                    "description": "The ID of the user."
+                                },
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": 5,
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"User removed from department.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tickets",
+            "description": "\nThe core ticket resource. Visibility is scoped automatically: a\ncustomer only ever sees their own tickets; non-administrator staff\nonly see tickets in their department(s) or assigned directly to\nthem. Administrators see everything.",
+            "item": [
+                {
+                    "name": "List tickets",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets",
+                            "query": [
+                                {
+                                    "key": "filter[status_id]",
+                                    "value": "1",
+                                    "description": "",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[priority_id]",
+                                    "value": "2",
+                                    "description": "",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[department_id]",
+                                    "value": "1",
+                                    "description": "",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[assignee_id]",
+                                    "value": "5",
+                                    "description": "",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[customer_id]",
+                                    "value": "3",
+                                    "description": "",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[ticket_number]",
+                                    "value": "TKT-2026",
+                                    "description": "Partial match.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[search]",
+                                    "value": "login issue",
+                                    "description": "Matches subject or description.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[sla_status]",
+                                    "value": "breached",
+                                    "description": "One of pending, met, breached, paused.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "-created_at",
+                                    "description": "Sort by created_at, updated_at or priority. Prefix with - for descending.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets?filter%5Bstatus_id%5D=1&filter%5Bpriority_id%5D=2&filter%5Bdepartment_id%5D=1&filter%5Bassignee_id%5D=5&filter%5Bcustomer_id%5D=3&filter%5Bticket_number%5D=TKT-2026&filter%5Bsearch%5D=login%20issue&filter%5Bsla_status%5D=breached&sort=-created_at&per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": \"01HXYZ...\", \"ticket_number\": \"TKT-2026-000125\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"subject\":\"Unable to login\",\"description\":\"I get an error when trying to log in with my email.\",\"category_id\":1,\"priority_id\":2,\"customer_id\":3}"
+                        },
+                        "description": "Runs the full creation pipeline: routing rule evaluation,\ndepartment\/agent assignment, and SLA calculation, before\nqueuing the \"ticket created\" notification."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Ticket created successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"ticket_number\": \"TKT-2026-000125\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": \"01HXYZ...\", \"ticket_number\": \"TKT-2026-000125\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"success\": false, \"message\": \"You do not have permission to perform this action.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"subject\":\"Unable to login (updated)\",\"description\":\"Updated description.\",\"category_id\":2,\"priority_id\":3}"
+                        },
+                        "description": "Customers may edit their own ticket's subject\/description\/category\nwhile it is still open; priority may only be changed by staff."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket updated successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"subject\": \"Unable to login (updated)\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Soft-deletes the ticket. Administrator only."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Assign a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/assign",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/assign",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"assignee_id\":5,\"department_id\":2,\"note\":\"Reassigning \u2014 original agent is OOO.\"}"
+                        },
+                        "description": "Manually assigns (or reassigns) the ticket to an agent. Creates a\nnew entry in the assignment history; the previous assignment, if\nany, is preserved with its unassigned_at timestamp set."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket assigned successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"assignee\": {\"id\": 5}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Assign a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/reassign",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/reassign",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"assignee_id\":5,\"department_id\":2,\"note\":\"Reassigning \u2014 original agent is OOO.\"}"
+                        },
+                        "description": "Manually assigns (or reassigns) the ticket to an agent. Creates a\nnew entry in the assignment history; the previous assignment, if\nany, is preserved with its unassigned_at timestamp set."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket assigned successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"assignee\": {\"id\": 5}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Escalate a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/escalate",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/escalate",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"reason\":\"Customer is a VIP and SLA is at risk.\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket escalated successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"status\": {\"slug\": \"escalated\"}}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Cannot transition a ticket from \\\"closed\\\" to \\\"escalated\\\".\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Resolve a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/resolve",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/resolve",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"reason\":\"Issue fixed by clearing the user's session cache.\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket resolved successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"status\": {\"slug\": \"resolved\"}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Close a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/close",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/close",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"reason\":\"Customer confirmed resolution.\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket closed successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"status\": {\"slug\": \"closed\"}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reopen a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/reopen",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/reopen",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"reason\":\"The issue came back.\"}"
+                        },
+                        "description": "Available to the owning customer or staff with tickets.reopen,\nfrom a Closed or Resolved state."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket reopened successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"status\": {\"slug\": \"reopened\"}}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ticket Messages",
+            "description": "\nCustomer messages, agent replies and internal notes on a ticket.\nInternal notes are never returned to a customer: this is enforced by\nexcluding them from the query entirely for any caller without the\ntickets.view_internal_notes permission, not just by hiding a field.",
+            "item": [
+                {
+                    "name": "List messages on a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/messages",
+                            "query": [
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/messages?per_page=25",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "ticket",
+                                    "key": "ticket",
+                                    "value": "01hxyz0123456789abcdefghj",
+                                    "description": "The ticket's id."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": \"01HXYZ...\", \"type\": \"agent_reply\", \"body\": \"Thanks for reaching out...\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Post a message",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/messages",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/messages",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "ticket",
+                                    "key": "ticket",
+                                    "value": "01hxyz0123456789abcdefghj",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "body",
+                                    "value": "Thanks for reaching out \u2014 can you share a screenshot of the error?",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "is_internal",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": "Staff only."
+                                },
+                                {
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "Customers always post as `customer_message`. Staff post as\n`agent_reply` by default, or `internal_note` when `is_internal`\nis true and they hold tickets.view_internal_notes \u2014 a customer\nsending `is_internal` has it silently ignored, never honored."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Message posted successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"type\": \"agent_reply\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"success\": false, \"message\": \"You do not have permission to perform this action.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a single message",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/messages\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/messages\/:id",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "01m3tsggyve0avhzj6f0tsn0qa",
+                                    "description": "The ID of the message."
+                                },
+                                {
+                                    "id": "ticket",
+                                    "key": "ticket",
+                                    "value": "01hxyz0123456789abcdefghj",
+                                    "description": ""
+                                },
+                                {
+                                    "id": "message",
+                                    "key": "message",
+                                    "value": "01hxyz0123456789abcdefghk",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": \"01HXYZ...\", \"type\": \"agent_reply\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"success\": false, \"message\": \"You do not have permission to perform this action.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ticket Attachments",
+            "description": "\nFiles are validated on MIME type, extension and size at upload time\n(see StoreTicketMessageRequest \/ this controller's own rules) and\nare never served directly from public storage \u2014 every download goes\nthrough the authorization check in TicketAttachmentPolicy, which\nalso denies customers access to a file attached to an internal note.",
+            "item": [
+                {
+                    "name": "List a ticket's attachments",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/attachments",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/attachments",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "ticket",
+                                    "key": "ticket",
+                                    "value": "01hxyz0123456789abcdefghj",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": \"01HXYZ...\", \"original_filename\": \"screenshot.png\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Upload a ticket-level attachment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/attachments",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/attachments",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "ticket",
+                                    "key": "ticket",
+                                    "value": "01hxyz0123456789abcdefghj",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "file",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "For a file attached directly to the ticket rather than a specific\nmessage. To attach a file to a message, use the `attachments[]`\nfield on POST \/tickets\/{ticket}\/messages instead."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Attachment uploaded successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"original_filename\": \"invoice.pdf\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Download an attachment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/attachments\/:attachment_id\/download",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/attachments\/:attachment_id\/download",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "attachment_id",
+                                    "key": "attachment_id",
+                                    "value": "architecto",
+                                    "description": "The ID of the attachment."
+                                },
+                                {
+                                    "id": "ticket",
+                                    "key": "ticket",
+                                    "value": "01hxyz0123456789abcdefghj",
+                                    "description": ""
+                                },
+                                {
+                                    "id": "attachment",
+                                    "key": "attachment",
+                                    "value": "01hxyz0123456789abcdefghm",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"success\": false, \"message\": \"You do not have permission to perform this action.\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\"success\": false, \"message\": \"TicketAttachment not found.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete an attachment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/attachments\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/attachments\/:id",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "architecto",
+                                    "description": "The ID of the attachment."
+                                },
+                                {
+                                    "id": "ticket",
+                                    "key": "ticket",
+                                    "value": "01hxyz0123456789abcdefghj",
+                                    "description": ""
+                                },
+                                {
+                                    "id": "attachment",
+                                    "key": "attachment",
+                                    "value": "01hxyz0123456789abcdefghm",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Attachment deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Categories",
+            "description": "\nTicket categories and subcategories. A \"subcategory\" is simply another\nrow with parent_id set \u2014 see the architecture docs for why this\nreplaces a separate child-categories table.",
+            "item": [
+                {
+                    "name": "List categories",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/categories",
+                            "query": [
+                                {
+                                    "key": "filter[department_id]",
+                                    "value": "2",
+                                    "description": "Filter by department.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[is_active]",
+                                    "value": "true",
+                                    "description": "Filter by active status.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "sort_order",
+                                    "description": "Sort by name or sort_order.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/categories?filter%5Bdepartment_id%5D=2&filter%5Bis_active%5D=true&sort=sort_order"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Returns top-level categories with their children eager-loaded.\nUse filter[parent_id]=null to explicitly list only root categories."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Billing\", \"children\": []}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/categories",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/categories"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Billing\",\"slug\":\"n\",\"parent_id\":null,\"department_id\":2,\"description\":\"Invoicing and payment questions.\",\"is_active\":true,\"sort_order\":1}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Category created successfully.\", \"data\": {\"id\": 5, \"name\": \"Billing\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/categories\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/categories\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the category."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Billing\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/categories\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/categories\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the category."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Billing & Payments\",\"slug\":\"n\",\"parent_id\":null,\"department_id\":2,\"description\":\"Eius et animi quos velit et.\",\"is_active\":true,\"sort_order\":60}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Category updated successfully.\", \"data\": {\"id\": 1, \"name\": \"Billing & Payments\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/categories\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/categories\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the category."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Soft-deletes the category and cascades to its subcategories.\nTickets already in this category keep their category_id."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Category deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Statuses",
+            "description": "\nThe seven built-in statuses (Open, In Progress, Pending, Escalated,\nResolved, Closed, Reopened) drive the ticket status workflow (see\ndocs\/ticket-workflow.md) and are matched by slug, not id \u2014 additional\nstatuses can be added here for labeling\/reporting but will not\nautomatically participate in transition validation.",
+            "item": [
+                {
+                    "name": "List statuses",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/statuses",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/statuses"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Open\", \"slug\": \"open\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a status",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/statuses",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/statuses"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"on-hold\",\"color\":\"#6B7280\",\"is_default\":true,\"is_closed\":false,\"sort_order\":37}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Status created successfully.\", \"data\": {\"id\": 8, \"name\": \"On Hold\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a status",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/statuses\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/statuses\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the status."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Open\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a status",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/statuses\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/statuses\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the status."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":false,\"is_closed\":false,\"sort_order\":37}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Status updated successfully.\", \"data\": {\"id\": 8, \"name\": \"On Hold\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a status",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/statuses\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/statuses\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the status."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Refuses to delete a status that is currently in use by any ticket."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Status deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"This status is in use by existing tickets and cannot be deleted.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Priorities",
+            "description": "\nTicket priorities. `level` is a numeric ordering used by routing\nrules and reporting (higher = more urgent).",
+            "item": [
+                {
+                    "name": "List priorities",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/priorities",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/priorities"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Low\", \"level\": 1}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a priority",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/priorities",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/priorities"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"critical\",\"level\":5,\"color\":\"#DC2626\",\"is_default\":false}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Priority created successfully.\", \"data\": {\"id\": 5, \"name\": \"Critical\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a priority",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/priorities\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/priorities\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the priority."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Low\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a priority",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/priorities\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/priorities\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the priority."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":false}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Priority updated successfully.\", \"data\": {\"id\": 5, \"name\": \"Critical\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a priority",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/priorities\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/priorities\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the priority."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Refuses to delete a priority that is currently in use by any ticket."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Priority deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"This priority is in use by existing tickets and cannot be deleted.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Routing",
+            "description": "\nTicket routing rules, evaluated in `priority` order (lowest first)\nagainst every newly-created ticket. See docs\/routing.md for the full\ncondition\/action schema and worked examples.",
+            "item": [
+                {
+                    "name": "List routing rules",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/routing-rules",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/routing-rules"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Route billing keywords\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a routing rule",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/routing-rules",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/routing-rules"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Route billing category to Billing dept\",\"description\":\"Eius et animi quos velit et.\",\"priority\":10,\"is_active\":true,\"stop_processing\":true,\"conditions\":[{\"field\":\"category_id\",\"operator\":\"=\",\"value\":3}],\"actions\":[{\"type\":\"assign_department\",\"value\":2}]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Routing rule created successfully.\", \"data\": {\"id\": 3, \"name\": \"Route billing category to Billing dept\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a routing rule",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/routing-rules\/:rule_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/routing-rules\/:rule_id",
+                            "variable": [
+                                {
+                                    "id": "rule_id",
+                                    "key": "rule_id",
+                                    "value": 16,
+                                    "description": "The ID of the rule."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Route billing keywords\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a routing rule",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/routing-rules\/:rule_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/routing-rules\/:rule_id",
+                            "variable": [
+                                {
+                                    "id": "rule_id",
+                                    "key": "rule_id",
+                                    "value": 16,
+                                    "description": "The ID of the rule."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":false,\"conditions\":[{\"field\":\"customer_type\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"escalate\"}]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Routing rule updated successfully.\", \"data\": {\"id\": 1, \"is_active\": false}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a routing rule",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/routing-rules\/:rule_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/routing-rules\/:rule_id",
+                            "variable": [
+                                {
+                                    "id": "rule_id",
+                                    "key": "rule_id",
+                                    "value": 16,
+                                    "description": "The ID of the rule."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Routing rule deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "SLA",
+            "description": "\nSLA policies define first-response and resolution deadlines. The\nmost specific match wins when a ticket's SLA is calculated: priority\n+ department, falling back to a department-less default for that\npriority \u2014 see CalculateSlaAction and docs\/ticket-workflow.md.",
+            "item": [
+                {
+                    "name": "List SLA policies",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/sla-policies",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/sla-policies"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Urgent Priority SLA\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create an SLA policy",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/sla-policies",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/sla-policies"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":false,\"is_active\":true}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"SLA policy created successfully.\", \"data\": {\"id\": 5, \"name\": \"VIP Customer SLA\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get an SLA policy",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/sla-policies\/:policy_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/sla-policies\/:policy_id",
+                            "variable": [
+                                {
+                                    "id": "policy_id",
+                                    "key": "policy_id",
+                                    "value": 1,
+                                    "description": "The ID of the policy."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Urgent Priority SLA\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update an SLA policy",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/sla-policies\/:policy_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/sla-policies\/:policy_id",
+                            "variable": [
+                                {
+                                    "id": "policy_id",
+                                    "key": "policy_id",
+                                    "value": 1,
+                                    "description": "The ID of the policy."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":true,\"is_default\":false,\"is_active\":false}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"SLA policy updated successfully.\", \"data\": {\"id\": 1, \"first_response_minutes\": 10}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete an SLA policy",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/sla-policies\/:policy_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/sla-policies\/:policy_id",
+                            "variable": [
+                                {
+                                    "id": "policy_id",
+                                    "key": "policy_id",
+                                    "value": 1,
+                                    "description": "The ID of the policy."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"SLA policy deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Notifications",
+            "description": "\nEvery user manages their own notification preferences \u2014 there is no\nadmin override of another user's preferences, since they describe a\npersonal inbox choice, not a permission.",
+            "item": [
+                {
+                    "name": "List my notification preferences",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/notification-preferences",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/notification-preferences"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Any event key without an explicit preference row is enabled by\ndefault (opt-out model) and simply won't appear here until set."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"channel\": \"mail\", \"event_key\": \"ticket_created\", \"enabled\": true}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update my notification preferences",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/notification-preferences",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/notification-preferences"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"preferences\":[{\"channel\":\"mail\",\"event_key\":\"architecto\",\"enabled\":false}]}"
+                        },
+                        "description": "Upserts one or more (channel, event_key) preferences for the\nauthenticated user."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Preferences updated successfully.\", \"data\": [{\"channel\": \"mail\", \"event_key\": \"ticket_created\", \"enabled\": false}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List notification templates",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/notification-templates",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/notification-templates"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"key\": \"ticket_created\", \"subject\": \"We received your ticket {ticket_number}\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a notification template",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/notification-templates\/:template_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/notification-templates\/:template_id",
+                            "variable": [
+                                {
+                                    "id": "template_id",
+                                    "key": "template_id",
+                                    "value": 1,
+                                    "description": "The ID of the template."
+                                },
+                                {
+                                    "id": "template",
+                                    "key": "template",
+                                    "value": 1,
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"subject\":\"We received your ticket {ticket_number}\",\"body\":\"Hi {customer_name}, your ticket has been created...\",\"is_active\":true}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Notification template updated successfully.\", \"data\": {\"key\": \"ticket_created\"}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Reports",
+            "description": "\nAggregate reporting. These run live queries rather than against a\npre-aggregated table \u2014 acceptable at the data volumes a support\ndesk accumulates, but the first thing to revisit if that changes.",
+            "item": [
+                {
+                    "name": "Ticket volume summary",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reports\/tickets-summary",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/reports\/tickets-summary"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Open ticket counts grouped by status, priority and department."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true, \"message\": \"Request successful.\",\n  \"data\": {\n    \"total_tickets\": 142,\n    \"by_status\": [{\"status\": \"Open\", \"count\": 12}],\n    \"by_priority\": [{\"priority\": \"High\", \"count\": 8}],\n    \"by_department\": [{\"department\": \"Billing\", \"count\": 20}]\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "SLA compliance report",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reports\/sla-compliance",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/reports\/sla-compliance"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Breach rates for first response and resolution across all\ntickets with a calculated SLA."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true, \"message\": \"Request successful.\",\n  \"data\": {\n    \"total_with_sla\": 100,\n    \"first_response_breached\": 6,\n    \"resolution_breached\": 11,\n    \"first_response_breach_rate\": 6.0,\n    \"resolution_breach_rate\": 11.0\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Agent performance report",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reports\/agent-performance",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/reports\/agent-performance"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Resolved-ticket counts per agent, most active first."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true, \"message\": \"Request successful.\",\n  \"data\": [{\"agent_id\": 5, \"agent_name\": \"Alex Agent\", \"resolved_count\": 34}]\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Audit Logs",
+            "description": "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET \/tickets\/{ticket} includes its activities) \u2014\nthis covers every auditable action across the whole application for\ncompliance review.",
+            "item": [
+                {
+                    "name": "List audit log entries",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/audit-logs",
+                            "query": [
+                                {
+                                    "key": "filter[action]",
+                                    "value": "ticket.status_changed",
+                                    "description": "Exact action name.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[actor_id]",
+                                    "value": "2",
+                                    "description": "",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[auditable_type]",
+                                    "value": "architecto",
+                                    "description": "Exact model class, e.g. App\\\\Models\\\\Ticket.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "-created_at",
+                                    "description": "Sort by created_at.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/audit-logs?filter%5Baction%5D=ticket.status_changed&filter%5Bactor_id%5D=2&filter%5Bauditable_type%5D=architecto&sort=-created_at&per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"action\": \"ticket.created\"}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Settings",
+            "description": "\nSystem-wide configuration key\/value pairs. Anyone authenticated can\nread the subset marked is_public (e.g. a \"support hours\" display\nstring); the full set, and all writes, require settings.manage.",
+            "item": [
+                {
+                    "name": "List settings",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/settings",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/settings"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"key\": \"support_hours_message\", \"value\": \"Mon-Fri 9am-5pm\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Upsert settings",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/settings",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/settings"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"string\",\"group\":\"n\",\"is_public\":true}]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Settings updated successfully.\", \"data\": [{\"key\": \"support_hours_message\", \"value\": \"Mon-Fri 9am-5pm UTC\"}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "Authorization",
+                "type": "string"
+            }
+        ]
+    }
+}

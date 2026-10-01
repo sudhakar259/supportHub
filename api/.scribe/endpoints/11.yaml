@@ -1,0 +1,590 @@
+name: Routing
+description: |-
+
+  Ticket routing rules, evaluated in `priority` order (lowest first)
+  against every newly-created ticket. See docs/routing.md for the full
+  condition/action schema and worked examples.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/routing-rules
+    metadata:
+      custom: []
+      groupName: Routing
+      groupDescription: |-
+
+        Ticket routing rules, evaluated in `priority` order (lowest first)
+        against every newly-created ticket. See docs/routing.md for the full
+        condition/action schema and worked examples.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List routing rules'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Route billing keywords"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/routing-rules
+    metadata:
+      custom: []
+      groupName: Routing
+      groupDescription: |-
+
+        Ticket routing rules, evaluated in `priority` order (lowest first)
+        against every newly-created ticket. See docs/routing.md for the full
+        condition/action schema and worked examples.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create a routing rule'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: ''
+        required: true
+        example: 'Route billing category to Billing dept'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: ''
+        required: false
+        example: 'Eius et animi quos velit et.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      priority:
+        custom: []
+        name: priority
+        description: 'Lower runs first. Defaults to 0.'
+        required: false
+        example: 10
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: 'Defaults to true.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      stop_processing:
+        custom: []
+        name: stop_processing
+        description: 'Stop evaluating further rules once this one matches.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      conditions:
+        custom: []
+        name: conditions
+        description: AND-combined.
+        required: true
+        example:
+          -
+            field: category_id
+            operator: '='
+            value: 3
+        type: 'object[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      actions:
+        custom: []
+        name: actions
+        description: ''
+        required: true
+        example:
+          -
+            type: assign_department
+            value: 2
+        type: 'object[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'conditions[].field':
+        custom: []
+        name: 'conditions[].field'
+        description: ''
+        required: true
+        example: category_id
+        type: string
+        enumValues:
+          - category_id
+          - priority_id
+          - customer_type
+          - keyword
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'conditions[].operator':
+        custom: []
+        name: 'conditions[].operator'
+        description: ''
+        required: false
+        example: in
+        type: string
+        enumValues:
+          - '='
+          - '!='
+          - in
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'conditions[].value':
+        custom: []
+        name: 'conditions[].value'
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'actions[].type':
+        custom: []
+        name: 'actions[].type'
+        description: ''
+        required: true
+        example: assign_department
+        type: string
+        enumValues:
+          - assign_department
+          - assign_agent
+          - set_priority
+          - escalate
+          - send_notification
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'actions[].value':
+        custom: []
+        name: 'actions[].value'
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'Route billing category to Billing dept'
+      description: 'Eius et animi quos velit et.'
+      priority: 10
+      is_active: true
+      stop_processing: true
+      conditions:
+        -
+          field: category_id
+          operator: '='
+          value: 3
+      actions:
+        -
+          type: assign_department
+          value: 2
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 201
+        content: '{"success": true, "message": "Routing rule created successfully.", "data": {"id": 3, "name": "Route billing category to Billing dept"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/routing-rules/{rule_id}'
+    metadata:
+      custom: []
+      groupName: Routing
+      groupDescription: |-
+
+        Ticket routing rules, evaluated in `priority` order (lowest first)
+        against every newly-created ticket. See docs/routing.md for the full
+        condition/action schema and worked examples.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get a routing rule'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      rule_id:
+        custom: []
+        name: rule_id
+        description: 'The ID of the rule.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      rule_id: 16
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Route billing keywords"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/v1/routing-rules/{rule_id}'
+    metadata:
+      custom: []
+      groupName: Routing
+      groupDescription: |-
+
+        Ticket routing rules, evaluated in `priority` order (lowest first)
+        against every newly-created ticket. See docs/routing.md for the full
+        condition/action schema and worked examples.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a routing rule'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      rule_id:
+        custom: []
+        name: rule_id
+        description: 'The ID of the rule.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      rule_id: 16
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: b
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: ''
+        required: false
+        example: 'Eius et animi quos velit et.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      priority:
+        custom: []
+        name: priority
+        description: ''
+        required: false
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: ''
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      stop_processing:
+        custom: []
+        name: stop_processing
+        description: ''
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      conditions:
+        custom: []
+        name: conditions
+        description: ''
+        required: false
+        example: null
+        type: 'object[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      actions:
+        custom: []
+        name: actions
+        description: 'Must have at least 1 items.'
+        required: false
+        example: null
+        type: 'object[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'conditions[].field':
+        custom: []
+        name: 'conditions[].field'
+        description: 'This field is required when <code>conditions</code> is present.'
+        required: false
+        example: customer_type
+        type: string
+        enumValues:
+          - category_id
+          - priority_id
+          - customer_type
+          - keyword
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'conditions[].operator':
+        custom: []
+        name: 'conditions[].operator'
+        description: ''
+        required: false
+        example: '='
+        type: string
+        enumValues:
+          - '='
+          - '!='
+          - in
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'conditions[].value':
+        custom: []
+        name: 'conditions[].value'
+        description: 'This field is required when <code>conditions</code> is present.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'actions[].type':
+        custom: []
+        name: 'actions[].type'
+        description: 'This field is required when <code>actions</code> is present.'
+        required: false
+        example: escalate
+        type: string
+        enumValues:
+          - assign_department
+          - assign_agent
+          - set_priority
+          - escalate
+          - send_notification
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'actions[].value':
+        custom: []
+        name: 'actions[].value'
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: b
+      description: 'Eius et animi quos velit et.'
+      priority: 5
+      is_active: false
+      stop_processing: false
+      conditions:
+        -
+          field: customer_type
+          operator: '='
+      actions:
+        -
+          type: escalate
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Routing rule updated successfully.", "data": {"id": 1, "is_active": false}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/routing-rules/{rule_id}'
+    metadata:
+      custom: []
+      groupName: Routing
+      groupDescription: |-
+
+        Ticket routing rules, evaluated in `priority` order (lowest first)
+        against every newly-created ticket. See docs/routing.md for the full
+        condition/action schema and worked examples.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete a routing rule'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      rule_id:
+        custom: []
+        name: rule_id
+        description: 'The ID of the rule.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      rule_id: 16
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Routing rule deleted successfully.", "data": null}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

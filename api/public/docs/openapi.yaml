@@ -1,0 +1,5650 @@
+openapi: 3.0.3
+info:
+  title: 'SupportHub API Documentation'
+  description: 'REST API for SupportHub — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+tags:
+  -
+    name: Authentication
+    description: "\nToken-based authentication shared by the web, mobile and third-party\nclients. All endpoints here are unauthenticated except /auth/logout,\n/auth/me and the email verification resend endpoint, which require a\nBearer token obtained from /auth/login or /auth/register."
+  -
+    name: Users
+    description: "\nInternal staff accounts (agents, senior agents, department managers,\nadministrators). Customer accounts are managed under the Customers\ngroup instead."
+  -
+    name: 'Roles & Permissions'
+    description: "\nThe 5 built-in roles (Administrator, Department Manager, Senior Agent,\nAgent, Customer) cover the standard workforce shape; additional\ncustom roles can be created here and assigned any subset of the\npermissions listed by GET /permissions. The Administrator and\nCustomer roles cannot be deleted."
+  -
+    name: Customers
+    description: "\nCustomer profiles. Every customer is backed by a `User` record with\nthe `Customer` role; this resource manages the additional profile\nfields (company, customer type) layered on top of it."
+  -
+    name: Departments
+    description: "\nDepartments own tickets, staff and category groupings, and are the\nunit that routing rules and SLA policies can be scoped to."
+  -
+    name: Tickets
+    description: "\nThe core ticket resource. Visibility is scoped automatically: a\ncustomer only ever sees their own tickets; non-administrator staff\nonly see tickets in their department(s) or assigned directly to\nthem. Administrators see everything."
+  -
+    name: 'Ticket Messages'
+    description: "\nCustomer messages, agent replies and internal notes on a ticket.\nInternal notes are never returned to a customer: this is enforced by\nexcluding them from the query entirely for any caller without the\ntickets.view_internal_notes permission, not just by hiding a field."
+  -
+    name: 'Ticket Attachments'
+    description: "\nFiles are validated on MIME type, extension and size at upload time\n(see StoreTicketMessageRequest / this controller's own rules) and\nare never served directly from public storage — every download goes\nthrough the authorization check in TicketAttachmentPolicy, which\nalso denies customers access to a file attached to an internal note."
+  -
+    name: Categories
+    description: "\nTicket categories and subcategories. A \"subcategory\" is simply another\nrow with parent_id set — see the architecture docs for why this\nreplaces a separate child-categories table."
+  -
+    name: Statuses
+    description: "\nThe seven built-in statuses (Open, In Progress, Pending, Escalated,\nResolved, Closed, Reopened) drive the ticket status workflow (see\ndocs/ticket-workflow.md) and are matched by slug, not id — additional\nstatuses can be added here for labeling/reporting but will not\nautomatically participate in transition validation."
+  -
+    name: Priorities
+    description: "\nTicket priorities. `level` is a numeric ordering used by routing\nrules and reporting (higher = more urgent)."
+  -
+    name: Routing
+    description: "\nTicket routing rules, evaluated in `priority` order (lowest first)\nagainst every newly-created ticket. See docs/routing.md for the full\ncondition/action schema and worked examples."
+  -
+    name: SLA
+    description: "\nSLA policies define first-response and resolution deadlines. The\nmost specific match wins when a ticket's SLA is calculated: priority\n+ department, falling back to a department-less default for that\npriority — see CalculateSlaAction and docs/ticket-workflow.md."
+  -
+    name: Notifications
+    description: "\nEvery user manages their own notification preferences — there is no\nadmin override of another user's preferences, since they describe a\npersonal inbox choice, not a permission."
+  -
+    name: Reports
+    description: "\nAggregate reporting. These run live queries rather than against a\npre-aggregated table — acceptable at the data volumes a support\ndesk accumulates, but the first thing to revisit if that changes."
+  -
+    name: 'Audit Logs'
+    description: "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET /tickets/{ticket} includes its activities) —\nthis covers every auditable action across the whole application for\ncompliance review."
+  -
+    name: Settings
+    description: "\nSystem-wide configuration key/value pairs. Anyone authenticated can\nread the subset marked is_public (e.g. a \"support hours\" display\nstring); the full set, and all writes, require settings.manage."
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'Obtain a token from `POST /api/v1/auth/login` or `POST /api/v1/auth/register`, then send it as `Authorization: Bearer {token}` on every subsequent request.'
+security:
+  -
+    default: []
+paths:
+  /api/v1/auth/register:
+    post:
+      summary: 'Register (customer self-service)'
+      operationId: registercustomerSelfService
+      description: "Creates a new Customer-role account and an associated customer\nprofile, then returns a Bearer token. A verification email is\nqueued automatically."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Registration successful.'
+                  data:
+                    user:
+                      id: 42
+                      name: 'Jamie Rivera'
+                      email: jamie@example.com
+                      roles:
+                        - Customer
+                    token: 1|abcdef123456...
+                    token_type: Bearer
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Registration successful.'
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 42
+                          name:
+                            type: string
+                            example: 'Jamie Rivera'
+                          email:
+                            type: string
+                            example: jamie@example.com
+                          roles:
+                            type: array
+                            example:
+                              - Customer
+                            items:
+                              type: string
+                      token:
+                        type: string
+                        example: 1|abcdef123456...
+                      token_type:
+                        type: string
+                        example: Bearer
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Validation failed.'
+                  errors:
+                    email:
+                      - 'The email has already been taken.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Validation failed.'
+                  errors:
+                    type: object
+                    properties:
+                      email:
+                        type: array
+                        example:
+                          - 'The email has already been taken.'
+                        items:
+                          type: string
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: "The user's full name."
+                  example: 'Jamie Rivera'
+                email:
+                  type: string
+                  description: 'A unique email address.'
+                  example: jamie@example.com
+                password:
+                  type: string
+                  description: 'Minimum 8 characters.'
+                  example: Secret123!
+                phone:
+                  type: string
+                  description: "The user's phone number."
+                  example: +1-555-0100
+                  nullable: true
+                company_name:
+                  type: string
+                  description: 'Optional company name for business customers.'
+                  example: 'Acme Corp'
+                  nullable: true
+                device_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: z
+                  nullable: true
+                password_confirmation:
+                  type: string
+                  description: 'Must match password.'
+                  example: Secret123!
+              required:
+                - name
+                - email
+                - password
+                - password_confirmation
+      security: []
+  /api/v1/auth/login:
+    post:
+      summary: Login
+      operationId: login
+      description: "Exchanges email/password credentials for a Sanctum Bearer token.\nPass a `device_name` so multiple tokens (web, iOS, Android) can be\nmanaged and revoked independently per device."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Login successful.'
+                  data:
+                    user:
+                      id: 1
+                      name: 'System Administrator'
+                      email: admin@supporthub.test
+                      roles:
+                        - Administrator
+                    token: 1|abcdef123456...
+                    token_type: Bearer
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Login successful.'
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: string
+                            example: 'System Administrator'
+                          email:
+                            type: string
+                            example: admin@supporthub.test
+                          roles:
+                            type: array
+                            example:
+                              - Administrator
+                            items:
+                              type: string
+                      token:
+                        type: string
+                        example: 1|abcdef123456...
+                      token_type:
+                        type: string
+                        example: Bearer
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'This account has been deactivated.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'This account has been deactivated.'
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Validation failed.'
+                  errors:
+                    email:
+                      - 'The provided credentials are incorrect.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Validation failed.'
+                  errors:
+                    type: object
+                    properties:
+                      email:
+                        type: array
+                        example:
+                          - 'The provided credentials are incorrect.'
+                        items:
+                          type: string
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: ''
+                  example: admin@supporthub.test
+                password:
+                  type: string
+                  description: ''
+                  example: password
+                device_name:
+                  type: string
+                  description: 'Identifies the issued token, e.g. "iphone-15".'
+                  example: web-browser
+                  nullable: true
+              required:
+                - email
+                - password
+      security: []
+  /api/v1/auth/forgot-password:
+    post:
+      summary: 'Forgot password'
+      operationId: forgotPassword
+      description: "Sends a password reset link to the given email if an account\nexists for it. Always returns the same generic success message\nregardless of whether the email is registered, to avoid leaking\nwhich addresses have accounts."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'If an account exists for that email, a password reset link has been sent.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'If an account exists for that email, a password reset link has been sent.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: ''
+                  example: admin@supporthub.test
+              required:
+                - email
+      security: []
+  /api/v1/auth/reset-password:
+    post:
+      summary: 'Reset password'
+      operationId: resetPassword
+      description: "Completes a password reset using the token emailed by\n/auth/forgot-password."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Password has been reset successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Password has been reset successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Validation failed.'
+                  errors:
+                    email:
+                      - 'This password reset token is invalid or has expired.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Validation failed.'
+                  errors:
+                    type: object
+                    properties:
+                      email:
+                        type: array
+                        example:
+                          - 'This password reset token is invalid or has expired.'
+                        items:
+                          type: string
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: 'The token from the reset email.'
+                  example: 9f8e7d6c5b4a
+                email:
+                  type: string
+                  description: ''
+                  example: admin@supporthub.test
+                password:
+                  type: string
+                  description: 'Minimum 8 characters.'
+                  example: NewSecret123!
+                password_confirmation:
+                  type: string
+                  description: 'Must match password.'
+                  example: NewSecret123!
+              required:
+                - token
+                - email
+                - password
+                - password_confirmation
+      security: []
+  '/api/v1/auth/email/verify/{id}/{hash}':
+    get:
+      summary: 'Verify email'
+      operationId: verifyEmail
+      description: "Consumes the signed link from the verification email. `id` and\n`hash` come from that link and are not meant to be constructed\nby hand."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Email verified successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Email verified successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Invalid verification link.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid verification link.'
+      tags:
+        - Authentication
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The user id from the verification link.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: hash
+        description: "The sha1 hash of the user's email from the verification link."
+        example: 5f4dcc3b5aa765d61d8327deb882cf99
+        required: true
+        schema:
+          type: string
+  /api/v1/auth/logout:
+    post:
+      summary: Logout
+      operationId: logout
+      description: "Revokes the Bearer token used to make this request. Other tokens\nissued to the same user (other devices) remain valid."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Logged out successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Logged out successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - Authentication
+  /api/v1/auth/me:
+    get:
+      summary: 'Current user'
+      operationId: currentUser
+      description: "Returns the authenticated user's profile, roles, permissions and\n(for customers) their customer profile."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: 'System Administrator'
+                    email: admin@supporthub.test
+                    roles:
+                      - Administrator
+                    permissions:
+                      - tickets.view
+                      - ...
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'System Administrator'
+                      email:
+                        type: string
+                        example: admin@supporthub.test
+                      roles:
+                        type: array
+                        example:
+                          - Administrator
+                        items:
+                          type: string
+                      permissions:
+                        type: array
+                        example:
+                          - tickets.view
+                          - ...
+                        items:
+                          type: string
+      tags:
+        - Authentication
+  /api/v1/auth/email/verification-notification:
+    post:
+      summary: 'Resend email verification'
+      operationId: resendEmailVerification
+      description: "Resends the verification email if the authenticated user's address\nis not yet verified."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  -
+                    description: ''
+                    type: object
+                    example:
+                      success: true
+                      message: 'Verification link sent.'
+                      data: null
+                    properties:
+                      success:
+                        type: boolean
+                        example: true
+                      message:
+                        type: string
+                        example: 'Verification link sent.'
+                      data:
+                        type: string
+                        example: null
+                        nullable: true
+                  -
+                    description: ''
+                    type: object
+                    example:
+                      success: true
+                      message: 'Email already verified.'
+                      data: null
+                    properties:
+                      success:
+                        type: boolean
+                        example: true
+                      message:
+                        type: string
+                        example: 'Email already verified.'
+                      data:
+                        type: string
+                        example: null
+                        nullable: true
+      tags:
+        - Authentication
+  /api/v1/users:
+    get:
+      summary: 'List users'
+      operationId: listUsers
+      description: ''
+      parameters:
+        -
+          in: query
+          name: 'filter[name]'
+          description: 'Partial name match.'
+          example: Alex
+          required: false
+          schema:
+            type: string
+            description: 'Partial name match.'
+            example: Alex
+        -
+          in: query
+          name: 'filter[email]'
+          description: 'Partial email match.'
+          example: alex@
+          required: false
+          schema:
+            type: string
+            description: 'Partial email match.'
+            example: alex@
+        -
+          in: query
+          name: 'filter[is_active]'
+          description: ''
+          example: 'true'
+          required: false
+          schema:
+            type: string
+            description: ''
+            example: 'true'
+        -
+          in: query
+          name: 'filter[role]'
+          description: 'Exact role name.'
+          example: Agent
+          required: false
+          schema:
+            type: string
+            description: 'Exact role name.'
+            example: Agent
+        -
+          in: query
+          name: sort
+          description: 'Sort by name or created_at.'
+          example: name
+          required: false
+          schema:
+            type: string
+            description: 'Sort by name or created_at.'
+            example: name
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 2
+                      name: 'Alex Agent'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 2
+                        name: 'Alex Agent'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 2
+                        name:
+                          type: string
+                          example: 'Alex Agent'
+      tags:
+        - Users
+    post:
+      summary: 'Create a staff user'
+      operationId: createAStaffUser
+      description: "Creates an internal account (agent, senior agent, department\nmanager or administrator) with a single role and optional\ndepartment memberships."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'User created successfully.'
+                  data:
+                    id: 9
+                    name: 'Alex Agent'
+                    roles:
+                      - Agent
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 9
+                      name:
+                        type: string
+                        example: 'Alex Agent'
+                      roles:
+                        type: array
+                        example:
+                          - Agent
+                        items:
+                          type: string
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Alex Agent'
+                email:
+                  type: string
+                  description: ''
+                  example: alex@supporthub.test
+                password:
+                  type: string
+                  description: ''
+                  example: Secret123!
+                phone:
+                  type: string
+                  description: ''
+                  example: +1-555-0100
+                  nullable: true
+                role:
+                  type: string
+                  description: 'One of Agent, Senior Agent, Department Manager, Administrator.'
+                  example: Agent
+                department_ids:
+                  type: array
+                  description: 'Departments to assign this user to.'
+                  example:
+                    - 1
+                    - 2
+                  items:
+                    type: integer
+                password_confirmation:
+                  type: string
+                  description: ''
+                  example: Secret123!
+              required:
+                - name
+                - email
+                - password
+                - role
+                - password_confirmation
+  '/api/v1/users/{user_id}':
+    get:
+      summary: 'Get a user'
+      operationId: getAUser
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 2
+                    name: 'Alex Agent'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                      name:
+                        type: string
+                        example: 'Alex Agent'
+      tags:
+        - Users
+    put:
+      summary: 'Update a user'
+      operationId: updateAUser
+      description: "Users may update their own name/phone/timezone; only holders of\n`users.update` may change another user's record or flip\n`is_active`."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'User updated successfully.'
+                  data:
+                    id: 2
+                    name: 'Alex Agent'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                      name:
+                        type: string
+                        example: 'Alex Agent'
+      tags:
+        - Users
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Alex Agent'
+                email:
+                  type: string
+                  description: ''
+                  example: alex@supporthub.test
+                phone:
+                  type: string
+                  description: ''
+                  example: +1-555-0199
+                  nullable: true
+                timezone:
+                  type: string
+                  description: 'Must not be greater than 64 characters.'
+                  example: Europe/Dublin
+                is_active:
+                  type: boolean
+                  description: 'Requires users.update.'
+                  example: true
+    delete:
+      summary: 'Deactivate/delete a user'
+      operationId: deactivatedeleteAUser
+      description: "Soft-deletes the account and revokes all of its API tokens.\nAn administrator cannot delete their own account."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'User deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'You do not have permission to perform this action.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'You do not have permission to perform this action.'
+      tags:
+        - Users
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/users/{user_id}/roles':
+    put:
+      summary: "Sync a user's roles"
+      operationId: syncAUsersRoles
+      description: "Replaces the user's role assignments with the given list.\nRequires `roles.manage`."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Roles updated successfully.'
+                  data:
+                    id: 2
+                    roles:
+                      - 'Senior Agent'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Roles updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                      roles:
+                        type: array
+                        example:
+                          - 'Senior Agent'
+                        items:
+                          type: string
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                roles:
+                  type: array
+                  description: 'Role names to assign.'
+                  example:
+                    - 'Senior Agent'
+                  items:
+                    type: string
+              required:
+                - roles
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/roles:
+    get:
+      summary: 'List roles'
+      operationId: listRoles
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: Administrator
+                      permissions:
+                        - tickets.view
+                        - ...
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: Administrator
+                        permissions:
+                          - tickets.view
+                          - ...
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Administrator
+                        permissions:
+                          type: array
+                          example:
+                            - tickets.view
+                            - ...
+                          items:
+                            type: string
+      tags:
+        - 'Roles & Permissions'
+    post:
+      summary: 'Create a role'
+      operationId: createARole
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Role created successfully.'
+                  data:
+                    id: 6
+                    name: 'Billing Specialist'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Role created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 6
+                      name:
+                        type: string
+                        example: 'Billing Specialist'
+      tags:
+        - 'Roles & Permissions'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Billing Specialist'
+                permissions:
+                  type: array
+                  description: 'Permission names to grant.'
+                  example:
+                    - tickets.view
+                    - tickets.update
+                  items:
+                    type: string
+              required:
+                - name
+  '/api/v1/roles/{id}':
+    get:
+      summary: 'Get a role'
+      operationId: getARole
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: Administrator
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Administrator
+      tags:
+        - 'Roles & Permissions'
+    put:
+      summary: 'Update a role'
+      operationId: updateARole
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Role updated successfully.'
+                  data:
+                    id: 6
+                    name: 'Billing Specialist'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Role updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 6
+                      name:
+                        type: string
+                        example: 'Billing Specialist'
+      tags:
+        - 'Roles & Permissions'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Billing Specialist'
+                permissions:
+                  type: array
+                  description: "Replaces the role's permission set entirely."
+                  example:
+                    - tickets.view
+                  items:
+                    type: string
+    delete:
+      summary: 'Delete a role'
+      operationId: deleteARole
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Role deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Role deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'You do not have permission to perform this action.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'You do not have permission to perform this action.'
+      tags:
+        - 'Roles & Permissions'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the role.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/permissions:
+    get:
+      summary: 'List permissions'
+      operationId: listPermissions
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: tickets.view
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: tickets.view
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: tickets.view
+      tags:
+        - 'Roles & Permissions'
+  /api/v1/customers:
+    get:
+      summary: 'List customers'
+      operationId: listCustomers
+      description: ''
+      parameters:
+        -
+          in: query
+          name: 'filter[customer_type]'
+          description: 'individual, business or vip.'
+          example: business
+          required: false
+          schema:
+            type: string
+            description: 'individual, business or vip.'
+            example: business
+        -
+          in: query
+          name: 'filter[company_name]'
+          description: 'Partial match.'
+          example: Acme
+          required: false
+          schema:
+            type: string
+            description: 'Partial match.'
+            example: Acme
+        -
+          in: query
+          name: sort
+          description: 'Sort by created_at.'
+          example: '-created_at'
+          required: false
+          schema:
+            type: string
+            description: 'Sort by created_at.'
+            example: '-created_at'
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      company_name: 'Acme Corp'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        company_name: 'Acme Corp'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        company_name:
+                          type: string
+                          example: 'Acme Corp'
+      tags:
+        - Customers
+    post:
+      summary: 'Create a customer (admin-created account)'
+      operationId: createACustomeradminCreatedAccount
+      description: "Creates a User with the Customer role plus its Customer profile in\na single call, for support staff onboarding a customer by hand.\nFor self-service signup, use POST /auth/register instead."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Customer created successfully.'
+                  data:
+                    id: 4
+                    company_name: 'Acme Corp'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Customer created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 4
+                      company_name:
+                        type: string
+                        example: 'Acme Corp'
+      tags:
+        - Customers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Jamie Rivera'
+                email:
+                  type: string
+                  description: ''
+                  example: jamie@example.com
+                password:
+                  type: string
+                  description: ''
+                  example: Secret123!
+                phone:
+                  type: string
+                  description: ''
+                  example: +1-555-0100
+                  nullable: true
+                company_name:
+                  type: string
+                  description: ''
+                  example: 'Acme Corp'
+                  nullable: true
+                customer_type:
+                  type: string
+                  description: 'individual, business or vip. Defaults to individual.'
+                  example: business
+                password_confirmation:
+                  type: string
+                  description: ''
+                  example: Secret123!
+              required:
+                - name
+                - email
+                - password
+                - password_confirmation
+  '/api/v1/customers/{customer_id}':
+    get:
+      summary: 'Get a customer'
+      operationId: getACustomer
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    company_name: 'Acme Corp'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      company_name:
+                        type: string
+                        example: 'Acme Corp'
+      tags:
+        - Customers
+    put:
+      summary: 'Update a customer'
+      operationId: updateACustomer
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Customer updated successfully.'
+                  data:
+                    id: 1
+                    company_name: 'Acme Corporation'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Customer updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      company_name:
+                        type: string
+                        example: 'Acme Corporation'
+      tags:
+        - Customers
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                  description: ''
+                  example: +1-555-0199
+                  nullable: true
+                company_name:
+                  type: string
+                  description: ''
+                  example: 'Acme Corporation'
+                  nullable: true
+                customer_type:
+                  type: string
+                  description: ''
+                  example: vip
+                timezone:
+                  type: string
+                  description: 'Must not be greater than 64 characters.'
+                  example: Antarctica/Rothera
+    delete:
+      summary: 'Delete a customer'
+      operationId: deleteACustomer
+      description: "Soft-deletes the customer profile and the underlying user account.\nTheir tickets are retained for historical reporting."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Customer deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Customer deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - Customers
+    parameters:
+      -
+        in: path
+        name: customer_id
+        description: 'The ID of the customer.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/departments:
+    get:
+      summary: 'List departments'
+      operationId: listDepartments
+      description: ''
+      parameters:
+        -
+          in: query
+          name: 'filter[name]'
+          description: 'Filter by partial name match.'
+          example: Billing
+          required: false
+          schema:
+            type: string
+            description: 'Filter by partial name match.'
+            example: Billing
+        -
+          in: query
+          name: 'filter[code]'
+          description: 'Filter by exact department code.'
+          example: BILL
+          required: false
+          schema:
+            type: string
+            description: 'Filter by exact department code.'
+            example: BILL
+        -
+          in: query
+          name: 'filter[is_active]'
+          description: 'Filter by active status (true/false).'
+          example: 'true'
+          required: false
+          schema:
+            type: string
+            description: 'Filter by active status (true/false).'
+            example: 'true'
+        -
+          in: query
+          name: sort
+          description: 'Sort by name, code or created_at. Prefix with - for descending.'
+          example: '-created_at'
+          required: false
+          schema:
+            type: string
+            description: 'Sort by name, code or created_at. Prefix with - for descending.'
+            example: '-created_at'
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: Billing
+                      code: BILL
+                      is_active: true
+                  meta:
+                    current_page: 1
+                    per_page: 25
+                    total: 3
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: Billing
+                        code: BILL
+                        is_active: true
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Billing
+                        code:
+                          type: string
+                          example: BILL
+                        is_active:
+                          type: boolean
+                          example: true
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      per_page:
+                        type: integer
+                        example: 25
+                      total:
+                        type: integer
+                        example: 3
+      tags:
+        - Departments
+    post:
+      summary: 'Create a department'
+      operationId: createADepartment
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Department created successfully.'
+                  data:
+                    id: 4
+                    name: Billing
+                    code: BILL
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Department created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 4
+                      name:
+                        type: string
+                        example: Billing
+                      code:
+                        type: string
+                        example: BILL
+      tags:
+        - Departments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: Billing
+                code:
+                  type: string
+                  description: 'Unique short code used in ticket numbering.'
+                  example: BILL
+                description:
+                  type: string
+                  description: 'A short description.'
+                  example: 'Invoices, payments and subscriptions.'
+                  nullable: true
+                manager_id:
+                  type: integer
+                  description: 'The user id of the department manager.'
+                  example: 3
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: 'Defaults to true.'
+                  example: true
+              required:
+                - name
+                - code
+  '/api/v1/departments/{department_id}':
+    get:
+      summary: 'Get a department'
+      operationId: getADepartment
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: Billing
+                    code: BILL
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Billing
+                      code:
+                        type: string
+                        example: BILL
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Department not found.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Department not found.'
+      tags:
+        - Departments
+    put:
+      summary: 'Update a department'
+      operationId: updateADepartment
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Department updated successfully.'
+                  data:
+                    id: 1
+                    name: 'Billing & Payments'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Department updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Billing & Payments'
+      tags:
+        - Departments
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Billing & Payments'
+                code:
+                  type: string
+                  description: ''
+                  example: BILL
+                description:
+                  type: string
+                  description: ''
+                  example: 'Updated description.'
+                  nullable: true
+                manager_id:
+                  type: integer
+                  description: ''
+                  example: 3
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Delete a department'
+      operationId: deleteADepartment
+      description: "Soft-deletes the department. Existing tickets keep their\ndepartment_id for historical reporting."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Department deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Department deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - Departments
+    parameters:
+      -
+        in: path
+        name: department_id
+        description: 'The ID of the department.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/departments/{department_id}/users':
+    post:
+      summary: 'Assign a staff member to a department'
+      operationId: assignAStaffMemberToADepartment
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'User assigned to department.'
+                  data:
+                    id: 1
+                    name: Billing
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User assigned to department.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Billing
+      tags:
+        - Departments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: ''
+                  example: 5
+                is_primary:
+                  type: boolean
+                  description: "Whether this is the agent's primary department."
+                  example: true
+              required:
+                - user_id
+    parameters:
+      -
+        in: path
+        name: department_id
+        description: 'The ID of the department.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/departments/{department_id}/users/{user_id}':
+    delete:
+      summary: 'Remove a staff member from a department'
+      operationId: removeAStaffMemberFromADepartment
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'User removed from department.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User removed from department.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - Departments
+    parameters:
+      -
+        in: path
+        name: department_id
+        description: 'The ID of the department.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: user
+        description: ''
+        example: 5
+        required: true
+        schema:
+          type: integer
+  /api/v1/tickets:
+    get:
+      summary: 'List tickets'
+      operationId: listTickets
+      description: ''
+      parameters:
+        -
+          in: query
+          name: 'filter[status_id]'
+          description: ''
+          example: '1'
+          required: false
+          schema:
+            type: string
+            description: ''
+            example: '1'
+        -
+          in: query
+          name: 'filter[priority_id]'
+          description: ''
+          example: '2'
+          required: false
+          schema:
+            type: string
+            description: ''
+            example: '2'
+        -
+          in: query
+          name: 'filter[department_id]'
+          description: ''
+          example: '1'
+          required: false
+          schema:
+            type: string
+            description: ''
+            example: '1'
+        -
+          in: query
+          name: 'filter[assignee_id]'
+          description: ''
+          example: '5'
+          required: false
+          schema:
+            type: string
+            description: ''
+            example: '5'
+        -
+          in: query
+          name: 'filter[customer_id]'
+          description: ''
+          example: '3'
+          required: false
+          schema:
+            type: string
+            description: ''
+            example: '3'
+        -
+          in: query
+          name: 'filter[ticket_number]'
+          description: 'Partial match.'
+          example: TKT-2026
+          required: false
+          schema:
+            type: string
+            description: 'Partial match.'
+            example: TKT-2026
+        -
+          in: query
+          name: 'filter[search]'
+          description: 'Matches subject or description.'
+          example: 'login issue'
+          required: false
+          schema:
+            type: string
+            description: 'Matches subject or description.'
+            example: 'login issue'
+        -
+          in: query
+          name: 'filter[sla_status]'
+          description: 'One of pending, met, breached, paused.'
+          example: breached
+          required: false
+          schema:
+            type: string
+            description: 'One of pending, met, breached, paused.'
+            example: breached
+        -
+          in: query
+          name: sort
+          description: 'Sort by created_at, updated_at or priority. Prefix with - for descending.'
+          example: '-created_at'
+          required: false
+          schema:
+            type: string
+            description: 'Sort by created_at, updated_at or priority. Prefix with - for descending.'
+            example: '-created_at'
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 01HXYZ...
+                      ticket_number: TKT-2026-000125
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 01HXYZ...
+                        ticket_number: TKT-2026-000125
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 01HXYZ...
+                        ticket_number:
+                          type: string
+                          example: TKT-2026-000125
+      tags:
+        - Tickets
+    post:
+      summary: 'Create a ticket'
+      operationId: createATicket
+      description: "Runs the full creation pipeline: routing rule evaluation,\ndepartment/agent assignment, and SLA calculation, before\nqueuing the \"ticket created\" notification."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket created successfully.'
+                  data:
+                    id: 01HXYZ...
+                    ticket_number: TKT-2026-000125
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      ticket_number:
+                        type: string
+                        example: TKT-2026-000125
+      tags:
+        - Tickets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                  description: ''
+                  example: 'Unable to login'
+                description:
+                  type: string
+                  description: ''
+                  example: 'I get an error when trying to log in with my email.'
+                category_id:
+                  type: integer
+                  description: ''
+                  example: 1
+                  nullable: true
+                priority_id:
+                  type: integer
+                  description: 'Defaults to the system default priority.'
+                  example: 2
+                  nullable: true
+                customer_id:
+                  type: integer
+                  description: 'Staff only — create on behalf of this customer.'
+                  example: 3
+              required:
+                - subject
+                - description
+  '/api/v1/tickets/{id}':
+    get:
+      summary: 'Get a ticket'
+      operationId: getATicket
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 01HXYZ...
+                    ticket_number: TKT-2026-000125
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      ticket_number:
+                        type: string
+                        example: TKT-2026-000125
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'You do not have permission to perform this action.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'You do not have permission to perform this action.'
+      tags:
+        - Tickets
+    put:
+      summary: 'Update a ticket'
+      operationId: updateATicket
+      description: "Customers may edit their own ticket's subject/description/category\nwhile it is still open; priority may only be changed by staff."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket updated successfully.'
+                  data:
+                    id: 01HXYZ...
+                    subject: 'Unable to login (updated)'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      subject:
+                        type: string
+                        example: 'Unable to login (updated)'
+      tags:
+        - Tickets
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                  description: ''
+                  example: 'Unable to login (updated)'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Updated description.'
+                category_id:
+                  type: integer
+                  description: ''
+                  example: 2
+                  nullable: true
+                priority_id:
+                  type: integer
+                  description: 'Staff only.'
+                  example: 3
+    delete:
+      summary: 'Delete a ticket'
+      operationId: deleteATicket
+      description: 'Soft-deletes the ticket. Administrator only.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - Tickets
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/assign':
+    post:
+      summary: 'Assign a ticket'
+      operationId: assignATicket
+      description: "Manually assigns (or reassigns) the ticket to an agent. Creates a\nnew entry in the assignment history; the previous assignment, if\nany, is preserved with its unassigned_at timestamp set."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket assigned successfully.'
+                  data:
+                    id: 01HXYZ...
+                    assignee:
+                      id: 5
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket assigned successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      assignee:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 5
+      tags:
+        - Tickets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assignee_id:
+                  type: integer
+                  description: ''
+                  example: 5
+                department_id:
+                  type: integer
+                  description: "Defaults to the ticket's current department."
+                  example: 2
+                note:
+                  type: string
+                  description: ''
+                  example: 'Reassigning — original agent is OOO.'
+                  nullable: true
+              required:
+                - assignee_id
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/reassign':
+    post:
+      summary: 'Assign a ticket'
+      operationId: assignATicket
+      description: "Manually assigns (or reassigns) the ticket to an agent. Creates a\nnew entry in the assignment history; the previous assignment, if\nany, is preserved with its unassigned_at timestamp set."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket assigned successfully.'
+                  data:
+                    id: 01HXYZ...
+                    assignee:
+                      id: 5
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket assigned successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      assignee:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 5
+      tags:
+        - Tickets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assignee_id:
+                  type: integer
+                  description: ''
+                  example: 5
+                department_id:
+                  type: integer
+                  description: "Defaults to the ticket's current department."
+                  example: 2
+                note:
+                  type: string
+                  description: ''
+                  example: 'Reassigning — original agent is OOO.'
+                  nullable: true
+              required:
+                - assignee_id
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/escalate':
+    post:
+      summary: 'Escalate a ticket'
+      operationId: escalateATicket
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket escalated successfully.'
+                  data:
+                    id: 01HXYZ...
+                    status:
+                      slug: escalated
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket escalated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      status:
+                        type: object
+                        properties:
+                          slug:
+                            type: string
+                            example: escalated
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Cannot transition a ticket from "closed" to "escalated".'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Cannot transition a ticket from "closed" to "escalated".'
+      tags:
+        - Tickets
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: ''
+                  example: 'Customer is a VIP and SLA is at risk.'
+                  nullable: true
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/resolve':
+    post:
+      summary: 'Resolve a ticket'
+      operationId: resolveATicket
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket resolved successfully.'
+                  data:
+                    id: 01HXYZ...
+                    status:
+                      slug: resolved
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket resolved successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      status:
+                        type: object
+                        properties:
+                          slug:
+                            type: string
+                            example: resolved
+      tags:
+        - Tickets
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: ''
+                  example: "Issue fixed by clearing the user's session cache."
+                  nullable: true
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/close':
+    post:
+      summary: 'Close a ticket'
+      operationId: closeATicket
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket closed successfully.'
+                  data:
+                    id: 01HXYZ...
+                    status:
+                      slug: closed
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket closed successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      status:
+                        type: object
+                        properties:
+                          slug:
+                            type: string
+                            example: closed
+      tags:
+        - Tickets
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: ''
+                  example: 'Customer confirmed resolution.'
+                  nullable: true
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/reopen':
+    post:
+      summary: 'Reopen a ticket'
+      operationId: reopenATicket
+      description: "Available to the owning customer or staff with tickets.reopen,\nfrom a Closed or Resolved state."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket reopened successfully.'
+                  data:
+                    id: 01HXYZ...
+                    status:
+                      slug: reopened
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket reopened successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      status:
+                        type: object
+                        properties:
+                          slug:
+                            type: string
+                            example: reopened
+      tags:
+        - Tickets
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: ''
+                  example: 'The issue came back.'
+                  nullable: true
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/messages':
+    get:
+      summary: 'List messages on a ticket'
+      operationId: listMessagesOnATicket
+      description: ''
+      parameters:
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 01HXYZ...
+                      type: agent_reply
+                      body: 'Thanks for reaching out...'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 01HXYZ...
+                        type: agent_reply
+                        body: 'Thanks for reaching out...'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 01HXYZ...
+                        type:
+                          type: string
+                          example: agent_reply
+                        body:
+                          type: string
+                          example: 'Thanks for reaching out...'
+      tags:
+        - 'Ticket Messages'
+    post:
+      summary: 'Post a message'
+      operationId: postAMessage
+      description: "Customers always post as `customer_message`. Staff post as\n`agent_reply` by default, or `internal_note` when `is_internal`\nis true and they hold tickets.view_internal_notes — a customer\nsending `is_internal` has it silently ignored, never honored."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Message posted successfully.'
+                  data:
+                    id: 01HXYZ...
+                    type: agent_reply
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Message posted successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      type:
+                        type: string
+                        example: agent_reply
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'You do not have permission to perform this action.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'You do not have permission to perform this action.'
+      tags:
+        - 'Ticket Messages'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                  description: ''
+                  example: 'Thanks for reaching out — can you share a screenshot of the error?'
+                is_internal:
+                  type: boolean
+                  description: 'Staff only.'
+                  example: false
+                attachments:
+                  type: array
+                  description: 'Up to 5 files, 25MB each.'
+                  items:
+                    type: string
+                    format: binary
+              required:
+                - body
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: ticket
+        description: "The ticket's id."
+        example: 01hxyz0123456789abcdefghj
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/messages/{id}':
+    get:
+      summary: 'Get a single message'
+      operationId: getASingleMessage
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 01HXYZ...
+                    type: agent_reply
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      type:
+                        type: string
+                        example: agent_reply
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'You do not have permission to perform this action.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'You do not have permission to perform this action.'
+      tags:
+        - 'Ticket Messages'
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the message.'
+        example: 01m3tsggyve0avhzj6f0tsn0qa
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: ticket
+        description: ''
+        example: 01hxyz0123456789abcdefghj
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: message
+        description: ''
+        example: 01hxyz0123456789abcdefghk
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/attachments':
+    get:
+      summary: "List a ticket's attachments"
+      operationId: listATicketsAttachments
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 01HXYZ...
+                      original_filename: screenshot.png
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 01HXYZ...
+                        original_filename: screenshot.png
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 01HXYZ...
+                        original_filename:
+                          type: string
+                          example: screenshot.png
+      tags:
+        - 'Ticket Attachments'
+    post:
+      summary: 'Upload a ticket-level attachment'
+      operationId: uploadATicketLevelAttachment
+      description: "For a file attached directly to the ticket rather than a specific\nmessage. To attach a file to a message, use the `attachments[]`\nfield on POST /tickets/{ticket}/messages instead."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Attachment uploaded successfully.'
+                  data:
+                    id: 01HXYZ...
+                    original_filename: invoice.pdf
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Attachment uploaded successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      original_filename:
+                        type: string
+                        example: invoice.pdf
+      tags:
+        - 'Ticket Attachments'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'Max 25MB. One of jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, csv, zip.'
+              required:
+                - file
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: ticket
+        description: ''
+        example: 01hxyz0123456789abcdefghj
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/attachments/{attachment_id}/download':
+    get:
+      summary: 'Download an attachment'
+      operationId: downloadAnAttachment
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: Unauthenticated.
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Unauthenticated.
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'You do not have permission to perform this action.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'You do not have permission to perform this action.'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'TicketAttachment not found.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'TicketAttachment not found.'
+      tags:
+        - 'Ticket Attachments'
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: attachment_id
+        description: 'The ID of the attachment.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: ticket
+        description: ''
+        example: 01hxyz0123456789abcdefghj
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: attachment
+        description: ''
+        example: 01hxyz0123456789abcdefghm
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/attachments/{id}':
+    delete:
+      summary: 'Delete an attachment'
+      operationId: deleteAnAttachment
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Attachment deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Attachment deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - 'Ticket Attachments'
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the attachment.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: ticket
+        description: ''
+        example: 01hxyz0123456789abcdefghj
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: attachment
+        description: ''
+        example: 01hxyz0123456789abcdefghm
+        required: true
+        schema:
+          type: string
+  /api/v1/categories:
+    get:
+      summary: 'List categories'
+      operationId: listCategories
+      description: "Returns top-level categories with their children eager-loaded.\nUse filter[parent_id]=null to explicitly list only root categories."
+      parameters:
+        -
+          in: query
+          name: 'filter[department_id]'
+          description: 'Filter by department.'
+          example: '2'
+          required: false
+          schema:
+            type: string
+            description: 'Filter by department.'
+            example: '2'
+        -
+          in: query
+          name: 'filter[is_active]'
+          description: 'Filter by active status.'
+          example: 'true'
+          required: false
+          schema:
+            type: string
+            description: 'Filter by active status.'
+            example: 'true'
+        -
+          in: query
+          name: sort
+          description: 'Sort by name or sort_order.'
+          example: sort_order
+          required: false
+          schema:
+            type: string
+            description: 'Sort by name or sort_order.'
+            example: sort_order
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: Billing
+                      children: []
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: Billing
+                        children: []
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Billing
+                        children:
+                          type: array
+                          example: []
+      tags:
+        - Categories
+    post:
+      summary: 'Create a category'
+      operationId: createACategory
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Category created successfully.'
+                  data:
+                    id: 5
+                    name: Billing
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Category created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 5
+                      name:
+                        type: string
+                        example: Billing
+      tags:
+        - Categories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: Billing
+                slug:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                parent_id:
+                  type: integer
+                  description: 'Parent category id, omit for a top-level category.'
+                  example: null
+                  nullable: true
+                department_id:
+                  type: integer
+                  description: 'Department this category routes to.'
+                  example: 2
+                  nullable: true
+                description:
+                  type: string
+                  description: ''
+                  example: 'Invoicing and payment questions.'
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: 'Defaults to true.'
+                  example: true
+                sort_order:
+                  type: integer
+                  description: 'Defaults to 0.'
+                  example: 1
+              required:
+                - name
+                - slug
+  '/api/v1/categories/{id}':
+    get:
+      summary: 'Get a category'
+      operationId: getACategory
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: Billing
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Billing
+      tags:
+        - Categories
+    put:
+      summary: 'Update a category'
+      operationId: updateACategory
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Category updated successfully.'
+                  data:
+                    id: 1
+                    name: 'Billing & Payments'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Category updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Billing & Payments'
+      tags:
+        - Categories
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Billing & Payments'
+                slug:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                parent_id:
+                  type: integer
+                  description: ''
+                  example: null
+                  nullable: true
+                department_id:
+                  type: integer
+                  description: ''
+                  example: 2
+                  nullable: true
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: true
+                sort_order:
+                  type: integer
+                  description: 'Must be at least 0.'
+                  example: 60
+    delete:
+      summary: 'Delete a category'
+      operationId: deleteACategory
+      description: "Soft-deletes the category and cascades to its subcategories.\nTickets already in this category keep their category_id."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Category deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Category deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - Categories
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/statuses:
+    get:
+      summary: 'List statuses'
+      operationId: listStatuses
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: Open
+                      slug: open
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: Open
+                        slug: open
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Open
+                        slug:
+                          type: string
+                          example: open
+      tags:
+        - Statuses
+    post:
+      summary: 'Create a status'
+      operationId: createAStatus
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Status created successfully.'
+                  data:
+                    id: 8
+                    name: 'On Hold'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Status created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 8
+                      name:
+                        type: string
+                        example: 'On Hold'
+      tags:
+        - Statuses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'On Hold'
+                slug:
+                  type: string
+                  description: 'Unique, used internally.'
+                  example: on-hold
+                color:
+                  type: string
+                  description: 'Hex color.'
+                  example: '#6B7280'
+                is_default:
+                  type: boolean
+                  description: ''
+                  example: true
+                is_closed:
+                  type: boolean
+                  description: 'Whether this status counts as a terminal/closed state.'
+                  example: false
+                sort_order:
+                  type: integer
+                  description: 'Must be at least 0.'
+                  example: 37
+              required:
+                - name
+                - slug
+  '/api/v1/statuses/{id}':
+    get:
+      summary: 'Get a status'
+      operationId: getAStatus
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: Open
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Open
+      tags:
+        - Statuses
+    put:
+      summary: 'Update a status'
+      operationId: updateAStatus
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Status updated successfully.'
+                  data:
+                    id: 8
+                    name: 'On Hold'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Status updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 8
+                      name:
+                        type: string
+                        example: 'On Hold'
+      tags:
+        - Statuses
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'On Hold'
+                slug:
+                  type: string
+                  description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 255 characters.'
+                  example: 'n'
+                color:
+                  type: string
+                  description: ''
+                  example: '#F59E0B'
+                is_default:
+                  type: boolean
+                  description: ''
+                  example: false
+                is_closed:
+                  type: boolean
+                  description: ''
+                  example: false
+                sort_order:
+                  type: integer
+                  description: 'Must be at least 0.'
+                  example: 37
+    delete:
+      summary: 'Delete a status'
+      operationId: deleteAStatus
+      description: 'Refuses to delete a status that is currently in use by any ticket.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Status deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Status deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'This status is in use by existing tickets and cannot be deleted.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'This status is in use by existing tickets and cannot be deleted.'
+      tags:
+        - Statuses
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the status.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/priorities:
+    get:
+      summary: 'List priorities'
+      operationId: listPriorities
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: Low
+                      level: 1
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: Low
+                        level: 1
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Low
+                        level:
+                          type: integer
+                          example: 1
+      tags:
+        - Priorities
+    post:
+      summary: 'Create a priority'
+      operationId: createAPriority
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Priority created successfully.'
+                  data:
+                    id: 5
+                    name: Critical
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Priority created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 5
+                      name:
+                        type: string
+                        example: Critical
+      tags:
+        - Priorities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: Critical
+                slug:
+                  type: string
+                  description: ''
+                  example: critical
+                level:
+                  type: integer
+                  description: 'Higher means more urgent.'
+                  example: 5
+                color:
+                  type: string
+                  description: 'Hex color.'
+                  example: '#DC2626'
+                is_default:
+                  type: boolean
+                  description: ''
+                  example: false
+              required:
+                - name
+                - slug
+                - level
+  '/api/v1/priorities/{id}':
+    get:
+      summary: 'Get a priority'
+      operationId: getAPriority
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: Low
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: Low
+      tags:
+        - Priorities
+    put:
+      summary: 'Update a priority'
+      operationId: updateAPriority
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Priority updated successfully.'
+                  data:
+                    id: 5
+                    name: Critical
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Priority updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 5
+                      name:
+                        type: string
+                        example: Critical
+      tags:
+        - Priorities
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: Critical
+                slug:
+                  type: string
+                  description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 255 characters.'
+                  example: 'n'
+                level:
+                  type: integer
+                  description: ''
+                  example: 5
+                color:
+                  type: string
+                  description: 'Must not be greater than 7 characters.'
+                  example: zmiyvdl
+                is_default:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Delete a priority'
+      operationId: deleteAPriority
+      description: 'Refuses to delete a priority that is currently in use by any ticket.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Priority deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Priority deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'This priority is in use by existing tickets and cannot be deleted.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'This priority is in use by existing tickets and cannot be deleted.'
+      tags:
+        - Priorities
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the priority.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/routing-rules:
+    get:
+      summary: 'List routing rules'
+      operationId: listRoutingRules
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: 'Route billing keywords'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Route billing keywords'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Route billing keywords'
+      tags:
+        - Routing
+    post:
+      summary: 'Create a routing rule'
+      operationId: createARoutingRule
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Routing rule created successfully.'
+                  data:
+                    id: 3
+                    name: 'Route billing category to Billing dept'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Routing rule created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 3
+                      name:
+                        type: string
+                        example: 'Route billing category to Billing dept'
+      tags:
+        - Routing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Route billing category to Billing dept'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                  nullable: true
+                priority:
+                  type: integer
+                  description: 'Lower runs first. Defaults to 0.'
+                  example: 10
+                is_active:
+                  type: boolean
+                  description: 'Defaults to true.'
+                  example: true
+                stop_processing:
+                  type: boolean
+                  description: 'Stop evaluating further rules once this one matches.'
+                  example: true
+                conditions:
+                  type: array
+                  description: AND-combined.
+                  example:
+                    -
+                      field: category_id
+                      operator: '='
+                      value: 3
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        description: ''
+                        example: category_id
+                        enum:
+                          - category_id
+                          - priority_id
+                          - customer_type
+                          - keyword
+                      operator:
+                        type: string
+                        description: ''
+                        example: in
+                        enum:
+                          - '='
+                          - '!='
+                          - in
+                      value:
+                        type: string
+                        description: ''
+                        example: architecto
+                    required:
+                      - field
+                      - value
+                actions:
+                  type: array
+                  description: ''
+                  example:
+                    -
+                      type: assign_department
+                      value: 2
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        description: ''
+                        example: assign_department
+                        enum:
+                          - assign_department
+                          - assign_agent
+                          - set_priority
+                          - escalate
+                          - send_notification
+                      value:
+                        type: string
+                        description: ''
+                        example: null
+                    required:
+                      - type
+              required:
+                - name
+                - conditions
+                - actions
+  '/api/v1/routing-rules/{rule_id}':
+    get:
+      summary: 'Get a routing rule'
+      operationId: getARoutingRule
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: 'Route billing keywords'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Route billing keywords'
+      tags:
+        - Routing
+    put:
+      summary: 'Update a routing rule'
+      operationId: updateARoutingRule
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Routing rule updated successfully.'
+                  data:
+                    id: 1
+                    is_active: false
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Routing rule updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      is_active:
+                        type: boolean
+                        example: false
+      tags:
+        - Routing
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                  nullable: true
+                priority:
+                  type: integer
+                  description: ''
+                  example: 5
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: false
+                stop_processing:
+                  type: boolean
+                  description: ''
+                  example: false
+                conditions:
+                  type: array
+                  description: ''
+                  example: null
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        description: 'This field is required when <code>conditions</code> is present.'
+                        example: customer_type
+                        enum:
+                          - category_id
+                          - priority_id
+                          - customer_type
+                          - keyword
+                      operator:
+                        type: string
+                        description: ''
+                        example: '='
+                        enum:
+                          - '='
+                          - '!='
+                          - in
+                      value:
+                        type: string
+                        description: 'This field is required when <code>conditions</code> is present.'
+                        example: null
+                actions:
+                  type: array
+                  description: 'Must have at least 1 items.'
+                  example: null
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        description: 'This field is required when <code>actions</code> is present.'
+                        example: escalate
+                        enum:
+                          - assign_department
+                          - assign_agent
+                          - set_priority
+                          - escalate
+                          - send_notification
+                      value:
+                        type: string
+                        description: ''
+                        example: null
+    delete:
+      summary: 'Delete a routing rule'
+      operationId: deleteARoutingRule
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Routing rule deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Routing rule deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - Routing
+    parameters:
+      -
+        in: path
+        name: rule_id
+        description: 'The ID of the rule.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  /api/v1/sla-policies:
+    get:
+      summary: 'List SLA policies'
+      operationId: listSLAPolicies
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: 'Urgent Priority SLA'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Urgent Priority SLA'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Urgent Priority SLA'
+      tags:
+        - SLA
+    post:
+      summary: 'Create an SLA policy'
+      operationId: createAnSLAPolicy
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'SLA policy created successfully.'
+                  data:
+                    id: 5
+                    name: 'VIP Customer SLA'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'SLA policy created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 5
+                      name:
+                        type: string
+                        example: 'VIP Customer SLA'
+      tags:
+        - SLA
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'VIP Customer SLA'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                  nullable: true
+                priority_id:
+                  type: integer
+                  description: 'Applies to all priorities if omitted.'
+                  example: 4
+                  nullable: true
+                department_id:
+                  type: integer
+                  description: 'Applies to all departments if omitted.'
+                  example: 2
+                  nullable: true
+                business_hours_id:
+                  type: integer
+                  description: 'Must match an existing stored value.'
+                  example: 16
+                  nullable: true
+                first_response_minutes:
+                  type: integer
+                  description: ''
+                  example: 15
+                resolution_minutes:
+                  type: integer
+                  description: ''
+                  example: 120
+                business_hours_only:
+                  type: boolean
+                  description: ''
+                  example: false
+                is_default:
+                  type: boolean
+                  description: ''
+                  example: false
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: true
+              required:
+                - name
+                - first_response_minutes
+                - resolution_minutes
+  '/api/v1/sla-policies/{policy_id}':
+    get:
+      summary: 'Get an SLA policy'
+      operationId: getAnSLAPolicy
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: 'Urgent Priority SLA'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Urgent Priority SLA'
+      tags:
+        - SLA
+    put:
+      summary: 'Update an SLA policy'
+      operationId: updateAnSLAPolicy
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'SLA policy updated successfully.'
+                  data:
+                    id: 1
+                    first_response_minutes: 10
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'SLA policy updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      first_response_minutes:
+                        type: integer
+                        example: 10
+      tags:
+        - SLA
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                  nullable: true
+                priority_id:
+                  type: integer
+                  description: 'Must match an existing stored value.'
+                  example: 16
+                  nullable: true
+                department_id:
+                  type: integer
+                  description: 'Must match an existing stored value.'
+                  example: 16
+                  nullable: true
+                business_hours_id:
+                  type: integer
+                  description: 'Must match an existing stored value.'
+                  example: 16
+                  nullable: true
+                first_response_minutes:
+                  type: integer
+                  description: ''
+                  example: 10
+                resolution_minutes:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 67
+                business_hours_only:
+                  type: boolean
+                  description: ''
+                  example: true
+                is_default:
+                  type: boolean
+                  description: ''
+                  example: false
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Delete an SLA policy'
+      operationId: deleteAnSLAPolicy
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'SLA policy deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'SLA policy deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - SLA
+    parameters:
+      -
+        in: path
+        name: policy_id
+        description: 'The ID of the policy.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/notification-preferences:
+    get:
+      summary: 'List my notification preferences'
+      operationId: listMyNotificationPreferences
+      description: "Any event key without an explicit preference row is enabled by\ndefault (opt-out model) and simply won't appear here until set."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      channel: mail
+                      event_key: ticket_created
+                      enabled: true
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        channel: mail
+                        event_key: ticket_created
+                        enabled: true
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        channel:
+                          type: string
+                          example: mail
+                        event_key:
+                          type: string
+                          example: ticket_created
+                        enabled:
+                          type: boolean
+                          example: true
+      tags:
+        - Notifications
+    put:
+      summary: 'Update my notification preferences'
+      operationId: updateMyNotificationPreferences
+      description: "Upserts one or more (channel, event_key) preferences for the\nauthenticated user."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Preferences updated successfully.'
+                  data:
+                    -
+                      channel: mail
+                      event_key: ticket_created
+                      enabled: false
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Preferences updated successfully.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        channel: mail
+                        event_key: ticket_created
+                        enabled: false
+                    items:
+                      type: object
+                      properties:
+                        channel:
+                          type: string
+                          example: mail
+                        event_key:
+                          type: string
+                          example: ticket_created
+                        enabled:
+                          type: boolean
+                          example: false
+      tags:
+        - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                preferences:
+                  type: array
+                  description: ''
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      channel:
+                        type: string
+                        description: ''
+                        example: mail
+                        enum:
+                          - mail
+                          - database
+                      event_key:
+                        type: string
+                        description: ''
+                        example: architecto
+                      enabled:
+                        type: boolean
+                        description: ''
+                        example: false
+                      '*':
+                        type: object
+                        description: ''
+                        example:
+                          channel: mail
+                        properties:
+                          channel:
+                            type: string
+                            description: 'mail or database.'
+                            example: mail
+                          event_key:
+                            type: string
+                            description: 'One of the notification template keys.'
+                            example: ticket_created
+                          enabled:
+                            type: boolean
+                            description: ''
+                            example: false
+                        required:
+                          - channel
+                          - event_key
+                          - enabled
+                    required:
+                      - channel
+                      - event_key
+                      - enabled
+              required:
+                - preferences
+  /api/v1/notification-templates:
+    get:
+      summary: 'List notification templates'
+      operationId: listNotificationTemplates
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      key: ticket_created
+                      subject: 'We received your ticket {ticket_number}'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        key: ticket_created
+                        subject: 'We received your ticket {ticket_number}'
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          example: ticket_created
+                        subject:
+                          type: string
+                          example: 'We received your ticket {ticket_number}'
+      tags:
+        - Notifications
+  '/api/v1/notification-templates/{template_id}':
+    put:
+      summary: 'Update a notification template'
+      operationId: updateANotificationTemplate
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Notification template updated successfully.'
+                  data:
+                    key: ticket_created
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Notification template updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                        example: ticket_created
+      tags:
+        - Notifications
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                  description: ''
+                  example: 'We received your ticket {ticket_number}'
+                body:
+                  type: string
+                  description: ''
+                  example: 'Hi {customer_name}, your ticket has been created...'
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: true
+    parameters:
+      -
+        in: path
+        name: template_id
+        description: 'The ID of the template.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: template
+        description: ''
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/reports/tickets-summary:
+    get:
+      summary: 'Ticket volume summary'
+      operationId: ticketVolumeSummary
+      description: 'Open ticket counts grouped by status, priority and department.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    total_tickets: 142
+                    by_status:
+                      -
+                        status: Open
+                        count: 12
+                    by_priority:
+                      -
+                        priority: High
+                        count: 8
+                    by_department:
+                      -
+                        department: Billing
+                        count: 20
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      total_tickets:
+                        type: integer
+                        example: 142
+                      by_status:
+                        type: array
+                        example:
+                          -
+                            status: Open
+                            count: 12
+                        items:
+                          type: object
+                          properties:
+                            status:
+                              type: string
+                              example: Open
+                            count:
+                              type: integer
+                              example: 12
+                      by_priority:
+                        type: array
+                        example:
+                          -
+                            priority: High
+                            count: 8
+                        items:
+                          type: object
+                          properties:
+                            priority:
+                              type: string
+                              example: High
+                            count:
+                              type: integer
+                              example: 8
+                      by_department:
+                        type: array
+                        example:
+                          -
+                            department: Billing
+                            count: 20
+                        items:
+                          type: object
+                          properties:
+                            department:
+                              type: string
+                              example: Billing
+                            count:
+                              type: integer
+                              example: 20
+      tags:
+        - Reports
+  /api/v1/reports/sla-compliance:
+    get:
+      summary: 'SLA compliance report'
+      operationId: sLAComplianceReport
+      description: "Breach rates for first response and resolution across all\ntickets with a calculated SLA."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    total_with_sla: 100
+                    first_response_breached: 6
+                    resolution_breached: 11
+                    first_response_breach_rate: 6.0
+                    resolution_breach_rate: 11.0
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      total_with_sla:
+                        type: integer
+                        example: 100
+                      first_response_breached:
+                        type: integer
+                        example: 6
+                      resolution_breached:
+                        type: integer
+                        example: 11
+                      first_response_breach_rate:
+                        type: number
+                        example: 6.0
+                      resolution_breach_rate:
+                        type: number
+                        example: 11.0
+      tags:
+        - Reports
+  /api/v1/reports/agent-performance:
+    get:
+      summary: 'Agent performance report'
+      operationId: agentPerformanceReport
+      description: 'Resolved-ticket counts per agent, most active first.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      agent_id: 5
+                      agent_name: 'Alex Agent'
+                      resolved_count: 34
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        agent_id: 5
+                        agent_name: 'Alex Agent'
+                        resolved_count: 34
+                    items:
+                      type: object
+                      properties:
+                        agent_id:
+                          type: integer
+                          example: 5
+                        agent_name:
+                          type: string
+                          example: 'Alex Agent'
+                        resolved_count:
+                          type: integer
+                          example: 34
+      tags:
+        - Reports
+  /api/v1/audit-logs:
+    get:
+      summary: 'List audit log entries'
+      operationId: listAuditLogEntries
+      description: ''
+      parameters:
+        -
+          in: query
+          name: 'filter[action]'
+          description: 'Exact action name.'
+          example: ticket.status_changed
+          required: false
+          schema:
+            type: string
+            description: 'Exact action name.'
+            example: ticket.status_changed
+        -
+          in: query
+          name: 'filter[actor_id]'
+          description: ''
+          example: '2'
+          required: false
+          schema:
+            type: string
+            description: ''
+            example: '2'
+        -
+          in: query
+          name: 'filter[auditable_type]'
+          description: 'Exact model class, e.g. App\\Models\\Ticket.'
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: 'Exact model class, e.g. App\\Models\\Ticket.'
+            example: architecto
+        -
+          in: query
+          name: sort
+          description: 'Sort by created_at.'
+          example: '-created_at'
+          required: false
+          schema:
+            type: string
+            description: 'Sort by created_at.'
+            example: '-created_at'
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      action: ticket.created
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        action: ticket.created
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        action:
+                          type: string
+                          example: ticket.created
+      tags:
+        - 'Audit Logs'
+  /api/v1/settings:
+    get:
+      summary: 'List settings'
+      operationId: listSettings
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      key: support_hours_message
+                      value: 'Mon-Fri 9am-5pm'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        key: support_hours_message
+                        value: 'Mon-Fri 9am-5pm'
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          example: support_hours_message
+                        value:
+                          type: string
+                          example: 'Mon-Fri 9am-5pm'
+      tags:
+        - Settings
+    put:
+      summary: 'Upsert settings'
+      operationId: upsertSettings
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Settings updated successfully.'
+                  data:
+                    -
+                      key: support_hours_message
+                      value: 'Mon-Fri 9am-5pm UTC'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Settings updated successfully.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        key: support_hours_message
+                        value: 'Mon-Fri 9am-5pm UTC'
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          example: support_hours_message
+                        value:
+                          type: string
+                          example: 'Mon-Fri 9am-5pm UTC'
+      tags:
+        - Settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                settings:
+                  type: array
+                  description: ''
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                        description: 'Must not be greater than 255 characters.'
+                        example: b
+                      value:
+                        type: string
+                        description: ''
+                        example: null
+                        nullable: true
+                      type:
+                        type: string
+                        description: ''
+                        example: string
+                        enum:
+                          - string
+                          - integer
+                          - boolean
+                          - json
+                      group:
+                        type: string
+                        description: 'Must not be greater than 40 characters.'
+                        example: 'n'
+                      is_public:
+                        type: boolean
+                        description: ''
+                        example: true
+                      '*':
+                        type: object
+                        description: ''
+                        example:
+                          key: support_hours_message
+                        properties:
+                          key:
+                            type: string
+                            description: ''
+                            example: support_hours_message
+                          value:
+                            type: string
+                            description: ''
+                            example: 'Mon-Fri 9am-5pm UTC'
+                          type:
+                            type: string
+                            description: 'string, integer, boolean or json. Defaults to string.'
+                            example: string
+                          group:
+                            type: string
+                            description: 'Defaults to general.'
+                            example: general
+                          is_public:
+                            type: boolean
+                            description: 'Defaults to false.'
+                            example: true
+                        required:
+                          - key
+                          - value
+                    required:
+                      - key
+              required:
+                - settings

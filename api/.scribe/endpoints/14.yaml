@@ -1,0 +1,114 @@
+name: 'Audit Logs'
+description: |-
+
+  System-wide, read-only audit trail. Distinct from a ticket's own
+  activity feed (GET /tickets/{ticket} includes its activities) —
+  this covers every auditable action across the whole application for
+  compliance review.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/audit-logs
+    metadata:
+      custom: []
+      groupName: 'Audit Logs'
+      groupDescription: |-
+
+        System-wide, read-only audit trail. Distinct from a ticket's own
+        activity feed (GET /tickets/{ticket} includes its activities) —
+        this covers every auditable action across the whole application for
+        compliance review.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List audit log entries'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      'filter[action]':
+        custom: []
+        name: 'filter[action]'
+        description: 'Exact action name.'
+        required: false
+        example: ticket.status_changed
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[actor_id]':
+        custom: []
+        name: 'filter[actor_id]'
+        description: ''
+        required: false
+        example: '2'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[auditable_type]':
+        custom: []
+        name: 'filter[auditable_type]'
+        description: 'Exact model class, e.g. App\\Models\\Ticket.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      sort:
+        custom: []
+        name: sort
+        description: 'Sort by created_at.'
+        required: false
+        example: '-created_at'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Items per page (max 100).'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      'filter[action]': ticket.status_changed
+      'filter[actor_id]': '2'
+      'filter[auditable_type]': architecto
+      sort: '-created_at'
+      per_page: 25
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "action": "ticket.created"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

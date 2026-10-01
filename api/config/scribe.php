@@ -14,7 +14,7 @@ return [
     'title' => config('app.name').' API Documentation',
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
-    'description' => '',
+    'description' => 'REST API for SupportHub — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.',
 
     // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
     'intro_text' => <<<'INTRO'
@@ -55,7 +55,10 @@ return [
     // - "static" will generate a static HTMl page in the /public/docs folder,
     // - "laravel" will generate the documentation as a Blade view, so you can add routing and authentication.
     // - "external_static" and "external_laravel" do the same as above, but pass the OpenAPI spec as a URL to an external UI template
-    'type' => 'laravel',
+    // 'static' avoids any Blade rendering at runtime — this API has no
+    // Blade dependency for application functionality (see docs/architecture.md)
+    // and the docs are served as plain static files under /docs.
+    'type' => 'static',
 
     // See https://scribe.knuckles.wtf/laravel/reference/config#theme for supported options
     'theme' => 'default',
@@ -104,29 +107,22 @@ return [
 
     // How is your API authenticated? This information will be used in the displayed docs, generated examples and response calls.
     'auth' => [
-        // Set this to true if ANY endpoints in your API use authentication.
-        'enabled' => false,
+        'enabled' => true,
 
-        // Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
-        // You can then use @unauthenticated or @authenticated on individual endpoints to change their status from the default.
-        'default' => false,
+        // Most endpoints require a token; the few that don't (register,
+        // login, forgot/reset-password, email verify) are explicitly
+        // marked @unauthenticated in their controller docblocks.
+        'default' => true,
 
-        // Where is the auth value meant to be sent in a request?
         'in' => AuthIn::BEARER->value,
 
-        // The name of the auth parameter (e.g. token, key, apiKey) or header (e.g. Authorization, Api-Key).
-        'name' => 'key',
+        'name' => 'Authorization',
 
-        // The value of the parameter to be used by Scribe to authenticate response calls.
-        // This will NOT be included in the generated documentation. If empty, Scribe will use a random value.
         'use_value' => env('SCRIBE_AUTH_KEY'),
 
-        // Placeholder your users will see for the auth parameter in the example requests.
-        // Set this to null if you want Scribe to use a random value as placeholder instead.
-        'placeholder' => '{YOUR_AUTH_KEY}',
+        'placeholder' => '{YOUR_AUTH_TOKEN}',
 
-        // Any extra authentication-related info for your users. Markdown and HTML are supported.
-        'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
+        'extra_info' => 'Obtain a token from `POST /api/v1/auth/login` or `POST /api/v1/auth/register`, then send it as `Authorization: Bearer {token}` on every subsequent request.',
     ],
 
     // Example requests for each endpoint will be shown in each of these languages.
@@ -175,11 +171,26 @@ return [
         // Endpoints which don't have a @group will be placed in this default group.
         'default' => 'Endpoints',
 
-        // By default, Scribe will sort groups alphabetically, and endpoints in the order their routes are defined.
-        // You can override this by listing the groups, subgroups and endpoints here in the order you want them.
-        // See https://scribe.knuckles.wtf/blog/laravel-v4#easier-sorting and https://scribe.knuckles.wtf/laravel/reference/config#order for details
-        // Note: does not work for `external` docs types
-        'order' => [],
+        // Mirrors the project spec's documentation group order.
+        'order' => [
+            'Authentication',
+            'Users',
+            'Roles & Permissions',
+            'Customers',
+            'Departments',
+            'Tickets',
+            'Ticket Messages',
+            'Ticket Attachments',
+            'Categories',
+            'Statuses',
+            'Priorities',
+            'Routing',
+            'SLA',
+            'Notifications',
+            'Reports',
+            'Audit Logs',
+            'Settings',
+        ],
     ],
 
     // Custom logo path. This will be used as the value of the src attribute for the <img> tag,
@@ -232,15 +243,13 @@ return [
         'bodyParameters' => [
             ...Defaults::BODY_PARAMETERS_STRATEGIES,
         ],
+        // Every endpoint in this API has a hand-written @response example
+        // (required by the project's Scribe documentation standard — see
+        // docs/api.md), so automatic ResponseCalls is disabled rather than
+        // mixing in auto-captured 401s for endpoints that need auth.
         'responses' => configureStrategy(
             Defaults::RESPONSES_STRATEGIES,
-            Strategies\Responses\ResponseCalls::withSettings(
-                only: ['GET *'],
-                // Recommended: disable debug mode in response calls to avoid error stack traces in responses
-                config: [
-                    'app.debug' => false,
-                ]
-            )
+            Strategies\Responses\ResponseCalls::withSettings(only: [])
         ),
         'responseFields' => [
             ...Defaults::RESPONSE_FIELDS_STRATEGIES,
