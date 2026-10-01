@@ -103,6 +103,12 @@ class TicketMessageController extends Controller
      */
     public function show(Request $request, Ticket $ticket, TicketMessage $message): JsonResponse
     {
+        // Defense in depth: routes/api/tickets.php scopes this route's bindings
+        // (->scopeBindings()), so Laravel 404s a mismatched {ticket}/{message}
+        // pair before the controller ever runs. This explicit check preserves
+        // that guarantee even if routing ever changes.
+        abort_unless($message->ticket_id === $ticket->id, 404);
+
         $this->authorize('view', $ticket);
 
         if ($message->isInternalNote() && ! $request->user()->can('viewInternalNotes', $ticket)) {

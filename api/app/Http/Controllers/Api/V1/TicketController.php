@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\Ticket\AssignTicketAction;
+use App\Actions\Ticket\CalculateSlaAction;
 use App\Actions\Ticket\CloseTicketAction;
 use App\Actions\Ticket\CreateTicketAction;
 use App\Actions\Ticket\EscalateTicketAction;
@@ -14,6 +15,7 @@ use App\Http\Requests\Ticket\AssignTicketRequest;
 use App\Http\Requests\Ticket\StoreTicketRequest;
 use App\Http\Requests\Ticket\TicketStatusReasonRequest;
 use App\Http\Requests\Ticket\UpdateTicketRequest;
+use App\Http\Resources\TicketActivityResource;
 use App\Http\Resources\TicketResource;
 use App\Models\Customer;
 use App\Models\Ticket;
@@ -40,6 +42,7 @@ class TicketController extends Controller
         private ResolveTicketAction $resolveTicket,
         private CloseTicketAction $closeTicket,
         private ReopenTicketAction $reopenTicket,
+        private CalculateSlaAction $calculateSla,
     ) {}
 
     /**
@@ -52,7 +55,7 @@ class TicketController extends Controller
      * @queryParam filter[customer_id] Example: 3
      * @queryParam filter[ticket_number] Partial match. Example: TKT-2026
      * @queryParam filter[search] Matches subject or description. Example: login issue
-     * @queryParam filter[sla_status] One of pending, met, breached, paused. Example: breached
+     * @queryParam filter[sla_status] One of pending, met, breached (ticket_slas.status is never set to any other value). Example: breached
      * @queryParam sort Sort by created_at, updated_at or priority. Prefix with - for descending. Example: -created_at
      * @queryParam per_page Items per page (max 100). Example: 25
      *
@@ -105,7 +108,7 @@ class TicketController extends Controller
     {
         $customer = $this->resolveActingCustomer($request);
 
-        $ticket = $this->createTicket->execute($customer, $request->validated());
+        $ticket = $this->createTicket->execute($customer, $request->validated(), $request->user());
 
         return $this->created(new TicketResource($ticket), 'Ticket created successfully.');
     }
@@ -146,9 +149,22 @@ class TicketController extends Controller
             unset($data['priority_id']);
         }
 
+        $priorityChanged = array_key_exists('priority_id', $data) && $data['priority_id'] !== $ticket->priority_id;
+
         $ticket->update($data);
 
-        return $this->success(new TicketResource($ticket->fresh(['category', 'priority'])), 'Ticket updated successfully.');
+        // SLA due dates were previously only ever calculated once, at
+        // creation, and pinned to the priority at that moment — a ticket
+        // re-prioritized to a tighter SLA kept its original, looser due
+        // dates with no indication anything was stale. Recalculate
+        // whenever priority actually changes (not on every update, so an
+        // already-replied-to / already-resolved SLA's met/breached history
+        // isn't disturbed by an unrelated subject/description edit).
+        if ($priorityChanged) {
+            $this->calculateSla->execute($ticket);
+        }
+
+        return $this->success(new TicketResource($ticket->fresh(['category', 'priority', 'sla'])), 'Ticket updated successfully.');
     }
 
     /**
@@ -263,6 +279,32 @@ class TicketController extends Controller
         $ticket = $this->reopenTicket->execute($ticket, $request->user(), $request->input('reason'));
 
         return $this->success(new TicketResource($ticket->load('status')), 'Ticket reopened successfully.');
+    }
+
+    /**
+     * Get a ticket's activity feed
+     *
+     * The chronological system log of everything that happened to this
+     * ticket (created, assigned, status changes, messages posted) —
+     * distinct from the audit log, which only covers a narrow set of
+     * compliance-relevant actions across the whole application.
+     *
+     * @urlParam ticket string required Example: 01hxyz0123456789abcdefghj
+     *
+     * @queryParam per_page Items per page (max 100). Example: 25
+     *
+     * @response 200 {"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "type": "created", "description": "Ticket created by Casey Customer"}]}
+     */
+    public function activities(Request $request, Ticket $ticket): JsonResponse
+    {
+        $this->authorize('view', $ticket);
+
+        $activities = $ticket->activities()
+            ->with('actor')
+            ->orderByDesc('created_at')
+            ->paginate(min((int) $request->integer('per_page', 25), 100));
+
+        return $this->success(TicketActivityResource::collection($activities));
     }
 
     private function resolveActingCustomer(Request $request): Customer

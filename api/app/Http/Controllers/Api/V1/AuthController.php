@@ -39,7 +39,7 @@ class AuthController extends Controller
      *
      * @bodyParam name string required The user's full name. Example: Jamie Rivera
      * @bodyParam email string required A unique email address. Example: jamie@example.com
-     * @bodyParam password string required Minimum 8 characters. Example: Secret123!
+     * @bodyParam password string required Minimum 10 characters, including upper and lower case, a number, and a symbol. Example: Secret123!word$9
      * @bodyParam password_confirmation string required Must match password. Example: Secret123!
      * @bodyParam phone string The user's phone number. Example: +1-555-0100
      * @bodyParam company_name string Optional company name for business customers. Example: Acme Corp
@@ -214,7 +214,7 @@ class AuthController extends Controller
      *
      * @bodyParam token string required The token from the reset email. Example: 9f8e7d6c5b4a
      * @bodyParam email string required Example: admin@supporthub.test
-     * @bodyParam password string required Minimum 8 characters. Example: NewSecret123!
+     * @bodyParam password string required Minimum 10 characters, including upper and lower case, a number, and a symbol. Example: NewSecret123!word$9
      * @bodyParam password_confirmation string required Must match password. Example: NewSecret123!
      *
      * @response 200 {"success": true, "message": "Password has been reset successfully.", "data": null}

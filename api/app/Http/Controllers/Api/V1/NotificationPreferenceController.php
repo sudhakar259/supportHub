@@ -39,7 +39,7 @@ class NotificationPreferenceController extends Controller
      * authenticated user.
      *
      * @bodyParam preferences object[] required
-     * @bodyParam preferences.*.channel string required mail or database. Example: mail
+     * @bodyParam preferences.*.channel string required Currently only mail is ever actually delivered. Example: mail
      * @bodyParam preferences.*.event_key string required One of the notification template keys. Example: ticket_created
      * @bodyParam preferences.*.enabled boolean required Example: false
      *
@@ -49,7 +49,12 @@ class NotificationPreferenceController extends Controller
     {
         $validated = $request->validate([
             'preferences' => ['required', 'array', 'min:1'],
-            'preferences.*.channel' => ['required', 'string', 'in:mail,database'],
+            // 'database' was previously accepted here and documented as an
+            // option, but TicketEventNotification::via() hardcodes ['mail']
+            // regardless — a preference set to 'database' silently had no
+            // effect. Only offer the channel that's actually deliverable
+            // until the database channel is implemented end-to-end.
+            'preferences.*.channel' => ['required', 'string', 'in:mail'],
             'preferences.*.event_key' => ['required', 'string', Rule::exists('notification_templates', 'key')],
             'preferences.*.enabled' => ['required', 'boolean'],
         ]);

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             SlaPolicySeeder::class,
             TicketNumberSettingSeeder::class,
             NotificationTemplateSeeder::class,
+            SystemSettingSeeder::class,
             UsersSeeder::class,
             DemoTicketSeeder::class,
         ]);

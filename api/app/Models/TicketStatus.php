@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasExclusiveDefault;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['name', 'slug', 'color', 'is_default', 'is_closed', 'sort_order'])]
 class TicketStatus extends Model
 {
+    use HasExclusiveDefault;
+
     protected function casts(): array
     {
         return [

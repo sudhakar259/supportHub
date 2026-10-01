@@ -52,11 +52,12 @@ export function TextField({
         )}
         <input
           id={inputId}
+          required={required}
           className={cn(
             'h-11 w-full rounded bg-surface-container-low px-space-md text-body-md text-on-surface shadow-inner transition-all placeholder:text-on-surface-variant/60',
             'focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary',
-            leadingIcon && 'pl-10',
-            trailingSlot && 'pr-10',
+            leadingIcon ? 'pl-10' : undefined,
+            trailingSlot ? 'pr-10' : undefined,
             error && 'ring-2 ring-error bg-error-container/10',
             className,
           )}

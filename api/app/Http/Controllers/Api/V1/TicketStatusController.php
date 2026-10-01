@@ -7,6 +7,7 @@ use App\Http\Requests\Status\StoreStatusRequest;
 use App\Http\Requests\Status\UpdateStatusRequest;
 use App\Http\Resources\TicketStatusResource;
 use App\Models\TicketStatus;
+use App\Services\TicketStatusWorkflow;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -89,6 +90,17 @@ class TicketStatusController extends Controller
     public function destroy(TicketStatus $status): JsonResponse
     {
         $this->authorize('delete', $status);
+
+        // The 7 workflow slugs are looked up by name throughout
+        // TicketStatusWorkflow and the *TicketAction classes, independent of
+        // whether any ticket currently sits in that status. The in-use
+        // check below only protects a status that's *currently* referenced
+        // — it would happily let someone delete e.g. "escalated" while it
+        // happens to be empty, breaking POST /tickets/{id}/escalate for
+        // every ticket, system-wide, until it's re-seeded.
+        if (in_array($status->slug, array_keys(TicketStatusWorkflow::TRANSITIONS), true)) {
+            return $this->error('This status is a reserved workflow status and cannot be deleted.', 422);
+        }
 
         if ($status->tickets()->exists()) {
             return $this->error('This status is in use by existing tickets and cannot be deleted.', 422);

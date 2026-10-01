@@ -32,12 +32,17 @@ class TicketPolicy
             return $ticket->customer?->user_id === $user->id && ! $ticket->status->is_closed;
         }
 
-        return $user->can('tickets.update') && $this->hasStaffAccess($user, $ticket);
+        // Previously staff could edit/reply to a closed ticket with no
+        // restriction at all — only the customer branch above checked
+        // is_closed. "Closed" should mean frozen for everyone, not just
+        // customers; reopening (a separate ability, see reopen()) is the
+        // only way back in for staff too.
+        return $user->can('tickets.update') && $this->hasStaffAccess($user, $ticket) && ! $ticket->status->is_closed;
     }
 
     public function assign(User $user, Ticket $ticket): bool
     {
-        return $user->can('tickets.assign') && $this->hasStaffAccess($user, $ticket);
+        return $user->can('tickets.assign') && $this->hasStaffAccess($user, $ticket) && ! $ticket->status->is_closed;
     }
 
     public function escalate(User $user, Ticket $ticket): bool
@@ -76,7 +81,11 @@ class TicketPolicy
 
     public function createInternalNote(User $user, Ticket $ticket): bool
     {
-        return $this->viewInternalNotes($user, $ticket);
+        // Deliberately NOT a plain delegate to viewInternalNotes(): reading
+        // existing notes on a closed ticket should still work, but writing
+        // a new one is a write action and should freeze along with
+        // update()/assign() once the ticket is closed.
+        return $this->viewInternalNotes($user, $ticket) && ! $ticket->status->is_closed;
     }
 
     /**

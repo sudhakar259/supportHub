@@ -106,3 +106,40 @@ it('denies an attachment download on an internal note to a customer', function (
         ->getJson("/api/v1/tickets/{$ticket->id}/attachments/{$attachment->id}/download")
         ->assertStatus(403);
 });
+
+// QA regression (2026-10-01): TicketMessageController::show() authorizes against the
+// route's {ticket} binding, never against $message->ticket (the message's real parent).
+// Routes aren't scoped (no ->scopeBindings() in routes/api/tickets.php), so any ticket
+// id the caller IS allowed to view can be paired with ANY message id from ANY other
+// ticket — including one the caller has no access to at all — and the message's full
+// body is returned. Confirmed live against the demo environment: customer1, with zero
+// access to customer2's ticket, retrieved customer2's private message body by pairing
+// their OWN (authorized) ticket id with customer2's message id in the URL.
+// This test is intentionally RED until TicketMessageController::show() is fixed to
+// authorize against (and fetch) the message's actual parent ticket, e.g. via
+// $ticket->messages()->findOrFail($message->id) or route model binding scoped with
+// ->scopeBindings(). Do not weaken this test to make it pass — fix the controller.
+it('does not leak a message body across tickets when the ids are mismatched (CRITICAL IDOR)', function () {
+    $ownCustomer = Customer::factory()->create();
+    $ownTicket = Ticket::factory()->create(['customer_id' => $ownCustomer->id]);
+
+    $otherCustomer = Customer::factory()->create();
+    $otherTicket = Ticket::factory()->create(['customer_id' => $otherCustomer->id]);
+    $secretMessage = $otherTicket->messages()->create([
+        'author_id' => $otherCustomer->user_id,
+        'type' => 'customer_message',
+        'body' => 'SECRET — belongs only to the other customer\'s ticket.',
+    ]);
+
+    // Sanity: the owning customer genuinely cannot view the other ticket directly.
+    $this->actingAs($ownCustomer->user, 'api')
+        ->getJson("/api/v1/tickets/{$otherTicket->id}")
+        ->assertStatus(403);
+
+    // The actual IDOR: pair the caller's OWN (authorized) ticket id with the OTHER
+    // ticket's message id. This must 403/404 — it currently returns 200 with the
+    // secret message body.
+    $this->actingAs($ownCustomer->user, 'api')
+        ->getJson("/api/v1/tickets/{$ownTicket->id}/messages/{$secretMessage->id}")
+        ->assertStatus(404);
+});

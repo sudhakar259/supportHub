@@ -14,9 +14,11 @@ use Spatie\QueryBuilder\QueryBuilder;
  * @group Audit Logs
  *
  * System-wide, read-only audit trail. Distinct from a ticket's own
- * activity feed (GET /tickets/{ticket} includes its activities) —
- * this covers every auditable action across the whole application for
- * compliance review.
+ * activity feed (GET /tickets/{ticket}/activities) — this covers every
+ * auditable action across the whole application for compliance review.
+ * Audit coverage is currently narrow (ticket creation and status changes
+ * only); the per-ticket activity feed is the more complete log of what
+ * happened to a given ticket.
  */
 class AuditLogController extends Controller
 {

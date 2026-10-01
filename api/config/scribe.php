@@ -7,6 +7,20 @@ use Knuckles\Scribe\Extracting\Strategies;
 use function Knuckles\Scribe\Config\configureStrategy;
 use function Knuckles\Scribe\Config\removeStrategies;
 
+// Scribe is a require-dev package (API doc generation only — never used at
+// runtime). Laravel's LoadConfiguration bootstrapper loads every file in
+// config/ unconditionally on every artisan command, including in a
+// --no-dev production install where knuckleswtf/scribe isn't present —
+// which previously crashed `php artisan package:discover` (and therefore
+// the entire `docker build --target production` pipeline) with "Class
+// Knuckles\Scribe\Config\AuthIn not found" before the app ever booted.
+// Nothing reads config('scribe.*') outside Scribe's own commands, so a
+// short-circuit here is safe: this file is simply irrelevant when the
+// package isn't installed.
+if (! class_exists(AuthIn::class)) {
+    return [];
+}
+
 // Only the most common configs are shown. See the https://scribe.knuckles.wtf/laravel/reference/config for all.
 
 return [

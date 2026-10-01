@@ -45,6 +45,7 @@ use App\Policies\TicketStatusPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Events\NotificationSent;
@@ -71,6 +72,19 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Password::defaults(fn () => Password::min(10)->mixedCase()->numbers()->symbols());
+
+        // This is an API-only app with no password.reset web route, so the
+        // framework's default ResetPassword notification (which otherwise
+        // calls route('password.reset', ...)) would throw a
+        // RouteNotFoundException every time it actually tries to send —
+        // reproduced live during QA. Point it at the SPA's reset-password
+        // page instead, using the same frontend_url config CreateTicketAction
+        // already uses for notification links.
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            $frontendUrl = rtrim(config('app.frontend_url'), '/');
+
+            return "{$frontendUrl}/reset-password?token={$token}&email=".urlencode($user->email);
+        });
 
         Event::listen(Registered::class, SendEmailVerificationNotification::class);
 

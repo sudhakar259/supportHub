@@ -1,7 +1,7 @@
-import type { RawUser } from '@/features/auth/api/userMapper'
-import { mapUser } from '@/features/auth/api/userMapper'
 import type { ForgotPasswordPayload, LoginCredentials, ResetPasswordPayload } from '@/features/auth/types'
 import { apiFetch } from '@/services/api/client'
+import type { RawUser } from '@/services/api/mappers'
+import { mapUser } from '@/services/api/mappers'
 import type { User } from '@/types/user'
 
 interface LoginResponse {

@@ -11,6 +11,7 @@ const NAV_LINKS = [
 ]
 
 const COMPLIANCE_BADGES = ['SOC 2 Type II', 'ISO 27001', 'GDPR Ready', 'HIPAA Compliant']
+const CURRENT_YEAR = new Date().getFullYear()
 
 /**
  * Shared chrome for every unauthenticated screen (login, recovery, MFA, lockouts, …):
@@ -81,7 +82,7 @@ export function AuthLayout({ children }: { children: ReactNode }) {
               Privacy Policy
             </a>
             <span className="text-outline-variant">•</span>
-            <span>© {new Date().getFullYear()} SupportHub Global, Inc.</span>
+            <span>© {CURRENT_YEAR} SupportHub Global, Inc.</span>
           </div>
         </div>
       </footer>

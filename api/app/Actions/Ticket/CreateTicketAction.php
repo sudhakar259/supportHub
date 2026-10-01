@@ -38,7 +38,7 @@ class CreateTicketAction
         private SendTicketNotificationAction $sendNotification,
     ) {}
 
-    public function execute(Customer $customer, array $data): Ticket
+    public function execute(Customer $customer, array $data, ?User $actor = null): Ticket
     {
         $notifyTemplateKeys = [];
 
@@ -46,7 +46,7 @@ class CreateTicketAction
         // after the transaction commits, not inside it — a queue worker
         // could otherwise pick the job up before the ticket row is
         // actually visible to other connections.
-        $ticket = DB::transaction(function () use ($customer, $data, &$notifyTemplateKeys) {
+        $ticket = DB::transaction(function () use ($customer, $data, $actor, &$notifyTemplateKeys) {
             $status = TicketStatus::where('slug', TicketStatusWorkflow::OPEN)->firstOrFail();
             $priority = isset($data['priority_id'])
                 ? TicketPriority::findOrFail($data['priority_id'])
@@ -73,7 +73,7 @@ class CreateTicketAction
             $ticket->save();
 
             $this->activity->log($ticket, 'created', "Ticket created by {$customer->user->name}", null);
-            $this->audit->log('ticket.created', $ticket, null, $ticket->toArray());
+            $this->audit->log('ticket.created', $ticket, null, $ticket->toArray(), $actor);
 
             if ($ticket->department_id) {
                 $assignee = null;

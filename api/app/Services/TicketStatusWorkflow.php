@@ -50,10 +50,13 @@ class TicketStatusWorkflow
         }
 
         // A status outside the fixed workflow (an admin-added label) has
-        // no defined transitions; allow moving away from it freely but
-        // not into it, since nothing declares it a valid destination.
+        // no defined transitions of its own; allow moving away from it
+        // freely to any known workflow status, since nothing declares
+        // which transitions are valid out of a status the workflow doesn't
+        // recognize. Transitioning INTO an unknown status is still refused
+        // either way, since it can never appear as a target below.
         if (! $this->isKnownStatus($fromSlug)) {
-            return false;
+            return $this->isKnownStatus($toSlug);
         }
 
         return in_array($toSlug, self::TRANSITIONS[$fromSlug] ?? [], true);

@@ -126,6 +126,23 @@ services:
     networks:
       - supporthub
 
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: supporthub-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      UPLOAD_LIMIT: 64M
+    ports:
+      - "${FORWARD_PHPMYADMIN_PORT:-8081}:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - supporthub
+
 networks:
   supporthub:
     driver: bridge

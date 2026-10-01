@@ -1,13 +1,63 @@
+import { ROUTES } from '@/app/router/routes'
 import { env } from '@/app/config/env'
 import { tokenStorage } from '@/services/storage/tokenStorage'
 import { ApiError } from '@/types/api'
 import type { ApiEnvelope } from '@/types/api'
+import type { Paginated, PaginationMeta } from '@/types/pagination'
+
+/**
+ * Lazily imported so this module-level service file doesn't eagerly pull in
+ * the whole router/page graph (router.tsx imports every page component,
+ * which import this client back) — only resolved the first time a 401
+ * actually needs to redirect.
+ */
+let routerModulePromise: Promise<typeof import('@/app/router/router')> | null = null
+function getRouter() {
+  routerModulePromise ??= import('@/app/router/router')
+  return routerModulePromise
+}
+
+const SESSION_EXPIRY_EXEMPT_PATHS: readonly string[] = [
+  ROUTES.login,
+  ROUTES.sessionExpired,
+  ROUTES.forgotPassword,
+  ROUTES.resetPassword,
+  ROUTES.setPassword,
+]
+
+/**
+ * No global 401 handling previously existed (QA finding, 2026-10-01): a
+ * token that expired or was revoked mid-session left the user silently
+ * "logged in" in AuthContext while every subsequent call quietly failed
+ * wherever (or if) the calling component happened to catch it. This clears
+ * the dead token and routes to the already-built-but-unreachable
+ * SessionExpiredPage, which re-authenticates and returns the user to where
+ * they were.
+ */
+function handleUnauthorized(): void {
+  if (SESSION_EXPIRY_EXEMPT_PATHS.includes(window.location.pathname)) return
+
+  tokenStorage.clear()
+
+  void getRouter().then(({ router }) => {
+    router.navigate(ROUTES.sessionExpired, {
+      state: { from: window.location.pathname + window.location.search },
+    })
+  })
+}
 
 export interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   body?: unknown
   params?: Record<string, string | number | boolean | undefined>
   signal?: AbortSignal
+}
+
+interface RawPaginationMeta {
+  current_page: number
+  last_page: number
+  per_page: number
+  total: number
 }
 
 function buildUrl(path: string, params?: RequestOptions['params']): string {
@@ -20,12 +70,7 @@ function buildUrl(path: string, params?: RequestOptions['params']): string {
   return url.toString()
 }
 
-/**
- * Thin fetch wrapper for the Laravel API. Every component/hook goes through this
- * (never calls `fetch` directly), so swapping transport, auth, or base URL later
- * only touches this one file — see architecture note in AGENTS/spec section 39.
- */
-export async function apiFetch<T>(path: string, options: RequestOptions = {}): Promise<T> {
+async function request<T>(path: string, options: RequestOptions): Promise<ApiEnvelope<T>> {
   const { method = 'GET', body, params, signal } = options
   const token = tokenStorage.get()
 
@@ -43,6 +88,10 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
   const isJson = response.headers.get('content-type')?.includes('application/json')
   const payload = isJson ? ((await response.json()) as ApiEnvelope<T>) : null
 
+  if (response.status === 401) {
+    handleUnauthorized()
+  }
+
   if (!response.ok || !payload) {
     throw new ApiError(
       payload?.message ?? `Request failed with status ${response.status}`,
@@ -51,5 +100,36 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
     )
   }
 
+  return payload
+}
+
+/**
+ * Thin fetch wrapper for the Laravel API. Every component/hook goes through this
+ * (never calls `fetch` directly), so swapping transport, auth, or base URL later
+ * only touches this one file — see architecture note in AGENTS/spec section 39.
+ */
+export async function apiFetch<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  const payload = await request<T>(path, options)
   return payload.data
+}
+
+/** Like apiFetch, but also returns the paginator meta Laravel attaches to list endpoints. */
+export async function apiFetchPage<TRaw, TMapped>(
+  path: string,
+  mapItem: (raw: TRaw) => TMapped,
+  options: RequestOptions = {},
+): Promise<Paginated<TMapped>> {
+  const payload = await request<TRaw[]>(path, options)
+  const rawMeta = payload.meta as unknown as RawPaginationMeta | undefined
+
+  const meta: PaginationMeta = rawMeta
+    ? {
+        currentPage: rawMeta.current_page,
+        lastPage: rawMeta.last_page,
+        perPage: rawMeta.per_page,
+        total: rawMeta.total,
+      }
+    : { currentPage: 1, lastPage: 1, perPage: payload.data.length, total: payload.data.length }
+
+  return { items: payload.data.map(mapItem), meta }
 }

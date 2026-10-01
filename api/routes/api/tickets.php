@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\V1\TicketController;
 use App\Http\Controllers\Api\V1\TicketMessageController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:api')->prefix('tickets')->name('tickets.')->group(function () {
+Route::middleware('auth:api')->prefix('tickets')->name('tickets.')->scopeBindings()->group(function () {
     Route::get('/', [TicketController::class, 'index'])->name('index');
     Route::post('/', [TicketController::class, 'store'])->name('store');
     Route::get('/{ticket}', [TicketController::class, 'show'])->name('show');
@@ -18,6 +18,8 @@ Route::middleware('auth:api')->prefix('tickets')->name('tickets.')->group(functi
     Route::post('/{ticket}/resolve', [TicketController::class, 'resolve'])->name('resolve');
     Route::post('/{ticket}/close', [TicketController::class, 'close'])->name('close');
     Route::post('/{ticket}/reopen', [TicketController::class, 'reopen'])->name('reopen');
+
+    Route::get('/{ticket}/activities', [TicketController::class, 'activities'])->name('activities.index');
 
     Route::get('/{ticket}/messages', [TicketMessageController::class, 'index'])->name('messages.index');
     Route::post('/{ticket}/messages', [TicketMessageController::class, 'store'])->name('messages.store');

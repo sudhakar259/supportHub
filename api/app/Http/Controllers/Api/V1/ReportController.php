@@ -39,7 +39,11 @@ class ReportController extends Controller
 
         $byStatus = Ticket::query()
             ->join('ticket_statuses', 'ticket_statuses.id', '=', 'tickets.status_id')
-            ->groupBy('ticket_statuses.name')
+            // Group by id (the functionally-dependent key) in addition to the
+            // columns selected/ordered on — MySQL's default ONLY_FULL_GROUP_BY
+            // sql_mode rejects grouping by name alone while ordering by a
+            // sibling column that isn't itself grouped or aggregated.
+            ->groupBy('ticket_statuses.id', 'ticket_statuses.name', 'ticket_statuses.sort_order')
             ->orderBy('ticket_statuses.sort_order')
             ->pluck(DB::raw('count(*) as count'), 'ticket_statuses.name')
             ->map(fn ($count, $status) => ['status' => $status, 'count' => $count])
@@ -47,17 +51,24 @@ class ReportController extends Controller
 
         $byPriority = Ticket::query()
             ->join('ticket_priorities', 'ticket_priorities.id', '=', 'tickets.priority_id')
-            ->groupBy('ticket_priorities.name')
+            ->groupBy('ticket_priorities.id', 'ticket_priorities.name', 'ticket_priorities.level')
             ->orderBy('ticket_priorities.level')
             ->pluck(DB::raw('count(*) as count'), 'ticket_priorities.name')
             ->map(fn ($count, $priority) => ['priority' => $priority, 'count' => $count])
             ->values();
 
+        // leftJoin (not join): department_id is nullable — an inner join would
+        // silently drop unrouted tickets from this breakdown while
+        // total_tickets below still counts them, so the two numbers would
+        // never reconcile. Unrouted tickets are grouped under "Unrouted".
         $byDepartment = Ticket::query()
-            ->join('departments', 'departments.id', '=', 'tickets.department_id')
-            ->groupBy('departments.name')
+            ->leftJoin('departments', 'departments.id', '=', 'tickets.department_id')
+            ->groupBy('departments.id', 'departments.name')
             ->pluck(DB::raw('count(*) as count'), 'departments.name')
-            ->map(fn ($count, $department) => ['department' => $department, 'count' => $count])
+            // pluck() casts a NULL group-by key (unrouted tickets) to an
+            // empty string when used as an array key, so a plain `?? ` null
+            // check never fires — check for blank explicitly.
+            ->map(fn ($count, $department) => ['department' => blank($department) ? 'Unrouted' : $department, 'count' => $count])
             ->values();
 
         return $this->success([

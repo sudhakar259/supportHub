@@ -1,14 +1,5 @@
-export interface Department {
-  id: number
-  name: string
-  slug: string
-}
-
-export interface Customer {
-  id: number
-  companyName: string | null
-  customerType: 'individual' | 'business'
-}
+import type { Customer } from '@/types/customer'
+import type { Department } from '@/types/department'
 
 /** Mirrors api/app/Http/Resources/UserResource.php */
 export interface User {

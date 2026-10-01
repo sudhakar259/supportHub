@@ -117,7 +117,19 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer): JsonResponse
     {
-        $customer->update($request->validated());
+        $data = $request->validated();
+
+        // customer_type (individual/business/vip) feeds routing-rule
+        // conditions and should be staff-controlled only — a customer
+        // updating their own profile must not be able to self-escalate it
+        // (mirrors how TicketController::update() strips priority_id for
+        // customers). CustomerPolicy::update() permits self-service for the
+        // rest of this payload (phone/company_name/timezone).
+        if (! $request->user()->can('customers.update')) {
+            unset($data['customer_type']);
+        }
+
+        $customer->update($data);
 
         return $this->success(new CustomerResource($customer->load('user')), 'Customer updated successfully.');
     }

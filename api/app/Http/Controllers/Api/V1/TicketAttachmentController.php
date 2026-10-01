@@ -60,7 +60,12 @@ class TicketAttachmentController extends Controller
         $this->authorize('update', $ticket);
 
         $request->validate([
-            'file' => ['required', 'file', 'max:25600', 'mimes:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,csv,zip'],
+            // mimes: alone checks the file's content-sniffed type, not its
+            // filename — a file named malware.exe with plain-text content
+            // satisfies mimes:txt. extensions: additionally rejects any
+            // filename extension outside the allow-list regardless of what
+            // the content sniffs as, closing that gap.
+            'file' => ['required', 'file', 'max:25600', 'mimes:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,csv,zip', 'extensions:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,csv,zip'],
         ]);
 
         $attachment = $this->uploadAttachment->execute($ticket, $request->file('file'), $request->user());
