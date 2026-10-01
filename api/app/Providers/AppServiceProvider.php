@@ -4,19 +4,23 @@ namespace App\Providers;
 
 use App\Models\Customer;
 use App\Models\Department;
+use App\Models\SlaPolicy;
 use App\Models\Ticket;
 use App\Models\TicketAttachment;
 use App\Models\TicketCategory;
 use App\Models\TicketPriority;
+use App\Models\TicketRoutingRule;
 use App\Models\TicketStatus;
 use App\Models\User;
 use App\Policies\CustomerPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\RolePolicy;
+use App\Policies\SlaPolicyPolicy;
 use App\Policies\TicketAttachmentPolicy;
 use App\Policies\TicketCategoryPolicy;
 use App\Policies\TicketPolicy;
 use App\Policies\TicketPriorityPolicy;
+use App\Policies\TicketRoutingRulePolicy;
 use App\Policies\TicketStatusPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Auth\Events\Registered;
@@ -55,6 +59,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Role::class, RolePolicy::class);
         Gate::policy(Ticket::class, TicketPolicy::class);
         Gate::policy(TicketAttachment::class, TicketAttachmentPolicy::class);
+        Gate::policy(TicketRoutingRule::class, TicketRoutingRulePolicy::class);
+        Gate::policy(SlaPolicy::class, SlaPolicyPolicy::class);
 
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(120)->by($request->user()?->id ?: $request->ip());

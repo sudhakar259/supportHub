@@ -20,3 +20,5 @@ require __DIR__.'/api/categories.php';
 require __DIR__.'/api/statuses.php';
 require __DIR__.'/api/priorities.php';
 require __DIR__.'/api/tickets.php';
+require __DIR__.'/api/routing.php';
+require __DIR__.'/api/sla.php';
