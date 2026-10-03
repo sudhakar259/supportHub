@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 #[Hidden(['secret'])]
 class Webhook extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasFactory;
 
     public const EVENTS = [
         'ticket.created', 'ticket.updated', 'ticket.assigned', 'ticket.replied',

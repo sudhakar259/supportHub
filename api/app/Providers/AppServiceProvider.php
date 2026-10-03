@@ -20,6 +20,15 @@ use App\Listeners\Ticket\SendTicketEscalatedNotification;
 use App\Listeners\Ticket\SendTicketReopenedNotification;
 use App\Listeners\Ticket\SendTicketResolvedNotification;
 use App\Listeners\Ticket\SendTicketStatusChangedNotification;
+use App\Listeners\Webhook\DispatchAgentRepliedWebhook;
+use App\Listeners\Webhook\DispatchCustomerRepliedWebhook;
+use App\Listeners\Webhook\DispatchTicketAssignedWebhook;
+use App\Listeners\Webhook\DispatchTicketClosedWebhook;
+use App\Listeners\Webhook\DispatchTicketCreatedWebhook;
+use App\Listeners\Webhook\DispatchTicketReopenedWebhook;
+use App\Listeners\Webhook\DispatchTicketResolvedWebhook;
+use App\Listeners\Webhook\DispatchTicketStatusChangedWebhook;
+use App\Models\ApiCredential;
 use App\Models\Customer;
 use App\Models\Department;
 use App\Models\NotificationLog;
@@ -32,7 +41,9 @@ use App\Models\TicketPriority;
 use App\Models\TicketRoutingRule;
 use App\Models\TicketStatus;
 use App\Models\User;
+use App\Models\Webhook;
 use App\Notifications\TicketEventNotification;
+use App\Policies\ApiCredentialPolicy;
 use App\Policies\CustomerPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\RolePolicy;
@@ -44,6 +55,7 @@ use App\Policies\TicketPriorityPolicy;
 use App\Policies\TicketRoutingRulePolicy;
 use App\Policies\TicketStatusPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\WebhookPolicy;
 use App\Support\TenantContext;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -107,6 +119,15 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(CustomerReplied::class, SendCustomerRepliedNotification::class);
         Event::listen(AgentReplied::class, SendAgentRepliedNotification::class);
 
+        Event::listen(TicketCreated::class, DispatchTicketCreatedWebhook::class);
+        Event::listen(TicketAssigned::class, DispatchTicketAssignedWebhook::class);
+        Event::listen(TicketStatusChanged::class, DispatchTicketStatusChangedWebhook::class);
+        Event::listen(TicketResolved::class, DispatchTicketResolvedWebhook::class);
+        Event::listen(TicketClosed::class, DispatchTicketClosedWebhook::class);
+        Event::listen(TicketReopened::class, DispatchTicketReopenedWebhook::class);
+        Event::listen(CustomerReplied::class, DispatchCustomerRepliedWebhook::class);
+        Event::listen(AgentReplied::class, DispatchAgentRepliedWebhook::class);
+
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(Department::class, DepartmentPolicy::class);
         Gate::policy(Customer::class, CustomerPolicy::class);
@@ -118,6 +139,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(TicketAttachment::class, TicketAttachmentPolicy::class);
         Gate::policy(TicketRoutingRule::class, TicketRoutingRulePolicy::class);
         Gate::policy(SlaPolicy::class, SlaPolicyPolicy::class);
+        Gate::policy(ApiCredential::class, ApiCredentialPolicy::class);
+        Gate::policy(Webhook::class, WebhookPolicy::class);
 
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(120)->by($request->user()?->id ?: $request->ip());

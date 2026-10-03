@@ -29,3 +29,5 @@ require __DIR__.'/api/settings.php';
 require __DIR__.'/api/reports.php';
 require __DIR__.'/api/platform.php';
 require __DIR__.'/api/integration.php';
+require __DIR__.'/api/api-credentials.php';
+require __DIR__.'/api/webhooks.php';
