@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\ApiCredential;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Services\TenantProvisioningService;
 use App\Support\TenantContext;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 /*
@@ -126,4 +128,34 @@ function actingAsPlatformAdmin(): User
 
         return $user;
     });
+}
+
+/**
+ * Creates an active credential for the given tenant and returns both
+ * the model and the plain-text secret (never recoverable afterward),
+ * so a test can authenticate as it via headers. Shared here (rather
+ * than living in one Integration API test file) so any test touching
+ * the Integration API — including rate-limiting, which lives in its
+ * own file — can use it.
+ */
+function createIntegrationCredential(Tenant $tenant, array $scopes = ApiCredential::ALL_SCOPES): array
+{
+    $pair = ApiCredential::generateCredentialPair();
+
+    $credential = ApiCredential::create([
+        'tenant_id' => $tenant->id,
+        'name' => 'Test Integration',
+        'key' => $pair['key'],
+        'secret_hash' => Hash::make($pair['secret']),
+        'secret_last_four' => substr($pair['secret'], -4),
+        'scopes' => $scopes,
+        'status' => 'active',
+    ]);
+
+    return ['credential' => $credential, 'key' => $pair['key'], 'secret' => $pair['secret']];
+}
+
+function withIntegrationAuth($testCase, array $pair)
+{
+    return $testCase->withHeaders(['X-Api-Key' => $pair['key'], 'X-Api-Secret' => $pair['secret']]);
 }

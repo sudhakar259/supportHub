@@ -780,7 +780,7 @@ endpoints:
         name: billing_interval
         description: ''
         required: false
-        example: monthly
+        example: yearly
         type: string
         enumValues:
           - monthly
@@ -828,7 +828,7 @@ endpoints:
       description: 'Eius et animi quos velit et.'
       price_cents: 12900
       currency: dlj
-      billing_interval: monthly
+      billing_interval: yearly
       limits:
         users: 30
       is_active: false

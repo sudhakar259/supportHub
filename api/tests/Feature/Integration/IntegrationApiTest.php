@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\ApiCredential;
 use App\Models\Customer;
 use App\Models\Tenant;
 use App\Models\Ticket;
@@ -9,7 +8,6 @@ use Database\Seeders\RolesAndPermissionsSeeder;
 use Database\Seeders\TicketNumberSettingSeeder;
 use Database\Seeders\TicketPrioritySeeder;
 use Database\Seeders\TicketStatusSeeder;
-use Illuminate\Support\Facades\Hash;
 
 beforeEach(function () {
     $this->seed([
@@ -19,33 +17,6 @@ beforeEach(function () {
         TicketNumberSettingSeeder::class,
     ]);
 });
-
-/**
- * Creates an active credential for the given tenant and returns both
- * the model and the plain-text secret (never recoverable afterward),
- * so the test can authenticate as it via headers.
- */
-function createIntegrationCredential(Tenant $tenant, array $scopes = ApiCredential::ALL_SCOPES): array
-{
-    $pair = ApiCredential::generateCredentialPair();
-
-    $credential = ApiCredential::create([
-        'tenant_id' => $tenant->id,
-        'name' => 'Test Integration',
-        'key' => $pair['key'],
-        'secret_hash' => Hash::make($pair['secret']),
-        'secret_last_four' => substr($pair['secret'], -4),
-        'scopes' => $scopes,
-        'status' => 'active',
-    ]);
-
-    return ['credential' => $credential, 'key' => $pair['key'], 'secret' => $pair['secret']];
-}
-
-function withIntegrationAuth($testCase, array $pair)
-{
-    return $testCase->withHeaders(['X-Api-Key' => $pair['key'], 'X-Api-Secret' => $pair['secret']]);
-}
 
 it('rejects a request with missing or invalid API credentials', function () {
     $this->getJson('/api/v1/integration/customers')->assertStatus(401);

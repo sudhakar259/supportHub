@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\PlanLimitExceededException;
 use App\Models\ApiCredential;
 use App\Models\Customer;
 use App\Models\Department;
@@ -66,12 +67,12 @@ class PlanLimitService
     }
 
     /**
-     * @throws \App\Exceptions\PlanLimitExceededException
+     * @throws PlanLimitExceededException
      */
     public function assertCanCreate(Tenant $tenant, string $feature): void
     {
         if ($this->hasReachedLimit($tenant, $feature)) {
-            throw new \App\Exceptions\PlanLimitExceededException($feature, $this->limit($tenant, $feature));
+            throw new PlanLimitExceededException($feature, $this->limit($tenant, $feature));
         }
     }
 }

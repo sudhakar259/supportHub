@@ -7,6 +7,7 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\AuditLogger;
 use App\Services\PlanLimitService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
@@ -98,6 +99,8 @@ class UserController extends Controller
 
         event(new Registered($user));
 
+        app(AuditLogger::class)->log('user.created', $user, null, ['email' => $user->email, 'role' => $request->string('role')->toString()], $request->user());
+
         return $this->created(new UserResource($user->load(['roles', 'departments'])), 'User created successfully.');
     }
 
@@ -185,7 +188,11 @@ class UserController extends Controller
             'roles.*' => ['string', Rule::exists('roles', 'name')->where('tenant_id', $request->user()->tenant_id)],
         ]);
 
+        $oldRoles = $user->getRoleNames()->all();
+
         $user->syncRoles($validated['roles']);
+
+        app(AuditLogger::class)->log('user.role_changed', $user, ['roles' => $oldRoles], ['roles' => $validated['roles']], $request->user());
 
         return $this->success(new UserResource($user->load('roles')), 'Roles updated successfully.');
     }

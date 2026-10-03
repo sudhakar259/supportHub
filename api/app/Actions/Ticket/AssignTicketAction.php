@@ -7,6 +7,7 @@ use App\Events\TicketAssigned;
 use App\Models\Ticket;
 use App\Models\TicketAssignment;
 use App\Models\User;
+use App\Services\AuditLogger;
 use App\Services\TicketActivityLogger;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\DB;
  */
 class AssignTicketAction
 {
-    public function __construct(private TicketActivityLogger $activity) {}
+    public function __construct(private TicketActivityLogger $activity, private AuditLogger $audit) {}
 
     public function execute(
         Ticket $ticket,
@@ -57,6 +58,8 @@ class AssignTicketAction
                 $actor,
                 ['assignment_type' => $type->value, 'assignee_id' => $assignee?->id]
             );
+
+            $this->audit->log('ticket.assigned', $ticket, ['assignee_id' => $previousAssigneeId], ['assignee_id' => $assignee?->id], $actor);
 
             event(new TicketAssigned($ticket->fresh(), $assignment));
 

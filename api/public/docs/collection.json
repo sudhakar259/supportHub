@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "SupportHub API Documentation",
-        "_postman_id": "613ce7de-2230-4dbc-8976-11b971842f6c",
+        "_postman_id": "ba540631-b506-4394-9e68-16da94aa92ce",
         "description": "REST API for SupportHub \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -2891,7 +2891,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":true,\"conditions\":[{\"field\":\"priority_id\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"assign_department\"}]}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":true,\"conditions\":[{\"field\":\"keyword\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"assign_department\"}]}"
                         },
                         "description": ""
                     },
@@ -3004,7 +3004,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":false,\"is_active\":false}"
+                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":false,\"is_active\":true}"
                         },
                         "description": ""
                     },
@@ -3087,7 +3087,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":true,\"is_default\":false,\"is_active\":false}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":false,\"is_default\":true,\"is_active\":false}"
                         },
                         "description": ""
                     },
@@ -3400,7 +3400,7 @@
         },
         {
             "name": "Audit Logs",
-            "description": "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET \/tickets\/{ticket}\/activities) \u2014 this covers every\nauditable action across the whole application for compliance review.\nAudit coverage is currently narrow (ticket creation and status changes\nonly); the per-ticket activity feed is the more complete log of what\nhappened to a given ticket.",
+            "description": "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET \/tickets\/{ticket}\/activities) \u2014 this covers every\nauditable action across the whole application for compliance review:\nlogin, ticket create\/assign\/status-change, customer\/user creation,\nrole changes, API credential and webhook lifecycle events, and\nplatform-admin tenant actions. There is currently no billing-change\nendpoint for a platform admin to alter an existing tenant's\nsubscription\/plan, so that action from section 42 has nothing to log\nyet.",
             "item": [
                 {
                     "name": "List audit log entries",
@@ -3525,7 +3525,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"integer\",\"group\":\"n\",\"is_public\":true}]}"
+                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"string\",\"group\":\"n\",\"is_public\":false}]}"
                         },
                         "description": ""
                     },
@@ -4845,7 +4845,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Growth\",\"slug\":\"n\",\"description\":\"Eius et animi quos velit et.\",\"price_cents\":12900,\"currency\":\"dlj\",\"billing_interval\":\"monthly\",\"limits\":{\"users\":30},\"is_active\":false,\"sort_order\":8}"
+                            "raw": "{\"name\":\"Growth\",\"slug\":\"n\",\"description\":\"Eius et animi quos velit et.\",\"price_cents\":12900,\"currency\":\"dlj\",\"billing_interval\":\"yearly\",\"limits\":{\"users\":30},\"is_active\":false,\"sort_order\":8}"
                         },
                         "description": "Existing subscriptions are unaffected until their next billing\ncycle re-evaluates limits \u2014 this only changes what NEW\nsubscriptions, and PlanLimitService's live checks for all\nsubscriptions, see going forward."
                     },
@@ -5196,6 +5196,86 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"event\": \"ticket.created\", \"success\": true, \"response_status\": 200}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Send a test event to a webhook",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/webhooks\/:webhook_id\/test",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/webhooks\/:webhook_id\/test",
+                            "variable": [
+                                {
+                                    "id": "webhook_id",
+                                    "key": "webhook_id",
+                                    "value": 16,
+                                    "description": "The ID of the webhook."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delivers a synthetic `webhook.test` event to this webhook's URL\nright away (not queued, never retried) so its endpoint and\nsignature verification can be checked without waiting for a\nreal ticket event. The attempt is still recorded as an ordinary\ndelivery, visible via GET \/webhooks\/{webhook}\/deliveries."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true, \"message\": \"Test webhook sent.\",\n  \"data\": {\"id\": 9, \"event\": \"webhook.test\", \"response_status\": 200, \"success\": true}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Rotate a webhook's signing secret",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/webhooks\/:webhook_id\/rotate-secret",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/webhooks\/:webhook_id\/rotate-secret",
+                            "variable": [
+                                {
+                                    "id": "webhook_id",
+                                    "key": "webhook_id",
+                                    "value": 16,
+                                    "description": "The ID of the webhook."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Issues a brand-new secret for this webhook; the old one no\nlonger verifies X-Webhook-Signature on any future delivery. Use\nthis instead of deleting and recreating the webhook when only\nthe secret needs to change."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true, \"message\": \"Webhook secret rotated successfully.\",\n  \"data\": {\"id\": 1, \"name\": \"Ticket sync\", \"secret\": \"whsec_...\"}\n}",
                             "name": ""
                         }
                     ]

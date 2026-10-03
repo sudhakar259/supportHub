@@ -5,9 +5,11 @@ namespace App\Exceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -20,10 +22,21 @@ use Throwable;
  */
 class ApiExceptionRenderer
 {
-    public static function render(Throwable $e, Request $request): ?JsonResponse
+    public static function render(Throwable $e, Request $request): JsonResponse|Response|null
     {
         if (! $request->is('api/*') && ! $request->expectsJson()) {
             return null;
+        }
+
+        // Carries an already-built response (e.g. the 'integration' rate
+        // limiter's Limit::response() callback in AppServiceProvider) —
+        // unwrap and return it as-is rather than falling through to the
+        // generic 500 below. Laravel's own handler does this unwrapping
+        // automatically, but only for exceptions that reach ITS default
+        // match() branch; registering a custom render() callback (this
+        // class) intercepts every exception before that branch runs.
+        if ($e instanceof HttpResponseException) {
+            return $e->getResponse();
         }
 
         if ($e instanceof InvalidTicketStatusTransitionException) {

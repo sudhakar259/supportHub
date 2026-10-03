@@ -11,6 +11,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Customer;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Services\AuditLogger;
 use App\Support\TenantContext;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
@@ -161,6 +162,15 @@ class AuthController extends Controller
         }
 
         $user->forceFill(['last_login_at' => now()])->save();
+
+        // /auth/login runs with no 'tenant.context' middleware (the
+        // tenant isn't known until a credential matches), so AuditLog's
+        // BelongsToTenant would otherwise stamp tenant_id from whatever
+        // ambient context happens to be set — runAs() makes it explicit
+        // instead, using the tenant the matched user actually belongs to.
+        app(TenantContext::class)->runAs($user->tenant, function () use ($user) {
+            app(AuditLogger::class)->log('auth.login', $user, null, null, $user);
+        });
 
         $token = $user->createToken($request->string('device_name')->toString() ?: 'api')->plainTextToken;
 

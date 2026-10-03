@@ -7,6 +7,7 @@ use App\Http\Requests\ApiCredential\StoreApiCredentialRequest;
 use App\Http\Requests\ApiCredential\UpdateApiCredentialRequest;
 use App\Http\Resources\ApiCredentialResource;
 use App\Models\ApiCredential;
+use App\Services\AuditLogger;
 use App\Services\PlanLimitService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -68,6 +69,8 @@ class ApiCredentialController extends Controller
             'created_by' => $request->user()->id,
         ]);
 
+        app(AuditLogger::class)->log('api_credential.created', $credential, null, ['name' => $credential->name, 'scopes' => $credential->scopes], $request->user());
+
         return $this->created(
             array_merge((new ApiCredentialResource($credential))->resolve($request), ['secret' => $pair['secret']]),
             'API credential created successfully.'
@@ -124,6 +127,8 @@ class ApiCredentialController extends Controller
             'secret_last_four' => substr($pair['secret'], -4),
         ]);
 
+        app(AuditLogger::class)->log('api_credential.secret_rotated', $credential, null, null, $request->user());
+
         return $this->success(
             array_merge((new ApiCredentialResource($credential))->resolve($request), ['secret' => $pair['secret']]),
             'Secret rotated successfully.'
@@ -139,11 +144,13 @@ class ApiCredentialController extends Controller
      *
      * @response 200 {"success": true, "message": "API credential revoked successfully.", "data": {"id": 1, "status": "revoked"}}
      */
-    public function revoke(ApiCredential $credential): JsonResponse
+    public function revoke(Request $request, ApiCredential $credential): JsonResponse
     {
         $this->authorize('delete', $credential);
 
         $credential->update(['status' => 'revoked', 'revoked_at' => now()]);
+
+        app(AuditLogger::class)->log('api_credential.revoked', $credential, null, null, $request->user());
 
         return $this->success(new ApiCredentialResource($credential), 'API credential revoked successfully.');
     }

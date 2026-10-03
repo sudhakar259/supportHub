@@ -11,6 +11,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
@@ -60,8 +61,23 @@ return Application::configure(basePath: dirname(__DIR__))
             before: SubstituteBindings::class,
             prepend: ResolveTenantContext::class,
         );
+
+        // ResolveIntegrationTenantContext additionally needs to run
+        // before ThrottleRequests specifically (not just SubstituteBindings):
+        // the 'integration' rate limiter (see AppServiceProvider) reads
+        // $request->attributes->get('apiCredential'), which this
+        // middleware is what sets. ThrottleRequests already sits before
+        // SubstituteBindings in Laravel's own default priority list, so
+        // "before: SubstituteBindings" alone was not strong enough —
+        // Laravel's priority-based sort enforces the LISTED order
+        // between any two middleware that are both in the priority map,
+        // regardless of their declared order in the route's own
+        // middleware array (['integration.auth', 'throttle:integration']
+        // would otherwise still run throttle first). Same bug class as
+        // the SubstituteBindings fix below, caught by reasoning through
+        // SortedMiddleware::sort() before it ever shipped.
         $middleware->prependToPriorityList(
-            before: SubstituteBindings::class,
+            before: ThrottleRequests::class,
             prepend: ResolveIntegrationTenantContext::class,
         );
         $middleware->prependToPriorityList(

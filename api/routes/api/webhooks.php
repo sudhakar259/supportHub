@@ -10,4 +10,6 @@ Route::middleware(['auth:api', 'tenant.context'])->prefix('webhooks')->group(fun
     Route::put('/{webhook}', [WebhookController::class, 'update']);
     Route::delete('/{webhook}', [WebhookController::class, 'destroy']);
     Route::get('/{webhook}/deliveries', [WebhookController::class, 'deliveries']);
+    Route::post('/{webhook}/test', [WebhookController::class, 'test']);
+    Route::post('/{webhook}/rotate-secret', [WebhookController::class, 'rotateSecret']);
 });

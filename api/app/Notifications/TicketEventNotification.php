@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\NotificationLog;
+use App\Models\SystemSetting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -38,7 +39,39 @@ class TicketEventNotification extends Notification implements ShouldQueue
             $mail->action('View Ticket', $this->actionUrl);
         }
 
+        $this->applyTenantEmailConfig($mail);
+
         return $mail;
+    }
+
+    /**
+     * Section 39 — tenant-specific sender name, reply-to and branding
+     * signature, each falling back to the platform default
+     * SystemSettingSeeder provides when a tenant hasn't overridden it
+     * (and, for reply-to, to the tenant's own support_email when it
+     * hasn't set a dedicated email.reply_to). Reads the current
+     * TenantContext ambiently, same as the NotificationTemplate lookup
+     * this notification's subject/body were already rendered from.
+     */
+    private function applyTenantEmailConfig(MailMessage $mail): void
+    {
+        $senderName = SystemSetting::get('email.sender_name');
+
+        if ($senderName) {
+            $mail->from(config('mail.from.address'), $senderName);
+        }
+
+        $replyTo = SystemSetting::get('email.reply_to') ?: SystemSetting::get('support_email');
+
+        if ($replyTo) {
+            $mail->replyTo($replyTo);
+        }
+
+        $signature = SystemSetting::get('email.branding_signature');
+
+        if ($signature) {
+            $mail->salutation($signature);
+        }
     }
 
     public function failed(Throwable $exception): void

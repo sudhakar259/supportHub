@@ -209,7 +209,7 @@ endpoints:
         name: 'actions[].type'
         description: ''
         required: true
-        example: assign_department
+        example: send_notification
         type: string
         enumValues:
           - assign_department
@@ -442,7 +442,7 @@ endpoints:
         name: 'conditions[].field'
         description: 'This field is required when <code>conditions</code> is present.'
         required: false
-        example: priority_id
+        example: keyword
         type: string
         enumValues:
           - category_id
@@ -512,7 +512,7 @@ endpoints:
       stop_processing: true
       conditions:
         -
-          field: priority_id
+          field: keyword
           operator: '='
       actions:
         -

@@ -187,7 +187,7 @@ endpoints:
         name: is_active
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -203,7 +203,7 @@ endpoints:
       resolution_minutes: 120
       business_hours_only: false
       is_default: false
-      is_active: false
+      is_active: true
     fileParameters: []
     responses:
       -
@@ -402,7 +402,7 @@ endpoints:
         name: business_hours_only
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -413,7 +413,7 @@ endpoints:
         name: is_default
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -438,8 +438,8 @@ endpoints:
       business_hours_id: 16
       first_response_minutes: 10
       resolution_minutes: 67
-      business_hours_only: true
-      is_default: false
+      business_hours_only: false
+      is_default: true
       is_active: false
     fileParameters: []
     responses:

@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\V1\Integration\CustomerController;
 use App\Http\Controllers\Api\V1\Integration\TicketController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['integration.auth', 'throttle:api'])->prefix('integration')->group(function () {
+Route::middleware(['integration.auth', 'throttle:integration'])->prefix('integration')->group(function () {
     Route::middleware('scope:customers.read')->group(function () {
         Route::get('/customers', [CustomerController::class, 'index']);
         Route::get('/customers/lookup', [CustomerController::class, 'lookup']);

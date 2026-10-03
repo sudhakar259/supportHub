@@ -20,6 +20,12 @@ class SystemSettingSeeder extends Seeder
             ['key' => 'support_email', 'value' => 'support@supporthub.test', 'type' => 'string', 'group' => 'general', 'is_public' => true],
             ['key' => 'max_open_tickets_per_customer', 'value' => '10', 'type' => 'integer', 'group' => 'tickets', 'is_public' => false],
             ['key' => 'maintenance_mode', 'value' => 'false', 'type' => 'boolean', 'group' => 'general', 'is_public' => false],
+            // Section 39 — tenant-specific email configuration. Platform
+            // defaults here (tenant_id null); a tenant that writes its own
+            // override via PUT /system-settings forks its own row the
+            // same way every other HasTenantOverride setting does.
+            ['key' => 'email.sender_name', 'value' => 'Support24 Team', 'type' => 'string', 'group' => 'email', 'is_public' => false],
+            ['key' => 'email.branding_signature', 'value' => "Regards,\nSupport24 Team", 'type' => 'string', 'group' => 'email', 'is_public' => false],
         ];
 
         foreach ($settings as $setting) {

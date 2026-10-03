@@ -54,7 +54,7 @@ tags:
     description: "\nAggregate reporting. These run live queries rather than against a\npre-aggregated table — acceptable at the data volumes a support\ndesk accumulates, but the first thing to revisit if that changes."
   -
     name: 'Audit Logs'
-    description: "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET /tickets/{ticket}/activities) — this covers every\nauditable action across the whole application for compliance review.\nAudit coverage is currently narrow (ticket creation and status changes\nonly); the per-ticket activity feed is the more complete log of what\nhappened to a given ticket."
+    description: "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET /tickets/{ticket}/activities) — this covers every\nauditable action across the whole application for compliance review:\nlogin, ticket create/assign/status-change, customer/user creation,\nrole changes, API credential and webhook lifecycle events, and\nplatform-admin tenant actions. There is currently no billing-change\nendpoint for a platform admin to alter an existing tenant's\nsubscription/plan, so that action from section 42 has nothing to log\nyet."
   -
     name: Settings
     description: "\nSystem-wide configuration key/value pairs. Anyone authenticated can\nread the subset marked is_public (e.g. a \"support hours\" display\nstring); the full set, and all writes, require settings.manage."
@@ -4024,7 +4024,7 @@ paths:
                       type:
                         type: string
                         description: ''
-                        example: assign_department
+                        example: send_notification
                         enum:
                           - assign_department
                           - assign_agent
@@ -4152,7 +4152,7 @@ paths:
                       field:
                         type: string
                         description: 'This field is required when <code>conditions</code> is present.'
-                        example: priority_id
+                        example: keyword
                         enum:
                           - category_id
                           - priority_id
@@ -4359,7 +4359,7 @@ paths:
                 is_active:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
               required:
                 - name
                 - first_response_minutes
@@ -4479,11 +4479,11 @@ paths:
                 business_hours_only:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 is_default:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                 is_active:
                   type: boolean
                   description: ''
@@ -5194,7 +5194,7 @@ paths:
                       type:
                         type: string
                         description: ''
-                        example: integer
+                        example: string
                         enum:
                           - string
                           - integer
@@ -5207,7 +5207,7 @@ paths:
                       is_public:
                         type: boolean
                         description: ''
-                        example: true
+                        example: false
                       '*':
                         type: object
                         description: ''
@@ -7190,7 +7190,7 @@ paths:
                 billing_interval:
                   type: string
                   description: ''
-                  example: monthly
+                  example: yearly
                   enum:
                     - monthly
                     - yearly
@@ -7795,6 +7795,110 @@ paths:
                         response_status:
                           type: integer
                           example: 200
+      tags:
+        - Webhooks
+    parameters:
+      -
+        in: path
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  '/api/v1/webhooks/{webhook_id}/test':
+    post:
+      summary: 'Send a test event to a webhook'
+      operationId: sendATestEventToAWebhook
+      description: "Delivers a synthetic `webhook.test` event to this webhook's URL\nright away (not queued, never retried) so its endpoint and\nsignature verification can be checked without waiting for a\nreal ticket event. The attempt is still recorded as an ordinary\ndelivery, visible via GET /webhooks/{webhook}/deliveries."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Test webhook sent.'
+                  data:
+                    id: 9
+                    event: webhook.test
+                    response_status: 200
+                    success: true
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Test webhook sent.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 9
+                      event:
+                        type: string
+                        example: webhook.test
+                      response_status:
+                        type: integer
+                        example: 200
+                      success:
+                        type: boolean
+                        example: true
+      tags:
+        - Webhooks
+    parameters:
+      -
+        in: path
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  '/api/v1/webhooks/{webhook_id}/rotate-secret':
+    post:
+      summary: "Rotate a webhook's signing secret"
+      operationId: rotateAWebhooksSigningSecret
+      description: "Issues a brand-new secret for this webhook; the old one no\nlonger verifies X-Webhook-Signature on any future delivery. Use\nthis instead of deleting and recreating the webhook when only\nthe secret needs to change."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Webhook secret rotated successfully.'
+                  data:
+                    id: 1
+                    name: 'Ticket sync'
+                    secret: whsec_...
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Webhook secret rotated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Ticket sync'
+                      secret:
+                        type: string
+                        example: whsec_...
       tags:
         - Webhooks
     parameters:

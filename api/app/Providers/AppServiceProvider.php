@@ -56,6 +56,7 @@ use App\Policies\TicketRoutingRulePolicy;
 use App\Policies\TicketStatusPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\WebhookPolicy;
+use App\Services\PlanLimitService;
 use App\Support\TenantContext;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -150,6 +151,35 @@ class AppServiceProvider extends ServiceProvider
         // forgot-password) to slow down credential stuffing / enumeration.
         RateLimiter::for('auth', function (Request $request) {
             return Limit::perMinute(10)->by($request->ip());
+        });
+
+        // Section 35: Integration API requests are billed/limited by the
+        // calling tenant's membership plan (api_requests_per_day), not a
+        // flat global number — ResolveIntegrationTenantContext runs
+        // before this (see bootstrap/app.php's priority list) and
+        // attaches the authenticated credential, so it's always present
+        // here. A plan with no api_requests_per_day limit (null, e.g.
+        // Enterprise) is unlimited, same convention as PlanLimitService.
+        RateLimiter::for('integration', function (Request $request) {
+            $credential = $request->attributes->get('apiCredential');
+            $tenant = $credential?->tenant;
+            $limit = $tenant ? app(PlanLimitService::class)->limit($tenant, 'api_requests_per_day') : null;
+
+            if ($limit === null) {
+                return Limit::none();
+            }
+
+            return Limit::perDay($limit)->by($credential->id)->response(function (Request $request, array $headers) use ($limit) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'API request limit exceeded for your current plan.',
+                    'errors' => [
+                        'limit' => $limit,
+                        'period' => 'day',
+                        'retry_after_seconds' => $headers['Retry-After'] ?? null,
+                    ],
+                ], 429, $headers);
+            });
         });
     }
 }

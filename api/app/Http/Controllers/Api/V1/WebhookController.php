@@ -8,7 +8,9 @@ use App\Http\Requests\Webhook\UpdateWebhookRequest;
 use App\Http\Resources\WebhookDeliveryResource;
 use App\Http\Resources\WebhookResource;
 use App\Models\Webhook;
+use App\Services\AuditLogger;
 use App\Services\PlanLimitService;
+use App\Services\WebhookDispatcher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -67,6 +69,8 @@ class WebhookController extends Controller
             'is_active' => $request->boolean('is_active', true),
         ]);
 
+        app(AuditLogger::class)->log('webhook.created', $webhook, null, $webhook->only(['name', 'url', 'events', 'is_active']), $request->user());
+
         return $this->created(
             array_merge((new WebhookResource($webhook))->resolve($request), ['secret' => $secret]),
             'Webhook created successfully.'
@@ -99,9 +103,65 @@ class WebhookController extends Controller
     {
         $this->authorize('update', $webhook);
 
+        $oldValues = $webhook->only(['name', 'url', 'events', 'is_active']);
+
         $webhook->update($request->validated());
 
+        app(AuditLogger::class)->log('webhook.updated', $webhook, $oldValues, $webhook->only(['name', 'url', 'events', 'is_active']), $request->user());
+
         return $this->success(new WebhookResource($webhook), 'Webhook updated successfully.');
+    }
+
+    /**
+     * Rotate a webhook's signing secret
+     *
+     * Issues a brand-new secret for this webhook; the old one no
+     * longer verifies X-Webhook-Signature on any future delivery. Use
+     * this instead of deleting and recreating the webhook when only
+     * the secret needs to change.
+     *
+     * @response 200 {
+     *   "success": true, "message": "Webhook secret rotated successfully.",
+     *   "data": {"id": 1, "name": "Ticket sync", "secret": "whsec_..."}
+     * }
+     */
+    public function rotateSecret(Request $request, Webhook $webhook): JsonResponse
+    {
+        $this->authorize('update', $webhook);
+
+        $secret = Webhook::generateSecret();
+
+        $webhook->update(['secret' => $secret]);
+
+        app(AuditLogger::class)->log('webhook.secret_rotated', $webhook, null, null, $request->user());
+
+        return $this->success(
+            array_merge((new WebhookResource($webhook))->resolve($request), ['secret' => $secret]),
+            'Webhook secret rotated successfully.'
+        );
+    }
+
+    /**
+     * Send a test event to a webhook
+     *
+     * Delivers a synthetic `webhook.test` event to this webhook's URL
+     * right away (not queued, never retried) so its endpoint and
+     * signature verification can be checked without waiting for a
+     * real ticket event. The attempt is still recorded as an ordinary
+     * delivery, visible via GET /webhooks/{webhook}/deliveries.
+     *
+     * @response 200 {
+     *   "success": true, "message": "Test webhook sent.",
+     *   "data": {"id": 9, "event": "webhook.test", "response_status": 200, "success": true}
+     * }
+     */
+    public function test(Webhook $webhook): JsonResponse
+    {
+        $this->authorize('update', $webhook);
+
+        $delivery = app(WebhookDispatcher::class)->test($webhook);
+
+        return $this->success(new WebhookDeliveryResource($delivery), 'Test webhook sent.');
     }
 
     /**
@@ -109,9 +169,11 @@ class WebhookController extends Controller
      *
      * @response 200 {"success": true, "message": "Webhook deleted successfully.", "data": null}
      */
-    public function destroy(Webhook $webhook): JsonResponse
+    public function destroy(Request $request, Webhook $webhook): JsonResponse
     {
         $this->authorize('delete', $webhook);
+
+        app(AuditLogger::class)->log('webhook.deleted', $webhook, $webhook->only(['name', 'url', 'events']), null, $request->user());
 
         $webhook->delete();
 

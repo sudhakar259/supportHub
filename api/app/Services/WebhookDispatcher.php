@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Jobs\DeliverWebhookJob;
 use App\Models\Tenant;
 use App\Models\Webhook;
+use App\Models\WebhookDelivery;
+use Illuminate\Support\Facades\Http;
 
 /**
  * The single place ticket-lifecycle listeners hand off to when
@@ -30,5 +32,57 @@ class WebhookDispatcher
                     DeliverWebhookJob::dispatch($webhook, $event, $payload);
                 }
             });
+    }
+
+    /**
+     * One-shot, synchronous delivery of a synthetic "webhook.test" event
+     * so a tenant can verify its endpoint/signature handling without
+     * waiting for a real ticket event — section 36. Unlike
+     * DeliverWebhookJob this never queues or retries: the caller gets
+     * the outcome of this single attempt back immediately, and it's
+     * still recorded as an ordinary WebhookDelivery row so it shows up
+     * alongside real deliveries in the log.
+     */
+    public function test(Webhook $webhook): WebhookDelivery
+    {
+        $payload = [
+            'message' => 'This is a test event from Support24.',
+            'webhook_id' => $webhook->id,
+        ];
+
+        $body = [
+            'event' => 'webhook.test',
+            'data' => $payload,
+            'timestamp' => now()->toIso8601String(),
+        ];
+
+        $signature = $webhook->sign(json_encode($body));
+
+        try {
+            $response = Http::withHeaders([
+                'X-Webhook-Signature' => $signature,
+                'X-Webhook-Event' => 'webhook.test',
+            ])->timeout(10)->post($webhook->url, $body);
+
+            $status = $response->status();
+            $responseBody = $response->body();
+            $success = $response->successful();
+        } catch (\Throwable $e) {
+            $status = 0;
+            $responseBody = $e->getMessage();
+            $success = false;
+        }
+
+        return WebhookDelivery::create([
+            'tenant_id' => $webhook->tenant_id,
+            'webhook_id' => $webhook->id,
+            'event' => 'webhook.test',
+            'payload' => $payload,
+            'response_status' => $status,
+            'response_body' => $responseBody !== null ? substr($responseBody, 0, 2000) : null,
+            'success' => $success,
+            'attempt' => 1,
+            'attempted_at' => now(),
+        ]);
     }
 }

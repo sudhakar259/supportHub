@@ -8,6 +8,7 @@ use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Models\User;
+use App\Services\AuditLogger;
 use App\Services\PlanLimitService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
@@ -95,6 +96,8 @@ class CustomerController extends Controller
         });
 
         event(new Registered($customer->user));
+
+        app(AuditLogger::class)->log('customer.created', $customer, null, $customer->only(['company_name', 'customer_type', 'external_id']), $request->user());
 
         return $this->created(new CustomerResource($customer->load('user')), 'Customer created successfully.');
     }

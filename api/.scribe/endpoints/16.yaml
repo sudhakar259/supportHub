@@ -117,7 +117,7 @@ endpoints:
         name: 'settings[].type'
         description: ''
         required: false
-        example: integer
+        example: string
         type: string
         enumValues:
           - string
@@ -143,7 +143,7 @@ endpoints:
         name: 'settings[].is_public'
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -208,9 +208,9 @@ endpoints:
       settings:
         -
           key: b
-          type: integer
+          type: string
           group: 'n'
-          is_public: true
+          is_public: false
     fileParameters: []
     responses:
       -

@@ -461,3 +461,138 @@ endpoints:
     controller: null
     method: null
     route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/webhooks/{webhook_id}/test'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Send a test event to a webhook'
+      description: |-
+        Delivers a synthetic `webhook.test` event to this webhook's URL
+        right away (not queued, never retried) so its endpoint and
+        signature verification can be checked without waiting for a
+        real ticket event. The attempt is still recorded as an ordinary
+        delivery, visible via GET /webhooks/{webhook}/deliveries.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 16
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true, "message": "Test webhook sent.",
+            "data": {"id": 9, "event": "webhook.test", "response_status": 200, "success": true}
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/webhooks/{webhook_id}/rotate-secret'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Rotate a webhook's signing secret"
+      description: |-
+        Issues a brand-new secret for this webhook; the old one no
+        longer verifies X-Webhook-Signature on any future delivery. Use
+        this instead of deleting and recreating the webhook when only
+        the secret needs to change.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 16
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true, "message": "Webhook secret rotated successfully.",
+            "data": {"id": 1, "name": "Ticket sync", "secret": "whsec_..."}
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
