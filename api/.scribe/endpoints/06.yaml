@@ -1,31 +1,29 @@
-name: Statuses
+name: Categories
 description: |-
 
-  The seven built-in statuses (Open, In Progress, Pending, Escalated,
-  Resolved, Closed, Reopened) drive the ticket status workflow (see
-  docs/ticket-workflow.md) and are matched by slug, not id — additional
-  statuses can be added here for labeling/reporting but will not
-  automatically participate in transition validation.
+  Ticket categories and subcategories. A "subcategory" is simply another
+  row with parent_id set — see the architecture docs for why this
+  replaces a separate child-categories table.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/statuses
+    uri: api/v1/categories
     metadata:
       custom: []
-      groupName: Statuses
+      groupName: Categories
       groupDescription: |-
 
-        The seven built-in statuses (Open, In Progress, Pending, Escalated,
-        Resolved, Closed, Reopened) drive the ticket status workflow (see
-        docs/ticket-workflow.md) and are matched by slug, not id — additional
-        statuses can be added here for labeling/reporting but will not
-        automatically participate in transition validation.
+        Ticket categories and subcategories. A "subcategory" is simply another
+        row with parent_id set — see the architecture docs for why this
+        replaces a separate child-categories table.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List statuses'
-      description: ''
+      title: 'List categories'
+      description: |-
+        Returns top-level categories with their children eager-loaded.
+        Use filter[parent_id]=null to explicitly list only root categories.
       authenticated: true
       deprecated: false
     headers:
@@ -34,8 +32,44 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
+    queryParameters:
+      'filter[department_id]':
+        custom: []
+        name: 'filter[department_id]'
+        description: 'Filter by department.'
+        required: false
+        example: '2'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[is_active]':
+        custom: []
+        name: 'filter[is_active]'
+        description: 'Filter by active status.'
+        required: false
+        example: 'true'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      sort:
+        custom: []
+        name: sort
+        description: 'Sort by name or sort_order.'
+        required: false
+        example: sort_order
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      'filter[department_id]': '2'
+      'filter[is_active]': 'true'
+      sort: sort_order
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -43,7 +77,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Open", "slug": "open"}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Billing", "children": []}]}'
         headers: []
         description: ''
     responseFields: []
@@ -58,20 +92,18 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/v1/statuses
+    uri: api/v1/categories
     metadata:
       custom: []
-      groupName: Statuses
+      groupName: Categories
       groupDescription: |-
 
-        The seven built-in statuses (Open, In Progress, Pending, Escalated,
-        Resolved, Closed, Reopened) drive the ticket status workflow (see
-        docs/ticket-workflow.md) and are matched by slug, not id — additional
-        statuses can be added here for labeling/reporting but will not
-        automatically participate in transition validation.
+        Ticket categories and subcategories. A "subcategory" is simply another
+        row with parent_id set — see the architecture docs for why this
+        replaces a separate child-categories table.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create a status'
+      title: 'Create a category'
       description: ''
       authenticated: true
       deprecated: false
@@ -89,7 +121,7 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: 'On Hold'
+        example: Billing
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -98,42 +130,53 @@ endpoints:
       slug:
         custom: []
         name: slug
-        description: 'Unique, used internally.'
+        description: 'Must not be greater than 255 characters.'
         required: true
-        example: on-hold
+        example: 'n'
         type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      color:
-        custom: []
-        name: color
-        description: 'Hex color.'
-        required: false
-        example: '#6B7280'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      is_default:
-        custom: []
-        name: is_default
-        description: ''
-        required: false
-        example: true
-        type: boolean
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      is_closed:
+      parent_id:
         custom: []
-        name: is_closed
-        description: 'Whether this status counts as a terminal/closed state.'
+        name: parent_id
+        description: 'Parent category id, omit for a top-level category.'
         required: false
-        example: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      department_id:
+        custom: []
+        name: department_id
+        description: 'Department this category routes to.'
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: ''
+        required: false
+        example: 'Invoicing and payment questions.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: 'Defaults to true.'
+        required: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: true
@@ -142,27 +185,28 @@ endpoints:
       sort_order:
         custom: []
         name: sort_order
-        description: 'Must be at least 0.'
+        description: 'Defaults to 0.'
         required: false
-        example: 37
+        example: 1
         type: integer
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: 'On Hold'
-      slug: on-hold
-      color: '#6B7280'
-      is_default: true
-      is_closed: false
-      sort_order: 37
+      name: Billing
+      slug: 'n'
+      parent_id: null
+      department_id: 2
+      description: 'Invoicing and payment questions.'
+      is_active: true
+      sort_order: 1
     fileParameters: []
     responses:
       -
         custom: []
         status: 201
-        content: '{"success": true, "message": "Status created successfully.", "data": {"id": 8, "name": "On Hold"}}'
+        content: '{"success": true, "message": "Category created successfully.", "data": {"id": 5, "name": "Billing"}}'
         headers: []
         description: ''
     responseFields: []
@@ -177,20 +221,18 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/statuses/{id}'
+    uri: 'api/v1/categories/{id}'
     metadata:
       custom: []
-      groupName: Statuses
+      groupName: Categories
       groupDescription: |-
 
-        The seven built-in statuses (Open, In Progress, Pending, Escalated,
-        Resolved, Closed, Reopened) drive the ticket status workflow (see
-        docs/ticket-workflow.md) and are matched by slug, not id — additional
-        statuses can be added here for labeling/reporting but will not
-        automatically participate in transition validation.
+        Ticket categories and subcategories. A "subcategory" is simply another
+        row with parent_id set — see the architecture docs for why this
+        replaces a separate child-categories table.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get a status'
+      title: 'Get a category'
       description: ''
       authenticated: true
       deprecated: false
@@ -202,7 +244,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the status.'
+        description: 'The ID of the category.'
         required: true
         example: 1
         type: integer
@@ -221,7 +263,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Open"}}'
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Billing"}}'
         headers: []
         description: ''
     responseFields: []
@@ -237,20 +279,18 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'api/v1/statuses/{id}'
+    uri: 'api/v1/categories/{id}'
     metadata:
       custom: []
-      groupName: Statuses
+      groupName: Categories
       groupDescription: |-
 
-        The seven built-in statuses (Open, In Progress, Pending, Escalated,
-        Resolved, Closed, Reopened) drive the ticket status workflow (see
-        docs/ticket-workflow.md) and are matched by slug, not id — additional
-        statuses can be added here for labeling/reporting but will not
-        automatically participate in transition validation.
+        Ticket categories and subcategories. A "subcategory" is simply another
+        row with parent_id set — see the architecture docs for why this
+        replaces a separate child-categories table.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update a status'
+      title: 'Update a category'
       description: ''
       authenticated: true
       deprecated: false
@@ -262,7 +302,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the status.'
+        description: 'The ID of the category.'
         required: true
         example: 1
         type: integer
@@ -280,7 +320,7 @@ endpoints:
         name: name
         description: ''
         required: false
-        example: 'On Hold'
+        example: 'Billing & Payments'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -289,7 +329,7 @@ endpoints:
       slug:
         custom: []
         name: slug
-        description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 255 characters.'
+        description: 'Must not be greater than 255 characters.'
         required: false
         example: 'n'
         type: string
@@ -297,37 +337,48 @@ endpoints:
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      color:
+      parent_id:
         custom: []
-        name: color
+        name: parent_id
         description: ''
         required: false
-        example: '#F59E0B'
-        type: string
+        example: null
+        type: integer
         enumValues: []
         exampleWasSpecified: true
-        nullable: false
+        nullable: true
         deprecated: false
-      is_default:
+      department_id:
         custom: []
-        name: is_default
+        name: department_id
         description: ''
         required: false
-        example: false
-        type: boolean
+        example: 2
+        type: integer
         enumValues: []
-        exampleWasSpecified: false
-        nullable: false
+        exampleWasSpecified: true
+        nullable: true
         deprecated: false
-      is_closed:
+      description:
         custom: []
-        name: is_closed
+        name: description
         description: ''
         required: false
-        example: false
-        type: boolean
+        example: 'Eius et animi quos velit et.'
+        type: string
         enumValues: []
         exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
       sort_order:
@@ -335,25 +386,26 @@ endpoints:
         name: sort_order
         description: 'Must be at least 0.'
         required: false
-        example: 37
+        example: 60
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: 'On Hold'
+      name: 'Billing & Payments'
       slug: 'n'
-      color: '#F59E0B'
-      is_default: false
-      is_closed: false
-      sort_order: 37
+      parent_id: null
+      department_id: 2
+      description: 'Eius et animi quos velit et.'
+      is_active: true
+      sort_order: 60
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Status updated successfully.", "data": {"id": 8, "name": "On Hold"}}'
+        content: '{"success": true, "message": "Category updated successfully.", "data": {"id": 1, "name": "Billing & Payments"}}'
         headers: []
         description: ''
     responseFields: []
@@ -368,21 +420,21 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/v1/statuses/{id}'
+    uri: 'api/v1/categories/{id}'
     metadata:
       custom: []
-      groupName: Statuses
+      groupName: Categories
       groupDescription: |-
 
-        The seven built-in statuses (Open, In Progress, Pending, Escalated,
-        Resolved, Closed, Reopened) drive the ticket status workflow (see
-        docs/ticket-workflow.md) and are matched by slug, not id — additional
-        statuses can be added here for labeling/reporting but will not
-        automatically participate in transition validation.
+        Ticket categories and subcategories. A "subcategory" is simply another
+        row with parent_id set — see the architecture docs for why this
+        replaces a separate child-categories table.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a status'
-      description: 'Refuses to delete a status that is currently in use by any ticket.'
+      title: 'Delete a category'
+      description: |-
+        Soft-deletes the category and cascades to its subcategories.
+        Tickets already in this category keep their category_id.
       authenticated: true
       deprecated: false
     headers:
@@ -393,7 +445,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the status.'
+        description: 'The ID of the category.'
         required: true
         example: 1
         type: integer
@@ -412,13 +464,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Status deleted successfully.", "data": null}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 422
-        content: '{"success": false, "message": "This status is in use by existing tickets and cannot be deleted."}'
+        content: '{"success": true, "message": "Category deleted successfully.", "data": null}'
         headers: []
         description: ''
     responseFields: []

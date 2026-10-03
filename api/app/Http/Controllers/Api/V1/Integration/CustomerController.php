@@ -25,6 +25,11 @@ use Illuminate\Support\Str;
  * records in sync with this helpdesk. Every endpoint here is scoped to
  * the credential's own tenant; there is no cross-tenant visibility no
  * matter what id is requested.
+ *
+ * @unauthenticated
+ *
+ * @header X-Api-Key ak_abcdef1234567890abcdef1234567890
+ * @header X-Api-Secret as_abcdef1234567890abcdef1234567890abcdef12345678
  */
 class CustomerController extends Controller
 {

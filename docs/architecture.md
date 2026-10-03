@@ -12,6 +12,22 @@ Mobile App ─┼─▶  REST API (/api/v1)  ─▶  Laravel  ─▶  MySQL / Re
 3rd party  ─┘
 ```
 
+SupportHub is **multi-tenant**: one deployment and database serve many
+independent organizations, each with completely isolated data. This
+document covers the application's general shape; see `docs/multi-tenancy.md`
+for the tenant layer specifically — how tenant context is resolved and
+enforced, platform vs. tenant administration, API credentials/scopes,
+webhooks, and plan limits.
+
+```
+Support24 Platform
+      │
+      ├── Platform Admin(s)
+      │
+      ├── Tenant: Acme Support   ── Users / Roles / Departments / Customers / Tickets
+      └── Tenant: Globex Helpdesk ── Users / Roles / Departments / Customers / Tickets
+```
+
 ## Request lifecycle
 
 Controllers are intentionally thin:
@@ -49,7 +65,14 @@ Stateless Bearer tokens via Laravel Sanctum on a custom `api` guard — see
 `docs/authentication.md` for why `auth:api` is used instead of the more
 commonly-documented `auth:sanctum`, and `docs/authorization.md` for the full
 RBAC model (roles, permissions, and how ticket-level access is scoped by
-department).
+department). A tenant's own backend systems (not a person) authenticate to
+the integration API separately, via an API key + secret pair — see the
+"Integration API authentication" section of `docs/authentication.md`.
+
+Underneath both of the above sits a third, non-optional layer: every
+tenant-owned query is scoped to the current request's resolved tenant by a
+global Eloquent scope, applied automatically, never written by hand in a
+controller. See `docs/multi-tenancy.md`.
 
 ## The ticket engine
 
@@ -119,22 +142,32 @@ api/
 │   ├── Exceptions/            ApiExceptionRenderer (standard error envelope), domain exceptions
 │   ├── Http/
 │   │   ├── Concerns/          ApiResponse trait
-│   │   ├── Controllers/Api/V1 Thin controllers
+│   │   ├── Controllers/Api/V1 Thin controllers (Platform/, Integration/ subdirs
+│   │   │                      for platform-admin and credential-authenticated routes)
+│   │   ├── Middleware/        ResolveTenantContext, ResolveIntegrationTenantContext,
+│   │   │                      RequirePlatformAdmin, RequireApiScope
 │   │   ├── Requests/          Form Requests (validation + per-field authorization)
 │   │   └── Resources/         API Resources (control exactly what's serialized)
+│   ├── Jobs/                  DeliverWebhookJob
 │   ├── Listeners/Ticket/      Queued notification listeners
+│   ├── Listeners/Webhook/     Queued webhook-dispatch listeners (one per ticket event)
 │   ├── Models/                Eloquent models
 │   ├── Notifications/         TicketEventNotification
 │   ├── Policies/               Authorization policies
-│   └── Services/               Stateless reusable logic
+│   ├── Rules/                  NotAPrivateUrl (webhook URL SSRF guard)
+│   ├── Services/               Stateless reusable logic, incl. TenantContext-adjacent
+│   │                            services: WebhookDispatcher, PlanLimitService
+│   └── Support/TenantContext.php  The tenant-resolution singleton — see docs/multi-tenancy.md
 ├── database/
 │   ├── factories/
 │   ├── migrations/
 │   └── seeders/
 ├── routes/
 │   ├── api.php                 Requires one file per domain from routes/api/
-│   └── api/                    auth.php, tickets.php, departments.php, ...
+│   └── api/                    auth.php, tickets.php, departments.php, platform.php,
+│                                integration.php, api-credentials.php, webhooks.php, ...
 └── tests/
     ├── Feature/                HTTP-level tests, one file per domain
+    ├── Feature/TenantIsolation/  Cross-tenant IDOR, cold-request, and copy-on-write tests
     └── Unit/                   Pure-logic tests (BusinessHoursCalculator)
 ```

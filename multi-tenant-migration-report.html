@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support24 — Multi-Tenant SaaS Migration Report</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --panel-2: #1d2129;
+    --border: #2a2f3a;
+    --text: #e6e8ec;
+    --muted: #9aa3b2;
+    --accent: #5b8def;
+    --good: #3fb950;
+    --warn: #e3b341;
+    --bad: #f85149;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 80px; }
+  header.hero {
+    padding: 56px 24px 40px;
+    background: linear-gradient(180deg, #161b26 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  header.hero .wrap { padding: 0; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  .subtitle { color: var(--muted); font-size: 15px; margin: 0 0 24px; }
+  .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    font-size: 13px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--panel); color: var(--text); font-weight: 600;
+  }
+  .badge.good { border-color: #2a4a2f; background: #15271a; color: var(--good); }
+  .badge.bad { border-color: #4a2a2a; background: #271515; color: var(--bad); }
+  .badge.warn { border-color: #4a3f1a; background: #272015; color: var(--warn); }
+  nav.toc {
+    margin: 32px 0; padding: 20px 24px; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  nav.toc h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 12px; }
+  nav.toc ol { margin: 0; padding-left: 20px; columns: 2; gap: 24px; }
+  nav.toc li { margin-bottom: 6px; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-size: 14px; }
+  nav.toc a:hover { text-decoration: underline; }
+  section { margin: 48px 0; }
+  h2 {
+    font-size: 21px; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .num { color: var(--accent); font-family: var(--mono); font-size: 15px; }
+  h3 { font-size: 16px; margin: 24px 0 10px; color: var(--text); }
+  p { color: #cfd3dc; }
+  .muted { color: var(--muted); }
+  code, pre, .mono { font-family: var(--mono); font-size: 13px; }
+  code { background: #1f2330; padding: 2px 6px; border-radius: 4px; color: #c9d3f0; }
+  pre {
+    background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; overflow-x: auto; color: #c9d3f0;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  tr:last-child td { border-bottom: none; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px;
+    margin: 14px 0;
+  }
+  .sev { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 6px; text-transform: uppercase; letter-spacing: .03em; }
+  .sev.critical { background: #2a1416; color: #ff7b72; border: 1px solid #5a2326; }
+  .sev.high { background: #2a1d10; color: #f0883e; border: 1px solid #5a3b18; }
+  .sev.medium { background: #272015; color: var(--warn); border: 1px solid #4a3f1a; }
+  .sev.systemic { background: #1a1f2e; color: #8ab4f8; border: 1px solid #2a3a5a; }
+  .finding { border-left: 3px solid var(--bad); }
+  .finding.high { border-left-color: #f0883e; }
+  .finding.medium { border-left-color: var(--warn); }
+  .finding.systemic { border-left-color: #8ab4f8; }
+  .finding h4 { margin: 0 0 8px; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+  .finding .meta { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .finding dl { margin: 10px 0 0; }
+  .finding dt { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-top: 10px; }
+  .finding dd { margin: 4px 0 0; color: #cfd3dc; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .stat {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; text-align: center;
+  }
+  .stat .n { font-size: 28px; font-weight: 700; color: var(--accent); }
+  .stat .n.good { color: var(--good); }
+  .stat .l { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 16px 0; }
+  ul.clean { padding-left: 20px; }
+  ul.clean li { margin-bottom: 6px; color: #cfd3dc; }
+  .ok::before { content: "✓ "; color: var(--good); font-weight: 700; }
+  .pending::before { content: "○ "; color: var(--muted); font-weight: 700; }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0 10px; border-top: 1px solid var(--border); margin-top: 60px; }
+  @media (max-width: 720px) {
+    nav.toc ol { columns: 1; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Support24 — Multi-Tenant SaaS Migration Report</h1>
+    <p class="subtitle">Converting the existing Laravel ticketing API into a production-ready multi-tenant platform, generated 2026-10-03</p>
+    <div class="badges">
+      <span class="badge good">159 / 159 tests passing</span>
+      <span class="badge bad">1 critical cross-tenant vulnerability found &amp; fixed</span>
+      <span class="badge warn">17 Form Requests had systemic tenant-scoping gaps</span>
+      <span class="badge">206 files changed</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#summary">Executive summary</a></li>
+    <li><a href="#audit">Existing architecture audit</a></li>
+    <li><a href="#database">Database changes</a></li>
+    <li><a href="#tenant-arch">New tenant architecture</a></li>
+    <li><a href="#api-changes">API changes</a></li>
+    <li><a href="#auth-changes">Authentication changes</a></li>
+    <li><a href="#authz-changes">Authorization changes</a></li>
+    <li><a href="#scopes">Scope implementation</a></li>
+    <li><a href="#customer-integration">Customer integration</a></li>
+    <li><a href="#subscriptions">Subscription implementation</a></li>
+    <li><a href="#webhooks">Webhook implementation</a></li>
+    <li><a href="#findings">Security findings</a></li>
+    <li><a href="#tests">Tests executed, passed, failed</a></li>
+    <li><a href="#isolation-tests">Security &amp; tenant-isolation tests</a></li>
+    <li><a href="#breaking">Breaking changes</a></li>
+    <li><a href="#risks">Migration risks</a></li>
+    <li><a href="#remaining">Remaining work</a></li>
+  </ol>
+</nav>
+
+<section id="summary">
+  <h2><span class="num">01</span> Executive summary</h2>
+  <p>
+    The existing Support24 Laravel API — a single-tenant customer support ticketing
+    system with Sanctum auth, RBAC, full ticket lifecycle, routing/SLA, notifications,
+    and Scribe documentation — has been converted into a multi-tenant SaaS platform.
+    Every tenant-owned resource (users, customers, departments, tickets and their
+    related records, roles, API credentials, webhooks) is isolated by an automatic,
+    global query scope keyed to the authenticated request's resolved tenant, never
+    trusting any client-supplied tenant identifier.
+  </p>
+  <p>
+    Beyond the planned feature work, this migration surfaced and fixed
+    <strong>one critical, application-wide cross-tenant data-leak vulnerability</strong>
+    (a Laravel middleware-ordering issue that made route-model binding run before
+    tenant context was resolved), <strong>one severe pre-existing authorization gap</strong>
+    in how <code>spatie/laravel-permission</code>'s <code>Role</code> model was used, and a
+    <strong>systemic pattern</strong> across roughly seventeen validation classes that predated
+    multi-tenancy and had never been updated to respect the new tenant boundary. All are
+    detailed in <a href="#findings">Security findings</a>, each with a regression test that
+    was confirmed to fail without the fix and pass with it.
+  </p>
+  <div class="stats-row">
+    <div class="stat"><div class="n good">159</div><div class="l">tests passing</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">tests failing</div></div>
+    <div class="stat"><div class="n">12</div><div class="l">new migrations</div></div>
+    <div class="stat"><div class="n">122</div><div class="l">API routes</div></div>
+  </div>
+</section>
+
+<section id="audit">
+  <h2><span class="num">02</span> Existing architecture audit</h2>
+  <p>
+    Before any schema change, the existing application was inventoried: Laravel 13 /
+    PHP 8.3, Sanctum Bearer-token auth on a custom <code>api</code> guard,
+    <code>spatie/laravel-permission</code> RBAC (5 built-in roles, resource.action
+    permissions), a 25-table single-tenant schema, a synchronous ticket-creation
+    pipeline (routing → auto-assignment → SLA calculation) with only notification
+    delivery deferred to a queue, ULID keys on customer-facing tables vs bigint on
+    reference data, <code>knuckleswtf/scribe</code> documentation, and 94 existing Pest
+    tests. This existing behavior was preserved rather than rewritten — see
+    <a href="#breaking">Breaking changes</a> for the handful of places where
+    preservation genuinely wasn't possible.
+  </p>
+</section>
+
+<section id="database">
+  <h2><span class="num">03</span> Database changes</h2>
+  <p>12 new migrations, applied additively — no destructive changes to existing data:</p>
+  <table>
+    <tr><th>Migration</th><th>Purpose</th></tr>
+    <tr><td class="mono">create_tenants_table</td><td>Platform-level tenant registry (name, slug, status, trial/suspension timestamps)</td></tr>
+    <tr><td class="mono">add_tenant_id_to_core_tables</td><td><code>tenant_id</code> on users (permanently nullable — see Platform Admins), customers, departments</td></tr>
+    <tr><td class="mono">add_tenant_id_to_ticket_tables</td><td><code>tenant_id</code> on tickets and every related table, defense-in-depth beyond the ticket relation</td></tr>
+    <tr><td class="mono">add_tenant_id_to_config_tables</td><td><code>tenant_id</code> on statuses, priorities, categories, tags, business hours, SLA policies, numbering, routing rules</td></tr>
+    <tr><td class="mono">add_tenant_id_to_notification_and_platform_tables</td><td>Permanently-nullable <code>tenant_id</code> on notification templates, preferences, logs, audit logs, system settings</td></tr>
+    <tr><td class="mono">backfill_default_tenant_and_tighten_constraints</td><td>Creates a "Default Organization" tenant, backfills every pre-existing row, promotes pre-existing Administrators to Platform Admins, tightens unique constraints to <code>(tenant_id, X)</code></td></tr>
+    <tr><td class="mono">create_api_credentials_table</td><td>Tenant-owned API key/secret pairs with scopes</td></tr>
+    <tr><td class="mono">add_teams_fields_to_permission_tables</td><td>Enables spatie's "teams" feature, idempotent against the package's own conditional migration</td></tr>
+    <tr><td class="mono">create_membership_plans_and_subscriptions</td><td>Platform-level plans; tenant-level subscriptions</td></tr>
+    <tr><td class="mono">create_webhooks_tables</td><td>Tenant-owned webhooks and per-attempt delivery logs</td></tr>
+    <tr><td class="mono">add_external_id_to_customers_table</td><td>Tenant's own foreign key into their system, unique per <code>(tenant_id, external_id)</code></td></tr>
+    <tr><td class="mono">fix_tenant_override_unique_constraints</td><td>Fixes a schema bug this migration itself uncovered — see <a href="#findings">Finding #3</a></td></tr>
+  </table>
+  <h3>Unique constraints reviewed and re-scoped</h3>
+  <p>Every previously-global unique constraint that should instead be per-tenant was identified and fixed: user email, department code, ticket number, ticket status/priority slug, role name, customer external ID, and the notification-template/system-setting override keys. See <a href="#findings">Finding #4</a> for the systemic validation-layer half of this same fix.</p>
+</section>
+
+<section id="tenant-arch">
+  <h2><span class="num">04</span> New tenant architecture</h2>
+  <p>
+    <code>App\Support\TenantContext</code> is a per-request singleton and the single
+    source of truth for which tenant a request operates as. It is set only by:
+    <code>ResolveTenantContext</code> middleware (from the authenticated Sanctum user's
+    own <code>tenant_id</code>), <code>ResolveIntegrationTenantContext</code> middleware
+    (from the authenticated API credential's <code>tenant_id</code>), or
+    <code>RequirePlatformAdmin</code> middleware (which explicitly clears it). It is
+    <strong>never</strong> read from request input of any kind.
+  </p>
+  <p>
+    Every tenant-owned model uses a <code>BelongsToTenant</code> trait that registers a
+    global Eloquent scope (<code>TenantScope</code>), transparently filtering every query
+    by the current tenant — a controller or service never writes
+    <code>where('tenant_id', ...)</code> itself. Two models
+    (<code>NotificationTemplate</code>, <code>SystemSetting</code>) use a variant,
+    <code>HasTenantOverride</code> / <code>TenantOverlayScope</code>, implementing a
+    platform-default-with-tenant-override pattern instead of strict ownership.
+  </p>
+  <p>Full detail, including the critical middleware-ordering fix, lives in <code>docs/multi-tenancy.md</code> (committed alongside the code).</p>
+</section>
+
+<section id="api-changes">
+  <h2><span class="num">05</span> API changes</h2>
+  <p>122 routes now live under <code>/api/v1</code>, organized into:</p>
+  <ul class="clean">
+    <li><strong>Tenant-workspace routes</strong> (existing + new) — unchanged paths, now transparently tenant-scoped via <code>tenant.context</code> middleware.</li>
+    <li><strong><code>/tenants/register</code>, <code>/tenants/lookup/{slug}</code></strong> — new self-service tenant signup, distinct from <code>/auth/register</code> (adds a customer to an existing tenant).</li>
+    <li><strong><code>/platform/*</code></strong> — new platform-admin surface: tenant list/show/update/suspend/activate, membership plan CRUD, dashboard.</li>
+    <li><strong><code>/integration/*</code></strong> — new API-credential-authenticated surface: customer CRUD + lookup, ticket CRUD + reply + status + attachments.</li>
+    <li><strong><code>/api-credentials</code>, <code>/webhooks</code></strong> — new tenant-admin-facing management endpoints.</li>
+  </ul>
+  <p>Existing endpoint paths and response shapes were preserved; no existing route was removed or renamed.</p>
+</section>
+
+<section id="auth-changes">
+  <h2><span class="num">06</span> Authentication changes</h2>
+  <ul class="clean">
+    <li><code>POST /auth/register</code> now requires a <code>tenant</code> slug (email is unique per tenant, not globally).</li>
+    <li><code>POST /auth/login</code>, <code>/auth/forgot-password</code>, <code>/auth/reset-password</code> accept an optional <code>tenant</code> slug to disambiguate when the same email exists in more than one tenant — see <a href="#findings">Finding #5</a> for why this matters for password reset specifically.</li>
+    <li>A new, entirely separate authentication mechanism — <code>X-Api-Key</code> / <code>X-Api-Secret</code> headers — backs the Integration API, with no Sanctum session involved. Secrets are bcrypt-hashed (never recoverable); webhook secrets are encrypted (reversible, needed for HMAC signing) rather than hashed.</li>
+  </ul>
+</section>
+
+<section id="authz-changes">
+  <h2><span class="num">07</span> Authorization changes</h2>
+  <ul class="clean">
+    <li><code>spatie/laravel-permission</code>'s "teams" feature is now enabled (<code>team_foreign_key = tenant_id</code>): permissions stay global, but every tenant gets its own role rows.</li>
+    <li>A new, structurally separate <strong>Platform Admin</strong> population (<code>tenant_id = NULL</code>) governs the platform itself via <code>platform.admin</code> middleware, which checks the role directly — no tenant Administrator permission set can reach it.</li>
+    <li>Three new permission groups: <code>api-credentials.*</code>, <code>webhooks.*</code>, <code>billing.*</code>.</li>
+    <li><code>App\Models\Role</code> now exists as a tenant-scoped subclass of spatie's own model — see <a href="#findings">Finding #2</a>, the most severe authorization finding of this migration.</li>
+  </ul>
+</section>
+
+<section id="scopes">
+  <h2><span class="num">08</span> Scope implementation</h2>
+  <p>Every API credential carries a <code>scopes</code> array, checked by <code>RequireApiScope</code> route middleware before any protected action executes:</p>
+  <pre>customers.read   customers.create   customers.update
+tickets.read     tickets.create     tickets.update
+tickets.reply    tickets.status.update   tickets.attachments</pre>
+  <p>A credential missing a required scope receives <code>403</code> regardless of whether its key/secret check succeeded. Verified in <code>tests/Feature/Integration/IntegrationApiTest.php</code> (a <code>customers.read</code>-only credential cannot create a customer).</p>
+</section>
+
+<section id="customer-integration">
+  <h2><span class="num">09</span> Customer integration</h2>
+  <p>A tenant's own backend/CRM/chat widget can identify its customers three ways, all scoped automatically to the credential's own tenant:</p>
+  <ul class="clean">
+    <li><strong>Internal id</strong> — <code>customer_id</code>, once already known from a prior integration call.</li>
+    <li><strong>Email</strong> — <code>customer_email</code> / <code>GET /integration/customers/lookup?email=...</code>.</li>
+    <li><strong>External id</strong> — <code>customer_external_id</code> / <code>?external_id=...</code>, the tenant's own foreign key into its system (e.g. <code>wp-user-7842</code>), stored as <code>customers.external_id</code>, unique per <code>(tenant_id, external_id)</code>.</li>
+  </ul>
+  <p>Ticket replies and attachment uploads made through the Integration API are attributed to the ticket's own customer, since no staff identity backs an API credential.</p>
+</section>
+
+<section id="subscriptions">
+  <h2><span class="num">10</span> Subscription implementation</h2>
+  <p>
+    <code>MembershipPlan</code> (platform-level: Starter/Professional/Business/Enterprise,
+    configurable limits, no hardcoded values in controllers) and
+    <code>Subscription</code> (tenant-level, one per tenant) back a centralized
+    <code>PlanLimitService</code>. Every resource-creating endpoint — tickets, customers,
+    users, departments, API credentials, webhooks; both the regular and Integration
+    API creation paths — calls <code>assertCanCreate($tenant, $feature)</code> before
+    writing a row. Usage is computed live (a scoped <code>COUNT</code>, not a
+    denormalized counter that can drift). Exceeding a limit returns <code>403</code> with
+    <code>{"errors": {"feature": "...", "limit": N}}</code>. A tenant with no subscription
+    is treated as unlimited (a data-integrity fallback — registration always creates
+    one — not a billing decision). Verified end-to-end, not just wired, in
+    <code>tests/Feature/PlanLimitEnforcementTest.php</code>.
+  </p>
+</section>
+
+<section id="webhooks">
+  <h2><span class="num">11</span> Webhook implementation</h2>
+  <ul class="clean">
+    <li><strong>Events:</strong> <code>ticket.created</code>, <code>ticket.assigned</code>, <code>ticket.status_changed</code>, <code>ticket.resolved</code>, <code>ticket.closed</code>, <code>ticket.reopened</code>, <code>ticket.replied</code> (both agent and customer replies). <code>ticket.updated</code> is reserved for a future general-attributes-changed event.</li>
+    <li><strong>Delivery:</strong> one listener per ticket event dispatches a queued <code>DeliverWebhookJob</code> per subscribed, active webhook. Each attempt — success or failure — logs its own <code>WebhookDelivery</code> row, giving full retry history. Failures retry with backoff (10s/60s/5m/15m, up to 5 attempts) via Laravel's own queue retry, never a hand-rolled loop.</li>
+    <li><strong>Signing:</strong> <code>X-Webhook-Signature</code> is an HMAC-SHA256 of the raw JSON body, keyed by the webhook's own secret, returned in plain text exactly once at creation.</li>
+    <li><strong>SSRF protection:</strong> a new <code>NotAPrivateUrl</code> validation rule resolves the webhook URL's hostname and rejects loopback/private/link-local/reserved ranges at creation and update time, since the delivery job POSTs to tenant-supplied URLs unsupervised.</li>
+  </ul>
+</section>
+
+<section id="findings">
+  <h2><span class="num">12</span> Security findings</h2>
+  <p>Listed most severe first. Every finding below was verified by deliberately reverting its fix, confirming the associated test failed, then restoring the fix and confirming it passed again — not just inferred from code review.</p>
+
+  <div class="card finding">
+    <h4><span class="sev critical">Critical</span> Route-model binding resolved before tenant context — application-wide cross-tenant data leak</h4>
+    <div class="meta">Affects: every tenant-scoped route with a bound parameter (departments, customers, tickets, categories, priorities, statuses, SLA policies, routing rules, users, roles — and identically for the Integration API)</div>
+    <dl>
+      <dt>Root cause</dt>
+      <dd>Laravel's <code>SubstituteBindings</code> middleware — which runs the actual database query behind every <code>{department}</code>/<code>{ticket}</code>/<code>{customer}</code> route parameter — is part of the default <code>api</code> middleware group, which executes before any route-level middleware unless given explicit priority. <code>ResolveTenantContext</code> and <code>ResolveIntegrationTenantContext</code> were not in Laravel's default middleware-priority list (only <code>Authenticate</code> is), so tenant context was set <em>after</em> the bound model had already been fetched — unscoped — from the database.</dd>
+      <dt>Impact</dt>
+      <dd>On a genuinely cold request (the normal state of a fresh PHP-FPM worker — no prior request has left anything in the container), <code>TenantScope</code> is a deliberate no-op when no context is set, meaning the binding query ran completely unscoped. Any authenticated tenant user, or any valid API credential, could fetch, update, or delete any other tenant's row by id.</dd>
+      <dt>Why the existing test suite didn't catch it</dt>
+      <dd>Every isolation test used helpers (<code>actingAsAdministrator()</code>, <code>testTenant()</code>) that, as a side effect, pre-establish ambient tenant context before firing a request — which happens to coincidentally match what the middleware would have set anyway, masking the ordering bug entirely. It was found by deliberately writing a test that clears context first, simulating what a real fresh request actually looks like.</dd>
+      <dt>Fix</dt>
+      <dd><code>bootstrap/app.php</code>: <code>$middleware-&gt;prependToPriorityList(before: SubstituteBindings::class, prepend: ResolveTenantContext::class)</code> (and identically for <code>ResolveIntegrationTenantContext</code>, <code>RequirePlatformAdmin</code>), forcing these to run first regardless of attachment point.</dd>
+      <dt>Regression coverage</dt>
+      <dd><code>tests/Feature/TenantIsolation/ColdRequestIsolationTest.php</code> — two tests, deliberately clearing context before each request.</dd>
+    </dl>
+  </div>
+
+  <div class="card finding high">
+    <h4><span class="sev high">High</span> <code>spatie/laravel-permission</code>'s <code>Role</code> model had no tenant scoping on plain queries</h4>
+    <div class="meta">Affects: <code>GET/PUT/DELETE /roles</code>, <code>GET /roles/{id}</code></div>
+    <dl>
+      <dt>Root cause</dt>
+      <dd>Spatie's "teams" feature only scopes roles inside the package's own helper methods (<code>findByName()</code>, the <code>roles()</code> pivot relation) — never for a plain <code>Role::all()</code>, <code>Role::find($id)</code>, or implicit route-model binding, since no global Eloquent scope is registered on the vendor model at all.</dd>
+      <dt>Impact</dt>
+      <dd>Any tenant admin calling <code>GET /roles</code> saw every other tenant's custom roles, including their full permission sets and user counts. The same gap allowed viewing, renaming, reassigning permissions on, or deleting another tenant's role by id.</dd>
+      <dt>Fix</dt>
+      <dd>Introduced <code>App\Models\Role extends Spatie\Permission\Models\Role</code> with the same <code>BelongsToTenant</code> trait every other tenant-owned model uses, and pointed <code>config('permission.models.role')</code> at it — plus updated every direct import of the vendor class to the new subclass, since a hardcoded <code>use Spatie\Permission\Models\Role</code> in any file would bypass the fix for that file's static calls.</dd>
+      <dt>Regression coverage</dt>
+      <dd><code>tests/Feature/TenantIsolation/CrossTenantAccessTest.php</code> (role show/update/delete, and the role-listing-leak test).</dd>
+    </dl>
+  </div>
+
+  <div class="card finding medium">
+    <h4><span class="sev medium">Medium</span> Editing a not-yet-overridden setting or notification template mutated the shared platform default</h4>
+    <div class="meta">Affects: <code>PUT /settings</code>, <code>PUT /notification-templates/{id}</code></div>
+    <dl>
+      <dt>Root cause</dt>
+      <dd><code>NotificationTemplate</code>/<code>SystemSetting</code> use a platform-default-with-tenant-override pattern (<code>TenantOverlayScope</code>: a tenant sees the platform default for any key it hasn't customized). The original <code>update()</code> code looked the row up by key alone; for a key no tenant had overridden yet, that lookup resolved to the <em>shared</em> platform-default row, and the update mutated it directly — silently changing what every other tenant also saw.</dd>
+      <dt>Fix</dt>
+      <dd>Copy-on-write: <code>SystemSettingController::update()</code> now includes <code>tenant_id</code> in the <code>updateOrCreate()</code> match array, so a first edit misses the shared row and inserts the tenant's own instead. <code>NotificationTemplateController::update()</code> checks whether the resolved row's <code>tenant_id</code> already matches the caller's tenant and forks a new row if not.</dd>
+      <dt>A second bug this uncovered</dt>
+      <dd>Both tables' <code>key</code> column still had a <strong>global</strong> unique constraint from before multi-tenancy — meaning the copy-on-write <em>insert</em> could never actually have succeeded; it would collide with the platform default's own row. This went unnoticed because the pre-fix code never attempted an insert at all. Fixed via migration <code>...000012</code>, moving both to a composite <code>(tenant_id, key)</code> constraint.</dd>
+      <dt>Regression coverage</dt>
+      <dd><code>tests/Feature/TenantIsolation/TenantOverrideWriteTest.php</code>.</dd>
+    </dl>
+  </div>
+
+  <div class="card finding systemic">
+    <h4><span class="sev systemic">Systemic</span> ~17 Form Request classes had tenant-unscoped <code>unique:</code>/<code>exists:</code> validation rules</h4>
+    <div class="meta">Affects: tickets, departments, users, roles, categories, priorities, statuses, SLA policies, assignment</div>
+    <dl>
+      <dt>Root cause</dt>
+      <dd>Every validation class predating multi-tenancy that validated a field against a now-tenant-scoped table still did so with a bare <code>unique:table,column</code> or <code>exists:table,column</code> rule, which runs as a raw query bypassing Eloquent's global scopes entirely.</dd>
+      <dt>Impact — two distinct failure modes</dt>
+      <dd>
+        <strong>False rejection:</strong> creating a department/role/status/priority with a code, name, or slug that <em>any other tenant</em> already used (perfectly legitimate — these are unique per tenant, not globally) was rejected with a 422.<br>
+        <strong>Cross-tenant linkage:</strong> staff could set a ticket's <code>category_id</code>/<code>priority_id</code>/<code>customer_id</code>, an SLA policy's <code>department_id</code>, an assignment's <code>assignee_id</code>, or a new staff user's <code>department_ids</code> to a row belonging to a <em>different</em> tenant, since the existence check never verified tenant ownership.
+      </dd>
+      <dt>Fix</dt>
+      <dd>Every affected rule converted to <code>Rule::unique(...)->where('tenant_id', $tenantId)</code> / <code>Rule::exists(...)->where('tenant_id', $tenantId)</code>, scoped to the acting user's (or API credential's) own tenant. Globally-correct rules (platform-level tables: tenants, membership plans, permissions) were deliberately left unscoped.</dd>
+      <dt>Regression coverage</dt>
+      <dd><code>tests/Feature/TenantIsolation/CrossTenantValidationTest.php</code> — one test per cross-tenant-reference rejection, paired with a same-value-different-tenant success case for each, to guard against the fix over-correcting into false rejections again.</dd>
+    </dl>
+  </div>
+
+  <div class="card finding medium">
+    <h4><span class="sev medium">Medium</span> <code>ReportController::slaCompliance()</code> aggregated SLA data across all tenants</h4>
+    <div class="meta">Affects: <code>GET /reports/sla-compliance</code></div>
+    <dl>
+      <dt>Root cause</dt>
+      <dd>Used <code>DB::table('ticket_slas')</code> directly instead of the <code>TicketSla</code> Eloquent model — a raw query builder call bypasses Eloquent global scopes entirely, so <code>TenantScope</code> never applied.</dd>
+      <dt>Impact</dt>
+      <dd>A tenant's SLA compliance report silently included every other tenant's breach counts and totals.</dd>
+      <dt>Fix</dt>
+      <dd>Switched to <code>TicketSla::count()</code> / <code>TicketSla::where(...)->count()</code>, correctly scoped.</dd>
+      <dt>Regression coverage</dt>
+      <dd><code>tests/Feature/TenantIsolation/CrossTenantAccessTest.php</code> (SLA compliance report test).</dd>
+    </dl>
+  </div>
+
+  <div class="card finding medium">
+    <h4><span class="sev medium">Medium</span> Password reset could resolve the wrong tenant's account when an email was shared</h4>
+    <div class="meta">Affects: <code>POST /auth/forgot-password</code>, <code>POST /auth/reset-password</code></div>
+    <dl>
+      <dt>Root cause</dt>
+      <dd>Email is unique per tenant, not globally, by design — the same address can be a different account in each of several tenants. Laravel's password broker resolves a reset request by email alone; with no disambiguator, the account that happens to be returned first by the lookup query (not necessarily the one the caller meant) receives the reset.</dd>
+      <dt>Fix</dt>
+      <dd>Added an optional <code>tenant</code> slug to both endpoints, passed through as an extra credential key — <code>EloquentUserProvider::retrieveByCredentials()</code> adds every non-password credential key as an additional <code>WHERE</code> clause, so this resolves the lookup to the exact intended tenant's account instead of leaving it ambiguous.</dd>
+      <dt>Regression coverage</dt>
+      <dd><code>tests/Feature/TenantIsolation/PasswordResetIsolationTest.php</code> — deliberately targets the higher-id (non-default-match) account to prove the disambiguator is actually used, not just coincidentally correct.</dd>
+    </dl>
+  </div>
+
+  <div class="card finding">
+    <h4><span class="sev high">Hardening</span> SSRF exposure via tenant-supplied webhook URLs</h4>
+    <div class="meta">Affects: <code>POST/PUT /webhooks</code></div>
+    <dl>
+      <dt>Context</dt>
+      <dd>Not a regression — a risk inherent to the webhook feature being built, addressed proactively rather than discovered after the fact.</dd>
+      <dt>Fix</dt>
+      <dd><code>App\Rules\NotAPrivateUrl</code> resolves the submitted URL's hostname and rejects it if any resolved address falls in a loopback, private, link-local, or reserved range, or if the hostname doesn't resolve at all.</dd>
+      <dt>Coverage</dt>
+      <dd><code>tests/Feature/WebhookManagementTest.php</code> (127.0.0.1, localhost, 10.x, 192.168.x all rejected).</dd>
+    </dl>
+  </div>
+</section>
+
+<section id="tests">
+  <h2><span class="num">13</span> Tests executed, passed, failed</h2>
+  <div class="stats-row">
+    <div class="stat"><div class="n good">159</div><div class="l">total tests</div></div>
+    <div class="stat"><div class="n good">159</div><div class="l">passed</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">failed</div></div>
+    <div class="stat"><div class="n">516</div><div class="l">assertions</div></div>
+  </div>
+  <p>Full suite run via <code>./vendor/bin/pest --compact</code>, last confirmed green immediately before this report was generated. 94 of these pre-date this migration (the original backend build) and were kept passing throughout — see <a href="#breaking">Breaking changes</a> for the two that needed updating to match genuinely new required behavior (not regressions, intentional contract changes).</p>
+</section>
+
+<section id="isolation-tests">
+  <h2><span class="num">14</span> Security &amp; tenant-isolation tests</h2>
+  <p>New dedicated suite under <code>tests/Feature/TenantIsolation/</code>, plus feature-specific isolation checks colocated with the feature they cover:</p>
+  <table>
+    <tr><th>File</th><th>Covers</th></tr>
+    <tr><td class="mono">CrossTenantAccessTest.php</td><td>Tenant A addressing Tenant B's department/customer/ticket/category/priority/status/SLA policy/routing rule/user/role by id → 404; listing endpoints never include another tenant's rows; SLA report scoping</td></tr>
+    <tr><td class="mono">CrossTenantValidationTest.php</td><td>Request bodies referencing another resource by id (category/priority/customer/department/assignee) rejecting a cross-tenant id with 422, paired with same-value-different-tenant success cases</td></tr>
+    <tr><td class="mono">TenantOverrideWriteTest.php</td><td>Copy-on-write for notification templates and system settings</td></tr>
+    <tr><td class="mono">ColdRequestIsolationTest.php</td><td>The critical middleware-ordering fix, under a genuinely cold (no ambient state) request</td></tr>
+    <tr><td class="mono">PasswordResetIsolationTest.php</td><td>Tenant disambiguation for password reset when an email is shared</td></tr>
+    <tr><td class="mono">Integration/IntegrationApiTest.php</td><td>API credential auth, scope enforcement, cross-tenant denial for the Integration API specifically, revoked-credential rejection</td></tr>
+    <tr><td class="mono">Platform/PlatformAdminTest.php</td><td>Platform admin can see every tenant; a tenant Administrator cannot reach any platform endpoint; suspend/activate; a suspended tenant's users are locked out</td></tr>
+    <tr><td class="mono">ApiCredentialManagementTest.php / WebhookManagementTest.php</td><td>Secret-exactly-once semantics, rotation invalidating the old secret, revocation, cross-tenant 404s, SSRF rejection</td></tr>
+    <tr><td class="mono">WebhookDeliveryTest.php</td><td>Signed delivery, event-subscription filtering, inactive-webhook non-delivery, failure logging</td></tr>
+    <tr><td class="mono">PlanLimitEnforcementTest.php</td><td>Limit enforcement actually blocks creation once reached; unlimited-when-no-subscription fallback</td></tr>
+  </table>
+  <p>Every finding in <a href="#findings">Security findings</a> above was confirmed exploitable by temporarily reverting its fix and observing the associated test fail, then restoring the fix and confirming it passed — not inferred from code review alone.</p>
+</section>
+
+<section id="breaking">
+  <h2><span class="num">15</span> Breaking changes</h2>
+  <ul class="clean">
+    <li><code>POST /auth/register</code> now requires a <code>tenant</code> field — a pre-existing client calling this endpoint without one will receive a 422 where it previously succeeded.</li>
+    <li>Email uniqueness changed from global to per-tenant across users, customers, and related lookups — a client that relied on email being a stable global identifier (e.g. for caching or deduplication across the whole platform) must now pair it with tenant context.</li>
+    <li>Two pre-existing tests (<code>AuthenticationTest::it_registers_a_new_customer_and_issues_a_token</code>, <code>it_rejects_registration_with_a_duplicate_email</code>) were updated to send the new required <code>tenant</code> field and expect the new per-tenant validation error shape — an intentional contract change, not a regression.</li>
+    <li>No existing endpoint path, response envelope shape, or HTTP status code convention was changed.</li>
+  </ul>
+</section>
+
+<section id="risks">
+  <h2><span class="num">16</span> Migration risks</h2>
+  <ul class="clean">
+    <li><strong>Backfill migration is a one-way door.</strong> <code>backfill_default_tenant_and_tighten_constraints</code> assigns every pre-existing row to a single "Default Organization" tenant, which is correct only because this installation had exactly one tenant's worth of data before this migration. Running it against a database that already mixed multiple unrelated organizations' data would silently merge them under one tenant — the migration does not attempt to detect or guard against that case.</li>
+    <li><strong><code>MODIFY COLUMN ... NOT NULL</code> is MySQL-only.</strong> The same migration skips tightening <code>tenant_id</code> to <code>NOT NULL</code> on SQLite (would require <code>doctrine/dbal</code>); correctness there relies on the application layer (<code>BelongsToTenant</code>'s creating-hook) always populating it, which the test suite exercises but a direct <code>INSERT</code> bypassing Eloquent would not.</li>
+    <li><strong>Queue driver assumption.</strong> Webhook delivery and notification listeners are <code>ShouldQueue</code>; under a real async queue (the intended deployment), a failing webhook endpoint never affects the request that triggered it. Under <code>QUEUE_CONNECTION=sync</code> (as this test suite runs), a queued job's exception propagates synchronously all the way back to the triggering HTTP response — not a new risk introduced by this migration (the pre-existing notification listeners already had the same characteristic), but worth confirming the deployment target never runs the sync driver in production.</li>
+  </ul>
+</section>
+
+<section id="remaining">
+  <h2><span class="num">17</span> Remaining work</h2>
+  <ul class="clean">
+    <li class="pending">Plan-configurable, tenant/credential-aware API rate limiting (currently a flat per-user/IP limit; the plan's <code>api_requests_per_day</code> limit field exists in seed data but nothing enforces it yet).</li>
+    <li class="pending">Webhook "test delivery" and secret-rotation endpoints (create/update/delete/list deliveries exist; a one-off test-send and a rotate-without-recreate flow do not).</li>
+    <li class="pending">Tenant-specific email configuration (support email, sender name, reply-to, branding) — platform defaults exist; per-tenant overrides do not yet.</li>
+    <li class="pending">Audit logging coverage is narrower than the full list in the original spec (ticket creation/status-change are covered; user/role/credential/billing changes are not yet individually audited).</li>
+    <li class="pending">A platform-level endpoint to edit the shared default notification templates/system settings (the copy-on-write tenant-override path is complete; nothing yet lets a platform admin edit the defaults themselves through the API, only via seeders).</li>
+    <li class="pending">Observability: no centralized logging yet specifically around tenant-resolution failures, scope failures, or webhook delivery failures beyond what's captured in <code>webhook_deliveries</code>.</li>
+  </ul>
+</section>
+
+</div>
+
+<footer>
+  Support24 Multi-Tenant Migration Report · generated 2026-10-03 · 159/159 tests passing at time of writing
+</footer>
+
+</body>
+</html>

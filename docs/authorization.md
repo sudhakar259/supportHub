@@ -1,7 +1,11 @@
 # Authorization
 
 Two layers, always enforced server-side — the frontend's job is only to
-hide controls the user can't use, never to be the actual gate.
+hide controls the user can't use, never to be the actual gate. This
+document covers authorization *within* a tenant (who can do what to which
+record); for the tenant boundary itself — how a request resolves which
+tenant it belongs to, and why no amount of role/permission does anything
+to let one tenant see another's data — see `docs/multi-tenancy.md`.
 
 ## 1. Roles & permissions (what you're allowed to do)
 
@@ -13,9 +17,19 @@ Implemented with `spatie/laravel-permission` on the `api` guard, seeded by
 (`model_has_roles`, `model_has_permissions`, `role_has_permissions`) are
 polymorphic, well-tested, and already handle the caching and query
 optimization that a from-scratch implementation would need to reinvent.
-`config/permission.php` has `teams => false` — permissions are global, not
-department-scoped; department-scoped *data* access is a separate, second
-layer (below).
+
+`config/permission.php` has `'teams' => true` (`team_foreign_key` =
+`tenant_id`) — **permissions themselves stay global** (the `permissions`
+table has no `tenant_id`; `tickets.view` means the same thing everywhere),
+but **roles are tenant-scoped**: every tenant gets its own
+`Administrator`/`Agent`/`Customer`/... role *row*, with its own permission
+assignments, even though the names repeat across tenants. Department-scoped
+*data* access is a separate, third layer (below). See
+`docs/multi-tenancy.md` for the full multi-tenant RBAC picture, including a
+real bug this surfaced: spatie's own `Role` model has no tenant-scoping on
+a plain query or route-model binding — only inside the package's own helper
+methods — which is why this app subclasses it (`App\Models\Role`) with the
+same `BelongsToTenant` scope every other tenant-owned model uses.
 
 ### Roles
 
@@ -51,7 +65,16 @@ reports:     view
 audit-logs:  view
 roles:       view, manage
 settings:    view, manage
+api-credentials: view, create, update, revoke
+webhooks:    view, manage
+billing:     view, manage
 ```
+
+A separate, non-permission-based role — **Platform Admin** — sits outside
+every tenant entirely (`tenant_id = NULL` on both the user and the role
+row) and governs the platform itself (tenant management, membership plans)
+via `/api/v1/platform/*`, gated by the `platform.admin` middleware checking
+the role directly, not a permission. See `docs/multi-tenancy.md`.
 
 `tickets.view_internal_notes` is deliberately its own permission, held only
 by Agent/Senior Agent/Department Manager/Administrator roles — **no seeded
@@ -103,8 +126,9 @@ Every authorization-sensitive model has an explicit Policy, bound in
 naming-convention auto-discovery, so the wiring is visible in one place):
 
 `User`, `Department`, `Customer`, `TicketCategory`, `TicketStatus`,
-`TicketPriority`, `Role` (spatie's), `Ticket`, `TicketAttachment`,
-`TicketRoutingRule`, `SlaPolicy`.
+`TicketPriority`, `Role` (`App\Models\Role`, this app's tenant-scoped
+subclass — see `docs/multi-tenancy.md`), `Ticket`, `TicketAttachment`,
+`TicketRoutingRule`, `SlaPolicy`, `ApiCredential`, `Webhook`.
 
 ## Self-service vs. admin fields
 

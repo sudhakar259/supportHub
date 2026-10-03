@@ -1,5 +1,16 @@
 # Notifications
 
+Recipients are always resolved from the triggering ticket/customer/user's
+own relations (never looked up globally), so a notification can never be
+sent to the wrong tenant's staff — see `docs/multi-tenancy.md`.
+`NotificationTemplate` is one of two tables with a platform-default +
+tenant-override pattern (`system_settings` is the other): a tenant sees the
+platform default until it customizes a template, at which point its edit
+forks its own copy rather than changing what every other tenant sees.
+Webhook events (a separate, API-consumer-facing mechanism — see
+`docs/multi-tenancy.md`) fire from the same ticket-lifecycle events as the
+notifications below, via their own listeners under `app/Listeners/Webhook/`.
+
 ## Flow
 
 ```

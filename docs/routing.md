@@ -1,5 +1,11 @@
 # Routing & Assignment
 
+Routing rules, departments, and agent workload are all tenant-scoped
+automatically (`TenantScope` — see `docs/multi-tenancy.md`): a rule only
+ever evaluates against its own tenant's categories/priorities/departments,
+and can never route a ticket into another tenant's department or assign it
+to another tenant's agent.
+
 ## Routing rules
 
 Evaluated by `ApplyTicketRoutingAction` against every newly-created ticket,

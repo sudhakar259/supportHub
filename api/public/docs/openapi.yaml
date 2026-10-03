@@ -54,10 +54,28 @@ tags:
     description: "\nAggregate reporting. These run live queries rather than against a\npre-aggregated table — acceptable at the data volumes a support\ndesk accumulates, but the first thing to revisit if that changes."
   -
     name: 'Audit Logs'
-    description: "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET /tickets/{ticket} includes its activities) —\nthis covers every auditable action across the whole application for\ncompliance review."
+    description: "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET /tickets/{ticket}/activities) — this covers every\nauditable action across the whole application for compliance review.\nAudit coverage is currently narrow (ticket creation and status changes\nonly); the per-ticket activity feed is the more complete log of what\nhappened to a given ticket."
   -
     name: Settings
     description: "\nSystem-wide configuration key/value pairs. Anyone authenticated can\nread the subset marked is_public (e.g. a \"support hours\" display\nstring); the full set, and all writes, require settings.manage."
+  -
+    name: 'API Credentials'
+    description: "\nKey+secret pairs a tenant issues to its own backend/CRM/chat widget\nto call the Integration API (see docs under \"Integration API —\nCustomers/Tickets\"). Scoped to the caller's own tenant like\neverything else here; a credential's secret is only ever visible in\nthe response to the single store()/rotate() call that generated it."
+  -
+    name: 'Integration API — Customers'
+    description: "\nAuthenticated via X-Api-Key / X-Api-Secret headers (see\nResolveIntegrationTenantContext), not a Sanctum session — for a\ntenant's own backend, CRM or chat widget to keep its customer\nrecords in sync with this helpdesk. Every endpoint here is scoped to\nthe credential's own tenant; there is no cross-tenant visibility no\nmatter what id is requested."
+  -
+    name: 'Integration API — Tickets'
+    description: "\nSame credential-based auth as the Customers integration endpoints.\n\"Reply\" and \"attachment\" actions here are posted on behalf of the\nticket's customer — there is no staff Sanctum session backing this\ncredential, so there is no agent identity to attribute them to; use\nthe regular Sanctum-authenticated ticket endpoints for agent-side\nactions."
+  -
+    name: 'Platform Administration'
+    description: "\nA single-call overview for the platform admin landing screen —\neverything here is a cheap count query, not a report; GET\n/platform/tenants already supports filtering/pagination for\nanything needing the underlying rows."
+  -
+    name: 'Tenant Registration'
+    description: "\nSelf-service signup for a brand-new organization, distinct from\n/auth/register (which adds a Customer to an *existing* tenant's\nhelpdesk). This flow creates the tenant itself, its first\nsubscription and its first user — the Tenant Owner, who lands with\nthe full-access \"Administrator\" role for that tenant only."
+  -
+    name: Webhooks
+    description: "\nTenant-configured HTTP callbacks for ticket lifecycle events (see\nWebhook::EVENTS). Every delivery is signed with the webhook's own\nsecret via an X-Webhook-Signature header (HMAC-SHA256 of the raw\nJSON body) so the receiving endpoint can verify it actually came\nfrom this platform."
 components:
   securitySchemes:
     default:
@@ -164,18 +182,22 @@ paths:
             schema:
               type: object
               properties:
+                tenant:
+                  type: string
+                  description: "The organization's slug, confirmable via GET /tenants/lookup/{slug}."
+                  example: acme-support
                 name:
                   type: string
                   description: "The user's full name."
                   example: 'Jamie Rivera'
                 email:
                   type: string
-                  description: 'A unique email address.'
+                  description: 'Unique within this tenant (the same email may register with a different tenant separately).'
                   example: jamie@example.com
                 password:
                   type: string
-                  description: 'Minimum 8 characters.'
-                  example: Secret123!
+                  description: 'Minimum 10 characters, including upper and lower case, a number, and a symbol.'
+                  example: Secret123!word$9
                 phone:
                   type: string
                   description: "The user's phone number."
@@ -196,6 +218,7 @@ paths:
                   description: 'Must match password.'
                   example: Secret123!
               required:
+                - tenant
                 - name
                 - email
                 - password
@@ -321,6 +344,10 @@ paths:
                   type: string
                   description: ''
                   example: password
+                tenant:
+                  type: string
+                  description: 'Disambiguates if this email has accounts with more than one tenant.'
+                  example: acme-support
                 device_name:
                   type: string
                   description: 'Identifies the issued token, e.g. "iphone-15".'
@@ -371,6 +398,10 @@ paths:
                   type: string
                   description: ''
                   example: admin@supporthub.test
+                tenant:
+                  type: string
+                  description: 'Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first.'
+                  example: acme-support
               required:
                 - email
       security: []
@@ -447,10 +478,14 @@ paths:
                   type: string
                   description: ''
                   example: admin@supporthub.test
+                tenant:
+                  type: string
+                  description: 'Same disambiguator as /auth/forgot-password — pass it if it was used there.'
+                  example: acme-support
                 password:
                   type: string
-                  description: 'Minimum 8 characters.'
-                  example: NewSecret123!
+                  description: 'Minimum 10 characters, including upper and lower case, a number, and a symbol.'
+                  example: NewSecret123!word$9
                 password_confirmation:
                   type: string
                   description: 'Must match password.'
@@ -1137,63 +1172,6 @@ paths:
                             type: string
       tags:
         - 'Roles & Permissions'
-    post:
-      summary: 'Create a role'
-      operationId: createARole
-      description: ''
-      parameters: []
-      responses:
-        201:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  success: true
-                  message: 'Role created successfully.'
-                  data:
-                    id: 6
-                    name: 'Billing Specialist'
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 'Role created successfully.'
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 6
-                      name:
-                        type: string
-                        example: 'Billing Specialist'
-      tags:
-        - 'Roles & Permissions'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: ''
-                  example: 'Billing Specialist'
-                permissions:
-                  type: array
-                  description: 'Permission names to grant.'
-                  example:
-                    - tickets.view
-                    - tickets.update
-                  items:
-                    type: string
-              required:
-                - name
   '/api/v1/roles/{id}':
     get:
       summary: 'Get a role'
@@ -1231,60 +1209,6 @@ paths:
                         example: Administrator
       tags:
         - 'Roles & Permissions'
-    put:
-      summary: 'Update a role'
-      operationId: updateARole
-      description: ''
-      parameters: []
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  success: true
-                  message: 'Role updated successfully.'
-                  data:
-                    id: 6
-                    name: 'Billing Specialist'
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 'Role updated successfully.'
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 6
-                      name:
-                        type: string
-                        example: 'Billing Specialist'
-      tags:
-        - 'Roles & Permissions'
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: ''
-                  example: 'Billing Specialist'
-                permissions:
-                  type: array
-                  description: "Replaces the role's permission set entirely."
-                  example:
-                    - tickets.view
-                  items:
-                    type: string
     delete:
       summary: 'Delete a role'
       operationId: deleteARole
@@ -1467,84 +1391,6 @@ paths:
                           example: 'Acme Corp'
       tags:
         - Customers
-    post:
-      summary: 'Create a customer (admin-created account)'
-      operationId: createACustomeradminCreatedAccount
-      description: "Creates a User with the Customer role plus its Customer profile in\na single call, for support staff onboarding a customer by hand.\nFor self-service signup, use POST /auth/register instead."
-      parameters: []
-      responses:
-        201:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  success: true
-                  message: 'Customer created successfully.'
-                  data:
-                    id: 4
-                    company_name: 'Acme Corp'
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 'Customer created successfully.'
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 4
-                      company_name:
-                        type: string
-                        example: 'Acme Corp'
-      tags:
-        - Customers
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: ''
-                  example: 'Jamie Rivera'
-                email:
-                  type: string
-                  description: ''
-                  example: jamie@example.com
-                password:
-                  type: string
-                  description: ''
-                  example: Secret123!
-                phone:
-                  type: string
-                  description: ''
-                  example: +1-555-0100
-                  nullable: true
-                company_name:
-                  type: string
-                  description: ''
-                  example: 'Acme Corp'
-                  nullable: true
-                customer_type:
-                  type: string
-                  description: 'individual, business or vip. Defaults to individual.'
-                  example: business
-                password_confirmation:
-                  type: string
-                  description: ''
-                  example: Secret123!
-              required:
-                - name
-                - email
-                - password
-                - password_confirmation
   '/api/v1/customers/{customer_id}':
     get:
       summary: 'Get a customer'
@@ -1582,67 +1428,6 @@ paths:
                         example: 'Acme Corp'
       tags:
         - Customers
-    put:
-      summary: 'Update a customer'
-      operationId: updateACustomer
-      description: ''
-      parameters: []
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  success: true
-                  message: 'Customer updated successfully.'
-                  data:
-                    id: 1
-                    company_name: 'Acme Corporation'
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 'Customer updated successfully.'
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 1
-                      company_name:
-                        type: string
-                        example: 'Acme Corporation'
-      tags:
-        - Customers
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                phone:
-                  type: string
-                  description: ''
-                  example: +1-555-0199
-                  nullable: true
-                company_name:
-                  type: string
-                  description: ''
-                  example: 'Acme Corporation'
-                  nullable: true
-                customer_type:
-                  type: string
-                  description: ''
-                  example: vip
-                timezone:
-                  type: string
-                  description: 'Must not be greater than 64 characters.'
-                  example: Antarctica/Rothera
     delete:
       summary: 'Delete a customer'
       operationId: deleteACustomer
@@ -2230,12 +2015,12 @@ paths:
         -
           in: query
           name: 'filter[sla_status]'
-          description: 'One of pending, met, breached, paused.'
+          description: 'One of pending, met, breached (ticket_slas.status is never set to any other value).'
           example: breached
           required: false
           schema:
             type: string
-            description: 'One of pending, met, breached, paused.'
+            description: 'One of pending, met, breached (ticket_slas.status is never set to any other value).'
             example: breached
         -
           in: query
@@ -2510,7 +2295,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -2582,7 +2367,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -2654,7 +2439,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -2732,7 +2517,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -2794,7 +2579,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -2856,7 +2641,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -2918,7 +2703,83 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
+        required: true
+        schema:
+          type: string
+  '/api/v1/tickets/{ticket_id}/activities':
+    get:
+      summary: "Get a ticket's activity feed"
+      operationId: getATicketsActivityFeed
+      description: "The chronological system log of everything that happened to this\nticket (created, assigned, status changes, messages posted) —\ndistinct from the audit log, which only covers a narrow set of\ncompliance-relevant actions across the whole application."
+      parameters:
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 01HXYZ...
+                      type: created
+                      description: 'Ticket created by Casey Customer'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 01HXYZ...
+                        type: created
+                        description: 'Ticket created by Casey Customer'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 01HXYZ...
+                        type:
+                          type: string
+                          example: created
+                        description:
+                          type: string
+                          example: 'Ticket created by Casey Customer'
+      tags:
+        - Tickets
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3wbzmm13qwtb9xj5yc914m6
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: ticket
+        description: ''
+        example: 01hxyz0123456789abcdefghj
         required: true
         schema:
           type: string
@@ -3061,7 +2922,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -3131,7 +2992,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -3139,7 +3000,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the message.'
-        example: 01m3tsggyve0avhzj6f0tsn0qa
+        example: 01m3wbznhktc5zeq2h43qsgnbd
         required: true
         schema:
           type: string
@@ -3257,7 +3118,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -3331,7 +3192,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -3394,7 +3255,7 @@ paths:
         in: path
         name: ticket_id
         description: 'The ID of the ticket.'
-        example: 01m3tsggmqj1asbxhzfrfb0vtt
+        example: 01m3wbzmm13qwtb9xj5yc914m6
         required: true
         schema:
           type: string
@@ -3776,76 +3637,6 @@ paths:
                           example: open
       tags:
         - Statuses
-    post:
-      summary: 'Create a status'
-      operationId: createAStatus
-      description: ''
-      parameters: []
-      responses:
-        201:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  success: true
-                  message: 'Status created successfully.'
-                  data:
-                    id: 8
-                    name: 'On Hold'
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 'Status created successfully.'
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 8
-                      name:
-                        type: string
-                        example: 'On Hold'
-      tags:
-        - Statuses
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: ''
-                  example: 'On Hold'
-                slug:
-                  type: string
-                  description: 'Unique, used internally.'
-                  example: on-hold
-                color:
-                  type: string
-                  description: 'Hex color.'
-                  example: '#6B7280'
-                is_default:
-                  type: boolean
-                  description: ''
-                  example: true
-                is_closed:
-                  type: boolean
-                  description: 'Whether this status counts as a terminal/closed state.'
-                  example: false
-                sort_order:
-                  type: integer
-                  description: 'Must be at least 0.'
-                  example: 37
-              required:
-                - name
-                - slug
   '/api/v1/statuses/{id}':
     get:
       summary: 'Get a status'
@@ -3883,73 +3674,6 @@ paths:
                         example: Open
       tags:
         - Statuses
-    put:
-      summary: 'Update a status'
-      operationId: updateAStatus
-      description: ''
-      parameters: []
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  success: true
-                  message: 'Status updated successfully.'
-                  data:
-                    id: 8
-                    name: 'On Hold'
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 'Status updated successfully.'
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 8
-                      name:
-                        type: string
-                        example: 'On Hold'
-      tags:
-        - Statuses
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: ''
-                  example: 'On Hold'
-                slug:
-                  type: string
-                  description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 255 characters.'
-                  example: 'n'
-                color:
-                  type: string
-                  description: ''
-                  example: '#F59E0B'
-                is_default:
-                  type: boolean
-                  description: ''
-                  example: false
-                is_closed:
-                  type: boolean
-                  description: ''
-                  example: false
-                sort_order:
-                  type: integer
-                  description: 'Must be at least 0.'
-                  example: 37
     delete:
       summary: 'Delete a status'
       operationId: deleteAStatus
@@ -4053,73 +3777,6 @@ paths:
                           example: 1
       tags:
         - Priorities
-    post:
-      summary: 'Create a priority'
-      operationId: createAPriority
-      description: ''
-      parameters: []
-      responses:
-        201:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  success: true
-                  message: 'Priority created successfully.'
-                  data:
-                    id: 5
-                    name: Critical
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 'Priority created successfully.'
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 5
-                      name:
-                        type: string
-                        example: Critical
-      tags:
-        - Priorities
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: ''
-                  example: Critical
-                slug:
-                  type: string
-                  description: ''
-                  example: critical
-                level:
-                  type: integer
-                  description: 'Higher means more urgent.'
-                  example: 5
-                color:
-                  type: string
-                  description: 'Hex color.'
-                  example: '#DC2626'
-                is_default:
-                  type: boolean
-                  description: ''
-                  example: false
-              required:
-                - name
-                - slug
-                - level
   '/api/v1/priorities/{id}':
     get:
       summary: 'Get a priority'
@@ -4157,69 +3814,6 @@ paths:
                         example: Low
       tags:
         - Priorities
-    put:
-      summary: 'Update a priority'
-      operationId: updateAPriority
-      description: ''
-      parameters: []
-      responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  success: true
-                  message: 'Priority updated successfully.'
-                  data:
-                    id: 5
-                    name: Critical
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 'Priority updated successfully.'
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 5
-                      name:
-                        type: string
-                        example: Critical
-      tags:
-        - Priorities
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: ''
-                  example: Critical
-                slug:
-                  type: string
-                  description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 255 characters.'
-                  example: 'n'
-                level:
-                  type: integer
-                  description: ''
-                  example: 5
-                color:
-                  type: string
-                  description: 'Must not be greater than 7 characters.'
-                  example: zmiyvdl
-                is_default:
-                  type: boolean
-                  description: ''
-                  example: false
     delete:
       summary: 'Delete a priority'
       operationId: deleteAPriority
@@ -4396,7 +3990,7 @@ paths:
                       field:
                         type: string
                         description: ''
-                        example: category_id
+                        example: customer_type
                         enum:
                           - category_id
                           - priority_id
@@ -4405,7 +3999,7 @@ paths:
                       operator:
                         type: string
                         description: ''
-                        example: in
+                        example: '='
                         enum:
                           - '='
                           - '!='
@@ -4547,7 +4141,7 @@ paths:
                 stop_processing:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                 conditions:
                   type: array
                   description: ''
@@ -4558,7 +4152,7 @@ paths:
                       field:
                         type: string
                         description: 'This field is required when <code>conditions</code> is present.'
-                        example: customer_type
+                        example: priority_id
                         enum:
                           - category_id
                           - priority_id
@@ -4586,7 +4180,7 @@ paths:
                       type:
                         type: string
                         description: 'This field is required when <code>actions</code> is present.'
-                        example: escalate
+                        example: assign_department
                         enum:
                           - assign_department
                           - assign_agent
@@ -4765,7 +4359,7 @@ paths:
                 is_active:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
               required:
                 - name
                 - first_response_minutes
@@ -5051,11 +4645,10 @@ paths:
                     properties:
                       channel:
                         type: string
-                        description: ''
+                        description: "'database' was previously accepted here and documented as an\noption, but TicketEventNotification::via() hardcodes ['mail']\nregardless — a preference set to 'database' silently had no\neffect. Only offer the channel that's actually deliverable\nuntil the database channel is implemented end-to-end."
                         example: mail
                         enum:
                           - mail
-                          - database
                       event_key:
                         type: string
                         description: ''
@@ -5063,7 +4656,7 @@ paths:
                       enabled:
                         type: boolean
                         description: ''
-                        example: false
+                        example: true
                       '*':
                         type: object
                         description: ''
@@ -5072,7 +4665,7 @@ paths:
                         properties:
                           channel:
                             type: string
-                            description: 'mail or database.'
+                            description: 'Currently only mail is ever actually delivered.'
                             example: mail
                           event_key:
                             type: string
@@ -5601,7 +5194,7 @@ paths:
                       type:
                         type: string
                         description: ''
-                        example: string
+                        example: integer
                         enum:
                           - string
                           - integer
@@ -5648,3 +5241,2568 @@ paths:
                       - key
               required:
                 - settings
+  /api/v1/api-credentials:
+    get:
+      summary: 'List API credentials'
+      operationId: listAPICredentials
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: 'Chat widget'
+                      key: ak_...
+                      status: active
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Chat widget'
+                        key: ak_...
+                        status: active
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Chat widget'
+                        key:
+                          type: string
+                          example: ak_...
+                        status:
+                          type: string
+                          example: active
+      tags:
+        - 'API Credentials'
+    post:
+      summary: 'Create an API credential'
+      operationId: createAnAPICredential
+      description: "The secret is returned exactly once, here — it is hashed at\nrest and cannot be recovered afterward. Store it securely; if\nit's lost, rotate the credential for a new one."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'API credential created successfully.'
+                  data:
+                    id: 1
+                    name: 'Chat widget'
+                    key: ak_abc123...
+                    secret: as_def456...
+                    scopes:
+                      - customers.read
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'API credential created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Chat widget'
+                      key:
+                        type: string
+                        example: ak_abc123...
+                      secret:
+                        type: string
+                        example: as_def456...
+                      scopes:
+                        type: array
+                        example:
+                          - customers.read
+                        items:
+                          type: string
+      tags:
+        - 'API Credentials'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Chat widget'
+                scopes:
+                  type: array
+                  description: 'One or more of customers.read, customers.create, customers.update, tickets.read, tickets.create, tickets.update, tickets.reply, tickets.status.update, tickets.attachments.'
+                  example:
+                    - customers.read
+                    - tickets.create
+                  items:
+                    type: string
+              required:
+                - name
+                - scopes
+  '/api/v1/api-credentials/{credential_id}':
+    get:
+      summary: 'Get an API credential'
+      operationId: getAnAPICredential
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: 'Chat widget'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Chat widget'
+      tags:
+        - 'API Credentials'
+    put:
+      summary: "Update an API credential's name or scopes"
+      operationId: updateAnAPICredentialsNameOrScopes
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'API credential updated successfully.'
+                  data:
+                    id: 1
+                    name: 'Chat widget (prod)'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'API credential updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Chat widget (prod)'
+      tags:
+        - 'API Credentials'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Chat widget (prod)'
+                scopes:
+                  type: array
+                  description: ''
+                  example:
+                    - customers.read
+                  items:
+                    type: string
+    parameters:
+      -
+        in: path
+        name: credential_id
+        description: 'The ID of the credential.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  '/api/v1/api-credentials/{credential_id}/rotate':
+    post:
+      summary: "Rotate an API credential's secret"
+      operationId: rotateAnAPICredentialsSecret
+      description: "Issues a brand-new secret for the same key; the old secret\nstops working immediately. Use this instead of revoking +\nrecreating when only the secret (not the whole credential and\nits scopes/history) needs to change."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Secret rotated successfully.'
+                  data:
+                    id: 1
+                    key: ak_abc123...
+                    secret: as_newsecret...
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Secret rotated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      key:
+                        type: string
+                        example: ak_abc123...
+                      secret:
+                        type: string
+                        example: as_newsecret...
+      tags:
+        - 'API Credentials'
+    parameters:
+      -
+        in: path
+        name: credential_id
+        description: 'The ID of the credential.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  '/api/v1/api-credentials/{credential_id}/revoke':
+    post:
+      summary: 'Revoke an API credential'
+      operationId: revokeAnAPICredential
+      description: "Immediately and permanently stops this credential from\nauthenticating. Cannot be undone — issue a new credential\ninstead of expecting this one to work again."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'API credential revoked successfully.'
+                  data:
+                    id: 1
+                    status: revoked
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'API credential revoked successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      status:
+                        type: string
+                        example: revoked
+      tags:
+        - 'API Credentials'
+    parameters:
+      -
+        in: path
+        name: credential_id
+        description: 'The ID of the credential.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  /api/v1/integration/customers:
+    get:
+      summary: 'List customers'
+      operationId: listCustomers
+      description: ''
+      parameters:
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 4
+                      external_id: CRM-001
+                      company_name: 'Acme Corp'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 4
+                        external_id: CRM-001
+                        company_name: 'Acme Corp'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 4
+                        external_id:
+                          type: string
+                          example: CRM-001
+                        company_name:
+                          type: string
+                          example: 'Acme Corp'
+      tags:
+        - 'Integration API — Customers'
+      security: []
+    post:
+      summary: 'Create a customer'
+      operationId: createACustomer
+      description: "No password is set — this customer can request one later via\nPOST /auth/forgot-password if they ever need direct portal\naccess; most integration-created customers never do."
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Customer created successfully.'
+                  data:
+                    id: 4
+                    external_id: CRM-001
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Customer created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 4
+                      external_id:
+                        type: string
+                        example: CRM-001
+      tags:
+        - 'Integration API — Customers'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Jamie Rivera'
+                email:
+                  type: string
+                  description: 'Unique within this tenant.'
+                  example: jamie@example.com
+                phone:
+                  type: string
+                  description: ''
+                  example: +1-555-0100
+                  nullable: true
+                company_name:
+                  type: string
+                  description: ''
+                  example: 'Acme Corp'
+                  nullable: true
+                customer_type:
+                  type: string
+                  description: 'individual, business or vip. Defaults to individual.'
+                  example: business
+                external_id:
+                  type: string
+                  description: "This tenant's own identifier for the customer."
+                  example: CRM-001
+                  nullable: true
+              required:
+                - name
+                - email
+      security: []
+  /api/v1/integration/customers/lookup:
+    get:
+      summary: 'Look up a customer by email or external id'
+      operationId: lookUpACustomerByEmailOrExternalId
+      description: ''
+      parameters:
+        -
+          in: query
+          name: email
+          description: ''
+          example: jamie@example.com
+          required: false
+          schema:
+            type: string
+            description: ''
+            example: jamie@example.com
+        -
+          in: query
+          name: external_id
+          description: ''
+          example: CRM-001
+          required: false
+          schema:
+            type: string
+            description: ''
+            example: CRM-001
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 4
+                    external_id: CRM-001
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 4
+                      external_id:
+                        type: string
+                        example: CRM-001
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'No matching customer found.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'No matching customer found.'
+      tags:
+        - 'Integration API — Customers'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'This field is required when <code>external_id</code> is not present. Must be a valid email address.'
+                  example: gbailey@example.net
+                external_id:
+                  type: string
+                  description: 'This field is required when <code>email</code> is not present.'
+                  example: architecto
+      security: []
+  '/api/v1/integration/customers/{customer_id}':
+    get:
+      summary: 'Get a customer'
+      operationId: getACustomer
+      description: ''
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 4
+                    external_id: CRM-001
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 4
+                      external_id:
+                        type: string
+                        example: CRM-001
+      tags:
+        - 'Integration API — Customers'
+      security: []
+    put:
+      summary: 'Update a customer'
+      operationId: updateACustomer
+      description: ''
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Customer updated successfully.'
+                  data:
+                    id: 4
+                    external_id: CRM-002
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Customer updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 4
+                      external_id:
+                        type: string
+                        example: CRM-002
+      tags:
+        - 'Integration API — Customers'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                  description: ''
+                  example: +1-555-0199
+                  nullable: true
+                company_name:
+                  type: string
+                  description: ''
+                  example: 'Acme Corporation'
+                  nullable: true
+                customer_type:
+                  type: string
+                  description: ''
+                  example: vip
+                external_id:
+                  type: string
+                  description: ''
+                  example: CRM-002
+                  nullable: true
+      security: []
+    parameters:
+      -
+        in: path
+        name: customer_id
+        description: 'The ID of the customer.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/integration/tickets:
+    get:
+      summary: 'List tickets'
+      operationId: listTickets
+      description: ''
+      parameters:
+        -
+          in: query
+          name: customer_id
+          description: 'Filter by customer.'
+          example: 4
+          required: false
+          schema:
+            type: integer
+            description: 'Filter by customer.'
+            example: 4
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 12
+                      ticket_number: TKT-2026-000012
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 12
+                        ticket_number: TKT-2026-000012
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 12
+                        ticket_number:
+                          type: string
+                          example: TKT-2026-000012
+      tags:
+        - 'Integration API — Tickets'
+      security: []
+    post:
+      summary: 'Create a ticket'
+      operationId: createATicket
+      description: "The customer is identified by exactly one of customer_id,\ncustomer_email or customer_external_id — whichever the caller's\nown system already has on hand."
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket created successfully.'
+                  data:
+                    id: 12
+                    ticket_number: TKT-2026-000012
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 12
+                      ticket_number:
+                        type: string
+                        example: TKT-2026-000012
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'No matching customer found for the given identifier.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'No matching customer found for the given identifier.'
+      tags:
+        - 'Integration API — Tickets'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                  description: ''
+                  example: 'Cannot access my account'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Getting a 500 error at login.'
+                category_id:
+                  type: integer
+                  description: ''
+                  example: 2
+                  nullable: true
+                priority_id:
+                  type: integer
+                  description: ''
+                  example: 3
+                  nullable: true
+                customer_id:
+                  type: integer
+                  description: 'The internal customer id, if already known.'
+                  example: 4
+                customer_email:
+                  type: string
+                  description: "The customer's email, looked up within this tenant."
+                  example: jamie@example.com
+                customer_external_id:
+                  type: string
+                  description: "This tenant's own identifier for the customer."
+                  example: CRM-001
+              required:
+                - subject
+                - description
+      security: []
+  '/api/v1/integration/tickets/{ticket_id}':
+    get:
+      summary: 'Get a ticket'
+      operationId: getATicket
+      description: ''
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 12
+                    ticket_number: TKT-2026-000012
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 12
+                      ticket_number:
+                        type: string
+                        example: TKT-2026-000012
+      tags:
+        - 'Integration API — Tickets'
+      security: []
+    put:
+      summary: 'Update a ticket'
+      operationId: updateATicket
+      description: ''
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket updated successfully.'
+                  data:
+                    id: 12
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 12
+      tags:
+        - 'Integration API — Tickets'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                  description: ''
+                  example: 'Cannot access my account (updated)'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Still happening after clearing cache.'
+                category_id:
+                  type: integer
+                  description: ''
+                  example: 2
+                  nullable: true
+                priority_id:
+                  type: integer
+                  description: ''
+                  example: 3
+      security: []
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3wbzmm13qwtb9xj5yc914m6
+        required: true
+        schema:
+          type: string
+  '/api/v1/integration/tickets/{ticket_id}/messages':
+    post:
+      summary: 'Reply to a ticket as the customer'
+      operationId: replyToATicketAsTheCustomer
+      description: "Syncs a message from another channel (chat widget, email, CRM)\ninto the ticket thread, attributed to the ticket's own customer."
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Reply added successfully.'
+                  data:
+                    id: 9
+                    body: 'Any update on this?'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Reply added successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 9
+                      body:
+                        type: string
+                        example: 'Any update on this?'
+      tags:
+        - 'Integration API — Tickets'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                  description: ''
+                  example: 'Any update on this?'
+              required:
+                - body
+      security: []
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3wbzmm13qwtb9xj5yc914m6
+        required: true
+        schema:
+          type: string
+  '/api/v1/integration/tickets/{ticket_id}/status':
+    post:
+      summary: "Update a ticket's status"
+      operationId: updateATicketsStatus
+      description: ''
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Ticket status updated successfully.'
+                  data:
+                    id: 12
+                    status:
+                      slug: resolved
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Ticket status updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 12
+                      status:
+                        type: object
+                        properties:
+                          slug:
+                            type: string
+                            example: resolved
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Cannot transition from closed to open.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Cannot transition from closed to open.'
+      tags:
+        - 'Integration API — Tickets'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: 'One of open, in-progress, pending, escalated, resolved, closed, reopened.'
+                  example: resolved
+                reason:
+                  type: string
+                  description: ''
+                  example: 'Customer confirmed the fix worked.'
+                  nullable: true
+              required:
+                - status
+      security: []
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3wbzmm13qwtb9xj5yc914m6
+        required: true
+        schema:
+          type: string
+  '/api/v1/integration/tickets/{ticket_id}/attachments':
+    get:
+      summary: "List a ticket's attachments"
+      operationId: listATicketsAttachments
+      description: ''
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 01HXYZ...
+                      original_filename: screenshot.png
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 01HXYZ...
+                        original_filename: screenshot.png
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 01HXYZ...
+                        original_filename:
+                          type: string
+                          example: screenshot.png
+      tags:
+        - 'Integration API — Tickets'
+      security: []
+    post:
+      summary: 'Upload a ticket attachment as the customer'
+      operationId: uploadATicketAttachmentAsTheCustomer
+      description: ''
+      parameters:
+        -
+          in: header
+          name: X-Api-Key
+          description: ''
+          example: ak_abcdef1234567890abcdef1234567890
+          schema:
+            type: string
+        -
+          in: header
+          name: X-Api-Secret
+          description: ''
+          example: as_abcdef1234567890abcdef1234567890abcdef12345678
+          schema:
+            type: string
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Attachment uploaded successfully.'
+                  data:
+                    id: 01HXYZ...
+                    original_filename: invoice.pdf
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Attachment uploaded successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 01HXYZ...
+                      original_filename:
+                        type: string
+                        example: invoice.pdf
+      tags:
+        - 'Integration API — Tickets'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'Max 25MB. One of jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, csv, zip.'
+              required:
+                - file
+      security: []
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m3wbzmm13qwtb9xj5yc914m6
+        required: true
+        schema:
+          type: string
+  /api/v1/platform/dashboard:
+    get:
+      summary: 'Platform-wide overview'
+      operationId: platformWideOverview
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    tenants:
+                      total: 12
+                      active: 9
+                      trial: 2
+                      suspended: 1
+                    platform_admins: 2
+                    subscriptions_by_plan:
+                      -
+                        plan: Starter
+                        count: 7
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      tenants:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            example: 12
+                          active:
+                            type: integer
+                            example: 9
+                          trial:
+                            type: integer
+                            example: 2
+                          suspended:
+                            type: integer
+                            example: 1
+                      platform_admins:
+                        type: integer
+                        example: 2
+                      subscriptions_by_plan:
+                        type: array
+                        example:
+                          -
+                            plan: Starter
+                            count: 7
+                        items:
+                          type: object
+                          properties:
+                            plan:
+                              type: string
+                              example: Starter
+                            count:
+                              type: integer
+                              example: 7
+      tags:
+        - 'Platform Administration'
+  /api/v1/platform/tenants:
+    get:
+      summary: 'List tenants'
+      operationId: listTenants
+      description: ''
+      parameters:
+        -
+          in: query
+          name: 'filter[status]'
+          description: 'active, trial or suspended.'
+          example: trial
+          required: false
+          schema:
+            type: string
+            description: 'active, trial or suspended.'
+            example: trial
+        -
+          in: query
+          name: 'filter[name]'
+          description: 'Partial name match.'
+          example: Acme
+          required: false
+          schema:
+            type: string
+            description: 'Partial name match.'
+            example: Acme
+        -
+          in: query
+          name: sort
+          description: 'Sort by name or created_at.'
+          example: '-created_at'
+          required: false
+          schema:
+            type: string
+            description: 'Sort by name or created_at.'
+            example: '-created_at'
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 2
+                      name: 'Acme Support'
+                      slug: acme-support
+                      status: active
+                      users_count: 9
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 2
+                        name: 'Acme Support'
+                        slug: acme-support
+                        status: active
+                        users_count: 9
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 2
+                        name:
+                          type: string
+                          example: 'Acme Support'
+                        slug:
+                          type: string
+                          example: acme-support
+                        status:
+                          type: string
+                          example: active
+                        users_count:
+                          type: integer
+                          example: 9
+      tags:
+        - 'Platform Administration'
+  '/api/v1/platform/tenants/{tenant_id}':
+    get:
+      summary: 'Get a tenant'
+      operationId: getATenant
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 2
+                    name: 'Acme Support'
+                    users_count: 9
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                      name:
+                        type: string
+                        example: 'Acme Support'
+                      users_count:
+                        type: integer
+                        example: 9
+      tags:
+        - 'Platform Administration'
+    put:
+      summary: 'Update a tenant'
+      operationId: updateATenant
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Tenant updated successfully.'
+                  data:
+                    id: 2
+                    name: 'Acme Support Inc.'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Tenant updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                      name:
+                        type: string
+                        example: 'Acme Support Inc.'
+      tags:
+        - 'Platform Administration'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Acme Support Inc.'
+                email:
+                  type: string
+                  description: ''
+                  example: billing@acme.com
+                  nullable: true
+                phone:
+                  type: string
+                  description: ''
+                  example: +1-555-0100
+                  nullable: true
+                website:
+                  type: string
+                  description: ''
+                  example: 'https://acme.com'
+                  nullable: true
+                country:
+                  type: string
+                  description: ''
+                  example: US
+                  nullable: true
+                timezone:
+                  type: string
+                  description: ''
+                  example: America/New_York
+    parameters:
+      -
+        in: path
+        name: tenant_id
+        description: 'The ID of the tenant.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/platform/tenants/{tenant_id}/suspend':
+    post:
+      summary: 'Suspend a tenant'
+      operationId: suspendATenant
+      description: "Immediately blocks every user of this tenant from authenticating\nfurther (ResolveTenantContext rejects any tenant that isn't\nactive/trial) and from registering new accounts. Existing Sanctum\ntokens are not individually revoked — they simply stop working\nthe next time they hit a tenant-scoped route."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Tenant suspended successfully.'
+                  data:
+                    id: 2
+                    status: suspended
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Tenant suspended successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                      status:
+                        type: string
+                        example: suspended
+      tags:
+        - 'Platform Administration'
+    parameters:
+      -
+        in: path
+        name: tenant_id
+        description: 'The ID of the tenant.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/platform/tenants/{tenant_id}/activate':
+    post:
+      summary: 'Activate (or reactivate) a tenant'
+      operationId: activateorReactivateATenant
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Tenant activated successfully.'
+                  data:
+                    id: 2
+                    status: active
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Tenant activated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 2
+                      status:
+                        type: string
+                        example: active
+      tags:
+        - 'Platform Administration'
+    parameters:
+      -
+        in: path
+        name: tenant_id
+        description: 'The ID of the tenant.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/platform/membership-plans:
+    get:
+      summary: 'List membership plans'
+      operationId: listMembershipPlans
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: Starter
+                      slug: starter
+                      price_cents: 0
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: Starter
+                        slug: starter
+                        price_cents: 0
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Starter
+                        slug:
+                          type: string
+                          example: starter
+                        price_cents:
+                          type: integer
+                          example: 0
+      tags:
+        - 'Platform Administration'
+    post:
+      summary: 'Create a membership plan'
+      operationId: createAMembershipPlan
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Membership plan created successfully.'
+                  data:
+                    id: 5
+                    name: Growth
+                    slug: growth
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Membership plan created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 5
+                      name:
+                        type: string
+                        example: Growth
+                      slug:
+                        type: string
+                        example: growth
+      tags:
+        - 'Platform Administration'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: Growth
+                slug:
+                  type: string
+                  description: ''
+                  example: growth
+                description:
+                  type: string
+                  description: ''
+                  example: 'For scaling support teams.'
+                  nullable: true
+                price_cents:
+                  type: integer
+                  description: 'In the smallest currency unit.'
+                  example: 9900
+                currency:
+                  type: string
+                  description: 'Defaults to USD.'
+                  example: USD
+                billing_interval:
+                  type: string
+                  description: 'monthly or yearly.'
+                  example: monthly
+                limits:
+                  type: object
+                  description: 'Feature limits; omit or null a key for unlimited.'
+                  example:
+                    users: 25
+                    customers: 5000
+                  properties: {  }
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: 'Defaults to true.'
+                  example: true
+                sort_order:
+                  type: integer
+                  description: ''
+                  example: 2
+              required:
+                - name
+                - slug
+                - price_cents
+                - billing_interval
+  '/api/v1/platform/membership-plans/{plan_id}':
+    put:
+      summary: 'Update a membership plan'
+      operationId: updateAMembershipPlan
+      description: "Existing subscriptions are unaffected until their next billing\ncycle re-evaluates limits — this only changes what NEW\nsubscriptions, and PlanLimitService's live checks for all\nsubscriptions, see going forward."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Membership plan updated successfully.'
+                  data:
+                    id: 5
+                    name: Growth
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Membership plan updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 5
+                      name:
+                        type: string
+                        example: Growth
+      tags:
+        - 'Platform Administration'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: Growth
+                slug:
+                  type: string
+                  description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 255 characters.'
+                  example: 'n'
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                  nullable: true
+                price_cents:
+                  type: integer
+                  description: ''
+                  example: 12900
+                currency:
+                  type: string
+                  description: 'Must be 3 characters.'
+                  example: dlj
+                billing_interval:
+                  type: string
+                  description: ''
+                  example: monthly
+                  enum:
+                    - monthly
+                    - yearly
+                limits:
+                  type: object
+                  description: ''
+                  example:
+                    users: 30
+                  properties: {  }
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: false
+                sort_order:
+                  type: integer
+                  description: 'Must be at least 0.'
+                  example: 8
+    parameters:
+      -
+        in: path
+        name: plan_id
+        description: 'The ID of the plan.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/tenants/register:
+    post:
+      summary: 'Register a new organization'
+      operationId: registerANewOrganization
+      description: "Creates the tenant, subscribes it to the given plan (the free\nStarter plan if omitted), provisions its default roles/ticket\nstatuses/priorities, and creates the owner account. Starter-plan\nsignups are active immediately; any paid plan starts a 14-day\ntrial (no payment is collected here — billing integration is out\nof scope for this API)."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Organization registered successfully.'
+                  data:
+                    tenant:
+                      id: 7
+                      name: 'Acme Corp'
+                      slug: acme-corp
+                      status: active
+                    user:
+                      id: 42
+                      name: 'Jamie Rivera'
+                      email: jamie@acme.com
+                      roles:
+                        - Administrator
+                    token: 1|abcdef123456...
+                    token_type: Bearer
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Organization registered successfully.'
+                  data:
+                    type: object
+                    properties:
+                      tenant:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 7
+                          name:
+                            type: string
+                            example: 'Acme Corp'
+                          slug:
+                            type: string
+                            example: acme-corp
+                          status:
+                            type: string
+                            example: active
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 42
+                          name:
+                            type: string
+                            example: 'Jamie Rivera'
+                          email:
+                            type: string
+                            example: jamie@acme.com
+                          roles:
+                            type: array
+                            example:
+                              - Administrator
+                            items:
+                              type: string
+                      token:
+                        type: string
+                        example: 1|abcdef123456...
+                      token_type:
+                        type: string
+                        example: Bearer
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Validation failed.'
+                  errors:
+                    tenant_slug:
+                      - 'The tenant slug has already been taken.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Validation failed.'
+                  errors:
+                    type: object
+                    properties:
+                      tenant_slug:
+                        type: array
+                        example:
+                          - 'The tenant slug has already been taken.'
+                        items:
+                          type: string
+      tags:
+        - 'Tenant Registration'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tenant_name:
+                  type: string
+                  description: "The organization's display name."
+                  example: 'Acme Corp'
+                tenant_slug:
+                  type: string
+                  description: 'Globally unique, used in the `tenant` field of /auth/login and /auth/register.'
+                  example: acme-corp
+                owner_name:
+                  type: string
+                  description: ''
+                  example: 'Jamie Rivera'
+                owner_email:
+                  type: string
+                  description: ''
+                  example: jamie@acme.com
+                owner_password:
+                  type: string
+                  description: 'Minimum 10 characters, including upper and lower case, a number, and a symbol.'
+                  example: Secret123!word$9
+                plan:
+                  type: string
+                  description: 'The membership plan slug. Defaults to "starter".'
+                  example: professional
+                phone:
+                  type: string
+                  description: ''
+                  example: +1-555-0100
+                  nullable: true
+                website:
+                  type: string
+                  description: ''
+                  example: 'https://acme.com'
+                  nullable: true
+                country:
+                  type: string
+                  description: 'ISO 3166-1 alpha-2.'
+                  example: US
+                  nullable: true
+                timezone:
+                  type: string
+                  description: ''
+                  example: America/New_York
+                  nullable: true
+                device_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'y'
+                  nullable: true
+                owner_password_confirmation:
+                  type: string
+                  description: 'Must match owner_password.'
+                  example: Secret123!word$9
+              required:
+                - tenant_name
+                - tenant_slug
+                - owner_name
+                - owner_email
+                - owner_password
+                - owner_password_confirmation
+      security: []
+  '/api/v1/tenants/lookup/{slug}':
+    get:
+      summary: 'Look up an organization by slug'
+      operationId: lookUpAnOrganizationBySlug
+      description: "Used by login/registration clients to confirm a tenant slug\nexists and is currently accepting sign-ins before prompting for\ncredentials. Deliberately returns only non-sensitive fields."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    slug: acme-corp
+                    name: 'Acme Corp'
+                    is_active: true
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      slug:
+                        type: string
+                        example: acme-corp
+                      name:
+                        type: string
+                        example: 'Acme Corp'
+                      is_active:
+                        type: boolean
+                        example: true
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'No organization found for that identifier.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'No organization found for that identifier.'
+      tags:
+        - 'Tenant Registration'
+      security: []
+    parameters:
+      -
+        in: path
+        name: slug
+        description: ''
+        example: acme-corp
+        required: true
+        schema:
+          type: string
+  /api/v1/webhooks:
+    get:
+      summary: 'List webhooks'
+      operationId: listWebhooks
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      name: 'Ticket sync'
+                      url: 'https://example.com/hooks'
+                      events:
+                        - ticket.created
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Ticket sync'
+                        url: 'https://example.com/hooks'
+                        events:
+                          - ticket.created
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Ticket sync'
+                        url:
+                          type: string
+                          example: 'https://example.com/hooks'
+                        events:
+                          type: array
+                          example:
+                            - ticket.created
+                          items:
+                            type: string
+      tags:
+        - Webhooks
+    post:
+      summary: 'Create a webhook'
+      operationId: createAWebhook
+      description: "The secret is returned exactly once, here — it is encrypted at\nrest and this is the only response that ever includes it in\nplain text. Use it to verify the X-Webhook-Signature header on\neach delivery."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Webhook created successfully.'
+                  data:
+                    id: 1
+                    name: 'Ticket sync'
+                    url: 'https://example.com/webhooks/supporthub'
+                    secret: whsec_...
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Webhook created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Ticket sync'
+                      url:
+                        type: string
+                        example: 'https://example.com/webhooks/supporthub'
+                      secret:
+                        type: string
+                        example: whsec_...
+      tags:
+        - Webhooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Ticket sync'
+                url:
+                  type: string
+                  description: 'Must not point to a local/private address.'
+                  example: 'https://example.com/webhooks/supporthub'
+                events:
+                  type: array
+                  description: 'One or more of ticket.created, ticket.updated, ticket.assigned, ticket.replied, ticket.status_changed, ticket.resolved, ticket.closed, ticket.reopened.'
+                  example:
+                    - ticket.created
+                    - ticket.status_changed
+                  items:
+                    type: string
+                is_active:
+                  type: boolean
+                  description: 'Defaults to true.'
+                  example: true
+              required:
+                - name
+                - url
+                - events
+  '/api/v1/webhooks/{webhook_id}':
+    get:
+      summary: 'Get a webhook'
+      operationId: getAWebhook
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    id: 1
+                    name: 'Ticket sync'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Ticket sync'
+      tags:
+        - Webhooks
+    put:
+      summary: 'Update a webhook'
+      operationId: updateAWebhook
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Webhook updated successfully.'
+                  data:
+                    id: 1
+                    name: 'Ticket sync (v2)'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Webhook updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Ticket sync (v2)'
+      tags:
+        - Webhooks
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: 'Ticket sync (v2)'
+                url:
+                  type: string
+                  description: ''
+                  example: 'https://example.com/webhooks/v2'
+                events:
+                  type: array
+                  description: ''
+                  example:
+                    - ticket.created
+                  items:
+                    type: string
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Delete a webhook'
+      operationId: deleteAWebhook
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Webhook deleted successfully.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Webhook deleted successfully.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - Webhooks
+    parameters:
+      -
+        in: path
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  '/api/v1/webhooks/{webhook_id}/deliveries':
+    get:
+      summary: "List a webhook's recent delivery attempts"
+      operationId: listAWebhooksRecentDeliveryAttempts
+      description: ''
+      parameters:
+        -
+          in: query
+          name: per_page
+          description: 'Items per page (max 100).'
+          example: 25
+          required: false
+          schema:
+            type: integer
+            description: 'Items per page (max 100).'
+            example: 25
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      id: 1
+                      event: ticket.created
+                      success: true
+                      response_status: 200
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        event: ticket.created
+                        success: true
+                        response_status: 200
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        event:
+                          type: string
+                          example: ticket.created
+                        success:
+                          type: boolean
+                          example: true
+                        response_status:
+                          type: integer
+                          example: 200
+      tags:
+        - Webhooks
+    parameters:
+      -
+        in: path
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        example: 16
+        required: true
+        schema:
+          type: integer

@@ -17,6 +17,7 @@ class ResetPasswordRequest extends FormRequest
         return [
             'token' => ['required', 'string'],
             'email' => ['required', 'string', 'email'],
+            'tenant' => ['sometimes', 'string', 'exists:tenants,slug'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }

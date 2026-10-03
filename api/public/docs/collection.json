@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "SupportHub API Documentation",
-        "_postman_id": "f63783c8-1d23-474b-a096-5bbbaa8f32ec",
+        "_postman_id": "613ce7de-2230-4dbc-8976-11b971842f6c",
         "description": "REST API for SupportHub \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -41,7 +41,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"device_name\":\"z\",\"password_confirmation\":\"Secret123!\"}"
+                            "raw": "{\"tenant\":\"acme-support\",\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!word$9\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"device_name\":\"z\",\"password_confirmation\":\"Secret123!\"}"
                         },
                         "description": "Creates a new Customer-role account and an associated customer\nprofile, then returns a Bearer token. A verification email is\nqueued automatically.",
                         "auth": {
@@ -85,7 +85,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"admin@supporthub.test\",\"password\":\"password\",\"device_name\":\"web-browser\"}"
+                            "raw": "{\"email\":\"admin@supporthub.test\",\"password\":\"password\",\"tenant\":\"acme-support\",\"device_name\":\"web-browser\"}"
                         },
                         "description": "Exchanges email\/password credentials for a Sanctum Bearer token.\nPass a `device_name` so multiple tokens (web, iOS, Android) can be\nmanaged and revoked independently per device.",
                         "auth": {
@@ -135,7 +135,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"admin@supporthub.test\"}"
+                            "raw": "{\"email\":\"admin@supporthub.test\",\"tenant\":\"acme-support\"}"
                         },
                         "description": "Sends a password reset link to the given email if an account\nexists for it. Always returns the same generic success message\nregardless of whether the email is registered, to avoid leaking\nwhich addresses have accounts.",
                         "auth": {
@@ -173,7 +173,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"token\":\"9f8e7d6c5b4a\",\"email\":\"admin@supporthub.test\",\"password\":\"NewSecret123!\",\"password_confirmation\":\"NewSecret123!\"}"
+                            "raw": "{\"token\":\"9f8e7d6c5b4a\",\"email\":\"admin@supporthub.test\",\"tenant\":\"acme-support\",\"password\":\"NewSecret123!word$9\",\"password_confirmation\":\"NewSecret123!\"}"
                         },
                         "description": "Completes a password reset using the token emailed by\n\/auth\/forgot-password.",
                         "auth": {
@@ -673,41 +673,6 @@
                     ]
                 },
                 {
-                    "name": "Create a role",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/roles",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/roles"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"Billing Specialist\",\"permissions\":[\"tickets.view\",\"tickets.update\"]}"
-                        },
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 201,
-                            "body": "{\"success\": true, \"message\": \"Role created successfully.\", \"data\": {\"id\": 6, \"name\": \"Billing Specialist\"}}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
                     "name": "Get a role",
                     "request": {
                         "url": {
@@ -743,49 +708,6 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Administrator\"}}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "Update a role",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/roles\/:id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/roles\/:id",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": 1,
-                                    "description": "The ID of the role."
-                                }
-                            ]
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"Billing Specialist\",\"permissions\":[\"tickets.view\"]}"
-                        },
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Role updated successfully.\", \"data\": {\"id\": 6, \"name\": \"Billing Specialist\"}}",
                             "name": ""
                         }
                     ]
@@ -932,41 +854,6 @@
                     ]
                 },
                 {
-                    "name": "Create a customer (admin-created account)",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/customers",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/customers"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"customer_type\":\"business\",\"password_confirmation\":\"Secret123!\"}"
-                        },
-                        "description": "Creates a User with the Customer role plus its Customer profile in\na single call, for support staff onboarding a customer by hand.\nFor self-service signup, use POST \/auth\/register instead."
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 201,
-                            "body": "{\"success\": true, \"message\": \"Customer created successfully.\", \"data\": {\"id\": 4, \"company_name\": \"Acme Corp\"}}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
                     "name": "Get a customer",
                     "request": {
                         "url": {
@@ -1002,49 +889,6 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"company_name\": \"Acme Corp\"}}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "Update a customer",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/customers\/:customer_id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/customers\/:customer_id",
-                            "variable": [
-                                {
-                                    "id": "customer_id",
-                                    "key": "customer_id",
-                                    "value": 1,
-                                    "description": "The ID of the customer."
-                                }
-                            ]
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"phone\":\"+1-555-0199\",\"company_name\":\"Acme Corporation\",\"customer_type\":\"vip\",\"timezone\":\"Antarctica\\\/Rothera\"}"
-                        },
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Customer updated successfully.\", \"data\": {\"id\": 1, \"company_name\": \"Acme Corporation\"}}",
                             "name": ""
                         }
                     ]
@@ -1475,7 +1319,7 @@
                                 {
                                     "key": "filter[sla_status]",
                                     "value": "breached",
-                                    "description": "One of pending, met, breached, paused.",
+                                    "description": "One of pending, met, breached (ticket_slas.status is never set to any other value).",
                                     "disabled": false
                                 },
                                 {
@@ -1563,7 +1407,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1609,7 +1453,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1652,7 +1496,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1692,7 +1536,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1735,7 +1579,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1778,7 +1622,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1827,7 +1671,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1870,7 +1714,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1913,7 +1757,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1943,6 +1787,59 @@
                             "name": ""
                         }
                     ]
+                },
+                {
+                    "name": "Get a ticket's activity feed",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/activities",
+                            "query": [
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/activities?per_page=25",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "ticket",
+                                    "key": "ticket",
+                                    "value": "01hxyz0123456789abcdefghj",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "The chronological system log of everything that happened to this\nticket (created, assigned, status changes, messages posted) \u2014\ndistinct from the audit log, which only covers a narrow set of\ncompliance-relevant actions across the whole application."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": \"01HXYZ...\", \"type\": \"created\", \"description\": \"Ticket created by Casey Customer\"}]}",
+                            "name": ""
+                        }
+                    ]
                 }
             ]
         },
@@ -1969,7 +1866,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2015,7 +1912,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2088,13 +1985,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m3tsggyve0avhzj6f0tsn0qa",
+                                    "value": "01m3wbznhktc5zeq2h43qsgnbd",
                                     "description": "The ID of the message."
                                 },
                                 {
@@ -2158,7 +2055,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2204,7 +2101,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2259,7 +2156,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2342,7 +2239,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3tsggmqj1asbxhzfrfb0vtt",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2642,41 +2539,6 @@
                     ]
                 },
                 {
-                    "name": "Create a status",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/statuses",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/statuses"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"On Hold\",\"slug\":\"on-hold\",\"color\":\"#6B7280\",\"is_default\":true,\"is_closed\":false,\"sort_order\":37}"
-                        },
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 201,
-                            "body": "{\"success\": true, \"message\": \"Status created successfully.\", \"data\": {\"id\": 8, \"name\": \"On Hold\"}}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
                     "name": "Get a status",
                     "request": {
                         "url": {
@@ -2712,49 +2574,6 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Open\"}}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "Update a status",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/statuses\/:id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/statuses\/:id",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": 1,
-                                    "description": "The ID of the status."
-                                }
-                            ]
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":false,\"is_closed\":false,\"sort_order\":37}"
-                        },
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Status updated successfully.\", \"data\": {\"id\": 8, \"name\": \"On Hold\"}}",
                             "name": ""
                         }
                     ]
@@ -2844,41 +2663,6 @@
                     ]
                 },
                 {
-                    "name": "Create a priority",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/priorities",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/priorities"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"Critical\",\"slug\":\"critical\",\"level\":5,\"color\":\"#DC2626\",\"is_default\":false}"
-                        },
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 201,
-                            "body": "{\"success\": true, \"message\": \"Priority created successfully.\", \"data\": {\"id\": 5, \"name\": \"Critical\"}}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
                     "name": "Get a priority",
                     "request": {
                         "url": {
@@ -2914,49 +2698,6 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Low\"}}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "Update a priority",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/priorities\/:id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/priorities\/:id",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": 1,
-                                    "description": "The ID of the priority."
-                                }
-                            ]
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":false}"
-                        },
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [],
-                            "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Priority updated successfully.\", \"data\": {\"id\": 5, \"name\": \"Critical\"}}",
                             "name": ""
                         }
                     ]
@@ -3150,7 +2891,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":false,\"conditions\":[{\"field\":\"customer_type\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"escalate\"}]}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":true,\"conditions\":[{\"field\":\"priority_id\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"assign_department\"}]}"
                         },
                         "description": ""
                     },
@@ -3263,7 +3004,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":false,\"is_active\":true}"
+                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":false,\"is_active\":false}"
                         },
                         "description": ""
                     },
@@ -3459,7 +3200,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"preferences\":[{\"channel\":\"mail\",\"event_key\":\"architecto\",\"enabled\":false}]}"
+                            "raw": "{\"preferences\":[{\"channel\":\"mail\",\"event_key\":\"architecto\",\"enabled\":true}]}"
                         },
                         "description": "Upserts one or more (channel, event_key) preferences for the\nauthenticated user."
                     },
@@ -3659,7 +3400,7 @@
         },
         {
             "name": "Audit Logs",
-            "description": "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET \/tickets\/{ticket} includes its activities) \u2014\nthis covers every auditable action across the whole application for\ncompliance review.",
+            "description": "\nSystem-wide, read-only audit trail. Distinct from a ticket's own\nactivity feed (GET \/tickets\/{ticket}\/activities) \u2014 this covers every\nauditable action across the whole application for compliance review.\nAudit coverage is currently narrow (ticket creation and status changes\nonly); the per-ticket activity feed is the more complete log of what\nhappened to a given ticket.",
             "item": [
                 {
                     "name": "List audit log entries",
@@ -3784,7 +3525,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"string\",\"group\":\"n\",\"is_public\":true}]}"
+                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"integer\",\"group\":\"n\",\"is_public\":true}]}"
                         },
                         "description": ""
                     },
@@ -3793,6 +3534,1668 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Settings updated successfully.\", \"data\": [{\"key\": \"support_hours_message\", \"value\": \"Mon-Fri 9am-5pm UTC\"}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "API Credentials",
+            "description": "\nKey+secret pairs a tenant issues to its own backend\/CRM\/chat widget\nto call the Integration API (see docs under \"Integration API \u2014\nCustomers\/Tickets\"). Scoped to the caller's own tenant like\neverything else here; a credential's secret is only ever visible in\nthe response to the single store()\/rotate() call that generated it.",
+            "item": [
+                {
+                    "name": "List API credentials",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/api-credentials",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/api-credentials"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Chat widget\", \"key\": \"ak_...\", \"status\": \"active\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create an API credential",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/api-credentials",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/api-credentials"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Chat widget\",\"scopes\":[\"customers.read\",\"tickets.create\"]}"
+                        },
+                        "description": "The secret is returned exactly once, here \u2014 it is hashed at\nrest and cannot be recovered afterward. Store it securely; if\nit's lost, rotate the credential for a new one."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"success\": true, \"message\": \"API credential created successfully.\",\n  \"data\": {\"id\": 1, \"name\": \"Chat widget\", \"key\": \"ak_abc123...\", \"secret\": \"as_def456...\", \"scopes\": [\"customers.read\"]}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get an API credential",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/api-credentials\/:credential_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/api-credentials\/:credential_id",
+                            "variable": [
+                                {
+                                    "id": "credential_id",
+                                    "key": "credential_id",
+                                    "value": 16,
+                                    "description": "The ID of the credential."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Chat widget\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update an API credential's name or scopes",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/api-credentials\/:credential_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/api-credentials\/:credential_id",
+                            "variable": [
+                                {
+                                    "id": "credential_id",
+                                    "key": "credential_id",
+                                    "value": 16,
+                                    "description": "The ID of the credential."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Chat widget (prod)\",\"scopes\":[\"customers.read\"]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"API credential updated successfully.\", \"data\": {\"id\": 1, \"name\": \"Chat widget (prod)\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Rotate an API credential's secret",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/api-credentials\/:credential_id\/rotate",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/api-credentials\/:credential_id\/rotate",
+                            "variable": [
+                                {
+                                    "id": "credential_id",
+                                    "key": "credential_id",
+                                    "value": 16,
+                                    "description": "The ID of the credential."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Issues a brand-new secret for the same key; the old secret\nstops working immediately. Use this instead of revoking +\nrecreating when only the secret (not the whole credential and\nits scopes\/history) needs to change."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Secret rotated successfully.\", \"data\": {\"id\": 1, \"key\": \"ak_abc123...\", \"secret\": \"as_newsecret...\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Revoke an API credential",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/api-credentials\/:credential_id\/revoke",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/api-credentials\/:credential_id\/revoke",
+                            "variable": [
+                                {
+                                    "id": "credential_id",
+                                    "key": "credential_id",
+                                    "value": 16,
+                                    "description": "The ID of the credential."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Immediately and permanently stops this credential from\nauthenticating. Cannot be undone \u2014 issue a new credential\ninstead of expecting this one to work again."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"API credential revoked successfully.\", \"data\": {\"id\": 1, \"status\": \"revoked\"}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Integration API \u2014 Customers",
+            "description": "\nAuthenticated via X-Api-Key \/ X-Api-Secret headers (see\nResolveIntegrationTenantContext), not a Sanctum session \u2014 for a\ntenant's own backend, CRM or chat widget to keep its customer\nrecords in sync with this helpdesk. Every endpoint here is scoped to\nthe credential's own tenant; there is no cross-tenant visibility no\nmatter what id is requested.",
+            "item": [
+                {
+                    "name": "List customers",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/customers",
+                            "query": [
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/customers?per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 4, \"external_id\": \"CRM-001\", \"company_name\": \"Acme Corp\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Look up a customer by email or external id",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/customers\/lookup",
+                            "query": [
+                                {
+                                    "key": "email",
+                                    "value": "jamie@example.com",
+                                    "description": "",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "external_id",
+                                    "value": "CRM-001",
+                                    "description": "",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/customers\/lookup?email=jamie%40example.com&external_id=CRM-001"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"gbailey@example.net\",\"external_id\":\"architecto\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 4, \"external_id\": \"CRM-001\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\"success\": false, \"message\": \"No matching customer found.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/customers\/:customer_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/customers\/:customer_id",
+                            "variable": [
+                                {
+                                    "id": "customer_id",
+                                    "key": "customer_id",
+                                    "value": 1,
+                                    "description": "The ID of the customer."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 4, \"external_id\": \"CRM-001\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/customers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/customers"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"customer_type\":\"business\",\"external_id\":\"CRM-001\"}"
+                        },
+                        "description": "No password is set \u2014 this customer can request one later via\nPOST \/auth\/forgot-password if they ever need direct portal\naccess; most integration-created customers never do.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Customer created successfully.\", \"data\": {\"id\": 4, \"external_id\": \"CRM-001\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/customers\/:customer_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/customers\/:customer_id",
+                            "variable": [
+                                {
+                                    "id": "customer_id",
+                                    "key": "customer_id",
+                                    "value": 1,
+                                    "description": "The ID of the customer."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"phone\":\"+1-555-0199\",\"company_name\":\"Acme Corporation\",\"customer_type\":\"vip\",\"external_id\":\"CRM-002\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Customer updated successfully.\", \"data\": {\"id\": 4, \"external_id\": \"CRM-002\"}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Integration API \u2014 Tickets",
+            "description": "\nSame credential-based auth as the Customers integration endpoints.\n\"Reply\" and \"attachment\" actions here are posted on behalf of the\nticket's customer \u2014 there is no staff Sanctum session backing this\ncredential, so there is no agent identity to attribute them to; use\nthe regular Sanctum-authenticated ticket endpoints for agent-side\nactions.",
+            "item": [
+                {
+                    "name": "List tickets",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets",
+                            "query": [
+                                {
+                                    "key": "customer_id",
+                                    "value": "4",
+                                    "description": "Filter by customer.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets?customer_id=4&per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 12, \"ticket_number\": \"TKT-2026-000012\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets\/:ticket_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets\/:ticket_id",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 12, \"ticket_number\": \"TKT-2026-000012\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"subject\":\"Cannot access my account\",\"description\":\"Getting a 500 error at login.\",\"category_id\":2,\"priority_id\":3,\"customer_id\":4,\"customer_email\":\"jamie@example.com\",\"customer_external_id\":\"CRM-001\"}"
+                        },
+                        "description": "The customer is identified by exactly one of customer_id,\ncustomer_email or customer_external_id \u2014 whichever the caller's\nown system already has on hand.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Ticket created successfully.\", \"data\": {\"id\": 12, \"ticket_number\": \"TKT-2026-000012\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\"success\": false, \"message\": \"No matching customer found for the given identifier.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a ticket",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets\/:ticket_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets\/:ticket_id",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"subject\":\"Cannot access my account (updated)\",\"description\":\"Still happening after clearing cache.\",\"category_id\":2,\"priority_id\":3}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket updated successfully.\", \"data\": {\"id\": 12}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reply to a ticket as the customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets\/:ticket_id\/messages",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets\/:ticket_id\/messages",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"body\":\"Any update on this?\"}"
+                        },
+                        "description": "Syncs a message from another channel (chat widget, email, CRM)\ninto the ticket thread, attributed to the ticket's own customer.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Reply added successfully.\", \"data\": {\"id\": 9, \"body\": \"Any update on this?\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a ticket's status",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets\/:ticket_id\/status",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets\/:ticket_id\/status",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"status\":\"resolved\",\"reason\":\"Customer confirmed the fix worked.\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket status updated successfully.\", \"data\": {\"id\": 12, \"status\": {\"slug\": \"resolved\"}}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Cannot transition from closed to open.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List a ticket's attachments",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets\/:ticket_id\/attachments",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets\/:ticket_id\/attachments",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": \"01HXYZ...\", \"original_filename\": \"screenshot.png\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Upload a ticket attachment as the customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets\/:ticket_id\/attachments",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets\/:ticket_id\/attachments",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "file",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Attachment uploaded successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"original_filename\": \"invoice.pdf\"}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Platform Administration",
+            "description": "\nA single-call overview for the platform admin landing screen \u2014\neverything here is a cheap count query, not a report; GET\n\/platform\/tenants already supports filtering\/pagination for\nanything needing the underlying rows.",
+            "item": [
+                {
+                    "name": "Platform-wide overview",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/dashboard",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/dashboard"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true, \"message\": \"Request successful.\",\n  \"data\": {\n    \"tenants\": {\"total\": 12, \"active\": 9, \"trial\": 2, \"suspended\": 1},\n    \"platform_admins\": 2,\n    \"subscriptions_by_plan\": [{\"plan\": \"Starter\", \"count\": 7}]\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List tenants",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/tenants",
+                            "query": [
+                                {
+                                    "key": "filter[status]",
+                                    "value": "trial",
+                                    "description": "active, trial or suspended.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "filter[name]",
+                                    "value": "Acme",
+                                    "description": "Partial name match.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "-created_at",
+                                    "description": "Sort by name or created_at.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/tenants?filter%5Bstatus%5D=trial&filter%5Bname%5D=Acme&sort=-created_at&per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true, \"message\": \"Request successful.\",\n  \"data\": [{\"id\": 2, \"name\": \"Acme Support\", \"slug\": \"acme-support\", \"status\": \"active\", \"users_count\": 9}]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a tenant",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/tenants\/:tenant_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/tenants\/:tenant_id",
+                            "variable": [
+                                {
+                                    "id": "tenant_id",
+                                    "key": "tenant_id",
+                                    "value": 1,
+                                    "description": "The ID of the tenant."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 2, \"name\": \"Acme Support\", \"users_count\": 9}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a tenant",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/tenants\/:tenant_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/tenants\/:tenant_id",
+                            "variable": [
+                                {
+                                    "id": "tenant_id",
+                                    "key": "tenant_id",
+                                    "value": 1,
+                                    "description": "The ID of the tenant."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Acme Support Inc.\",\"email\":\"billing@acme.com\",\"phone\":\"+1-555-0100\",\"website\":\"https:\\\/\\\/acme.com\",\"country\":\"US\",\"timezone\":\"America\\\/New_York\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Tenant updated successfully.\", \"data\": {\"id\": 2, \"name\": \"Acme Support Inc.\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Suspend a tenant",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/tenants\/:tenant_id\/suspend",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/tenants\/:tenant_id\/suspend",
+                            "variable": [
+                                {
+                                    "id": "tenant_id",
+                                    "key": "tenant_id",
+                                    "value": 1,
+                                    "description": "The ID of the tenant."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Immediately blocks every user of this tenant from authenticating\nfurther (ResolveTenantContext rejects any tenant that isn't\nactive\/trial) and from registering new accounts. Existing Sanctum\ntokens are not individually revoked \u2014 they simply stop working\nthe next time they hit a tenant-scoped route."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Tenant suspended successfully.\", \"data\": {\"id\": 2, \"status\": \"suspended\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Activate (or reactivate) a tenant",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/tenants\/:tenant_id\/activate",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/tenants\/:tenant_id\/activate",
+                            "variable": [
+                                {
+                                    "id": "tenant_id",
+                                    "key": "tenant_id",
+                                    "value": 1,
+                                    "description": "The ID of the tenant."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Tenant activated successfully.\", \"data\": {\"id\": 2, \"status\": \"active\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List membership plans",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/membership-plans",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/membership-plans"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Starter\", \"slug\": \"starter\", \"price_cents\": 0}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a membership plan",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/membership-plans",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/membership-plans"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Growth\",\"slug\":\"growth\",\"description\":\"For scaling support teams.\",\"price_cents\":9900,\"currency\":\"USD\",\"billing_interval\":\"monthly\",\"limits\":{\"users\":25,\"customers\":5000},\"is_active\":true,\"sort_order\":2}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Membership plan created successfully.\", \"data\": {\"id\": 5, \"name\": \"Growth\", \"slug\": \"growth\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a membership plan",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/membership-plans\/:plan_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/membership-plans\/:plan_id",
+                            "variable": [
+                                {
+                                    "id": "plan_id",
+                                    "key": "plan_id",
+                                    "value": 1,
+                                    "description": "The ID of the plan."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Growth\",\"slug\":\"n\",\"description\":\"Eius et animi quos velit et.\",\"price_cents\":12900,\"currency\":\"dlj\",\"billing_interval\":\"monthly\",\"limits\":{\"users\":30},\"is_active\":false,\"sort_order\":8}"
+                        },
+                        "description": "Existing subscriptions are unaffected until their next billing\ncycle re-evaluates limits \u2014 this only changes what NEW\nsubscriptions, and PlanLimitService's live checks for all\nsubscriptions, see going forward."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Membership plan updated successfully.\", \"data\": {\"id\": 5, \"name\": \"Growth\"}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tenant Registration",
+            "description": "\nSelf-service signup for a brand-new organization, distinct from\n\/auth\/register (which adds a Customer to an *existing* tenant's\nhelpdesk). This flow creates the tenant itself, its first\nsubscription and its first user \u2014 the Tenant Owner, who lands with\nthe full-access \"Administrator\" role for that tenant only.",
+            "item": [
+                {
+                    "name": "Register a new organization",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tenants\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tenants\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"tenant_name\":\"Acme Corp\",\"tenant_slug\":\"acme-corp\",\"owner_name\":\"Jamie Rivera\",\"owner_email\":\"jamie@acme.com\",\"owner_password\":\"Secret123!word$9\",\"plan\":\"professional\",\"phone\":\"+1-555-0100\",\"website\":\"https:\\\/\\\/acme.com\",\"country\":\"US\",\"timezone\":\"America\\\/New_York\",\"device_name\":\"y\",\"owner_password_confirmation\":\"Secret123!word$9\"}"
+                        },
+                        "description": "Creates the tenant, subscribes it to the given plan (the free\nStarter plan if omitted), provisions its default roles\/ticket\nstatuses\/priorities, and creates the owner account. Starter-plan\nsignups are active immediately; any paid plan starts a 14-day\ntrial (no payment is collected here \u2014 billing integration is out\nof scope for this API).",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Organization registered successfully.\",\n  \"data\": {\n    \"tenant\": {\"id\": 7, \"name\": \"Acme Corp\", \"slug\": \"acme-corp\", \"status\": \"active\"},\n    \"user\": {\"id\": 42, \"name\": \"Jamie Rivera\", \"email\": \"jamie@acme.com\", \"roles\": [\"Administrator\"]},\n    \"token\": \"1|abcdef123456...\",\n    \"token_type\": \"Bearer\"\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed.\",\n  \"errors\": {\"tenant_slug\": [\"The tenant slug has already been taken.\"]}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Look up an organization by slug",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tenants\/lookup\/:slug",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tenants\/lookup\/:slug",
+                            "variable": [
+                                {
+                                    "id": "slug",
+                                    "key": "slug",
+                                    "value": "acme-corp",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Used by login\/registration clients to confirm a tenant slug\nexists and is currently accepting sign-ins before prompting for\ncredentials. Deliberately returns only non-sensitive fields.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"slug\": \"acme-corp\", \"name\": \"Acme Corp\", \"is_active\": true}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\"success\": false, \"message\": \"No organization found for that identifier.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Webhooks",
+            "description": "\nTenant-configured HTTP callbacks for ticket lifecycle events (see\nWebhook::EVENTS). Every delivery is signed with the webhook's own\nsecret via an X-Webhook-Signature header (HMAC-SHA256 of the raw\nJSON body) so the receiving endpoint can verify it actually came\nfrom this platform.",
+            "item": [
+                {
+                    "name": "List webhooks",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/webhooks",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/webhooks"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Ticket sync\", \"url\": \"https:\/\/example.com\/hooks\", \"events\": [\"ticket.created\"]}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a webhook",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/webhooks",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/webhooks"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Ticket sync\",\"url\":\"https:\\\/\\\/example.com\\\/webhooks\\\/supporthub\",\"events\":[\"ticket.created\",\"ticket.status_changed\"],\"is_active\":true}"
+                        },
+                        "description": "The secret is returned exactly once, here \u2014 it is encrypted at\nrest and this is the only response that ever includes it in\nplain text. Use it to verify the X-Webhook-Signature header on\neach delivery."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"success\": true, \"message\": \"Webhook created successfully.\",\n  \"data\": {\"id\": 1, \"name\": \"Ticket sync\", \"url\": \"https:\/\/example.com\/webhooks\/supporthub\", \"secret\": \"whsec_...\"}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a webhook",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/webhooks\/:webhook_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/webhooks\/:webhook_id",
+                            "variable": [
+                                {
+                                    "id": "webhook_id",
+                                    "key": "webhook_id",
+                                    "value": 16,
+                                    "description": "The ID of the webhook."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Ticket sync\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a webhook",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/webhooks\/:webhook_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/webhooks\/:webhook_id",
+                            "variable": [
+                                {
+                                    "id": "webhook_id",
+                                    "key": "webhook_id",
+                                    "value": 16,
+                                    "description": "The ID of the webhook."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Ticket sync (v2)\",\"url\":\"https:\\\/\\\/example.com\\\/webhooks\\\/v2\",\"events\":[\"ticket.created\"],\"is_active\":false}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Webhook updated successfully.\", \"data\": {\"id\": 1, \"name\": \"Ticket sync (v2)\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a webhook",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/webhooks\/:webhook_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/webhooks\/:webhook_id",
+                            "variable": [
+                                {
+                                    "id": "webhook_id",
+                                    "key": "webhook_id",
+                                    "value": 16,
+                                    "description": "The ID of the webhook."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Webhook deleted successfully.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List a webhook's recent delivery attempts",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/webhooks\/:webhook_id\/deliveries",
+                            "query": [
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/webhooks\/:webhook_id\/deliveries?per_page=25",
+                            "variable": [
+                                {
+                                    "id": "webhook_id",
+                                    "key": "webhook_id",
+                                    "value": 16,
+                                    "description": "The ID of the webhook."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"event\": \"ticket.created\", \"success\": true, \"response_status\": 200}]}",
                             "name": ""
                         }
                     ]

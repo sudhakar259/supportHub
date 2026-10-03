@@ -216,6 +216,7 @@ class AuthController extends Controller
      * @unauthenticated
      *
      * @bodyParam email string required Example: admin@supporthub.test
+     * @bodyParam tenant string Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first. Example: acme-support
      *
      * @response 200 {
      *   "success": true,
@@ -225,7 +226,7 @@ class AuthController extends Controller
      */
     public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
-        Password::sendResetLink($request->only('email'));
+        Password::sendResetLink($this->passwordResetCredentials($request));
 
         return $this->success(null, 'If an account exists for that email, a password reset link has been sent.');
     }
@@ -240,6 +241,7 @@ class AuthController extends Controller
      *
      * @bodyParam token string required The token from the reset email. Example: 9f8e7d6c5b4a
      * @bodyParam email string required Example: admin@supporthub.test
+     * @bodyParam tenant string Same disambiguator as /auth/forgot-password — pass it if it was used there. Example: acme-support
      * @bodyParam password string required Minimum 10 characters, including upper and lower case, a number, and a symbol. Example: NewSecret123!word$9
      * @bodyParam password_confirmation string required Must match password. Example: NewSecret123!
      *
@@ -252,8 +254,11 @@ class AuthController extends Controller
      */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
+        $credentials = $this->passwordResetCredentials($request)
+            + $request->only('password', 'password_confirmation', 'token');
+
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            $credentials,
             function (User $user, string $password) {
                 $user->forceFill(['password' => Hash::make($password)])->save();
                 $user->tokens()->delete();
@@ -267,6 +272,31 @@ class AuthController extends Controller
         }
 
         return $this->success(null, 'Password has been reset successfully.');
+    }
+
+    /**
+     * Credentials for Laravel's password broker — email, plus
+     * tenant_id when a `tenant` slug was given. EloquentUserProvider
+     * adds every non-password credential key as an extra WHERE clause
+     * (see retrieveByCredentials()), so including tenant_id here
+     * resolves the SAME email to the correct tenant's account instead
+     * of ambiguously matching whichever one happens to come back
+     * first — the same email may be a different account per tenant,
+     * and without this, one tenant's reset request could, in the rare
+     * case of a shared email, end up validating against (and
+     * resetting the password of) a DIFFERENT tenant's account.
+     *
+     * @return array<string, mixed>
+     */
+    private function passwordResetCredentials(Request $request): array
+    {
+        $credentials = $request->only('email');
+
+        if ($request->filled('tenant')) {
+            $credentials['tenant_id'] = Tenant::where('slug', $request->string('tenant'))->value('id');
+        }
+
+        return $credentials;
     }
 
     /**

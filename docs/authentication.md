@@ -7,6 +7,12 @@ equally, and a Bearer token works identically for all three, whereas
 Sanctum's cookie/session mode is specifically designed for a single
 first-party SPA sharing a domain with the API.
 
+This covers person-authenticated access (a human logging into a tenant's
+workspace, or a customer's own portal). A tenant's *own backend systems*
+authenticate differently — via an API key + secret pair, with no person or
+Sanctum session involved at all — see "Integration API authentication"
+below and `docs/multi-tenancy.md` for the full picture.
+
 Every authenticated endpoint expects:
 
 ```
@@ -15,8 +21,15 @@ Authorization: Bearer {token}
 
 ## Getting a token
 
-`POST /api/v1/auth/register` (customer self-service signup) or
-`POST /api/v1/auth/login` both return a token on success:
+`POST /api/v1/auth/register` (customer self-service signup **within an
+existing tenant** — requires a `tenant` slug; see `docs/multi-tenancy.md`
+for `POST /tenants/register`, which creates a brand-new tenant instead) or
+`POST /api/v1/auth/login` both return a token on success. Email is unique
+per tenant, not globally, so `login` accepts an *optional* `tenant` slug to
+disambiguate when the same address has accounts in more than one tenant —
+omitted, it tries every matching account against the given password, which
+is unambiguous unless two of them also happen to share that exact
+password:
 
 ```json
 {
@@ -85,6 +98,37 @@ message regardless of whether the email is registered — intentionally, to
 avoid leaking which email addresses have an account (a standard OWASP
 recommendation). `POST /api/v1/auth/reset-password` completes the reset and
 revokes all of that user's existing tokens, forcing re-login everywhere.
+
+Both accept the same optional `tenant` slug as login, for the same
+reason — the same email can be a different account per tenant. Specifying
+it is the safer choice whenever that might be the case: Laravel's password
+broker resolves the account by email alone, so omitting `tenant` when two
+tenants share an email means whichever account the lookup query returns
+first is the one that gets the reset link/password change, not necessarily
+the one the caller meant. See `docs/multi-tenancy.md` for how this is
+wired (`AuthController::passwordResetCredentials()`).
+
+## Integration API authentication
+
+`/api/v1/integration/*` (a tenant's own backend, CRM, or chat widget) does
+not use Sanctum at all. Instead:
+
+```
+X-Api-Key: ak_...
+X-Api-Secret: as_...
+```
+
+The key identifies an `ApiCredential` row; the secret is checked against
+its bcrypt hash (never recoverable, only verifiable — unlike a webhook
+secret, which must be re-readable to sign deliveries and is encrypted
+rather than hashed). The credential's own `tenant_id` becomes the request's
+tenant context — exactly as unforgeable as a Sanctum user's. A revoked
+credential, or a credential belonging to a suspended tenant, is rejected
+before any route logic runs. Each credential also carries a `scopes` array;
+an endpoint whose required scope the credential lacks returns `403`
+regardless of how the key/secret check went. See `docs/multi-tenancy.md`
+for the full scope list and `/api/v1/api-credentials` (credential
+management, Sanctum-authenticated, for tenant admins).
 
 ## Rate limiting
 

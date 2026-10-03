@@ -31,6 +31,11 @@ use Illuminate\Http\Request;
  * credential, so there is no agent identity to attribute them to; use
  * the regular Sanctum-authenticated ticket endpoints for agent-side
  * actions.
+ *
+ * @unauthenticated
+ *
+ * @header X-Api-Key ak_abcdef1234567890abcdef1234567890
+ * @header X-Api-Secret as_abcdef1234567890abcdef1234567890abcdef12345678
  */
 class TicketController extends Controller
 {

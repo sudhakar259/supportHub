@@ -1,0 +1,167 @@
+name: Reports
+description: |-
+
+  Aggregate reporting. These run live queries rather than against a
+  pre-aggregated table — acceptable at the data volumes a support
+  desk accumulates, but the first thing to revisit if that changes.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/reports/tickets-summary
+    metadata:
+      custom: []
+      groupName: Reports
+      groupDescription: |-
+
+        Aggregate reporting. These run live queries rather than against a
+        pre-aggregated table — acceptable at the data volumes a support
+        desk accumulates, but the first thing to revisit if that changes.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Ticket volume summary'
+      description: 'Open ticket counts grouped by status, priority and department.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true, "message": "Request successful.",
+            "data": {
+              "total_tickets": 142,
+              "by_status": [{"status": "Open", "count": 12}],
+              "by_priority": [{"priority": "High", "count": 8}],
+              "by_department": [{"department": "Billing", "count": 20}]
+            }
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/reports/sla-compliance
+    metadata:
+      custom: []
+      groupName: Reports
+      groupDescription: |-
+
+        Aggregate reporting. These run live queries rather than against a
+        pre-aggregated table — acceptable at the data volumes a support
+        desk accumulates, but the first thing to revisit if that changes.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'SLA compliance report'
+      description: |-
+        Breach rates for first response and resolution across all
+        tickets with a calculated SLA.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true, "message": "Request successful.",
+            "data": {
+              "total_with_sla": 100,
+              "first_response_breached": 6,
+              "resolution_breached": 11,
+              "first_response_breach_rate": 6.0,
+              "resolution_breach_rate": 11.0
+            }
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/reports/agent-performance
+    metadata:
+      custom: []
+      groupName: Reports
+      groupDescription: |-
+
+        Aggregate reporting. These run live queries rather than against a
+        pre-aggregated table — acceptable at the data volumes a support
+        desk accumulates, but the first thing to revisit if that changes.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Agent performance report'
+      description: 'Resolved-ticket counts per agent, most active first.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true, "message": "Request successful.",
+            "data": [{"agent_id": 5, "agent_name": "Alex Agent", "resolved_count": 34}]
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
