@@ -8,6 +8,7 @@ use App\Http\Requests\Department\UpdateDepartmentRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
 use App\Models\User;
+use App\Services\PlanLimitService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -68,6 +69,8 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request): JsonResponse
     {
+        app(PlanLimitService::class)->assertCanCreate($request->user()->tenant, 'departments');
+
         $department = Department::create($request->validated());
 
         return $this->created(new DepartmentResource($department->load('manager')), 'Department created successfully.');

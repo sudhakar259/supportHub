@@ -8,6 +8,7 @@ use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Models\User;
+use App\Services\PlanLimitService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -66,11 +67,14 @@ class CustomerController extends Controller
      * @bodyParam phone string Example: +1-555-0100
      * @bodyParam company_name string Example: Acme Corp
      * @bodyParam customer_type string individual, business or vip. Defaults to individual. Example: business
+     * @bodyParam external_id string This tenant's own identifier for the customer (CRM id, account number, etc.), unique within this tenant. Example: CRM-10293
      *
      * @response 201 {"success": true, "message": "Customer created successfully.", "data": {"id": 4, "company_name": "Acme Corp"}}
      */
     public function store(StoreCustomerRequest $request): JsonResponse
     {
+        app(PlanLimitService::class)->assertCanCreate($request->user()->tenant, 'customers');
+
         $customer = DB::transaction(function () use ($request) {
             $user = User::create([
                 'name' => $request->string('name'),
@@ -86,6 +90,7 @@ class CustomerController extends Controller
                 'user_id' => $user->id,
                 'company_name' => $request->string('company_name') ?: null,
                 'customer_type' => $request->input('customer_type', 'individual'),
+                'external_id' => $request->string('external_id') ?: null,
             ]);
         });
 
@@ -112,6 +117,7 @@ class CustomerController extends Controller
      * @bodyParam phone string Example: +1-555-0199
      * @bodyParam company_name string Example: Acme Corporation
      * @bodyParam customer_type string Example: vip
+     * @bodyParam external_id string Example: CRM-10293
      *
      * @response 200 {"success": true, "message": "Customer updated successfully.", "data": {"id": 1, "company_name": "Acme Corporation"}}
      */
@@ -120,13 +126,16 @@ class CustomerController extends Controller
         $data = $request->validated();
 
         // customer_type (individual/business/vip) feeds routing-rule
-        // conditions and should be staff-controlled only — a customer
-        // updating their own profile must not be able to self-escalate it
-        // (mirrors how TicketController::update() strips priority_id for
-        // customers). CustomerPolicy::update() permits self-service for the
-        // rest of this payload (phone/company_name/timezone).
+        // conditions, and external_id is how the Integration API maps
+        // this record to the tenant's own system — both are
+        // staff-controlled only; a customer updating their own profile
+        // must not be able to self-escalate the former or collide/
+        // disconnect the latter (mirrors how TicketController::update()
+        // strips priority_id for customers). CustomerPolicy::update()
+        // permits self-service for the rest of this payload
+        // (phone/company_name/timezone).
         if (! $request->user()->can('customers.update')) {
-            unset($data['customer_type']);
+            unset($data['customer_type'], $data['external_id']);
         }
 
         $customer->update($data);

@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\Customer;
+use App\Models\Tenant;
+use App\Models\User;
+use App\Services\TenantProvisioningService;
 use Database\Seeders\RolesAndPermissionsSeeder;
 
 beforeEach(function () {
@@ -33,6 +36,56 @@ it('lets a customer view and update their own profile', function () {
         ->putJson("/api/v1/customers/{$customer->id}", ['company_name' => 'Updated Co'])
         ->assertOk()
         ->assertJsonPath('data.company_name', 'Updated Co');
+});
+
+it('lets an admin set an external_id but silently ignores it on customer self-update', function () {
+    $admin = actingAsAdministrator();
+
+    $response = $this->actingAs($admin, 'api')
+        ->postJson('/api/v1/customers', [
+            'name' => 'Mapped Customer',
+            'email' => 'mapped@example.com',
+            'password' => 'Secret123!',
+            'password_confirmation' => 'Secret123!',
+            'external_id' => 'CRM-001',
+        ])
+        ->assertCreated()
+        ->assertJsonPath('data.external_id', 'CRM-001');
+
+    $customerId = $response->json('data.id');
+    $customer = Customer::find($customerId);
+
+    $this->actingAs($customer->user, 'api')
+        ->putJson("/api/v1/customers/{$customerId}", ['external_id' => 'HACKED'])
+        ->assertOk()
+        ->assertJsonPath('data.external_id', 'CRM-001');
+});
+
+it('allows the same email to be used for admin-created customers in different tenants', function () {
+    $tenantA = testTenant();
+    $adminA = actingAsAdministrator($tenantA);
+
+    $this->actingAs($adminA, 'api')
+        ->postJson('/api/v1/customers', [
+            'name' => 'Shared Email Customer',
+            'email' => 'shared@example.com',
+            'password' => 'Secret123!',
+            'password_confirmation' => 'Secret123!',
+        ])->assertCreated();
+
+    $tenantB = Tenant::create(['name' => 'Other Org', 'slug' => 'other-org-'.uniqid(), 'status' => 'active']);
+    app(TenantProvisioningService::class)->provision($tenantB);
+    $adminB = actingAsAdministrator($tenantB);
+
+    $this->actingAs($adminB, 'api')
+        ->postJson('/api/v1/customers', [
+            'name' => 'Shared Email Customer',
+            'email' => 'shared@example.com',
+            'password' => 'Secret123!',
+            'password_confirmation' => 'Secret123!',
+        ])->assertCreated();
+
+    expect(User::withoutTenantScope()->where('email', 'shared@example.com')->count())->toBe(2);
 });
 
 it('forbids a customer from viewing another customer\'s profile', function () {

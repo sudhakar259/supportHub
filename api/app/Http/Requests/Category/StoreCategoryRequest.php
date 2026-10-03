@@ -5,6 +5,7 @@ namespace App\Http\Requests\Category;
 use App\Models\TicketCategory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -15,11 +16,16 @@ class StoreCategoryRequest extends FormRequest
 
     public function rules(): array
     {
+        $tenantId = $this->user()?->tenant_id;
+
         return [
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255'],
-            'parent_id' => ['nullable', 'integer', 'exists:ticket_categories,id'],
-            'department_id' => ['nullable', 'integer', 'exists:departments,id'],
+            // Scoped per tenant — see StoreTicketRequest for why an
+            // unscoped exists check would let a category reference
+            // another tenant's category/department.
+            'parent_id' => ['nullable', 'integer', Rule::exists('ticket_categories', 'id')->where('tenant_id', $tenantId)],
+            'department_id' => ['nullable', 'integer', Rule::exists('departments', 'id')->where('tenant_id', $tenantId)],
             'description' => ['nullable', 'string'],
             'is_active' => ['sometimes', 'boolean'],
             'sort_order' => ['sometimes', 'integer', 'min:0'],

@@ -7,11 +7,13 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\PlanLimitService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -74,6 +76,8 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
+        app(PlanLimitService::class)->assertCanCreate($request->user()->tenant, 'users');
+
         $user = DB::transaction(function () use ($request) {
             $user = User::create([
                 'name' => $request->string('name'),
@@ -174,7 +178,11 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'roles' => ['required', 'array', 'min:1'],
-            'roles.*' => ['string', 'exists:roles,name'],
+            // Scoped to the acting user's own tenant — role names like
+            // "Agent" exist as a separate row per tenant, so an
+            // unscoped exists check would pass for a name that's only
+            // real in some OTHER tenant.
+            'roles.*' => ['string', Rule::exists('roles', 'name')->where('tenant_id', $request->user()->tenant_id)],
         ]);
 
         $user->syncRoles($validated['roles']);

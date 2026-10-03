@@ -9,7 +9,9 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Customer;
+use App\Models\Tenant;
 use App\Models\User;
+use App\Support\TenantContext;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\JsonResponse;
@@ -37,8 +39,9 @@ class AuthController extends Controller
      *
      * @unauthenticated
      *
+     * @bodyParam tenant string required The organization's slug, confirmable via GET /tenants/lookup/{slug}. Example: acme-support
      * @bodyParam name string required The user's full name. Example: Jamie Rivera
-     * @bodyParam email string required A unique email address. Example: jamie@example.com
+     * @bodyParam email string required Unique within this tenant (the same email may register with a different tenant separately). Example: jamie@example.com
      * @bodyParam password string required Minimum 10 characters, including upper and lower case, a number, and a symbol. Example: Secret123!word$9
      * @bodyParam password_confirmation string required Must match password. Example: Secret123!
      * @bodyParam phone string The user's phone number. Example: +1-555-0100
@@ -61,21 +64,28 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-        $user = User::create([
-            'name' => $request->string('name'),
-            'email' => $request->string('email'),
-            'phone' => $request->string('phone') ?: null,
-            'password' => Hash::make($request->string('password')),
-            'is_active' => true,
-        ]);
+        $tenant = Tenant::where('slug', $request->string('tenant'))->firstOrFail();
 
-        $user->assignRole('Customer');
+        $user = app(TenantContext::class)->runAs($tenant, function () use ($request, $tenant) {
+            $user = User::create([
+                'tenant_id' => $tenant->id,
+                'name' => $request->string('name'),
+                'email' => $request->string('email'),
+                'phone' => $request->string('phone') ?: null,
+                'password' => Hash::make($request->string('password')),
+                'is_active' => true,
+            ]);
 
-        Customer::create([
-            'user_id' => $user->id,
-            'company_name' => $request->string('company_name') ?: null,
-            'customer_type' => $request->filled('company_name') ? 'business' : 'individual',
-        ]);
+            $user->assignRole('Customer');
+
+            Customer::create([
+                'user_id' => $user->id,
+                'company_name' => $request->string('company_name') ?: null,
+                'customer_type' => $request->filled('company_name') ? 'business' : 'individual',
+            ]);
+
+            return $user;
+        });
 
         event(new Registered($user));
 
@@ -99,6 +109,7 @@ class AuthController extends Controller
      *
      * @bodyParam email string required Example: admin@supporthub.test
      * @bodyParam password string required Example: password
+     * @bodyParam tenant string Disambiguates if this email has accounts with more than one tenant. Example: acme-support
      * @bodyParam device_name string Identifies the issued token, e.g. "iphone-15". Example: web-browser
      *
      * @response 200 {
@@ -122,9 +133,24 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        $user = User::where('email', $request->string('email'))->first();
+        $candidates = User::withoutTenantScope()->where('email', $request->string('email'));
 
-        if (! $user || ! Hash::check($request->string('password'), $user->password)) {
+        if ($request->filled('tenant')) {
+            $tenant = Tenant::where('slug', $request->string('tenant'))->first();
+            $candidates->where('tenant_id', $tenant?->id);
+        }
+
+        // Plural on purpose: the same email may have an account with
+        // several tenants (and/or a platform-admin account) — password
+        // hashes differ per account, so the one that actually matches
+        // this password is unambiguous even without a `tenant` hint,
+        // except in the vanishingly unlikely case two of them happen to
+        // share the exact same password too, which `tenant` resolves.
+        $user = $candidates->get()->first(
+            fn (User $candidate) => Hash::check($request->string('password'), $candidate->password)
+        );
+
+        if (! $user) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);

@@ -13,3 +13,4 @@ web/.env
 
 # Generated docs artifacts (if any are built rather than authored)
 docs/.vitepress/cache
+/design

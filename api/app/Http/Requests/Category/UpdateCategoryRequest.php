@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class UpdateCategoryRequest extends FormRequest
@@ -14,11 +15,13 @@ class UpdateCategoryRequest extends FormRequest
 
     public function rules(): array
     {
+        $tenantId = $this->user()?->tenant_id;
+
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'slug' => ['sometimes', 'required', 'string', 'max:255'],
-            'parent_id' => ['nullable', 'integer', 'exists:ticket_categories,id'],
-            'department_id' => ['nullable', 'integer', 'exists:departments,id'],
+            'parent_id' => ['nullable', 'integer', Rule::exists('ticket_categories', 'id')->where('tenant_id', $tenantId)],
+            'department_id' => ['nullable', 'integer', Rule::exists('departments', 'id')->where('tenant_id', $tenantId)],
             'description' => ['nullable', 'string'],
             'is_active' => ['sometimes', 'boolean'],
             'sort_order' => ['sometimes', 'integer', 'min:0'],

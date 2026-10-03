@@ -58,6 +58,15 @@ class SystemSettingController extends Controller
             'settings.*.is_public' => ['sometimes', 'boolean'],
         ]);
 
+        // TenantOverlayScope makes an un-overridden key resolve to the
+        // shared platform-default row (tenant_id = NULL). Without
+        // 'tenant_id' as part of the MATCH here too, updateOrCreate
+        // would find and mutate that shared row directly — silently
+        // changing the default every other tenant still falls back to.
+        // Including it forces a miss on first write, which creates this
+        // tenant's own override instead, exactly like
+        // NotificationTemplateController::update()'s fork-on-write.
+        $tenantId = $request->user()->tenant_id;
         $keys = [];
 
         foreach ($validated['settings'] as $setting) {
@@ -65,7 +74,7 @@ class SystemSettingController extends Controller
             $type = $setting['type'] ?? 'string';
 
             SystemSetting::updateOrCreate(
-                ['key' => $setting['key']],
+                ['key' => $setting['key'], 'tenant_id' => $tenantId],
                 [
                     'value' => $type === 'json' ? json_encode($value) : $value,
                     'type' => $type,
@@ -78,7 +87,7 @@ class SystemSettingController extends Controller
         }
 
         return $this->success(
-            SystemSettingResource::collection(SystemSetting::whereIn('key', $keys)->get()),
+            SystemSettingResource::collection(SystemSetting::where('tenant_id', $tenantId)->whereIn('key', $keys)->get()),
             'Settings updated successfully.'
         );
     }

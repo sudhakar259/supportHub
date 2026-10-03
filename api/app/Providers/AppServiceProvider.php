@@ -23,6 +23,7 @@ use App\Listeners\Ticket\SendTicketStatusChangedNotification;
 use App\Models\Customer;
 use App\Models\Department;
 use App\Models\NotificationLog;
+use App\Models\Role;
 use App\Models\SlaPolicy;
 use App\Models\Ticket;
 use App\Models\TicketAttachment;
@@ -43,6 +44,7 @@ use App\Policies\TicketPriorityPolicy;
 use App\Policies\TicketRoutingRulePolicy;
 use App\Policies\TicketStatusPolicy;
 use App\Policies\UserPolicy;
+use App\Support\TenantContext;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -54,7 +56,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
-use Spatie\Permission\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -63,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(\App\Support\TenantContext::class);
+        $this->app->singleton(TenantContext::class);
     }
 
     /**

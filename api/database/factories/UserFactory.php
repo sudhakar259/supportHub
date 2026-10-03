@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use Database\Factories\Concerns\DefaultsToTestTenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -12,6 +13,8 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    use DefaultsToTestTenant;
+
     /**
      * The current password being used by the factory.
      */
@@ -25,6 +28,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'tenant_id' => static::defaultTenantId(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
@@ -40,6 +44,18 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * No tenant — a platform administrator account. The caller is still
+     * responsible for assignRole('Platform Admin') afterward; a bare
+     * factory call has no way to also fix up spatie's team-scoped pivot.
+     */
+    public function platformAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'tenant_id' => null,
         ]);
     }
 }

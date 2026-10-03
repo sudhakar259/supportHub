@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Role;
 use Database\Seeders\RolesAndPermissionsSeeder;
-use Spatie\Permission\Models\Role;
 
 beforeEach(function () {
     $this->seed(RolesAndPermissionsSeeder::class);

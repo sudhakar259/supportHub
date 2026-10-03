@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['name', 'slug', 'status', 'email', 'phone', 'website', 'country', 'timezone', 'settings', 'trial_ends_at'])]
+#[Fillable(['name', 'slug', 'status', 'email', 'phone', 'website', 'country', 'timezone', 'settings', 'trial_ends_at', 'suspended_at'])]
 class Tenant extends Model
 {
     use HasFactory, SoftDeletes;

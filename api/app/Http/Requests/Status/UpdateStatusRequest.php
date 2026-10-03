@@ -16,7 +16,10 @@ class UpdateStatusRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'slug' => ['sometimes', 'required', 'string', 'max:255', 'alpha_dash', Rule::unique('ticket_statuses', 'slug')->ignore($this->route('status'))],
+            'slug' => [
+                'sometimes', 'required', 'string', 'max:255', 'alpha_dash',
+                Rule::unique('ticket_statuses', 'slug')->where('tenant_id', $this->user()->tenant_id)->ignore($this->route('status')),
+            ],
             'color' => ['sometimes', 'string', 'max:7'],
             'is_default' => ['sometimes', 'boolean'],
             'is_closed' => ['sometimes', 'boolean'],

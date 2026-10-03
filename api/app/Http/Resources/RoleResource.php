@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\Permission\Models\Role;
 
 /** @mixin Role */
 class RoleResource extends JsonResource

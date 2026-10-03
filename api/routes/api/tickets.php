@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\V1\TicketController;
 use App\Http\Controllers\Api\V1\TicketMessageController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:api')->prefix('tickets')->name('tickets.')->scopeBindings()->group(function () {
+Route::middleware(['auth:api', 'tenant.context'])->prefix('tickets')->name('tickets.')->scopeBindings()->group(function () {
     Route::get('/', [TicketController::class, 'index'])->name('index');
     Route::post('/', [TicketController::class, 'store'])->name('store');
     Route::get('/{ticket}', [TicketController::class, 'show'])->name('show');

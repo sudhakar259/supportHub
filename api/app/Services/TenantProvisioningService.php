@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Role;
 use App\Models\Tenant;
 use App\Models\TicketNumberSetting;
 use App\Models\TicketPriority;
@@ -12,7 +13,7 @@ use Database\Seeders\TicketPrioritySeeder;
 use Database\Seeders\TicketStatusSeeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 /**
  * Everything a brand-new tenant needs to actually function, provisioned
@@ -40,6 +41,7 @@ class TenantProvisioningService
     {
         DB::transaction(function () use ($tenant) {
             $this->context->runAs($tenant, function () use ($tenant) {
+                $this->ensurePermissionsExist();
                 $this->createRoles($tenant);
 
                 app(TicketStatusSeeder::class)->run();
@@ -48,6 +50,25 @@ class TenantProvisioningService
                 $this->createDefaultTicketNumberSetting();
             });
         });
+    }
+
+    /**
+     * Permissions are global rows (no tenant_id), normally seeded once by
+     * RolesAndPermissionsSeeder — but provisioning must not assume that
+     * seeder has already run (tests and, eventually, a from-scratch
+     * tenant-signup flow may reach this code first). firstOrCreate() per
+     * permission is idempotent, so re-running this after the seeder has
+     * already run is a cheap no-op.
+     */
+    private function ensurePermissionsExist(): void
+    {
+        foreach (RolesAndPermissionsSeeder::PERMISSIONS as $resource => $actions) {
+            foreach ($actions as $action) {
+                Permission::firstOrCreate(['name' => "{$resource}.{$action}", 'guard_name' => 'api']);
+            }
+        }
+
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 
     private function createRoles(Tenant $tenant): void

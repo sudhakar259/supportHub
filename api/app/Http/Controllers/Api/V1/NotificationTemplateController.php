@@ -50,7 +50,26 @@ class NotificationTemplateController extends Controller
             'is_active' => ['sometimes', 'boolean'],
         ]);
 
-        $template->update($validated);
+        $tenantId = $request->user()->tenant_id;
+
+        if ($template->tenant_id === $tenantId) {
+            $template->update($validated);
+        } else {
+            // $template is still the shared platform default (tenant_id
+            // = NULL, the only row TenantOverlayScope has to offer until
+            // this tenant customizes it) — updating it in place would
+            // change what every OTHER tenant sees too. Fork it into this
+            // tenant's own override row instead, on this first edit.
+            $template = NotificationTemplate::create([
+                'tenant_id' => $tenantId,
+                'key' => $template->key,
+                'name' => $template->name,
+                'channel' => $template->channel,
+                'subject' => $validated['subject'] ?? $template->subject,
+                'body' => $validated['body'] ?? $template->body,
+                'is_active' => $validated['is_active'] ?? $template->is_active,
+            ]);
+        }
 
         return $this->success(new NotificationTemplateResource($template), 'Notification template updated successfully.');
     }

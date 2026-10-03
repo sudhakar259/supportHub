@@ -12,8 +12,10 @@ beforeEach(function () {
 
 it('registers a new customer and issues a token', function () {
     Notification::fake();
+    $tenant = testTenant();
 
     $response = $this->postJson('/api/v1/auth/register', [
+        'tenant' => $tenant->slug,
         'name' => 'Jamie Rivera',
         'email' => 'jamie@example.com',
         'password' => 'Secret123!',
@@ -34,9 +36,11 @@ it('registers a new customer and issues a token', function () {
 });
 
 it('rejects registration with a duplicate email', function () {
+    $tenant = testTenant();
     User::factory()->create(['email' => 'taken@example.com']);
 
     $this->postJson('/api/v1/auth/register', [
+        'tenant' => $tenant->slug,
         'name' => 'Someone',
         'email' => 'taken@example.com',
         'password' => 'Secret123!',

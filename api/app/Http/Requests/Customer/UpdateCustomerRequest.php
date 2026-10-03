@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCustomerRequest extends FormRequest
 {
@@ -20,6 +21,12 @@ class UpdateCustomerRequest extends FormRequest
             'company_name' => ['nullable', 'string', 'max:255'],
             'customer_type' => ['sometimes', 'string', 'in:individual,business,vip'],
             'timezone' => ['sometimes', 'string', 'max:64'],
+            'external_id' => [
+                'sometimes', 'nullable', 'string', 'max:255',
+                Rule::unique('customers', 'external_id')
+                    ->where('tenant_id', $this->user()->tenant_id)
+                    ->ignore($this->route('customer')),
+            ],
         ];
     }
 }

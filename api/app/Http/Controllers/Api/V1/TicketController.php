@@ -20,6 +20,7 @@ use App\Http\Resources\TicketResource;
 use App\Models\Customer;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Services\PlanLimitService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -107,6 +108,8 @@ class TicketController extends Controller
     public function store(StoreTicketRequest $request): JsonResponse
     {
         $customer = $this->resolveActingCustomer($request);
+
+        app(PlanLimitService::class)->assertCanCreate($request->user()->tenant, 'tickets_per_month');
 
         $ticket = $this->createTicket->execute($customer, $request->validated(), $request->user());
 

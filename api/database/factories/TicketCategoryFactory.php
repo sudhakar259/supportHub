@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\TicketCategory;
+use Database\Factories\Concerns\DefaultsToTestTenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -11,6 +12,8 @@ use Illuminate\Support\Str;
  */
 class TicketCategoryFactory extends Factory
 {
+    use DefaultsToTestTenant;
+
     protected $model = TicketCategory::class;
 
     public function definition(): array
@@ -18,6 +21,7 @@ class TicketCategoryFactory extends Factory
         $name = fake()->unique()->words(2, true);
 
         return [
+            'tenant_id' => static::defaultTenantId(),
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
             'is_active' => true,

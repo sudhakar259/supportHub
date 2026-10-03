@@ -15,12 +15,16 @@ class UpdateDepartmentRequest extends FormRequest
     public function rules(): array
     {
         $department = $this->route('department');
+        $tenantId = $this->user()?->tenant_id;
 
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'code' => ['sometimes', 'required', 'string', 'max:20', 'alpha_dash', Rule::unique('departments', 'code')->ignore($department)],
+            'code' => [
+                'sometimes', 'required', 'string', 'max:20', 'alpha_dash',
+                Rule::unique('departments', 'code')->where('tenant_id', $tenantId)->ignore($department),
+            ],
             'description' => ['nullable', 'string'],
-            'manager_id' => ['nullable', 'integer', 'exists:users,id'],
+            'manager_id' => ['nullable', 'integer', Rule::exists('users', 'id')->where('tenant_id', $tenantId)],
             'is_active' => ['sometimes', 'boolean'],
         ];
     }

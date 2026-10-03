@@ -5,6 +5,7 @@ namespace App\Http\Requests\User;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class StoreUserRequest extends FormRequest
@@ -17,15 +18,22 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         $staffRoles = array_keys(array_diff_key(RolesAndPermissionsSeeder::ROLE_PERMISSIONS, ['Customer' => null]));
+        $tenantId = $this->user()?->tenant_id;
 
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            // Scoped to the acting admin's own tenant — see
+            // StoreCustomerRequest for why a bare global uniqueness
+            // check is wrong once the same email can belong to
+            // different tenants' accounts.
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->where('tenant_id', $tenantId)],
             'password' => ['required', 'confirmed', Password::defaults()],
             'phone' => ['nullable', 'string', 'max:30'],
             'role' => ['required', 'string', 'in:'.implode(',', $staffRoles)],
             'department_ids' => ['sometimes', 'array'],
-            'department_ids.*' => ['integer', 'exists:departments,id'],
+            // Scoped per tenant — unscoped, a new staff user could be
+            // linked to another tenant's department.
+            'department_ids.*' => ['integer', Rule::exists('departments', 'id')->where('tenant_id', $tenantId)],
         ];
     }
 }

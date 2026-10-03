@@ -4,6 +4,7 @@ namespace App\Http\Requests\Ticket;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class AssignTicketRequest extends FormRequest
@@ -15,9 +16,14 @@ class AssignTicketRequest extends FormRequest
 
     public function rules(): array
     {
+        $tenantId = $this->user()?->tenant_id;
+
         return [
-            'assignee_id' => ['required', 'integer', 'exists:users,id'],
-            'department_id' => ['sometimes', 'integer', 'exists:departments,id'],
+            // Scoped to the caller's own tenant — unscoped, a ticket
+            // could be assigned to, or routed into, another tenant's
+            // user/department entirely.
+            'assignee_id' => ['required', 'integer', Rule::exists('users', 'id')->where('tenant_id', $tenantId)],
+            'department_id' => ['sometimes', 'integer', Rule::exists('departments', 'id')->where('tenant_id', $tenantId)],
             'note' => ['sometimes', 'nullable', 'string', 'max:2000'],
         ];
     }

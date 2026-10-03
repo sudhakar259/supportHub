@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
+use App\Models\TicketSla;
 use App\Models\TicketStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -100,9 +101,13 @@ class ReportController extends Controller
     {
         abort_unless($request->user()->can('reports.view'), 403, 'You do not have permission to perform this action.');
 
-        $total = DB::table('ticket_slas')->count();
-        $frBreached = DB::table('ticket_slas')->where('first_response_breached', true)->count();
-        $resBreached = DB::table('ticket_slas')->where('resolution_breached', true)->count();
+        // Eloquent, not DB::table() — ticket_slas has no model-less safe
+        // way to apply TenantScope, and a raw query builder call here
+        // would silently aggregate every tenant's SLA data into this
+        // tenant's compliance report.
+        $total = TicketSla::count();
+        $frBreached = TicketSla::where('first_response_breached', true)->count();
+        $resBreached = TicketSla::where('resolution_breached', true)->count();
 
         return $this->success([
             'total_with_sla' => $total,

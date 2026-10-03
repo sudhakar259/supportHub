@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\V1\NotificationPreferenceController;
 use App\Http\Controllers\Api\V1\NotificationTemplateController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware(['auth:api', 'tenant.context'])->group(function () {
     Route::get('/notification-preferences', [NotificationPreferenceController::class, 'index']);
     Route::put('/notification-preferences', [NotificationPreferenceController::class, 'update']);
 

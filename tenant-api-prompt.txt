@@ -1,0 +1,1845 @@
+# Support24 — Convert Existing Laravel API into a Multi-Tenant SaaS Platform
+
+You are working on an existing Support24 Laravel application.
+
+The backend API has already been developed.
+
+Your task is to **carefully convert the existing application into a production-ready multi-tenant SaaS platform** while preserving all existing functionality.
+
+This is NOT a greenfield rewrite.
+
+You must first understand the existing application and then incrementally refactor it.
+
+---
+
+# 1. PROJECT
+
+Backend:
+
+```text
+C:\Projects\support24\api
+```
+
+Frontend:
+
+```text
+C:\Projects\support24\web
+```
+
+For this task, focus primarily on the **Laravel backend/API**.
+
+Do not redesign or rewrite the React frontend unless a backend API change requires a corresponding API integration update.
+
+---
+
+# 2. PRIMARY OBJECTIVE
+
+Convert the existing Support24 system into:
+
+> A secure multi-tenant SaaS ticket support platform where each tenant has completely isolated data, users, customers, tickets, departments, settings, API credentials, integrations, and billing/subscription information.
+
+The system must support:
+
+```text
+Support24 SaaS
+      │
+      ├── Tenant A
+      │     ├── Users
+      │     ├── Roles
+      │     ├── Departments
+      │     ├── Customers
+      │     ├── Tickets
+      │     ├── API Credentials
+      │     └── Integrations
+      │
+      ├── Tenant B
+      │     ├── Users
+      │     ├── Roles
+      │     ├── Departments
+      │     ├── Customers
+      │     ├── Tickets
+      │     ├── API Credentials
+      │     └── Integrations
+      │
+      └── Tenant C
+```
+
+Tenant A must NEVER be able to access Tenant B's data.
+
+---
+
+# 3. VERY IMPORTANT — FIRST AUDIT THE EXISTING APPLICATION
+
+Before changing code, inspect the entire Laravel application.
+
+Do NOT immediately start modifying migrations or controllers.
+
+First understand:
+
+* Laravel version
+* Authentication system
+* Existing users
+* Roles
+* Permissions
+* Departments
+* Customers
+* Tickets
+* Ticket statuses
+* Ticket assignments
+* Ticket numbering
+* Notifications
+* Emails
+* Webhooks
+* API credentials
+* Settings
+* Existing relationships
+* Existing migrations
+* Existing seeders
+* Existing policies
+* Middleware
+* FormRequests
+* API Resources
+* Services
+* Repositories
+* Jobs
+* Events
+* Listeners
+* Tests
+* API routes
+* Existing documentation
+
+Create an internal dependency map before implementing changes.
+
+---
+
+# 4. DO NOT BREAK EXISTING FUNCTIONALITY
+
+Existing functionality must continue working after the migration.
+
+Before changing any major model/database structure:
+
+1. Identify existing behavior.
+2. Identify dependencies.
+3. Identify affected APIs.
+4. Add/modify tests.
+5. Implement migration.
+6. Run regression tests.
+
+Do not remove an existing feature simply because the architecture is changing.
+
+If an existing API is currently:
+
+```text
+POST /api/tickets
+```
+
+do not arbitrarily replace it with another endpoint.
+
+Maintain backward compatibility where practical.
+
+If a breaking API change is genuinely required, document it clearly.
+
+---
+
+# 5. MULTI-TENANT DATA MODEL
+
+Introduce a proper tenant model.
+
+Create:
+
+```text
+tenants
+```
+
+Suggested fields:
+
+```text
+id
+name
+slug
+status
+email
+phone
+website
+country
+timezone
+settings
+created_at
+updated_at
+```
+
+Use appropriate additional fields based on the existing application.
+
+Tenant statuses may include:
+
+```text
+active
+trial
+suspended
+cancelled
+```
+
+Do not duplicate tenant information unnecessarily across unrelated tables.
+
+---
+
+# 6. TENANT OWNERSHIP
+
+Determine which existing resources must belong to a tenant.
+
+At minimum:
+
+```text
+users
+customers
+departments
+tickets
+ticket_replies
+attachments
+ticket_assignments
+roles
+permissions where tenant-specific
+settings
+API credentials
+webhooks
+integrations
+notifications
+```
+
+Review every existing table and determine whether it requires:
+
+```text
+tenant_id
+```
+
+Do not blindly add tenant_id to every table.
+
+System-wide tables such as global membership plans may remain platform-level.
+
+---
+
+# 7. GLOBAL VS TENANT DATA
+
+Clearly separate:
+
+## Platform-Level Data
+
+Examples:
+
+```text
+membership_plans
+plan_features
+platform_settings
+```
+
+These belong to Support24 itself.
+
+## Tenant-Level Data
+
+Examples:
+
+```text
+tenant_users
+customers
+tickets
+departments
+integrations
+api_credentials
+webhooks
+tenant_settings
+```
+
+Every tenant-owned resource must be scoped correctly.
+
+---
+
+# 8. TENANT ISOLATION
+
+Tenant isolation is one of the highest-priority requirements.
+
+Implement a consistent tenant context mechanism.
+
+Every authenticated tenant request must resolve:
+
+```text
+Current Tenant
+```
+
+Then all tenant-owned queries must be scoped to that tenant.
+
+For example:
+
+```php
+Ticket::query()
+    ->where('tenant_id', $tenantId)
+```
+
+But do NOT scatter unsafe manual tenant checks everywhere if a cleaner architecture can be used.
+
+Use appropriate combinations of:
+
+* Tenant context
+* Middleware
+* Policies
+* Model scopes
+* Services
+* Repository-level enforcement
+* Global scopes where appropriate
+
+The architecture must make accidental cross-tenant queries difficult.
+
+---
+
+# 9. NEVER TRUST tenant_id FROM THE CLIENT
+
+This is critical.
+
+Do NOT allow a normal tenant user to send:
+
+```json
+{
+  "tenant_id": 2
+}
+```
+
+and access Tenant 2.
+
+Tenant context must come from authenticated identity or API credentials.
+
+Client-provided tenant_id must never override the authenticated tenant.
+
+---
+
+# 10. TENANT IDOR PROTECTION
+
+Test cases must include:
+
+```text
+Tenant A user
+→ Tenant A ticket
+PASS
+
+Tenant A user
+→ Tenant B ticket
+DENIED
+```
+
+Also test:
+
+```text
+Tenant A API credential
+→ Tenant B customer
+DENIED
+
+Tenant A API credential
+→ Tenant B ticket
+DENIED
+
+Tenant A API credential
+→ Tenant B department
+DENIED
+
+Tenant A user
+→ Tenant B user
+DENIED
+```
+
+Even if the attacker knows the target database ID.
+
+---
+
+# 11. TENANT USERS
+
+Existing users must belong to a tenant unless they are platform administrators.
+
+Support:
+
+```text
+Platform Admin
+Tenant Owner
+Tenant Admin
+Support Manager
+Support Agent
+Custom Tenant Roles
+```
+
+Keep platform-level users separate from tenant users.
+
+A tenant user must never access another tenant's users.
+
+---
+
+# 12. TENANT ROLES AND PERMISSIONS
+
+Existing role/permission functionality should become tenant-aware.
+
+Example permissions:
+
+```text
+tickets.view
+tickets.create
+tickets.update
+tickets.reply
+tickets.assign
+tickets.delete
+tickets.change_status
+
+customers.view
+customers.create
+customers.update
+
+users.view
+users.create
+users.update
+
+departments.view
+departments.create
+departments.update
+
+integrations.view
+integrations.manage
+
+api_credentials.view
+api_credentials.create
+api_credentials.revoke
+
+webhooks.view
+webhooks.manage
+
+billing.view
+billing.manage
+```
+
+Do not give every tenant user administrative permissions.
+
+---
+
+# 13. PLATFORM ADMIN VS TENANT ADMIN
+
+Clearly separate authorization.
+
+## Platform Admin
+
+Can manage:
+
+* All tenants
+* Membership plans
+* Platform settings
+* Tenant status
+* Subscription status
+* Platform-level configuration
+
+## Tenant Owner/Admin
+
+Can manage ONLY their tenant:
+
+* Users
+* Roles
+* Departments
+* Customers
+* Tickets
+* Integrations
+* API credentials
+* Webhooks
+* Tenant settings
+* Billing where permitted
+
+A tenant administrator must never become a platform administrator.
+
+---
+
+# 14. TENANT REGISTRATION
+
+Implement tenant registration.
+
+Flow:
+
+```text
+Register
+   ↓
+Create Tenant
+   ↓
+Create Tenant Owner
+   ↓
+Select Membership Plan
+   ↓
+Create Subscription
+   ↓
+Verify Email
+   ↓
+Tenant Onboarding
+   ↓
+Support24 Workspace
+```
+
+Registration should create:
+
+```text
+Tenant
+Tenant Owner
+Initial role
+Subscription
+```
+
+Do not create a tenant merely because an arbitrary API user registers.
+
+---
+
+# 15. TENANT LOGIN
+
+Tenant users log into Support24 using their own accounts.
+
+After authentication:
+
+```text
+Authenticated User
+      ↓
+Tenant
+      ↓
+Roles / Permissions
+      ↓
+Tenant Workspace
+```
+
+Every authenticated request must retain tenant context.
+
+---
+
+# 16. EMAIL VERIFICATION
+
+Implement proper email verification for tenant registration.
+
+Support:
+
+* Verification email
+* Verification link
+* Resend verification
+* Expired verification
+* Already verified
+
+---
+
+# 17. PASSWORD RESET
+
+Preserve/improve existing password reset functionality.
+
+Ensure password reset tokens cannot cross tenant boundaries.
+
+---
+
+# 18. MEMBERSHIP PLANS
+
+Create platform-level membership plans.
+
+Example:
+
+```text
+Starter
+Professional
+Business
+Enterprise
+```
+
+Do not hardcode plan names/prices into controllers.
+
+Create configurable plan structures.
+
+Possible plan features:
+
+```text
+users
+customers
+tickets
+storage
+api_access
+api_requests
+webhooks
+attachments
+departments
+automation
+sla
+reports
+```
+
+Plans should be configurable by platform administrators.
+
+---
+
+# 19. TENANT SUBSCRIPTION
+
+Each tenant has a subscription.
+
+Suggested relationship:
+
+```text
+Tenant
+  ↓
+Subscription
+  ↓
+Membership Plan
+```
+
+Subscription states:
+
+```text
+trial
+active
+past_due
+cancelled
+suspended
+expired
+```
+
+Do not allow tenant users to modify subscription records directly.
+
+---
+
+# 20. PLAN LIMIT ENFORCEMENT
+
+The selected plan may define limits such as:
+
+```text
+Maximum users
+Maximum customers
+Maximum tickets
+Maximum API requests
+Maximum storage
+Maximum departments
+Maximum integrations
+```
+
+Enforce these limits through a centralized service.
+
+Do not duplicate plan-limit logic across controllers.
+
+Example:
+
+```text
+Tenant
+  ↓
+Subscription
+  ↓
+Plan
+  ↓
+Feature / Limit
+  ↓
+Usage
+```
+
+Return proper API errors when a tenant exceeds a plan limit.
+
+---
+
+# 21. TICKET SYSTEM
+
+Preserve the existing ticket system.
+
+Tickets must become tenant-scoped.
+
+A ticket belongs to:
+
+```text
+Tenant
+Customer
+Department
+Assignee
+```
+
+where applicable.
+
+---
+
+# 22. TICKET STATUS
+
+Preserve existing status functionality.
+
+Support statuses such as:
+
+```text
+Open
+Pending
+In Progress
+Escalated
+Resolved
+Closed
+Reopened
+```
+
+Do not hardcode status behavior into multiple controllers.
+
+Use a centralized status/transition mechanism where practical.
+
+---
+
+# 23. TICKET NUMBER
+
+Ticket numbers must be unique within the appropriate tenant/business rules.
+
+Allow tenant administrators to configure ticket number format.
+
+Examples:
+
+```text
+TKT-2026-000001
+SUP-2026-000001
+ACME-000001
+```
+
+Configuration may include:
+
+```text
+Prefix
+Year
+Separator
+Sequence
+Padding
+```
+
+Ensure concurrent ticket creation cannot create duplicate numbers.
+
+Use database constraints and transaction-safe sequence generation.
+
+---
+
+# 24. AUTOMATIC DEPARTMENT ASSIGNMENT
+
+Preserve existing automatic department assignment.
+
+Flow:
+
+```text
+Ticket Created
+      ↓
+Routing Rules
+      ↓
+Department
+      ↓
+Assignee
+```
+
+Routing rules must be tenant-specific.
+
+Tenant A rules must never affect Tenant B.
+
+---
+
+# 25. CUSTOMER MODEL
+
+Customers belong to a tenant.
+
+Example:
+
+```text
+Tenant A
+ └── Customer A
+      ├── Ticket 1
+      ├── Ticket 2
+      └── Ticket 3
+```
+
+Tenant B may have a customer with the same email address.
+
+This is allowed because customer identity is tenant-scoped.
+
+---
+
+# 26. CUSTOMER EXTERNAL ID
+
+Support an external customer identifier.
+
+Example:
+
+```text
+Tenant Customer
+External ID:
+wp-user-7842
+```
+
+This allows a tenant's existing application to map its customer to Support24.
+
+The combination should be tenant-safe:
+
+```text
+tenant_id + external_customer_id
+```
+
+must be unique where appropriate.
+
+---
+
+# 27. CUSTOMER EMAIL LOOKUP
+
+The integration API must allow a tenant application to retrieve its customer's tickets by email where supported.
+
+Example:
+
+```text
+GET /api/v1/integration/tickets?customer_email=john@example.com
+```
+
+The API must automatically scope the search to the authenticated tenant.
+
+Never search globally across all tenants.
+
+---
+
+# 28. CUSTOMER REGISTRATION ID LOOKUP
+
+Support lookup using the tenant's external/registration/customer ID.
+
+Example:
+
+```text
+GET /api/v1/integration/customers/{external_customer_id}/tickets
+```
+
+Use the actual API design if an existing endpoint already exists.
+
+---
+
+# 29. INTEGRATION API
+
+Create a dedicated integration API layer.
+
+Tenant applications should be able to:
+
+### Customer
+
+```text
+Create customer
+Get customer
+Update customer
+Find customer
+```
+
+### Tickets
+
+```text
+Create ticket
+Get ticket
+Update ticket
+Get customer tickets
+Reply to ticket
+Update ticket status
+Upload attachments
+```
+
+The integration API must be tenant-scoped automatically.
+
+---
+
+# 30. API KEY + API SECRET
+
+Each tenant can create integrations.
+
+Example:
+
+```text
+Tenant
+   ↓
+Integration
+   ↓
+API Key
+API Secret
+Scopes
+```
+
+API credentials must belong to a tenant.
+
+They must never be global.
+
+---
+
+# 31. API SECRET STORAGE
+
+Never store API secrets as plain text if the architecture can avoid it.
+
+Store a secure representation appropriate for the authentication design.
+
+Show the secret only during credential creation.
+
+After that:
+
+```text
+API Secret
+***************
+```
+
+Only support rotation.
+
+---
+
+# 32. API SCOPES
+
+Implement scoped API access.
+
+Example:
+
+```text
+customers.read
+customers.create
+customers.update
+
+tickets.read
+tickets.create
+tickets.update
+tickets.reply
+tickets.status.update
+tickets.attachments
+```
+
+The API must verify scopes before executing protected operations.
+
+Example:
+
+```text
+API credential
+       ↓
+Tenant
+       ↓
+Scopes
+       ↓
+Endpoint authorization
+```
+
+A credential without:
+
+```text
+tickets.create
+```
+
+must not create tickets.
+
+---
+
+# 33. API AUTHENTICATION
+
+Design a secure authentication mechanism for integration credentials.
+
+Requirements:
+
+* API key identifies the integration
+* Secret authenticates the integration
+* Tenant is derived from the credential
+* Scopes are loaded from the credential
+* Credential status is checked
+* Revoked credentials are rejected
+* Suspended tenant credentials are rejected
+
+Do not allow the request body to override tenant context.
+
+---
+
+# 34. API CREDENTIAL MANAGEMENT
+
+Implement APIs for tenant administrators to:
+
+```text
+Create credential
+List credentials
+View credential metadata
+Update scopes
+Rotate secret
+Revoke credential
+```
+
+Never return secrets unnecessarily.
+
+---
+
+# 35. API RATE LIMITING
+
+Implement tenant/integration-aware rate limiting.
+
+At minimum consider:
+
+```text
+Tenant
+API Credential
+Endpoint
+Plan
+```
+
+The rate limit should be configurable by membership plan.
+
+Return:
+
+```text
+429 Too Many Requests
+```
+
+with a useful response.
+
+---
+
+# 36. WEBHOOKS
+
+Webhooks belong to a tenant.
+
+Support:
+
+```text
+Create webhook
+Update webhook
+Enable/disable
+Delete/revoke
+Rotate secret
+Test webhook
+View delivery logs
+```
+
+Events:
+
+```text
+ticket.created
+ticket.updated
+ticket.assigned
+ticket.replied
+ticket.status_changed
+ticket.resolved
+ticket.closed
+ticket.reopened
+```
+
+Webhook events must never leak another tenant's data.
+
+---
+
+# 37. WEBHOOK SECURITY
+
+Implement webhook signature verification where appropriate.
+
+Webhook secrets must be securely stored.
+
+Never expose them unnecessarily.
+
+Webhook delivery logs must mask sensitive information.
+
+---
+
+# 38. EMAIL NOTIFICATIONS
+
+Preserve existing email functionality.
+
+When a ticket is created:
+
+```text
+Customer
+   ↓
+Ticket Created
+   ↓
+Customer Email
+   ↓
+Assigned Support Staff Email
+```
+
+Ensure emails are tenant-aware.
+
+Do not accidentally send Tenant A data to Tenant B users.
+
+---
+
+# 39. TENANT EMAIL CONFIGURATION
+
+Where supported, allow tenant-specific configuration for:
+
+* Support email
+* Sender name
+* Reply-to address
+* Branding
+
+Keep platform defaults available.
+
+---
+
+# 40. ATTACHMENTS
+
+Attachments must be tenant-safe.
+
+A Tenant A attachment must never be downloadable using Tenant B authentication.
+
+Verify:
+
+* Upload authorization
+* Download authorization
+* File ownership
+* Ticket ownership
+* Tenant ownership
+* File type
+* File size
+* Storage path isolation
+
+---
+
+# 41. NOTIFICATIONS
+
+Tenant notifications must be isolated.
+
+Verify:
+
+* Ticket notifications
+* Assignment notifications
+* Reply notifications
+* Status notifications
+
+All notifications must use tenant context.
+
+---
+
+# 42. AUDIT LOG
+
+Implement tenant-aware audit logging.
+
+Track important actions:
+
+```text
+User login
+Ticket created
+Ticket updated
+Ticket assigned
+Status changed
+Customer created
+User created
+Role changed
+API credential created
+API credential revoked
+API secret rotated
+Webhook changed
+Billing changed
+```
+
+Audit logs should include:
+
+```text
+Tenant
+User / Integration
+Action
+Resource
+Resource ID
+Timestamp
+IP where appropriate
+```
+
+Tenant users can only view their own tenant audit logs.
+
+Platform administrators can view platform-level audit information according to permissions.
+
+---
+
+# 43. API DOCUMENTATION
+
+Update the existing Scribe/API documentation to document the new multi-tenant architecture.
+
+Document:
+
+* Authentication
+* Tenant context
+* API credentials
+* Scopes
+* Customers
+* Customer lookup
+* Tickets
+* Ticket creation
+* Ticket updates
+* Ticket replies
+* Ticket status
+* Attachments
+* Webhooks
+* Errors
+* Rate limits
+* Security
+
+Every endpoint must document:
+
+```text
+HTTP Method
+Endpoint
+Authentication
+Required Scope
+Parameters
+Request Body
+Response
+HTTP Status
+Errors
+Example
+```
+
+Use proper Scribe annotations.
+
+Do not expose real secrets in examples.
+
+---
+
+# 44. API RESPONSE FORMAT
+
+Review existing API responses and make them consistent.
+
+Use a consistent structure for:
+
+* Success
+* Validation errors
+* Authentication errors
+* Authorization errors
+* Tenant access errors
+* Not found
+* Rate limit
+* Server errors
+
+Do not unnecessarily break existing API consumers.
+
+---
+
+# 45. ERROR STATUS CODES
+
+Use correct HTTP status codes.
+
+Examples:
+
+```text
+200 OK
+201 Created
+204 No Content
+400 Bad Request
+401 Unauthenticated
+403 Forbidden
+404 Not Found
+409 Conflict
+422 Validation Error
+429 Too Many Requests
+500 Server Error
+```
+
+Do not expose internal exception details.
+
+---
+
+# 46. TENANT-SAFE ROUTING
+
+Review every existing route.
+
+For every endpoint answer:
+
+```text
+Is this platform-level?
+Is this tenant-level?
+Is this public?
+Is this integration API?
+Who can access it?
+Which tenant does it belong to?
+```
+
+Do not leave any existing endpoint unscoped accidentally.
+
+---
+
+# 47. DATABASE MIGRATIONS
+
+Create proper Laravel migrations.
+
+Do NOT modify production data destructively.
+
+For existing tables:
+
+1. Add tenant structure.
+2. Create tenant records for existing data if necessary.
+3. Assign existing records to the correct tenant.
+4. Add constraints/indexes.
+5. Validate data.
+6. Only then enforce stricter constraints.
+
+Never blindly set every existing record to one tenant.
+
+If existing data has no tenant mapping, stop and document what mapping is required rather than inventing ownership.
+
+---
+
+# 48. DATABASE INDEXING
+
+Review indexes for multi-tenant queries.
+
+Common composite indexes may be required such as:
+
+```text
+tenant_id + status
+tenant_id + customer_id
+tenant_id + created_at
+tenant_id + external_customer_id
+tenant_id + email
+```
+
+Use indexes based on actual query patterns.
+
+Do not add unnecessary indexes blindly.
+
+---
+
+# 49. UNIQUE CONSTRAINTS
+
+Review every existing unique constraint.
+
+A field that was previously globally unique may need to become tenant-scoped.
+
+Example:
+
+Instead of:
+
+```text
+UNIQUE(email)
+```
+
+the correct rule may be:
+
+```text
+UNIQUE(tenant_id, email)
+```
+
+depending on business requirements.
+
+Review:
+
+* Customer email
+* External customer ID
+* Ticket number
+* User email
+* Slugs
+* Integration names
+* API credentials
+* Webhooks
+
+Do not assume every unique field should become tenant-specific; determine the correct business rule.
+
+---
+
+# 50. PLATFORM ADMINISTRATION
+
+Create platform-level support for:
+
+```text
+Tenants
+Membership Plans
+Subscriptions
+Platform Users
+Platform Settings
+```
+
+Platform administrators should be able to:
+
+* View tenants
+* Activate tenant
+* Suspend tenant
+* View subscription
+* Change subscription where authorized
+* View usage
+* View platform-level activity
+
+Tenant administrators cannot access this functionality.
+
+---
+
+# 51. TESTING REQUIREMENTS
+
+Create comprehensive automated tests.
+
+At minimum test:
+
+## Tenant isolation
+
+```text
+Tenant A → Tenant A data = PASS
+
+Tenant A → Tenant B data = DENIED
+```
+
+## API credentials
+
+```text
+Valid credential = PASS
+
+Invalid secret = DENIED
+
+Revoked credential = DENIED
+
+Credential from Tenant A → Tenant B = DENIED
+```
+
+## Scopes
+
+```text
+tickets.read = GET tickets allowed
+
+tickets.read without tickets.create
+→ POST ticket denied
+```
+
+## Customer isolation
+
+```text
+Customer A → Customer A tickets = PASS
+
+Customer A → Customer B tickets = DENIED
+```
+
+## User permissions
+
+Test all important roles.
+
+## Ticket lifecycle
+
+Test all valid transitions.
+
+## Ticket numbering
+
+Test concurrent ticket creation.
+
+## Webhooks
+
+Test event generation and delivery.
+
+## Email
+
+Test recipients and tenant isolation.
+
+## Subscription limits
+
+Test exceeding plan limits.
+
+---
+
+# 52. SECURITY TESTING
+
+Perform safe security testing for:
+
+* IDOR
+* Broken access control
+* Tenant isolation
+* API credential misuse
+* Scope bypass
+* Mass assignment
+* Sensitive data exposure
+* Authentication bypass
+* Authorization bypass
+* File access
+* Webhook security
+* Rate limiting
+* Enumeration
+
+Do not perform destructive tests.
+
+Use local/development/test data.
+
+---
+
+# 53. FRONTEND COMPATIBILITY
+
+Existing React frontend should continue working.
+
+If API responses need changes because of tenant support:
+
+* Identify all affected frontend calls.
+* Update them carefully.
+* Do not break existing screens.
+* Maintain backward compatibility where practical.
+
+Do not redesign the UI as part of this task.
+
+---
+
+# 54. SEEDERS
+
+Create development/test seeders for:
+
+```text
+Platform Admin
+Tenant A
+Tenant B
+Tenant Owner
+Tenant Admin
+Support Manager
+Support Agent
+Departments
+Customers
+Tickets
+Membership Plans
+Subscriptions
+API Credentials
+Webhook
+```
+
+Create realistic test data.
+
+The seed data must make tenant isolation testing easy.
+
+Example:
+
+```text
+Tenant A:
+Acme Support
+
+Tenant B:
+Demo Corporation
+```
+
+Each should have separate users, customers, departments, and tickets.
+
+---
+
+# 55. OBSERVABILITY
+
+Add useful logging around:
+
+* Authentication failures
+* Authorization failures
+* Tenant resolution failures
+* API credential failures
+* Scope failures
+* Rate limits
+* Webhook failures
+
+Never log:
+
+* API secrets
+* Passwords
+* Tokens
+* Sensitive customer data unnecessarily
+
+---
+
+# 56. CODE ARCHITECTURE
+
+Follow clean Laravel architecture.
+
+Prefer:
+
+```text
+Controller
+    ↓
+FormRequest
+    ↓
+Service
+    ↓
+Repository / Query Layer where justified
+    ↓
+Model
+```
+
+Use:
+
+* Policies
+* Middleware
+* API Resources
+* FormRequests
+* Services
+* Events
+* Jobs
+* Notifications
+
+Do not put large business rules directly inside controllers.
+
+Do not create unnecessary abstraction just for the sake of abstraction.
+
+---
+
+# 57. API VERSIONING
+
+Review the existing API structure.
+
+If the existing API is already versioned, preserve it.
+
+If appropriate, establish:
+
+```text
+/api/v1/...
+```
+
+for integration APIs.
+
+Do not break existing clients unnecessarily.
+
+---
+
+# 58. DOCUMENTATION
+
+Update project documentation with:
+
+## Architecture
+
+Explain:
+
+```text
+Platform
+  ↓
+Tenant
+  ↓
+Users / Customers / Tickets
+  ↓
+API Integration
+```
+
+## Tenant isolation
+
+Explain how tenant context is resolved.
+
+## API authentication
+
+Explain API Key + Secret.
+
+## Scopes
+
+Document every scope.
+
+## Customer integration
+
+Explain how tenants can integrate their customer systems.
+
+---
+
+# 59. IMPLEMENTATION PROCESS
+
+Follow this order.
+
+### Phase 1
+
+Audit existing application.
+
+### Phase 2
+
+Create tenant architecture and database migrations.
+
+### Phase 3
+
+Migrate existing data safely.
+
+### Phase 4
+
+Implement tenant context.
+
+### Phase 5
+
+Convert existing resources to tenant-aware resources.
+
+### Phase 6
+
+Implement platform vs tenant authorization.
+
+### Phase 7
+
+Implement tenant registration/authentication.
+
+### Phase 8
+
+Implement membership plans and subscriptions.
+
+### Phase 9
+
+Implement API credentials.
+
+### Phase 10
+
+Implement API scopes.
+
+### Phase 11
+
+Implement tenant integration APIs.
+
+### Phase 12
+
+Implement customer identity and ticket lookup.
+
+### Phase 13
+
+Implement webhooks.
+
+### Phase 14
+
+Update emails/notifications.
+
+### Phase 15
+
+Update Scribe documentation.
+
+### Phase 16
+
+Update automated tests.
+
+### Phase 17
+
+Run complete regression testing.
+
+---
+
+# 60. DO NOT DO THESE THINGS
+
+Do NOT:
+
+* Rewrite the entire application unnecessarily.
+* Delete existing functionality.
+* Remove existing APIs without analysis.
+* Assume tenant_id from request input.
+* Trust client-provided tenant identifiers.
+* Allow cross-tenant queries.
+* Store API secrets in plain text unnecessarily.
+* Return secrets from normal API responses.
+* Put API secrets in frontend code.
+* Mix platform admin permissions with tenant permissions.
+* Hardcode membership plan limits.
+* Hardcode tenant-specific routing rules.
+* Hardcode ticket numbering.
+* Disable security to make tests pass.
+* Modify production data.
+* Hide failing tests.
+* Mark tests as passing when they are not.
+
+---
+
+# 61. FINAL DELIVERABLES
+
+After implementation, provide:
+
+### Backend
+
+Fully multi-tenant Laravel API.
+
+### Database
+
+Safe migrations and tenant-aware relationships.
+
+### Authentication
+
+Tenant-aware authentication and authorization.
+
+### API Integration
+
+API Key + Secret + Scopes.
+
+### Customer Integration
+
+Customer identification by:
+
+* External Customer ID
+* Email where supported
+* Registration ID where supported
+
+### Ticket Integration
+
+Tenant applications can:
+
+* Create ticket
+* Get ticket
+* Update ticket
+* Reply
+* Update status
+* Get all tickets for a customer
+* Upload attachments where supported
+
+### Webhooks
+
+Tenant-specific webhook configuration and delivery.
+
+### Membership
+
+Plans, subscriptions, limits, and usage.
+
+### Documentation
+
+Complete Scribe API documentation.
+
+### Tests
+
+Comprehensive tenant isolation and regression tests.
+
+### Report
+
+Create:
+
+```text
+C:\Projects\support24\multi-tenant-migration-report.html
+```
+
+The report must contain:
+
+* Existing architecture audit
+* Database changes
+* New tenant architecture
+* API changes
+* Authentication changes
+* Authorization changes
+* Scope implementation
+* Customer integration
+* Subscription implementation
+* Webhook implementation
+* Tests executed
+* Tests passed
+* Tests failed
+* Security tests
+* Tenant isolation tests
+* Breaking changes
+* Migration risks
+* Remaining work
+
+---
+
+# 62. MOST IMPORTANT SUCCESS CRITERIA
+
+The implementation is considered successful only when all of the following are true:
+
+```text
+✓ Existing Support24 functionality still works
+
+✓ Multiple tenants can exist
+
+✓ Tenant data is completely isolated
+
+✓ Tenant users only access their own tenant
+
+✓ Platform admins can manage tenants
+
+✓ Tenant admins cannot access platform administration
+
+✓ Each tenant can create API credentials
+
+✓ API credentials have configurable scopes
+
+✓ API secrets are securely handled
+
+✓ API requests automatically resolve the correct tenant
+
+✓ Customer lookup is tenant-scoped
+
+✓ Customer tickets are tenant-scoped
+
+✓ Ticket creation is tenant-scoped
+
+✓ Ticket updates are tenant-scoped
+
+✓ Ticket replies are tenant-scoped
+
+✓ Attachments are tenant-scoped
+
+✓ Webhooks are tenant-scoped
+
+✓ Emails are tenant-aware
+
+✓ Ticket numbering supports tenant configuration
+
+✓ Department routing is tenant-specific
+
+✓ Membership plans are platform-level
+
+✓ Subscriptions belong to tenants
+
+✓ Plan limits can be enforced
+
+✓ API rate limits can be enforced
+
+✓ Scribe documentation reflects the new architecture
+
+✓ Automated tests verify tenant isolation
+
+✓ Existing API regression tests pass
+
+✓ No secrets are exposed
+
+✓ No cross-tenant IDOR exists
+```
+
+Before declaring the implementation complete, perform a final security and tenant-isolation audit across **every existing API endpoint**, not only the newly created integration endpoints.

@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Tenant;
 use App\Models\User;
+use App\Services\TenantProvisioningService;
+use App\Support\TenantContext;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,6 +20,10 @@ use Tests\TestCase;
 
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
+    ->afterEach(function () {
+        unset($GLOBALS['__test_tenant']);
+        app(TenantContext::class)->clear();
+    })
     ->in('Feature', 'Unit');
 
 /*
@@ -41,26 +48,82 @@ pest()->extend(TestCase::class)
 |
 */
 
-function actingAsCustomer(): User
+/**
+ * One tenant per test, created and fully provisioned (roles, ticket
+ * statuses/priorities, default numbering) the first time it's needed
+ * and reused for the rest of that test — so actingAsAdministrator()
+ * and actingAsAgent() called in the same test land in the same tenant,
+ * the way an admin inviting an agent actually would.
+ *
+ * Backed by $GLOBALS rather than a plain `static` local: RefreshDatabase
+ * rolls back each test's transaction, deleting the tenant row, but a
+ * PHP `static` variable would still hold the now-stale object reference
+ * for the next test in the same process. The afterEach() below clears
+ * $GLOBALS explicitly on every test boundary instead.
+ */
+function testTenant(): Tenant
 {
-    $user = User::factory()->create();
-    $user->assignRole('Customer');
+    if (! isset($GLOBALS['__test_tenant'])) {
+        $tenant = Tenant::create(['name' => 'Test Tenant', 'slug' => 'test-tenant-'.uniqid(), 'status' => 'active']);
+        app(TenantProvisioningService::class)->provision($tenant);
+        $GLOBALS['__test_tenant'] = $tenant;
+    }
 
-    return $user;
+    // Establishing this as the ambient context (not just returning the
+    // Tenant object) is deliberate: most existing tests create fixtures
+    // with bare Model::factory()->create() calls, not wrapped in
+    // actingAsX()/runAs(). Those calls need spatie's permission team id
+    // to already match this tenant for any embedded assignRole() (e.g.
+    // CustomerFactory's afterCreating callback) to resolve the right
+    // tenant-scoped role — setting tenant_id on the row alone doesn't
+    // do that; TenantContext::set() is what syncs it (see its docblock).
+    app(TenantContext::class)->set($GLOBALS['__test_tenant']);
+
+    return $GLOBALS['__test_tenant'];
 }
 
-function actingAsAgent(): User
+function actingAsCustomer(?Tenant $tenant = null): User
 {
-    $user = User::factory()->create();
-    $user->assignRole('Agent');
+    $tenant ??= testTenant();
 
-    return $user;
+    return app(TenantContext::class)->runAs($tenant, function () use ($tenant) {
+        $user = User::factory()->create(['tenant_id' => $tenant->id]);
+        $user->assignRole('Customer');
+
+        return $user;
+    });
 }
 
-function actingAsAdministrator(): User
+function actingAsAgent(?Tenant $tenant = null): User
 {
-    $user = User::factory()->create();
-    $user->assignRole('Administrator');
+    $tenant ??= testTenant();
 
-    return $user;
+    return app(TenantContext::class)->runAs($tenant, function () use ($tenant) {
+        $user = User::factory()->create(['tenant_id' => $tenant->id]);
+        $user->assignRole('Agent');
+
+        return $user;
+    });
+}
+
+function actingAsAdministrator(?Tenant $tenant = null): User
+{
+    $tenant ??= testTenant();
+
+    return app(TenantContext::class)->runAs($tenant, function () use ($tenant) {
+        $user = User::factory()->create(['tenant_id' => $tenant->id]);
+        $user->assignRole('Administrator');
+
+        return $user;
+    });
+}
+
+function actingAsPlatformAdmin(): User
+{
+    return app(TenantContext::class)->runAs(null, function () {
+        $user = User::factory()->create(['tenant_id' => null]);
+        $user->assignRole('Platform Admin');
+
+        return $user;
+    });
 }

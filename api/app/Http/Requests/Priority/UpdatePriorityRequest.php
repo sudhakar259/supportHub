@@ -16,7 +16,10 @@ class UpdatePriorityRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'slug' => ['sometimes', 'required', 'string', 'max:255', 'alpha_dash', Rule::unique('ticket_priorities', 'slug')->ignore($this->route('priority'))],
+            'slug' => [
+                'sometimes', 'required', 'string', 'max:255', 'alpha_dash',
+                Rule::unique('ticket_priorities', 'slug')->where('tenant_id', $this->user()->tenant_id)->ignore($this->route('priority')),
+            ],
             'level' => ['sometimes', 'required', 'integer', 'min:1', 'max:255'],
             'color' => ['sometimes', 'string', 'max:7'],
             'is_default' => ['sometimes', 'boolean'],

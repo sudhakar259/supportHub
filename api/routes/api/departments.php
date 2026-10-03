@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\V1\DepartmentController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:api')->prefix('departments')->group(function () {
+Route::middleware(['auth:api', 'tenant.context'])->prefix('departments')->group(function () {
     Route::get('/', [DepartmentController::class, 'index']);
     Route::post('/', [DepartmentController::class, 'store']);
     Route::get('/{department}', [DepartmentController::class, 'show']);

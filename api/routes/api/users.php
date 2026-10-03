@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:api')->prefix('users')->group(function () {
+Route::middleware(['auth:api', 'tenant.context'])->prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/', [UserController::class, 'store']);
     Route::get('/{user}', [UserController::class, 'show']);

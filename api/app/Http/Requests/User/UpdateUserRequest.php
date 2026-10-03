@@ -16,7 +16,10 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'email' => ['sometimes', 'required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->route('user'))],
+            'email' => [
+                'sometimes', 'required', 'string', 'email', 'max:255',
+                Rule::unique('users', 'email')->where('tenant_id', $this->user()?->tenant_id)->ignore($this->route('user')),
+            ],
             'phone' => ['nullable', 'string', 'max:30'],
             'timezone' => ['sometimes', 'string', 'max:64'],
             'is_active' => ['sometimes', 'boolean'],
