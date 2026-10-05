@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { ROUTES } from '@/app/router/routes'
 import { AuthLayout } from '@/components/layout/AuthLayout'
@@ -13,6 +13,8 @@ import { ApiError } from '@/types/api'
 export function EmailVerificationPage() {
   const { user, setUser } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const fromRegistration = Boolean((location.state as { fromRegistration?: boolean } | null)?.fromRegistration)
 
   const [isResending, setIsResending] = useState(false)
   const [isChecking, setIsChecking] = useState(false)
@@ -40,7 +42,7 @@ export function EmailVerificationPage() {
       const refreshed = await authApi.me()
       setUser(refreshed)
       if (refreshed.emailVerifiedAt) {
-        navigate(ROUTES.dashboard)
+        navigate(fromRegistration ? ROUTES.onboarding : ROUTES.dashboard)
       } else {
         setError('Still not verified — click the link in the email first, then try again.')
       }

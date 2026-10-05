@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1\Platform;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Platform\UpdateTenantRequest;
 use App\Http\Resources\TenantResource;
+use App\Models\MembershipPlan;
+use App\Models\Subscription;
 use App\Models\Tenant;
 use App\Services\AuditLogger;
 use Illuminate\Http\JsonResponse;
@@ -119,5 +121,39 @@ class TenantController extends Controller
         app(AuditLogger::class)->log('platform.tenant.activated', $tenant, null, null, $request->user());
 
         return $this->success(new TenantResource($tenant), 'Tenant activated successfully.');
+    }
+
+    /**
+     * Assign a membership plan to a tenant
+     *
+     * Same rules as the tenant's own plan change: a free plan is active with no
+     * trial, a paid plan starts a 14-day trial. Creates the subscription if the
+     * tenant has none.
+     *
+     * @bodyParam plan string required Active plan slug. Example: professional
+     *
+     * @response 200 {"success": true, "message": "Plan updated successfully.", "data": {"id": 2}}
+     */
+    public function changePlan(Request $request, Tenant $tenant): JsonResponse
+    {
+        $data = $request->validate(['plan' => ['required', 'string', 'exists:membership_plans,slug']]);
+        $plan = MembershipPlan::where('slug', $data['plan'])->where('is_active', true)->firstOrFail();
+        $isFree = $plan->price_cents === 0;
+
+        $before = Subscription::where('tenant_id', $tenant->id)->first()?->only(['membership_plan_id', 'status']);
+
+        $subscription = Subscription::updateOrCreate(
+            ['tenant_id' => $tenant->id],
+            [
+                'membership_plan_id' => $plan->id,
+                'status' => $isFree ? 'active' : 'trial',
+                'trial_ends_at' => $isFree ? null : now()->addDays(14),
+                'cancelled_at' => null,
+            ],
+        );
+
+        app(AuditLogger::class)->log('platform.subscription.changed', $subscription, $before, ['membership_plan_id' => $plan->id, 'status' => $subscription->status], $request->user());
+
+        return $this->success(new TenantResource($tenant->load('subscription.plan')->loadCount(['users', 'customers', 'tickets'])), 'Plan updated successfully.');
     }
 }

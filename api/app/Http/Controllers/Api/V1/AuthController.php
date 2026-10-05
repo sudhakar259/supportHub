@@ -72,7 +72,7 @@ class AuthController extends Controller
                 'tenant_id' => $tenant->id,
                 'name' => $request->string('name'),
                 'email' => $request->string('email'),
-                'phone' => $request->string('phone') ?: null,
+                'phone' => $request->filled('phone') ? $request->string('phone')->toString() : null,
                 'password' => Hash::make($request->string('password')),
                 'is_active' => true,
             ]);
@@ -81,7 +81,7 @@ class AuthController extends Controller
 
             Customer::create([
                 'user_id' => $user->id,
-                'company_name' => $request->string('company_name') ?: null,
+                'company_name' => $request->filled('company_name') ? $request->string('company_name')->toString() : null,
                 'customer_type' => $request->filled('company_name') ? 'business' : 'individual',
             ]);
 
@@ -161,16 +161,26 @@ class AuthController extends Controller
             return $this->error('This account has been deactivated.', 403);
         }
 
+        if ($user->tenant && ! $user->tenant->isActive()) {
+            return $this->error('This tenant account is suspended or no longer active.', 403);
+        }
+
         $user->forceFill(['last_login_at' => now()])->save();
 
         // /auth/login runs with no 'tenant.context' middleware (the
-        // tenant isn't known until a credential matches), so AuditLog's
-        // BelongsToTenant would otherwise stamp tenant_id from whatever
-        // ambient context happens to be set — runAs() makes it explicit
-        // instead, using the tenant the matched user actually belongs to.
-        app(TenantContext::class)->runAs($user->tenant, function () use ($user) {
-            app(AuditLogger::class)->log('auth.login', $user, null, null, $user);
-        });
+        // tenant isn't known until a credential matches), so nothing else
+        // sets TenantContext for this request — do it explicitly, using
+        // the tenant the matched user actually belongs to (null for a
+        // platform admin). This also syncs spatie/laravel-permission's
+        // team id (see TenantContext::set()), which the roles/permissions
+        // load below and AuditLog's BelongsToTenant both depend on; unlike
+        // runAs(), this intentionally stays set for the rest of the
+        // request instead of restoring to "no tenant" afterward, since
+        // that restore is exactly what left the pre-fix response's
+        // roles/permissions empty for every non-platform-admin user.
+        app(TenantContext::class)->set($user->tenant);
+
+        app(AuditLogger::class)->log('auth.login', $user, null, null, $user);
 
         $token = $user->createToken($request->string('device_name')->toString() ?: 'api')->plainTextToken;
 
@@ -210,7 +220,21 @@ class AuthController extends Controller
      */
     public function me(Request $request): JsonResponse
     {
-        $user = $request->user()->load(['roles', 'customer', 'departments']);
+        $authUser = $request->user();
+
+        if (! $authUser->is_active) {
+            return $this->error('This account has been deactivated.', 401);
+        }
+
+        // No 'tenant.context' middleware runs on this route, so nothing
+        // else sets TenantContext — without it, spatie/laravel-permission's
+        // team id stays at its own unset default, which matches no role
+        // row for any user (not even a platform admin's), and roles/
+        // permissions below would come back empty regardless of who's
+        // asking. See the matching fix in login() for the full story.
+        app(TenantContext::class)->set($authUser->tenant);
+
+        $user = $authUser->load(['roles', 'customer', 'departments']);
 
         return $this->success(new UserResource($user));
     }
@@ -270,7 +294,12 @@ class AuthController extends Controller
         $status = Password::reset(
             $credentials,
             function (User $user, string $password) {
-                $user->forceFill(['password' => Hash::make($password)])->save();
+                // Completing the emailed link proves control of the mailbox, which is what
+                // email verification is for; accounts created by staff rely on this path.
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                    'email_verified_at' => $user->email_verified_at ?? now(),
+                ])->save();
                 $user->tokens()->delete();
             }
         );

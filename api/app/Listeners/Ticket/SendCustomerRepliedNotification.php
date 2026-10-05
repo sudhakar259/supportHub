@@ -14,6 +14,11 @@ class SendCustomerRepliedNotification implements ShouldQueue
 
     public function handle(CustomerReplied $event): void
     {
+        $this->inTenantOf($event->message->ticket->tenant, fn () => $this->notify($event));
+    }
+
+    private function notify(CustomerReplied $event): void
+    {
         $ticket = $event->message->ticket;
         $recipients = $ticket->assignee ? [$ticket->assignee] : $this->departmentManagersAndSeniorAgents($ticket);
 

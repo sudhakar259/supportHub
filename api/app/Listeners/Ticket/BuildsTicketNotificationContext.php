@@ -2,8 +2,10 @@
 
 namespace App\Listeners\Ticket;
 
+use App\Models\Tenant;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Support\TenantContext;
 
 trait BuildsTicketNotificationContext
 {
@@ -22,6 +24,16 @@ trait BuildsTicketNotificationContext
             'ticket_priority' => $ticket->priority?->name,
             'ticket_url' => $this->ticketUrl($ticket),
         ];
+    }
+
+    /**
+     * Queue workers start with no tenant context, so template lookup and
+     * branding would fall back to platform rows. Runs the callback inside
+     * the tenant that owns the ticket.
+     */
+    protected function inTenantOf(?Tenant $tenant, callable $callback): void
+    {
+        app(TenantContext::class)->runAs($tenant, $callback);
     }
 
     protected function ticketUrl(Ticket $ticket): string

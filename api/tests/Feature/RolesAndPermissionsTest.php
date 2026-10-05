@@ -1,10 +1,9 @@
 <?php
 
 use App\Models\Role;
-use Database\Seeders\RolesAndPermissionsSeeder;
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 it('lists roles with their permissions for an administrator', function () {
@@ -39,13 +38,30 @@ it('creates a custom role with a permission subset', function () {
         ->assertJsonCount(2, 'data.permissions');
 });
 
-it('refuses to delete the built-in Administrator role', function () {
+it('refuses to delete a seeded system role', function (string $roleName) {
     $admin = actingAsAdministrator();
-    $role = Role::where('name', 'Administrator')->first();
+    $role = Role::where('name', $roleName)->firstOrFail();
 
     $this->actingAs($admin, 'api')
         ->deleteJson("/api/v1/roles/{$role->id}")
         ->assertStatus(403);
+
+    expect(Role::whereKey($role->id)->exists())->toBeTrue();
+})->with(['Administrator', 'Department Manager', 'Senior Agent', 'Agent', 'Customer']);
+
+it('still lets an administrator delete a custom role', function () {
+    $admin = actingAsAdministrator();
+
+    $roleId = $this->actingAs($admin, 'api')
+        ->postJson('/api/v1/roles', ['name' => 'Temporary Reviewer', 'permissions' => ['tickets.view']])
+        ->assertCreated()
+        ->json('data.id');
+
+    $this->actingAs($admin, 'api')
+        ->deleteJson("/api/v1/roles/{$roleId}")
+        ->assertOk();
+
+    expect(Role::whereKey($roleId)->exists())->toBeFalse();
 });
 
 it('forbids a non-admin from viewing roles', function () {

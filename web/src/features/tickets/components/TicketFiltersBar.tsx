@@ -45,6 +45,7 @@ export function TicketFiltersBar({ filters, onChange, statuses, priorities, depa
             type="text"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
+            aria-label="Search tickets"
             placeholder="Search tickets by subject, TKT-#, keywords…"
             className="h-9 w-full rounded-lg bg-surface-container-low pr-3 pl-9 text-body-sm text-on-surface placeholder:text-secondary focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:outline-none"
           />
@@ -52,6 +53,7 @@ export function TicketFiltersBar({ filters, onChange, statuses, priorities, depa
         <div className="flex flex-wrap items-center gap-2 xl:col-span-8">
           <SelectField
             value={filters.statusId ?? ''}
+            aria-label="Filter by status"
             onChange={(e) => update({ statusId: e.target.value ? Number(e.target.value) : undefined })}
             containerClassName="w-auto"
             className="h-9"
@@ -65,6 +67,7 @@ export function TicketFiltersBar({ filters, onChange, statuses, priorities, depa
           </SelectField>
           <SelectField
             value={filters.priorityId ?? ''}
+            aria-label="Filter by priority"
             onChange={(e) => update({ priorityId: e.target.value ? Number(e.target.value) : undefined })}
             containerClassName="w-auto"
             className="h-9"
@@ -78,6 +81,7 @@ export function TicketFiltersBar({ filters, onChange, statuses, priorities, depa
           </SelectField>
           <SelectField
             value={filters.departmentId ?? ''}
+            aria-label="Filter by department"
             onChange={(e) => update({ departmentId: e.target.value ? Number(e.target.value) : undefined })}
             containerClassName="w-auto"
             className="h-9"
@@ -91,6 +95,7 @@ export function TicketFiltersBar({ filters, onChange, statuses, priorities, depa
           </SelectField>
           <SelectField
             value={filters.slaStatus ?? ''}
+            aria-label="Filter by SLA status"
             onChange={(e) => update({ slaStatus: (e.target.value || undefined) as TicketFilters['slaStatus'] })}
             containerClassName="w-auto"
             className="h-9"

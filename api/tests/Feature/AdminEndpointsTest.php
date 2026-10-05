@@ -7,17 +7,10 @@ use App\Models\NotificationTemplate;
 use App\Models\SystemSetting;
 use App\Models\Ticket;
 use Database\Seeders\NotificationTemplateSeeder;
-use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\TicketPrioritySeeder;
-use Database\Seeders\TicketStatusSeeder;
 
 beforeEach(function () {
-    $this->seed([
-        RolesAndPermissionsSeeder::class,
-        TicketStatusSeeder::class,
-        TicketPrioritySeeder::class,
-        NotificationTemplateSeeder::class,
-    ]);
+    testTenant();
+    $this->seed(NotificationTemplateSeeder::class);
 });
 
 it('lets a user view and update their own notification preferences', function () {

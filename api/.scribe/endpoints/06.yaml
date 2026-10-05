@@ -1,29 +1,27 @@
-name: Categories
+name: Customers
 description: |-
 
-  Ticket categories and subcategories. A "subcategory" is simply another
-  row with parent_id set — see the architecture docs for why this
-  replaces a separate child-categories table.
+  Customer profiles. Every customer is backed by a `User` record with
+  the `Customer` role; this resource manages the additional profile
+  fields (company, customer type) layered on top of it.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/categories
+    uri: api/v1/customers
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Customers
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Customer profiles. Every customer is backed by a `User` record with
+        the `Customer` role; this resource manages the additional profile
+        fields (company, customer type) layered on top of it.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List categories'
-      description: |-
-        Returns top-level categories with their children eager-loaded.
-        Use filter[parent_id]=null to explicitly list only root categories.
+      title: 'List customers'
+      description: ''
       authenticated: true
       deprecated: false
     headers:
@@ -33,23 +31,23 @@ endpoints:
     urlParameters: []
     cleanUrlParameters: []
     queryParameters:
-      'filter[department_id]':
+      'filter[customer_type]':
         custom: []
-        name: 'filter[department_id]'
-        description: 'Filter by department.'
+        name: 'filter[customer_type]'
+        description: 'individual, business or vip.'
         required: false
-        example: '2'
+        example: business
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      'filter[is_active]':
+      'filter[company_name]':
         custom: []
-        name: 'filter[is_active]'
-        description: 'Filter by active status.'
+        name: 'filter[company_name]'
+        description: 'Partial match.'
         required: false
-        example: 'true'
+        example: Acme
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -58,18 +56,30 @@ endpoints:
       sort:
         custom: []
         name: sort
-        description: 'Sort by name or sort_order.'
+        description: 'Sort by created_at.'
         required: false
-        example: sort_order
+        example: '-created_at'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Items per page (max 100).'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
     cleanQueryParameters:
-      'filter[department_id]': '2'
-      'filter[is_active]': 'true'
-      sort: sort_order
+      'filter[customer_type]': business
+      'filter[company_name]': Acme
+      sort: '-created_at'
+      per_page: 25
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -77,7 +87,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Billing", "children": []}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "company_name": "Acme Corp"}]}'
         headers: []
         description: ''
     responseFields: []
@@ -92,19 +102,22 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/v1/categories
+    uri: api/v1/customers
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Customers
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Customer profiles. Every customer is backed by a `User` record with
+        the `Customer` role; this resource manages the additional profile
+        fields (company, customer type) layered on top of it.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create a category'
-      description: ''
+      title: 'Create a customer (admin-created account)'
+      description: |-
+        Creates a User with the Customer role plus its Customer profile in
+        a single call, for support staff onboarding a customer by hand.
+        For self-service signup, use POST /auth/register instead.
       authenticated: true
       deprecated: false
     headers:
@@ -121,92 +134,104 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: Billing
+        example: 'Jamie Rivera'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      slug:
+      email:
         custom: []
-        name: slug
-        description: 'Must not be greater than 255 characters.'
+        name: email
+        description: ''
         required: true
-        example: 'n'
+        example: jamie@example.com
         type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
         deprecated: false
-      parent_id:
+      password:
         custom: []
-        name: parent_id
-        description: 'Parent category id, omit for a top-level category.'
-        required: false
-        example: null
-        type: integer
+        name: password
+        description: ''
+        required: true
+        example: Secret123!
+        type: string
         enumValues: []
         exampleWasSpecified: true
-        nullable: true
+        nullable: false
         deprecated: false
-      department_id:
+      phone:
         custom: []
-        name: department_id
-        description: 'Department this category routes to.'
-        required: false
-        example: 2
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      description:
-        custom: []
-        name: description
+        name: phone
         description: ''
         required: false
-        example: 'Invoicing and payment questions.'
+        example: +1-555-0100
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: true
         deprecated: false
-      is_active:
+      company_name:
         custom: []
-        name: is_active
-        description: 'Defaults to true.'
+        name: company_name
+        description: ''
         required: false
-        example: true
-        type: boolean
+        example: 'Acme Corp'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      customer_type:
+        custom: []
+        name: customer_type
+        description: 'individual, business or vip. Defaults to individual.'
+        required: false
+        example: business
+        type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      sort_order:
+      external_id:
         custom: []
-        name: sort_order
-        description: 'Defaults to 0.'
+        name: external_id
+        description: "This tenant's own identifier for the customer (CRM id, account number, etc.), unique within this tenant."
         required: false
-        example: 1
-        type: integer
+        example: CRM-10293
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      password_confirmation:
+        custom: []
+        name: password_confirmation
+        description: ''
+        required: true
+        example: Secret123!
+        type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: Billing
-      slug: 'n'
-      parent_id: null
-      department_id: 2
-      description: 'Invoicing and payment questions.'
-      is_active: true
-      sort_order: 1
+      name: 'Jamie Rivera'
+      email: jamie@example.com
+      password: Secret123!
+      phone: +1-555-0100
+      company_name: 'Acme Corp'
+      customer_type: business
+      external_id: CRM-10293
+      password_confirmation: Secret123!
     fileParameters: []
     responses:
       -
         custom: []
         status: 201
-        content: '{"success": true, "message": "Category created successfully.", "data": {"id": 5, "name": "Billing"}}'
+        content: '{"success": true, "message": "Customer created successfully.", "data": {"id": 4, "company_name": "Acme Corp"}}'
         headers: []
         description: ''
     responseFields: []
@@ -221,18 +246,18 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/categories/{id}'
+    uri: 'api/v1/customers/{customer_id}'
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Customers
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Customer profiles. Every customer is backed by a `User` record with
+        the `Customer` role; this resource manages the additional profile
+        fields (company, customer type) layered on top of it.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get a category'
+      title: 'Get a customer'
       description: ''
       authenticated: true
       deprecated: false
@@ -241,10 +266,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      id:
+      customer_id:
         custom: []
-        name: id
-        description: 'The ID of the category.'
+        name: customer_id
+        description: 'The ID of the customer.'
         required: true
         example: 1
         type: integer
@@ -253,7 +278,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      customer_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -263,7 +288,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Billing"}}'
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "company_name": "Acme Corp"}}'
         headers: []
         description: ''
     responseFields: []
@@ -278,19 +303,18 @@ endpoints:
     custom: []
     httpMethods:
       - PUT
-      - PATCH
-    uri: 'api/v1/categories/{id}'
+    uri: 'api/v1/customers/{customer_id}'
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Customers
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Customer profiles. Every customer is backed by a `User` record with
+        the `Customer` role; this resource manages the additional profile
+        fields (company, customer type) layered on top of it.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update a category'
+      title: 'Update a customer'
       description: ''
       authenticated: true
       deprecated: false
@@ -299,10 +323,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      id:
+      customer_id:
         custom: []
-        name: id
-        description: 'The ID of the category.'
+        name: customer_id
+        description: 'The ID of the customer.'
         required: true
         example: 1
         type: integer
@@ -311,101 +335,77 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      customer_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      name:
+      phone:
         custom: []
-        name: name
+        name: phone
         description: ''
         required: false
-        example: 'Billing & Payments'
+        example: +1-555-0199
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      company_name:
+        custom: []
+        name: company_name
+        description: ''
+        required: false
+        example: 'Acme Corporation'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      customer_type:
+        custom: []
+        name: customer_type
+        description: ''
+        required: false
+        example: vip
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      slug:
+      timezone:
         custom: []
-        name: slug
-        description: 'Must not be greater than 255 characters.'
+        name: timezone
+        description: 'Must not be greater than 64 characters.'
         required: false
-        example: 'n'
+        example: Antarctica/Rothera
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-      parent_id:
+      external_id:
         custom: []
-        name: parent_id
+        name: external_id
         description: ''
         required: false
-        example: null
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      department_id:
-        custom: []
-        name: department_id
-        description: ''
-        required: false
-        example: 2
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      description:
-        custom: []
-        name: description
-        description: ''
-        required: false
-        example: 'Eius et animi quos velit et.'
+        example: CRM-10293
         type: string
         enumValues: []
-        exampleWasSpecified: false
-        nullable: true
-        deprecated: false
-      is_active:
-        custom: []
-        name: is_active
-        description: ''
-        required: false
-        example: true
-        type: boolean
-        enumValues: []
         exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      sort_order:
-        custom: []
-        name: sort_order
-        description: 'Must be at least 0.'
-        required: false
-        example: 60
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
+        nullable: true
         deprecated: false
     cleanBodyParameters:
-      name: 'Billing & Payments'
-      slug: 'n'
-      parent_id: null
-      department_id: 2
-      description: 'Eius et animi quos velit et.'
-      is_active: true
-      sort_order: 60
+      phone: +1-555-0199
+      company_name: 'Acme Corporation'
+      customer_type: vip
+      timezone: Antarctica/Rothera
+      external_id: CRM-10293
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Category updated successfully.", "data": {"id": 1, "name": "Billing & Payments"}}'
+        content: '{"success": true, "message": "Customer updated successfully.", "data": {"id": 1, "company_name": "Acme Corporation"}}'
         headers: []
         description: ''
     responseFields: []
@@ -420,21 +420,21 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/v1/categories/{id}'
+    uri: 'api/v1/customers/{customer_id}'
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Customers
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Customer profiles. Every customer is backed by a `User` record with
+        the `Customer` role; this resource manages the additional profile
+        fields (company, customer type) layered on top of it.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a category'
+      title: 'Delete a customer'
       description: |-
-        Soft-deletes the category and cascades to its subcategories.
-        Tickets already in this category keep their category_id.
+        Soft-deletes the customer profile and the underlying user account.
+        Their tickets are retained for historical reporting.
       authenticated: true
       deprecated: false
     headers:
@@ -442,10 +442,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      id:
+      customer_id:
         custom: []
-        name: id
-        description: 'The ID of the category.'
+        name: customer_id
+        description: 'The ID of the customer.'
         required: true
         example: 1
         type: integer
@@ -454,7 +454,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      customer_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -464,7 +464,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Category deleted successfully.", "data": null}'
+        content: '{"success": true, "message": "Customer deleted successfully.", "data": null}'
         headers: []
         description: ''
     responseFields: []

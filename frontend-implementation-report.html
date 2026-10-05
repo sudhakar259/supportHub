@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support24 — Frontend Implementation Report</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --panel-2: #1d2129;
+    --border: #2a2f3a;
+    --text: #e6e8ec;
+    --muted: #9aa3b2;
+    --accent: #5b8def;
+    --good: #3fb950;
+    --warn: #e3b341;
+    --bad: #f85149;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 80px; }
+  header.hero {
+    padding: 56px 24px 40px;
+    background: linear-gradient(180deg, #161b26 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  header.hero .wrap { padding: 0; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  .subtitle { color: var(--muted); font-size: 15px; margin: 0 0 24px; }
+  .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    font-size: 13px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--panel); color: var(--text); font-weight: 600;
+  }
+  .badge.good { border-color: #2a4a2f; background: #15271a; color: var(--good); }
+  .badge.bad { border-color: #4a2a2a; background: #271515; color: var(--bad); }
+  .badge.warn { border-color: #4a3f1a; background: #272015; color: var(--warn); }
+  nav.toc {
+    margin: 32px 0; padding: 20px 24px; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  nav.toc h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 12px; border: none; padding: 0; }
+  nav.toc ol { margin: 0; padding-left: 20px; columns: 2; gap: 24px; }
+  nav.toc li { margin-bottom: 6px; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-size: 14px; }
+  nav.toc a:hover { text-decoration: underline; }
+  section { margin: 48px 0; }
+  h2 {
+    font-size: 21px; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .num { color: var(--accent); font-family: var(--mono); font-size: 15px; }
+  h3 { font-size: 16px; margin: 24px 0 10px; color: var(--text); }
+  h4 { font-size: 14px; margin: 18px 0 8px; color: var(--text); }
+  p { color: #cfd3dc; }
+  .muted { color: var(--muted); }
+  code, pre, .mono { font-family: var(--mono); font-size: 13px; }
+  code { background: #1f2330; padding: 2px 6px; border-radius: 4px; color: #c9d3f0; }
+  pre {
+    background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; overflow-x: auto; color: #c9d3f0;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  tr:last-child td { border-bottom: none; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px;
+    margin: 14px 0;
+  }
+  .sev { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 6px; text-transform: uppercase; letter-spacing: .03em; }
+  .sev.done { background: #15271a; color: var(--good); border: 1px solid #2a4a2f; }
+  .sev.partial { background: #272015; color: var(--warn); border: 1px solid #4a3f1a; }
+  .sev.gap { background: #2a1416; color: #ff7b72; border: 1px solid #5a2326; }
+  .finding { border-left: 3px solid var(--accent); }
+  .finding.gap { border-left-color: var(--bad); }
+  .finding.fixed { border-left-color: var(--good); }
+  .finding h4 { margin: 0 0 8px; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+  .finding .meta { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .finding dl { margin: 10px 0 0; }
+  .finding dt { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-top: 10px; }
+  .finding dd { margin: 4px 0 0; color: #cfd3dc; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .stat {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; text-align: center;
+  }
+  .stat .n { font-size: 28px; font-weight: 700; color: var(--accent); }
+  .stat .n.good { color: var(--good); }
+  .stat .l { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 16px 0; }
+  ul.clean { padding-left: 20px; }
+  ul.clean li { margin-bottom: 6px; color: #cfd3dc; }
+  .ok::before { content: "✓ "; color: var(--good); font-weight: 700; }
+  .no::before { content: "✗ "; color: var(--bad); font-weight: 700; }
+  .pending::before { content: "○ "; color: var(--muted); font-weight: 700; }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0 10px; border-top: 1px solid var(--border); margin-top: 60px; }
+  @media (max-width: 720px) {
+    nav.toc ol { columns: 1; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Support24 — Frontend Implementation Report</h1>
+    <p class="subtitle">Multi-tenant SaaS UI built in React against the real Laravel API, from <code>design/tenant/</code> Stitch screens — generated 2026-10-04</p>
+    <div class="badges">
+      <span class="badge good">7 / 7 roadmap phases complete</span>
+      <span class="badge good">Build + lint clean</span>
+      <span class="badge good">All phases verified live against the real backend</span>
+      <span class="badge warn">6 known gaps — no backend support, documented below</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#summary">Executive Summary</a></li>
+    <li><a href="#phases">What Was Built, By Phase</a></li>
+    <li><a href="#principles">Core Principles Followed</a></li>
+    <li><a href="#security">Security-Sensitive Decisions</a></li>
+    <li><a href="#mismatches">Design ↔ API Mismatches</a></li>
+    <li><a href="#gaps">Known Gaps (Not Built, and Why)</a></li>
+    <li><a href="#bugs">Bugs Found and Fixed During Verification</a></li>
+    <li><a href="#verification">How This Was Tested</a></li>
+    <li><a href="#files">File Inventory</a></li>
+  </ol>
+</nav>
+
+<section id="summary">
+  <h2><span class="num">01</span> Executive Summary</h2>
+  <p>
+    The existing SupportHub ticketing frontend (<code>web/</code>) was extended into a full multi-tenant SaaS product
+    surface: tenant-aware authentication, self-service registration and pricing, an onboarding wizard, API
+    credentials and webhooks management, checkout/billing, and a Platform Admin console for tenant and
+    membership-plan management. Every screen is wired to the real Laravel API — nothing in this build reads from
+    mock data or a hardcoded fixture. Where the Laravel API didn't yet support something the Stitch designs
+    depicted, the gap was either closed with a small, real, well-scoped backend addition (documented per phase
+    below) or the screen was built honestly without the unsupported piece, with that omission called out rather
+    than faked.
+  </p>
+  <div class="stats-row">
+    <div class="stat"><div class="n good">7</div><div class="l">Phases shipped</div></div>
+    <div class="stat"><div class="n good">10</div><div class="l">New feature folders</div></div>
+    <div class="stat"><div class="n">~60</div><div class="l">New/changed frontend files</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">Automated frontend tests (none existed before this work)</div></div>
+  </div>
+</section>
+
+<section id="phases">
+  <h2><span class="num">02</span> What Was Built, By Phase</h2>
+
+  <div class="card finding fixed">
+    <h4>Phase 1 — Foundation <span class="sev done">Done</span></h4>
+    <div class="meta">Tenant-aware auth · Platform Admin vs. tenant-workspace route split</div>
+    <p>
+      Login/forgot-password/reset-password all accept an optional organization slug (collapsed "Signing in to a
+      specific organization?" field), used only to disambiguate when the same email exists under more than one
+      tenant. A new <code>isPlatformAdmin</code> flag on the auth context (derived from the <code>Platform Admin</code>
+      role, the only correct signal — <code>UserResource</code> never serializes a tenant id) drives a full
+      route-tree split: <code>RequireTenantUser</code>/<code>RequirePlatformAdmin</code> guards redirect — never
+      error — a user into the correct half of the app, with a new minimal <code>PlatformShell</code> (header + small
+      nav) for the admin side.
+    </p>
+    <p class="muted">Also fixed along the way: the dev database had never had the 12 multi-tenant migrations applied, a
+      real FK/index-ordering bug in one of them, and a genuine application bug where three controllers built their
+      <code>roles</code>/<code>permissions</code> response after the tenant context had already been cleared.</p>
+  </div>
+
+  <div class="card finding fixed">
+    <h4>Phase 2 — API Credentials <span class="sev done">Done</span></h4>
+    <div class="meta">/integrations/api-credentials</div>
+    <p>
+      Full CRUD against the real <code>ApiCredentialController</code>: grouped scope selection, one-time secret
+      reveal (never re-fetchable, held only in local component state), rotate, and revoke behind a type-to-confirm
+      safeguard. The design's IP-allowlist step and production/sandbox toggle were dropped — no backing column
+      exists for either.
+    </p>
+  </div>
+
+  <div class="card finding fixed">
+    <h4>Phase 2B — Webhooks <span class="sev done">Done</span></h4>
+    <div class="meta">/integrations/webhooks</div>
+    <p>
+      Full CRUD, event subscription (8 real event types), one-time signing-secret reveal, rotate, test-send, and a
+      genuinely server-paginated delivery log. The secret-reveal UI from Phase 2 was generalized into a shared
+      <code>components/security/SecretReveal.tsx</code> rather than duplicated. No dedicated Stitch screen exists for
+      this surface — extrapolated from the same design system.
+    </p>
+  </div>
+
+  <div class="card finding fixed">
+    <h4>Phase 3A — Registration + Pricing <span class="sev done">Done</span></h4>
+    <div class="meta">/register · /pricing</div>
+    <p>
+      Self-service tenant registration (org name, live slug-availability check, password strength meter) against
+      <code>POST /tenants/register</code>, and a pricing page driven entirely by real <code>MembershipPlan</code>
+      rows (a small new public <code>GET /membership-plans</code> endpoint was added for this — the only backend
+      change in this phase). The design's per-agent pricing toggle and data-residency region picker were dropped —
+      the real plan model has one flat price per plan and no residency field.
+    </p>
+  </div>
+
+  <div class="card finding fixed">
+    <h4>Phase 3B — Onboarding Wizard <span class="sev done">Done</span></h4>
+    <div class="meta">/onboarding</div>
+    <p>
+      A 5-step wizard (Departments → Team → Ticket Numbers → API Integration → Complete) built from real endpoints,
+      including a new, small <code>TicketNumberSetting</code> endpoint so the ticket-number-format step configures
+      something real. The design's 6-step version included an "Organization Profile" step with no backing
+      tenant-self-service endpoint — dropped rather than faked.
+    </p>
+    <p class="muted">Team invites never transmit a plaintext password: when an admin omits one, the backend generates
+      and hashes a random password server-side and immediately sends the same real password-reset email flow already
+      used elsewhere, so the new teammate sets their own password before ever signing in.</p>
+  </div>
+
+  <div class="card finding fixed">
+    <h4>Phase 3C — Checkout + Billing <span class="sev done">Done</span></h4>
+    <div class="meta">/billing · /billing/checkout</div>
+    <p>
+      A new, small, real <code>SubscriptionController</code> (view/change-plan/cancel) was added, reusing the
+      existing <code>PlanLimitService</code> for live per-feature usage bars — no duplicated counting logic. Plan
+      changes and cancellation are completely real; only payment collection is out of scope (confirmed true for
+      every tenant on every plan, not just new ones). The payment UI is an obviously-fake, read-only, pre-filled card
+      with a persistent "Demo mode" banner — never an editable field that could be mistaken for a real capture form.
+    </p>
+  </div>
+
+  <div class="card finding fixed">
+    <h4>Phase 4 — Platform Admin Console <span class="sev done">Done</span></h4>
+    <div class="meta">/platform/dashboard · /platform/tenants · /platform/membership-plans</div>
+    <p>
+      Tenant list/filter/search, tenant detail with inline edit + suspend/activate, and membership-plan list/create/edit
+      — the first phase built entirely against an already-complete backend (<code>Platform/TenantController</code>
+      and <code>Platform/MembershipPlanController</code>), with no backend changes needed. A dashboard shows real,
+      cheaply-computed tenant counts by status and plan counts rather than fabricated metrics (no MRR, no churn —
+      nothing backs those). No tenant or plan delete exists in the API, so none exists in this UI; plans are archived
+      via their real <code>is_active</code> flag instead.
+    </p>
+  </div>
+</section>
+
+<section id="principles">
+  <h2><span class="num">03</span> Core Principles Followed</h2>
+  <ul class="clean">
+    <li class="ok">Every screen reads from and writes to the real Laravel API — no hardcoded or mock data anywhere in the shipped build.</li>
+    <li class="ok">Where design and API disagreed, the API's actual contract won every time — confirmed against controller/policy/resource/model source, never guessed.</li>
+    <li class="ok">Backend additions were kept small, real, and narrowly scoped to unblock a specific screen (public plans endpoint, ticket-number-settings endpoint, subscription endpoint) — never a shortcut to fake a response shape.</li>
+    <li class="ok">Existing components and patterns were reused or generalized (e.g. <code>SecretReveal</code>, <code>ConfirmDialog</code>'s type-to-confirm, <code>DataTable</code>/<code>Pagination</code>, the Raw/mapped type-pair convention) rather than rebuilt per screen.</li>
+    <li class="ok">Tenant isolation was never compromised — every tenant-scoped request still goes through the existing <code>TenantContext</code>/<code>BelongsToTenant</code> machinery; the Platform Admin surface is a separate, role-gated branch of the route tree that cannot see into a specific tenant's workspace.</li>
+  </ul>
+</section>
+
+<section id="security">
+  <h2><span class="num">04</span> Security-Sensitive Decisions</h2>
+  <table>
+    <tr><th>Decision</th><th>Reasoning</th></tr>
+    <tr><td>One-time secret reveal (API credentials, webhook signing secrets)</td><td>Secret is held only in local component state from the create/rotate response, never written to any list/cache, cleared on unmount. The API itself never re-exposes it after the initial response.</td></tr>
+    <tr><td>Type-to-confirm on irreversible actions</td><td>Revoking an API credential requires typing its key; cancelling a subscription requires typing the plan slug. Extended <code>ConfirmDialog</code> with an optional <code>confirmText</code> prop rather than building a one-off dialog.</td></tr>
+    <tr><td>No plaintext passwords ever transmitted</td><td>Team invites and admin-created users default to "email a sign-in link" — the backend generates and hashes a random password server-side and sends a real password-reset email, reusing existing infrastructure instead of a new forced-reset flag.</td></tr>
+    <tr><td>Demo payment card is read-only, not a fake capture form</td><td>An editable card-number field that silently discards input trains people to type real card numbers into a form that does nothing with them. The demo card is fixed, labeled "DEMO", with a persistent banner on both the Billing and Checkout pages.</td></tr>
+    <tr><td>Route guards redirect, never 403-page</td><td><code>RequireTenantUser</code>/<code>RequirePlatformAdmin</code> send a user to the correct half of the app instead of showing an error — the real authorization boundary is still the API's own <code>platform.admin</code> middleware and tenant-scoped policies; the frontend guard is UX only.</td></tr>
+  </table>
+</section>
+
+<section id="mismatches">
+  <h2><span class="num">05</span> Design ↔ API Mismatches (Resolved in the API's Favor)</h2>
+  <table>
+    <tr><th>Design showed</th><th>Reality</th><th>Resolution</th></tr>
+    <tr><td>4-step API credential wizard with IP allowlist + prod/sandbox toggle</td><td>No backing column for either field</td><td>Single-page form: name + scopes only</td></tr>
+    <tr><td>Revoke dialog with live telemetry and a SOC-2 reason dropdown</td><td>No corresponding request field or data source</td><td>Kept the real parts: irreversibility warning + type-to-confirm</td></tr>
+    <tr><td>Credential/webhook detail tabs: IP Allowlist, Rate Limits, Audit Trail</td><td>Only Overview/Scopes are backed by real data</td><td>Single page, no empty tabs</td></tr>
+    <tr><td>Registration form with split First/Last name</td><td>Backend takes one <code>owner_name</code> field</td><td>Single "Full Name" field, no fake concatenation</td></tr>
+    <tr><td>Pricing with per-agent price + monthly/annual toggle</td><td>One flat <code>price_cents</code> + one fixed interval per plan row</td><td>Render the real price/interval as-is, no toggle, no per-seat math</td></tr>
+    <tr><td>6-step onboarding incl. "Organization Profile" step</td><td>No tenant-self-service read/write endpoint exists</td><td>Step dropped — nothing left to configure that registration didn't already capture</td></tr>
+    <tr><td>Checkout card-number/CVC capture form</td><td>No payment gateway exists anywhere in the system, for any tenant</td><td>Obviously-fake, read-only, labeled demo card + persistent banner</td></tr>
+  </table>
+</section>
+
+<section id="gaps">
+  <h2><span class="num">06</span> Known Gaps — Not Built, and Why</h2>
+  <p>Each of these was confirmed absent by reading the actual backend source, not assumed. None are silently missing — all are reflected here and, where relevant, in the UI itself (e.g. an honest empty state instead of a broken control).</p>
+
+  <div class="card finding gap">
+    <h4>API Usage analytics (Phase 2C) <span class="sev gap">No backend</span></h4>
+    <dl><dd>No endpoint exists anywhere for per-credential or per-tenant API request metering. The design's usage/quota dashboard has nothing to read from.</dd></dl>
+  </div>
+  <div class="card finding gap">
+    <h4>Platform-level audit log viewer <span class="sev gap">No backend</span></h4>
+    <dl><dd>The existing <code>GET /audit-logs</code> is tenant-scoped and permission-gated — unreachable by a Platform Admin (no tenant context). Worse, <code>AuditLog</code> uses the tenant-scoping trait, so platform-admin-authored rows get <code>tenant_id = NULL</code> and wouldn't appear even if the endpoint were reachable.</dd></dl>
+  </div>
+  <div class="card finding gap">
+    <h4>Platform Admin changing a tenant's plan <span class="sev gap">No backend</span></h4>
+    <dl><dd>A tenant's subscription is only mutable by the tenant itself via its own <code>/subscription</code> endpoint. The tenant detail page in the Platform console shows the current plan read-only with an explanatory note, rather than a control with nothing behind it.</dd></dl>
+  </div>
+  <div class="card finding gap">
+    <h4>Tenant or membership-plan deletion <span class="sev gap">No backend</span></h4>
+    <dl><dd>Only suspend/activate exist for tenants (reversible); only <code>is_active</code> toggling exists for plans. No delete UI was built for either, matching the API exactly.</dd></dl>
+  </div>
+  <div class="card finding gap">
+    <h4>Real payment processing <span class="sev gap">Explicitly out of scope</span></h4>
+    <dl><dd>Confirmed true for every tenant on every plan today, not just ones created during this work — billing integration was never built anywhere in this system. Represented visually (demo card, invoices empty state) but never functionally real.</dd></dl>
+  </div>
+  <div class="card finding gap">
+    <h4>No automated frontend test suite <span class="sev gap">Pre-existing gap</span></h4>
+    <dl><dd>No unit/integration/E2E test tooling existed in <code>web/</code> before or after this work. Every phase was instead verified with <code>npm run build</code> + <code>npm run lint</code> (both clean) and live Playwright scripts driving a real browser against the real Docker backend — see §8.</dd></dl>
+  </div>
+</section>
+
+<section id="bugs">
+  <h2><span class="num">07</span> Bugs Found and Fixed During Verification</h2>
+  <p>Live verification (not mocked) surfaced a handful of genuine application bugs, all fixed in this same body of work:</p>
+
+  <div class="card finding fixed">
+    <h4>Role/permissions missing after login, me, and registration <span class="sev done">Fixed</span></h4>
+    <dl><dd><code>AuthController::login()</code>, <code>AuthController::me()</code>, and <code>TenantController::register()</code> all serialized the user's <code>roles</code>/<code>permissions</code> after the request's tenant context had already been cleared, so the team-scoped role lookup matched nothing. Fixed by setting the tenant context before loading roles in all three.</dd></dl>
+  </div>
+  <div class="card finding fixed">
+    <h4>Migration index/FK ordering <span class="sev done">Fixed</span></h4>
+    <dl><dd>A tenant-backfill migration dropped an index MySQL's InnoDB still needed for a foreign key, and wasn't safe to re-run. Reordered and made idempotent.</dd></dl>
+  </div>
+  <div class="card finding fixed">
+    <h4>Docker Compose silently defaulting to SQLite <span class="sev done">Fixed</span></h4>
+    <dl><dd><code>app</code>/<code>queue</code>/<code>scheduler</code> services only loaded <code>.env</code> via <code>env_file</code>, which defaults to SQLite for host-side dev — nothing overrode it for the Docker path, so the containers were reading a different database than every manual check against. Fixed with explicit <code>environment:</code> DB/Redis/Mail overrides.</dd></dl>
+  </div>
+  <div class="card finding fixed">
+    <h4>Subscription <code>cancelled_at</code> not cleared on plan change <span class="sev done">Fixed</span></h4>
+    <dl><dd>Self-caught in the new <code>SubscriptionController::update()</code> — switching plans after a cancellation left the old <code>cancelled_at</code> timestamp in place. Added to the update payload.</dd></dl>
+  </div>
+  <div class="card finding fixed">
+    <h4>Platform tenant detail page blanking its Subscription panel after any edit <span class="sev done">Fixed</span></h4>
+    <dl><dd>Found during Phase 4 live verification: <code>TenantController::update()</code>/<code>suspend()</code>/<code>activate()</code> all return a <code>TenantResource</code> without eager-loading <code>subscription</code> or the users/customers/tickets counts the way <code>show()</code> does. The frontend was trusting each mutation's own response to replace the whole tenant object, silently wiping the Subscription card and stat row after every save/suspend/activate. Fixed by refetching the full resource via <code>GET</code> after each mutation instead.</dd></dl>
+  </div>
+</section>
+
+<section id="verification">
+  <h2><span class="num">08</span> How This Was Tested</h2>
+  <p>
+    Every phase was verified with <code>npm run build</code> and <code>npm run lint</code> (both clean throughout —
+    the few lint warnings present are a pre-existing codebase-wide pattern, not something this work introduced), plus
+    live browser verification via Playwright driving the real compiled app against the real Docker backend (MySQL,
+    Redis, Mailpit) — not network-mocked, except briefly early on while a dev-server/database misconfiguration (see
+    §7) was being diagnosed and fixed.
+  </p>
+  <p>Representative live checks performed per phase: real login/registration round-trips confirmed against the
+    database directly; password-reset emails confirmed by reading them out of Mailpit, including following the real
+    signed verification link; plan changes confirmed via a fresh <code>GET</code> after every mutation; a Platform
+    Admin suspending a tenant confirmed to actually block that tenant's users from authenticating, not just flip a
+    cosmetic status badge; Phase 4's full suite (16 checks: login landing, dashboard metrics, list/filter/search,
+    detail edit+save, suspend/activate round-trip, plan create/edit, and a regression check that a tenant user still
+    gets redirected out of <code>/platform/*</code>) passing end-to-end against live data.</p>
+  <p class="muted">What this does <em>not</em> cover: no automated regression suite exists to catch future breakage —
+    see the gap noted in §6. Testing was limited to the account types exercised during these sessions (a tenant
+    Administrator, a Platform Admin, and newly-registered/onboarded tenants); other role/permission combinations in
+    the existing RBAC system were not separately re-verified as part of this SaaS work.</p>
+</section>
+
+<section id="files">
+  <h2><span class="num">09</span> File Inventory</h2>
+  <h3>New frontend feature folders (<code>web/src/features/</code>)</h3>
+  <table>
+    <tr><th>Folder</th><th>Phase</th><th>Contents</th></tr>
+    <tr><td><code>integrations/</code></td><td>2</td><td>API credentials: types, API client, hook, scope selector, list/create/detail pages</td></tr>
+    <tr><td><code>webhooks/</code></td><td>2B</td><td>Webhooks: types, API client, hooks, form modal, list/deliveries pages</td></tr>
+    <tr><td><code>tenants/</code></td><td>3A</td><td>Public registration/pricing: types, tenant + membership-plan API clients, hook, registration/pricing pages</td></tr>
+    <tr><td><code>onboarding/</code></td><td>3B</td><td>5-step wizard: types, ticket-number-settings API client, 5 step components, wizard page</td></tr>
+    <tr><td><code>billing/</code></td><td>3C</td><td>Tenant self-service billing: types, subscription API client, hook, usage bar + demo card components, billing/checkout pages</td></tr>
+    <tr><td><code>platform/</code></td><td>4</td><td>Platform Admin console: types, tenant + plan admin API clients, list hook, plan form modal, dashboard/tenants/tenant-detail/plans pages</td></tr>
+  </table>
+  <h3>New shared components</h3>
+  <ul class="clean">
+    <li><code>components/layout/PlatformShell.tsx</code> — Platform Admin chrome (header + small nav)</li>
+    <li><code>components/security/SecretReveal.tsx</code> — generalized one-time secret display (credentials + webhooks)</li>
+    <li><code>components/ui/Switch.tsx</code>, <code>utils/money.ts</code> — small reusable primitives introduced along the way</li>
+  </ul>
+  <h3>New backend additions (all small, real, narrowly scoped)</h3>
+  <ul class="clean">
+    <li><code>MembershipPlanController</code> (public <code>index</code>) + <code>routes/api/plans.php</code></li>
+    <li><code>TicketNumberSettingController</code> + request/resource + <code>routes/api/ticket-number-settings.php</code></li>
+    <li><code>SubscriptionController</code> (tenant self-service view/update/cancel) + request + <code>routes/api/subscription.php</code></li>
+    <li><code>StoreUserRequest</code>/<code>UserController::store()</code> — optional password, real-email sign-in-link flow</li>
+    <li><code>AuthController</code>/<code>TenantController</code> — tenant-context-before-role-loading fix</li>
+  </ul>
+  <p class="muted">The Platform Admin backend (<code>Platform/TenantController</code>, <code>Platform/MembershipPlanController</code>,
+    the <code>platform.admin</code> middleware, and all <code>/platform/*</code> routes) already existed in full before
+    Phase 4 began — confirmed by direct source read — so Phase 4 required no backend changes at all, the first phase
+    where that was true.</p>
+</section>
+
+</div>
+
+<footer>
+  Support24 Frontend Implementation Report — generated 2026-10-04 · Built against the live Laravel API, not mock data
+</footer>
+
+</body>
+</html>

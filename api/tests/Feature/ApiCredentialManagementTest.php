@@ -3,10 +3,9 @@
 use App\Models\ApiCredential;
 use App\Models\Tenant;
 use App\Services\TenantProvisioningService;
-use Database\Seeders\RolesAndPermissionsSeeder;
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 it('creates an API credential and returns the plain secret exactly once', function () {

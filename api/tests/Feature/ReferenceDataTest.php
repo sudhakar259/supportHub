@@ -4,18 +4,11 @@ use App\Models\Customer;
 use App\Models\TicketCategory;
 use App\Models\TicketPriority;
 use App\Models\TicketStatus;
-use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\TicketPrioritySeeder;
-use Database\Seeders\TicketStatusSeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 beforeEach(function () {
-    $this->seed([
-        RolesAndPermissionsSeeder::class,
-        TicketStatusSeeder::class,
-        TicketPrioritySeeder::class,
-    ]);
+    testTenant();
 });
 
 it('lets an admin manage categories including subcategories', function () {
@@ -57,6 +50,7 @@ it('refuses to delete a status that is in use by a ticket', function () {
     // A ticket factory belongs to a later phase; simulate usage directly.
     DB::table('tickets')->insert([
         'id' => (string) Str::ulid(),
+        'tenant_id' => testTenant()->id,
         'ticket_number' => 'TKT-TEST-1',
         'customer_id' => Customer::factory()->create()->id,
         'subject' => 'Test',

@@ -4,10 +4,10 @@ use App\Models\MembershipPlan;
 use App\Models\Subscription;
 use App\Models\Webhook;
 use Database\Seeders\MembershipPlanSeeder;
-use Database\Seeders\RolesAndPermissionsSeeder;
 
 beforeEach(function () {
-    $this->seed([RolesAndPermissionsSeeder::class, MembershipPlanSeeder::class]);
+    testTenant();
+    $this->seed(MembershipPlanSeeder::class);
 });
 
 it('blocks creating a resource once the plan\'s limit is reached', function () {

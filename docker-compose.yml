@@ -13,6 +13,22 @@ services:
       - ./api:/var/www/html
     env_file:
       - ./api/.env
+    environment:
+      # api/.env defaults to sqlite for a zero-dependency host-side dev loop
+      # (see the comment there) — these overrides are what actually make
+      # docker-compose use the mysql/redis services defined below, since
+      # Docker Compose's `environment:` wins over `env_file:`.
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE:-supporthub}
+      DB_USERNAME: ${DB_USERNAME:-supporthub}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+      REDIS_HOST: redis
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
+      APP_URL: http://localhost:${APP_PORT:-8080}
     depends_on:
       mysql:
         condition: service_healthy
@@ -47,6 +63,17 @@ services:
       - ./api:/var/www/html
     env_file:
       - ./api/.env
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE:-supporthub}
+      DB_USERNAME: ${DB_USERNAME:-supporthub}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+      REDIS_HOST: redis
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
     depends_on:
       mysql:
         condition: service_healthy
@@ -68,6 +95,17 @@ services:
       - ./api:/var/www/html
     env_file:
       - ./api/.env
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE:-supporthub}
+      DB_USERNAME: ${DB_USERNAME:-supporthub}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+      REDIS_HOST: redis
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
     depends_on:
       mysql:
         condition: service_healthy

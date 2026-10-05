@@ -8,10 +8,6 @@ use App\Models\Webhook;
 use App\Services\AuditLogger;
 use App\Services\TenantProvisioningService;
 use App\Support\TenantContext;
-use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\TicketNumberSettingSeeder;
-use Database\Seeders\TicketPrioritySeeder;
-use Database\Seeders\TicketStatusSeeder;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -21,12 +17,7 @@ use Illuminate\Support\Facades\Hash;
  * request path, not just that the service works in isolation.
  */
 beforeEach(function () {
-    $this->seed([
-        RolesAndPermissionsSeeder::class,
-        TicketStatusSeeder::class,
-        TicketPrioritySeeder::class,
-        TicketNumberSettingSeeder::class,
-    ]);
+    testTenant();
 });
 
 it('logs a user login', function () {

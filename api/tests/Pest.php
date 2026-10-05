@@ -142,15 +142,14 @@ function createIntegrationCredential(Tenant $tenant, array $scopes = ApiCredenti
 {
     $pair = ApiCredential::generateCredentialPair();
 
-    $credential = ApiCredential::create([
-        'tenant_id' => $tenant->id,
+    $credential = app(TenantContext::class)->runAs($tenant, fn () => ApiCredential::create([
         'name' => 'Test Integration',
         'key' => $pair['key'],
         'secret_hash' => Hash::make($pair['secret']),
         'secret_last_four' => substr($pair['secret'], -4),
         'scopes' => $scopes,
         'status' => 'active',
-    ]);
+    ]));
 
     return ['credential' => $credential, 'key' => $pair['key'], 'secret' => $pair['secret']];
 }

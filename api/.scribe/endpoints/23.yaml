@@ -1,0 +1,596 @@
+name: Webhooks
+description: |-
+
+  Tenant-configured HTTP callbacks for ticket lifecycle events (see
+  Webhook::EVENTS). Every delivery is signed with the webhook's own
+  secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+  JSON body) so the receiving endpoint can verify it actually came
+  from this platform.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/webhooks
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List webhooks'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Ticket sync", "url": "https://example.com/hooks", "events": ["ticket.created"]}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/webhooks
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create a webhook'
+      description: |-
+        The secret is returned exactly once, here — it is encrypted at
+        rest and this is the only response that ever includes it in
+        plain text. Use it to verify the X-Webhook-Signature header on
+        each delivery.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: ''
+        required: true
+        example: 'Ticket sync'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      url:
+        custom: []
+        name: url
+        description: 'Must not point to a local/private address.'
+        required: true
+        example: 'https://example.com/webhooks/supporthub'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      events:
+        custom: []
+        name: events
+        description: 'One or more of ticket.created, ticket.updated, ticket.assigned, ticket.replied, ticket.status_changed, ticket.resolved, ticket.closed, ticket.reopened.'
+        required: true
+        example:
+          - ticket.created
+          - ticket.status_changed
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: 'Defaults to true.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'Ticket sync'
+      url: 'https://example.com/webhooks/supporthub'
+      events:
+        - ticket.created
+        - ticket.status_changed
+      is_active: true
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 201
+        content: |-
+          {
+            "success": true, "message": "Webhook created successfully.",
+            "data": {"id": 1, "name": "Ticket sync", "url": "https://example.com/webhooks/supporthub", "secret": "whsec_..."}
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/webhooks/{webhook_id}'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get a webhook'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Ticket sync"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/v1/webhooks/{webhook_id}'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a webhook'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: ''
+        required: false
+        example: 'Ticket sync (v2)'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      url:
+        custom: []
+        name: url
+        description: ''
+        required: false
+        example: 'https://example.com/webhooks/v2'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      events:
+        custom: []
+        name: events
+        description: ''
+        required: false
+        example:
+          - ticket.created
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: ''
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'Ticket sync (v2)'
+      url: 'https://example.com/webhooks/v2'
+      events:
+        - ticket.created
+      is_active: false
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Webhook updated successfully.", "data": {"id": 1, "name": "Ticket sync (v2)"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/webhooks/{webhook_id}'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete a webhook'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Webhook deleted successfully.", "data": null}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/webhooks/{webhook_id}/deliveries'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "List a webhook's recent delivery attempts"
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 1
+    queryParameters:
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Items per page (max 100).'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      per_page: 25
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "event": "ticket.created", "success": true, "response_status": 200}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/webhooks/{webhook_id}/test'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Send a test event to a webhook'
+      description: |-
+        Delivers a synthetic `webhook.test` event to this webhook's URL
+        right away (not queued, never retried) so its endpoint and
+        signature verification can be checked without waiting for a
+        real ticket event. The attempt is still recorded as an ordinary
+        delivery, visible via GET /webhooks/{webhook}/deliveries.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true, "message": "Test webhook sent.",
+            "data": {"id": 9, "event": "webhook.test", "response_status": 200, "success": true}
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/webhooks/{webhook_id}/rotate-secret'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Rotate a webhook's signing secret"
+      description: |-
+        Issues a brand-new secret for this webhook; the old one no
+        longer verifies X-Webhook-Signature on any future delivery. Use
+        this instead of deleting and recreating the webhook when only
+        the secret needs to change.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true, "message": "Webhook secret rotated successfully.",
+            "data": {"id": 1, "name": "Ticket sync", "secret": "whsec_..."}
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

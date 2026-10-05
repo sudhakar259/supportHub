@@ -6,7 +6,9 @@ use Database\Seeders\MembershipPlanSeeder;
 use Database\Seeders\RolesAndPermissionsSeeder;
 
 beforeEach(function () {
-    $this->seed([RolesAndPermissionsSeeder::class, MembershipPlanSeeder::class]);
+    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
+    $this->seed(MembershipPlanSeeder::class);
 });
 
 it('lets a platform admin list every tenant across the platform', function () {

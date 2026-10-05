@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRoutingRuleRequest extends FormRequest
 {
+    use ValidatesRoutingTargets;
+
     public function authorize(): bool
     {
         return $this->user()->can('update', $this->route('rule'));

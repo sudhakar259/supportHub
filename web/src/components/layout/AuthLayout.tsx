@@ -6,11 +6,11 @@ import { ROUTES } from '@/app/router/routes'
 import { cn } from '@/utils/cn'
 
 const NAV_LINKS = [
+  { label: 'Pricing', path: ROUTES.pricing },
   { label: 'Sign In', path: ROUTES.login },
   { label: 'Recovery', path: ROUTES.forgotPassword },
 ]
 
-const COMPLIANCE_BADGES = ['SOC 2 Type II', 'ISO 27001', 'GDPR Ready', 'HIPAA Compliant']
 const CURRENT_YEAR = new Date().getFullYear()
 
 /**
@@ -49,10 +49,12 @@ export function AuthLayout({ children }: { children: ReactNode }) {
                 </Link>
               ))}
             </nav>
-            <div className="inline-flex items-center gap-space-xs rounded-full bg-surface-container-low px-space-sm py-space-xs text-label-sm text-tertiary">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-tertiary-container" />
-              <span>Systems Operational</span>
-            </div>
+            <Link
+              to={ROUTES.register}
+              className="inline-flex h-9 items-center rounded-lg bg-primary px-space-md text-title-sm font-semibold text-on-primary shadow-sm transition-colors hover:bg-primary-container"
+            >
+              Start Free Trial
+            </Link>
           </div>
         </div>
       </header>
@@ -62,28 +64,8 @@ export function AuthLayout({ children }: { children: ReactNode }) {
       </main>
 
       <footer className="w-full bg-surface-container-low py-space-lg">
-        <div className="flex w-full flex-col items-center justify-between gap-space-md px-gutter-lg text-body-sm text-on-surface-variant md:flex-row">
-          <div className="flex flex-wrap items-center gap-space-md">
-            <span className="text-label-sm font-semibold uppercase text-secondary">Certified:</span>
-            {COMPLIANCE_BADGES.map((badge) => (
-              <span
-                key={badge}
-                className="rounded bg-surface-container-lowest px-space-sm py-0.5 text-code-sm text-on-surface shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
-              >
-                {badge}
-              </span>
-            ))}
-          </div>
-          <div className="flex items-center gap-space-lg">
-            <a className="text-label-md transition-colors hover:text-on-surface" href="#">
-              Terms of Service
-            </a>
-            <a className="text-label-md transition-colors hover:text-on-surface" href="#">
-              Privacy Policy
-            </a>
-            <span className="text-outline-variant">•</span>
-            <span>© {CURRENT_YEAR} SupportHub Global, Inc.</span>
-          </div>
+        <div className="flex w-full flex-col items-center justify-center gap-space-md px-gutter-lg text-body-sm text-on-surface-variant md:flex-row">
+          <span>© {CURRENT_YEAR} SupportHub</span>
         </div>
       </footer>
     </div>

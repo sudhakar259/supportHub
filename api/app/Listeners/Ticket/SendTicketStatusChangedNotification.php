@@ -22,6 +22,11 @@ class SendTicketStatusChangedNotification implements ShouldQueue
 
     public function handle(TicketStatusChanged $event): void
     {
+        $this->inTenantOf($event->ticket->tenant, fn () => $this->notify($event));
+    }
+
+    private function notify(TicketStatusChanged $event): void
+    {
         $ticket = $event->ticket;
 
         if (in_array($event->toStatus->slug, ['resolved', 'closed', 'reopened', 'escalated'], true)) {

@@ -34,7 +34,7 @@ class RequirePlatformAdmin
         // TenantContext::set()).
         app(TenantContext::class)->clear();
 
-        if (! $user || $user->tenant_id !== null || ! $user->hasRole('Platform Admin')) {
+        if (! $user || ! $user->is_active || $user->tenant_id !== null || ! $user->hasRole('Platform Admin')) {
             return response()->json([
                 'success' => false,
                 'message' => 'You do not have permission to perform this action.',

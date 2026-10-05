@@ -1,39 +1,124 @@
-name: 'API Credentials'
+name: 'Integration API — Tickets'
 description: |-
 
-  Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-  to call the Integration API (see docs under "Integration API —
-  Customers/Tickets"). Scoped to the caller's own tenant like
-  everything else here; a credential's secret is only ever visible in
-  the response to the single store()/rotate() call that generated it.
+  Same credential-based auth as the Customers integration endpoints.
+  "Reply" and "attachment" actions here are posted on behalf of the
+  ticket's customer — there is no staff Sanctum session backing this
+  credential, so there is no agent identity to attribute them to; use
+  the regular Sanctum-authenticated ticket endpoints for agent-side
+  actions.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/api-credentials
+    uri: api/v1/integration/tickets
     metadata:
       custom: []
-      groupName: 'API Credentials'
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List API credentials'
+      title: 'List tickets'
       description: ''
-      authenticated: true
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
+    queryParameters:
+      customer_id:
+        custom: []
+        name: customer_id
+        description: 'Filter by customer.'
+        required: false
+        example: 4
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Items per page (max 100).'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      customer_id: 4
+      per_page: 25
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 12, "ticket_number": "TKT-2026-000012"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/integration/tickets/{ticket_id}'
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get a ticket'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -43,14 +128,11 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Chat widget", "key": "ak_...", "status": "active"}]}'
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 12, "ticket_number": "TKT-2026-000012"}}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
@@ -58,28 +140,30 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/v1/api-credentials
+    uri: api/v1/integration/tickets
     metadata:
       custom: []
-      groupName: 'API Credentials'
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create an API credential'
+      title: 'Create a ticket'
       description: |-
-        The secret is returned exactly once, here — it is hashed at
-        rest and cannot be recovered afterward. Store it securely; if
-        it's lost, rotate the credential for a new one.
-      authenticated: true
+        The customer is identified by exactly one of customer_id,
+        customer_email or customer_external_id — whichever the caller's
+        own system already has on hand.
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -87,111 +171,107 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      name:
+      subject:
         custom: []
-        name: name
+        name: subject
         description: ''
         required: true
-        example: 'Chat widget'
+        example: 'Cannot access my account'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      scopes:
+      description:
         custom: []
-        name: scopes
-        description: 'One or more of customers.read, customers.create, customers.update, tickets.read, tickets.create, tickets.update, tickets.reply, tickets.status.update, tickets.attachments.'
+        name: description
+        description: ''
         required: true
-        example:
-          - customers.read
-          - tickets.create
-        type: 'string[]'
+        example: 'Getting a 500 error at login.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: ''
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      priority_id:
+        custom: []
+        name: priority_id
+        description: ''
+        required: false
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      customer_id:
+        custom: []
+        name: customer_id
+        description: 'The internal customer id, if already known.'
+        required: false
+        example: 4
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      customer_email:
+        custom: []
+        name: customer_email
+        description: "The customer's email, looked up within this tenant."
+        required: false
+        example: jamie@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      customer_external_id:
+        custom: []
+        name: customer_external_id
+        description: "This tenant's own identifier for the customer."
+        required: false
+        example: CRM-001
+        type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: 'Chat widget'
-      scopes:
-        - customers.read
-        - tickets.create
+      subject: 'Cannot access my account'
+      description: 'Getting a 500 error at login.'
+      category_id: 2
+      priority_id: 3
+      customer_id: 4
+      customer_email: jamie@example.com
+      customer_external_id: CRM-001
     fileParameters: []
     responses:
       -
         custom: []
         status: 201
-        content: |-
-          {
-            "success": true, "message": "API credential created successfully.",
-            "data": {"id": 1, "name": "Chat widget", "key": "ak_abc123...", "secret": "as_def456...", "scopes": ["customers.read"]}
-          }
+        content: '{"success": true, "message": "Ticket created successfully.", "data": {"id": 12, "ticket_number": "TKT-2026-000012"}}'
         headers: []
         description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/api-credentials/{credential_id}'
-    metadata:
-      custom: []
-      groupName: 'API Credentials'
-      groupDescription: |-
-
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get an API credential'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      credential_id:
-        custom: []
-        name: credential_id
-        description: 'The ID of the credential.'
-        required: true
-        example: 16
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      credential_id: 16
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
       -
         custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Chat widget"}}'
+        status: 404
+        content: '{"success": false, "message": "No matching customer found for the given identifier."}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
@@ -199,84 +279,105 @@ endpoints:
     custom: []
     httpMethods:
       - PUT
-    uri: 'api/v1/api-credentials/{credential_id}'
+    uri: 'api/v1/integration/tickets/{ticket_id}'
     metadata:
       custom: []
-      groupName: 'API Credentials'
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: "Update an API credential's name or scopes"
+      title: 'Update a ticket'
       description: ''
-      authenticated: true
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      credential_id:
+      ticket_id:
         custom: []
-        name: credential_id
-        description: 'The ID of the credential.'
+        name: ticket_id
+        description: 'The ID of the ticket.'
         required: true
-        example: 16
-        type: integer
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      credential_id: 16
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      name:
+      subject:
         custom: []
-        name: name
+        name: subject
         description: ''
         required: false
-        example: 'Chat widget (prod)'
+        example: 'Cannot access my account (updated)'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      scopes:
+      description:
         custom: []
-        name: scopes
+        name: description
         description: ''
         required: false
-        example:
-          - customers.read
-        type: 'string[]'
+        example: 'Still happening after clearing cache.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: ''
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      priority_id:
+        custom: []
+        name: priority_id
+        description: ''
+        required: false
+        example: 3
+        type: integer
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: 'Chat widget (prod)'
-      scopes:
-        - customers.read
+      subject: 'Cannot access my account (updated)'
+      description: 'Still happening after clearing cache.'
+      category_id: 2
+      priority_id: 3
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "API credential updated successfully.", "data": {"id": 1, "name": "Chat widget (prod)"}}'
+        content: '{"success": true, "message": "Ticket updated successfully.", "data": {"id": 12}}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
@@ -284,45 +385,203 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: 'api/v1/api-credentials/{credential_id}/rotate'
+    uri: 'api/v1/integration/tickets/{ticket_id}/messages'
     metadata:
       custom: []
-      groupName: 'API Credentials'
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: "Rotate an API credential's secret"
+      title: 'Reply to a ticket as the customer'
       description: |-
-        Issues a brand-new secret for the same key; the old secret
-        stops working immediately. Use this instead of revoking +
-        recreating when only the secret (not the whole credential and
-        its scopes/history) needs to change.
-      authenticated: true
+        Syncs a message from another channel (chat widget, email, CRM)
+        into the ticket thread, attributed to the ticket's own customer.
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      credential_id:
+      ticket_id:
         custom: []
-        name: credential_id
-        description: 'The ID of the credential.'
+        name: ticket_id
+        description: 'The ID of the ticket.'
         required: true
-        example: 16
-        type: integer
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      credential_id: 16
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      body:
+        custom: []
+        name: body
+        description: ''
+        required: true
+        example: 'Any update on this?'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      body: 'Any update on this?'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 201
+        content: '{"success": true, "message": "Reply added successfully.", "data": {"id": 9, "body": "Any update on this?"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/integration/tickets/{ticket_id}/status'
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Update a ticket's status"
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      status:
+        custom: []
+        name: status
+        description: 'One of open, in-progress, pending, escalated, resolved, closed, reopened.'
+        required: true
+        example: resolved
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      reason:
+        custom: []
+        name: reason
+        description: ''
+        required: false
+        example: 'Customer confirmed the fix worked.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      status: resolved
+      reason: 'Customer confirmed the fix worked.'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket status updated successfully.", "data": {"id": 12, "status": {"slug": "resolved"}}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: '{"success": false, "message": "Cannot transition from closed to open."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/integration/tickets/{ticket_id}/attachments'
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "List a ticket's attachments"
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -332,14 +591,11 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Secret rotated successfully.", "data": {"id": 1, "key": "ak_abc123...", "secret": "as_newsecret..."}}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "original_filename": "screenshot.png"}]}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
@@ -347,61 +603,69 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: 'api/v1/api-credentials/{credential_id}/revoke'
+    uri: 'api/v1/integration/tickets/{ticket_id}/attachments'
     metadata:
       custom: []
-      groupName: 'API Credentials'
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Revoke an API credential'
-      description: |-
-        Immediately and permanently stops this credential from
-        authenticating. Cannot be undone — issue a new credential
-        instead of expecting this one to work again.
-      authenticated: true
+      title: 'Upload a ticket attachment as the customer'
+      description: ''
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
-      credential_id:
+      ticket_id:
         custom: []
-        name: credential_id
-        description: 'The ID of the credential.'
+        name: ticket_id
+        description: 'The ID of the ticket.'
         required: true
-        example: 16
-        type: integer
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      credential_id: 16
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
+    bodyParameters:
+      file:
+        custom: []
+        name: file
+        description: 'Max 25MB. One of jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, csv, zip.'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
     cleanBodyParameters: []
-    fileParameters: []
+    fileParameters:
+      file: null
     responses:
       -
         custom: []
-        status: 200
-        content: '{"success": true, "message": "API credential revoked successfully.", "data": {"id": 1, "status": "revoked"}}'
+        status: 201
+        content: '{"success": true, "message": "Attachment uploaded successfully.", "data": {"id": "01HXYZ...", "original_filename": "invoice.pdf"}}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null

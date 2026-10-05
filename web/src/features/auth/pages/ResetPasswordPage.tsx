@@ -20,6 +20,8 @@ export function ResetPasswordPage() {
 
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [tenant, setTenant] = useState('')
+  const [showTenantField, setShowTenantField] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -40,7 +42,7 @@ export function ResetPasswordPage() {
     setError(null)
 
     try {
-      await authApi.resetPassword({ token, email, password, passwordConfirmation: confirmPassword })
+      await authApi.resetPassword({ token, email, tenant, password, passwordConfirmation: confirmPassword })
       setSucceeded(true)
       setTimeout(() => navigate(ROUTES.login), 1800)
     } catch (err) {
@@ -148,6 +150,26 @@ export function ResetPasswordPage() {
                     trailingSlot={<Icon name={matchIcon.name} size={20} className={matchIcon.className} filled />}
                     autoComplete="new-password"
                   />
+
+                  {showTenantField ? (
+                    <TextField
+                      label="Organization"
+                      placeholder="acme-corp"
+                      value={tenant}
+                      onChange={(e) => setTenant(e.target.value)}
+                      helperText="Only needed if your email is registered with more than one organization."
+                      leadingIcon={<Icon name="domain" size={20} />}
+                      autoComplete="organization"
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setShowTenantField(true)}
+                      className="self-start text-label-md font-semibold text-secondary hover:text-on-surface"
+                    >
+                      Resetting a password for a specific organization?
+                    </button>
+                  )}
 
                   <div className="flex flex-col items-center justify-between gap-space-md pt-space-xs sm:flex-row">
                     <Link

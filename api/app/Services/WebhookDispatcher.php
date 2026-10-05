@@ -28,8 +28,17 @@ class WebhookDispatcher
             ->where('is_active', true)
             ->get()
             ->each(function (Webhook $webhook) use ($event, $payload) {
-                if ($webhook->subscribesTo($event)) {
+                if (! $webhook->subscribesTo($event)) {
+                    return;
+                }
+
+                // Under a synchronous queue the job runs inline and rethrows a failed
+                // delivery; the attempt is already logged, so the failure must not
+                // fail the request that caused the ticket event.
+                try {
                     DeliverWebhookJob::dispatch($webhook, $event, $payload);
+                } catch (\Throwable $e) {
+                    report($e);
                 }
             });
     }

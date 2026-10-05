@@ -82,10 +82,10 @@ class TenantController extends Controller
                 'slug' => $request->string('tenant_slug'),
                 'status' => $isFree ? 'active' : 'trial',
                 'email' => $request->string('owner_email'),
-                'phone' => $request->string('phone') ?: null,
-                'website' => $request->string('website') ?: null,
-                'country' => $request->string('country') ?: null,
-                'timezone' => $request->string('timezone') ?: 'UTC',
+                'phone' => $request->filled('phone') ? $request->string('phone')->toString() : null,
+                'website' => $request->filled('website') ? $request->string('website')->toString() : null,
+                'country' => $request->filled('country') ? $request->string('country')->toString() : null,
+                'timezone' => $request->filled('timezone') ? $request->string('timezone')->toString() : 'UTC',
                 'trial_ends_at' => $isFree ? null : now()->addDays(14),
             ]);
 
@@ -124,6 +124,12 @@ class TenantController extends Controller
 
         $token = $owner->createToken($request->string('device_name')->toString() ?: 'api')->plainTextToken;
 
+        // The owner's "Administrator" role was assigned inside runAs($tenant, ...)
+        // above, which restores TenantContext (and spatie's team id with it) once
+        // that closure returns — load('roles') out here would otherwise compare
+        // against the wrong team id and come back empty, same bug as AuthController.
+        app(TenantContext::class)->set($tenant);
+
         return $this->created([
             'tenant' => new TenantResource($tenant),
             'user' => new UserResource($owner->load('roles')),
@@ -148,16 +154,10 @@ class TenantController extends Controller
      */
     public function lookup(string $slug): JsonResponse
     {
-        $tenant = Tenant::where('slug', $slug)->first();
-
-        if (! $tenant) {
-            return $this->error('No organization found for that identifier.', 404);
-        }
-
+        // Availability only. Returning the name or status would let anyone list
+        // customer organizations by slug.
         return $this->success([
-            'slug' => $tenant->slug,
-            'name' => $tenant->name,
-            'is_active' => $tenant->isActive(),
+            'available' => ! Tenant::where('slug', $slug)->exists(),
         ]);
     }
 }

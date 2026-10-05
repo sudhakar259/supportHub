@@ -2,12 +2,11 @@
 
 use App\Models\Customer;
 use App\Models\User;
-use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 it('registers a new customer and issues a token', function () {

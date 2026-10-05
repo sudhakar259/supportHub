@@ -21,6 +21,7 @@ export const authApi = {
       body: {
         email: credentials.email,
         password: credentials.password,
+        tenant: credentials.tenant?.trim() || undefined,
         device_name: credentials.deviceName ?? 'web-browser',
       },
     })
@@ -37,7 +38,10 @@ export const authApi = {
   },
 
   async forgotPassword(payload: ForgotPasswordPayload): Promise<void> {
-    await apiFetch<null>('/auth/forgot-password', { method: 'POST', body: payload })
+    await apiFetch<null>('/auth/forgot-password', {
+      method: 'POST',
+      body: { email: payload.email, tenant: payload.tenant?.trim() || undefined },
+    })
   },
 
   async resetPassword(payload: ResetPasswordPayload): Promise<void> {
@@ -46,6 +50,7 @@ export const authApi = {
       body: {
         token: payload.token,
         email: payload.email,
+        tenant: payload.tenant?.trim() || undefined,
         password: payload.password,
         password_confirmation: payload.passwordConfirmation,
       },

@@ -81,19 +81,18 @@ it('rejects registration with a duplicate tenant slug', function () {
         ->assertJsonValidationErrors('tenant_slug');
 });
 
-it('looks up an existing tenant by slug', function () {
+it('reports a taken slug as unavailable without revealing the tenant', function () {
     Tenant::create(['name' => 'Acme Corp', 'slug' => 'acme-corp', 'status' => 'active']);
 
     $this->getJson('/api/v1/tenants/lookup/acme-corp')
         ->assertOk()
-        ->assertJsonPath('success', true)
-        ->assertJsonPath('data.slug', 'acme-corp')
-        ->assertJsonPath('data.name', 'Acme Corp')
-        ->assertJsonPath('data.is_active', true);
+        ->assertJsonPath('data.available', false)
+        ->assertJsonMissingPath('data.name')
+        ->assertJsonMissingPath('data.slug');
 });
 
-it('returns 404 looking up an unknown tenant slug', function () {
+it('reports an unused slug as available', function () {
     $this->getJson('/api/v1/tenants/lookup/does-not-exist')
-        ->assertStatus(404)
-        ->assertJsonPath('success', false);
+        ->assertOk()
+        ->assertJsonPath('data.available', true);
 });

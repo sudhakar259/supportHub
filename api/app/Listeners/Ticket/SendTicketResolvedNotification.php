@@ -14,6 +14,11 @@ class SendTicketResolvedNotification implements ShouldQueue
 
     public function handle(TicketResolved $event): void
     {
+        $this->inTenantOf($event->ticket->tenant, fn () => $this->notify($event));
+    }
+
+    private function notify(TicketResolved $event): void
+    {
         $ticket = $event->ticket;
 
         $this->send->execute(

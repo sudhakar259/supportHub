@@ -14,6 +14,11 @@ class SendTicketAssignedNotification implements ShouldQueue
 
     public function handle(TicketAssigned $event): void
     {
+        $this->inTenantOf($event->ticket->tenant, fn () => $this->notify($event));
+    }
+
+    private function notify(TicketAssigned $event): void
+    {
         if (! $event->assignment->assignee_id) {
             return;
         }

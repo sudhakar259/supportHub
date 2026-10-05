@@ -12,6 +12,7 @@
 */
 
 require __DIR__.'/api/tenants.php';
+require __DIR__.'/api/plans.php';
 require __DIR__.'/api/auth.php';
 require __DIR__.'/api/users.php';
 require __DIR__.'/api/roles.php';
@@ -31,3 +32,5 @@ require __DIR__.'/api/platform.php';
 require __DIR__.'/api/integration.php';
 require __DIR__.'/api/api-credentials.php';
 require __DIR__.'/api/webhooks.php';
+require __DIR__.'/api/ticket-number-settings.php';
+require __DIR__.'/api/subscription.php';

@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRoutingRuleRequest extends FormRequest
 {
+    use ValidatesRoutingTargets;
+
     public function authorize(): bool
     {
         return $this->user()->can('create', TicketRoutingRule::class);

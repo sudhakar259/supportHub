@@ -31,7 +31,7 @@ class PlanLimitService
     public function usage(Tenant $tenant, string $feature): int
     {
         return match ($feature) {
-            'users' => User::forTenant($tenant)->count(),
+            'users' => User::forTenant($tenant)->whereDoesntHave('customer')->count(),
             'customers' => Customer::forTenant($tenant)->count(),
             'departments' => Department::forTenant($tenant)->count(),
             'tickets_per_month' => Ticket::forTenant($tenant)->where('created_at', '>=', now()->startOfMonth())->count(),

@@ -48,19 +48,25 @@ class SystemSetting extends Model
         // Ascending puts the platform default (tenant_id null) first and
         // the tenant's own override last; keyBy() keeps the LAST row per
         // key, so the override correctly wins when both exist.
+        // Cache plain arrays, never model objects: the database cache store
+        // unserializes with allowed_classes=false (cache.serializable_classes),
+        // so a cached Eloquent collection comes back as __PHP_Incomplete_Class.
         $settings = Cache::rememberForever(
             self::cacheKey($tenantId),
             fn () => static::all()->sortBy('tenant_id')->keyBy('key')
+                ->map(fn (self $setting) => ['value' => $setting->value, 'type' => $setting->type])
+                ->all()
         );
 
-        /** @var self|null $setting */
-        $setting = $settings->get($key);
+        if (! array_key_exists($key, $settings)) {
+            return $default;
+        }
 
-        return $setting ? $setting->castValue() : $default;
+        return (new self($settings[$key]))->castValue();
     }
 
     private static function cacheKey(?int $tenantId): string
     {
-        return 'system_settings.all.'.($tenantId ?? 'platform');
+        return 'system_settings.v2.all.'.($tenantId ?? 'platform');
     }
 }

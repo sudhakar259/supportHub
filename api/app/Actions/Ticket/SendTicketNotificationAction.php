@@ -2,14 +2,17 @@
 
 namespace App\Actions\Ticket;
 
+use App\Enums\NotificationLogStatus;
 use App\Models\NotificationLog;
 use App\Models\NotificationPreference;
 use App\Models\NotificationTemplate;
 use App\Models\User;
 use App\Notifications\TicketEventNotification;
 use App\Services\TemplateRenderingService;
+use App\Support\TenantContext;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Throwable;
 
 /**
  * Central dispatcher for every ticket-related notification. Looks up
@@ -57,9 +60,15 @@ class SendTicketNotificationAction
                 body: $this->renderer->render($template->body, $variables),
                 actionUrl: $actionUrl,
                 notificationLogId: $log->id,
+                tenantId: app(TenantContext::class)->id(),
             );
 
-            Notification::send($recipient, $notification);
+            try {
+                Notification::send($recipient, $notification);
+            } catch (Throwable $e) {
+                report($e);
+                $log->update(['status' => NotificationLogStatus::Failed, 'error' => $e->getMessage()]);
+            }
         }
     }
 

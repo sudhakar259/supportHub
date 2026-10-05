@@ -117,7 +117,7 @@
     <h1>Support24 — Multi-Tenant SaaS Migration Report</h1>
     <p class="subtitle">Converting the existing Laravel ticketing API into a production-ready multi-tenant platform, generated 2026-10-03</p>
     <div class="badges">
-      <span class="badge good">159 / 159 tests passing</span>
+      <span class="badge good">175 / 175 tests passing</span>
       <span class="badge bad">1 critical cross-tenant vulnerability found &amp; fixed</span>
       <span class="badge warn">17 Form Requests had systemic tenant-scoping gaps</span>
       <span class="badge">206 files changed</span>
@@ -173,10 +173,10 @@
     was confirmed to fail without the fix and pass with it.
   </p>
   <div class="stats-row">
-    <div class="stat"><div class="n good">159</div><div class="l">tests passing</div></div>
+    <div class="stat"><div class="n good">175</div><div class="l">tests passing</div></div>
     <div class="stat"><div class="n">0</div><div class="l">tests failing</div></div>
     <div class="stat"><div class="n">12</div><div class="l">new migrations</div></div>
-    <div class="stat"><div class="n">122</div><div class="l">API routes</div></div>
+    <div class="stat"><div class="n">124</div><div class="l">API routes</div></div>
   </div>
 </section>
 
@@ -435,12 +435,12 @@ tickets.reply    tickets.status.update   tickets.attachments</pre>
 <section id="tests">
   <h2><span class="num">13</span> Tests executed, passed, failed</h2>
   <div class="stats-row">
-    <div class="stat"><div class="n good">159</div><div class="l">total tests</div></div>
-    <div class="stat"><div class="n good">159</div><div class="l">passed</div></div>
+    <div class="stat"><div class="n good">175</div><div class="l">total tests</div></div>
+    <div class="stat"><div class="n good">175</div><div class="l">passed</div></div>
     <div class="stat"><div class="n">0</div><div class="l">failed</div></div>
-    <div class="stat"><div class="n">516</div><div class="l">assertions</div></div>
+    <div class="stat"><div class="n">583</div><div class="l">assertions</div></div>
   </div>
-  <p>Full suite run via <code>./vendor/bin/pest --compact</code>, last confirmed green immediately before this report was generated. 94 of these pre-date this migration (the original backend build) and were kept passing throughout — see <a href="#breaking">Breaking changes</a> for the two that needed updating to match genuinely new required behavior (not regressions, intentional contract changes).</p>
+  <p>Full suite run via <code>./vendor/bin/pest --compact</code>, last confirmed green immediately before this report was generated (175 = the original 159 plus 16 added for the four "Remaining work" items closed out on 2026-10-03 — see <a href="#remaining">Remaining work</a>). 94 of these pre-date this migration (the original backend build) and were kept passing throughout — see <a href="#breaking">Breaking changes</a> for the two that needed updating to match genuinely new required behavior (not regressions, intentional contract changes).</p>
 </section>
 
 <section id="isolation-tests">
@@ -483,11 +483,13 @@ tickets.reply    tickets.status.update   tickets.attachments</pre>
 
 <section id="remaining">
   <h2><span class="num">17</span> Remaining work</h2>
+  <p class="muted" style="margin-top:-6px">Updated 2026-10-03 — the four items below were closed out after the first pass of this report; the last two are still open.</p>
   <ul class="clean">
-    <li class="pending">Plan-configurable, tenant/credential-aware API rate limiting (currently a flat per-user/IP limit; the plan's <code>api_requests_per_day</code> limit field exists in seed data but nothing enforces it yet).</li>
-    <li class="pending">Webhook "test delivery" and secret-rotation endpoints (create/update/delete/list deliveries exist; a one-off test-send and a rotate-without-recreate flow do not).</li>
-    <li class="pending">Tenant-specific email configuration (support email, sender name, reply-to, branding) — platform defaults exist; per-tenant overrides do not yet.</li>
-    <li class="pending">Audit logging coverage is narrower than the full list in the original spec (ticket creation/status-change are covered; user/role/credential/billing changes are not yet individually audited).</li>
+    <li class="ok">Plan-configurable, tenant/credential-aware API rate limiting. A new <code>integration</code> named rate limiter (<code>AppServiceProvider</code>) reads each plan's <code>api_requests_per_day</code> and applies <code>Limit::perDay($limit)-&gt;by($credential-&gt;id)</code> to every <code>/integration/*</code> request; a 429 carries <code>{limit, period, retry_after_seconds}</code> plus standard <code>Retry-After</code>/<code>X-RateLimit-*</code> headers. Required its own middleware-priority fix (<code>ResolveIntegrationTenantContext</code> before <code>ThrottleRequests</code>, not just before <code>SubstituteBindings</code>) — same bug class as finding #1, caught by reasoning through <code>SortedMiddleware::sort()</code> before it shipped rather than by a failing test. Tests: <code>IntegrationRateLimitTest.php</code>.</li>
+    <li class="ok">Webhook "test delivery" and secret-rotation endpoints. <code>POST /webhooks/{webhook}/test</code> sends a synthetic <code>webhook.test</code> event synchronously (no queue, no retry) via a new <code>WebhookDispatcher::test()</code>, logged as an ordinary <code>WebhookDelivery</code> row; <code>POST /webhooks/{webhook}/rotate-secret</code> issues a new secret without deleting/recreating the webhook, mirroring <code>ApiCredentialController::rotate()</code>. Tests added to <code>WebhookManagementTest.php</code>.</li>
+    <li class="ok">Tenant-specific email configuration. Reuses the existing <code>SystemSetting</code> platform-default/tenant-override mechanism (no schema change) for <code>email.sender_name</code>, <code>email.reply_to</code> (falling back to <code>support_email</code>) and <code>email.branding_signature</code>; <code>TicketEventNotification::applyTenantEmailConfig()</code> applies them to the outgoing <code>MailMessage</code>'s From name, Reply-To and salutation. Tests added to <code>NotificationTest.php</code>.</li>
+    <li class="ok">Audit logging coverage expanded to match the spec's action list: <code>auth.login</code>, <code>ticket.assigned</code>, <code>customer.created</code>, <code>user.created</code>, <code>user.role_changed</code>, <code>api_credential.created/secret_rotated/revoked</code>, <code>webhook.created/updated/secret_rotated/deleted</code> (in addition to the ticket-creation/status-change and platform-tenant actions already covered). <code>auth.login</code> needed an explicit <code>TenantContext::runAs()</code> since <code>/auth/login</code> runs with no <code>tenant.context</code> middleware. Tests: <code>AuditLogCoverageTest.php</code>.</li>
+    <li class="pending">Billing changed: there is still no platform-admin endpoint to alter an existing tenant's subscription/plan after registration, so this one action from the audit list has nothing to log yet — out of scope for the audit-logging fix itself, which only wires up actions that already have an endpoint.</li>
     <li class="pending">A platform-level endpoint to edit the shared default notification templates/system settings (the copy-on-write tenant-override path is complete; nothing yet lets a platform admin edit the defaults themselves through the API, only via seeders).</li>
     <li class="pending">Observability: no centralized logging yet specifically around tenant-resolution failures, scope failures, or webhook delivery failures beyond what's captured in <code>webhook_deliveries</code>.</li>
   </ul>
@@ -496,7 +498,7 @@ tickets.reply    tickets.status.update   tickets.attachments</pre>
 </div>
 
 <footer>
-  Support24 Multi-Tenant Migration Report · generated 2026-10-03 · 159/159 tests passing at time of writing
+  Support24 Multi-Tenant Migration Report · generated 2026-10-03, updated 2026-10-03 · 175/175 tests passing at time of writing
 </footer>
 
 </body>

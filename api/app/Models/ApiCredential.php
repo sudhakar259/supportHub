@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-#[Fillable(['tenant_id', 'name', 'key', 'secret_hash', 'secret_last_four', 'scopes', 'status', 'created_by'])]
+#[Fillable(['name', 'key', 'secret_hash', 'secret_last_four', 'scopes', 'status', 'created_by'])]
 #[Hidden(['secret_hash'])]
 class ApiCredential extends Model
 {

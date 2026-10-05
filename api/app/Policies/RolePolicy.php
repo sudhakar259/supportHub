@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Role;
 use App\Models\User;
+use Database\Seeders\RolesAndPermissionsSeeder;
 
 class RolePolicy
 {
@@ -29,6 +30,14 @@ class RolePolicy
 
     public function delete(User $user, Role $role): bool
     {
-        return $user->can('roles.manage') && ! in_array($role->name, ['Administrator', 'Customer'], true);
+        return $user->can('roles.manage') && ! $this->isSystemRole($role);
+    }
+
+    private function isSystemRole(Role $role): bool
+    {
+        return in_array($role->name, [
+            ...array_keys(RolesAndPermissionsSeeder::ROLE_PERMISSIONS),
+            RolesAndPermissionsSeeder::PLATFORM_ADMIN_ROLE,
+        ], true);
     }
 }

@@ -4,10 +4,9 @@ use App\Models\Customer;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Services\TenantProvisioningService;
-use Database\Seeders\RolesAndPermissionsSeeder;
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 it('lets an admin create a customer with an underlying user account', function () {
@@ -54,6 +53,7 @@ it('lets an admin set an external_id but silently ignores it on customer self-up
 
     $customerId = $response->json('data.id');
     $customer = Customer::find($customerId);
+    $customer->user->markEmailAsVerified();
 
     $this->actingAs($customer->user, 'api')
         ->putJson("/api/v1/customers/{$customerId}", ['external_id' => 'HACKED'])
@@ -106,4 +106,20 @@ it('filters customers by type', function () {
         ->getJson('/api/v1/customers?filter[customer_type]=vip')
         ->assertOk()
         ->assertJsonCount(1, 'data');
+});
+
+it('creates several customers in one tenant when external_id is omitted', function () {
+    $admin = actingAsAdministrator();
+
+    foreach (['first', 'second'] as $name) {
+        $this->actingAs($admin, 'api')
+            ->postJson('/api/v1/customers', [
+                'name' => "Customer {$name}",
+                'email' => "{$name}@example.com",
+                'password' => 'Secret123!',
+                'password_confirmation' => 'Secret123!',
+            ])
+            ->assertCreated()
+            ->assertJsonPath('data.external_id', null);
+    }
 });

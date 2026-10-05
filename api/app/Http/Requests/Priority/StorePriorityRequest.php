@@ -21,7 +21,7 @@ class StorePriorityRequest extends FormRequest
             // global unique check is wrong here.
             'slug' => [
                 'required', 'string', 'max:255', 'alpha_dash',
-                Rule::unique('ticket_priorities', 'slug')->where('tenant_id', $this->user()->tenant_id),
+                Rule::unique('ticket_priorities', 'slug')->where('tenant_id', $this->user()?->tenant_id),
             ],
             'level' => ['required', 'integer', 'min:1', 'max:255'],
             'color' => ['sometimes', 'string', 'max:7'],

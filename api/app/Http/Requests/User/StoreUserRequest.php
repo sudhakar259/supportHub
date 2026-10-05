@@ -27,7 +27,11 @@ class StoreUserRequest extends FormRequest
             // check is wrong once the same email can belong to
             // different tenants' accounts.
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->where('tenant_id', $tenantId)],
-            'password' => ['required', 'confirmed', Password::defaults()],
+            // Optional: when omitted, the controller generates a random
+            // password (never returned to the client) and emails the new
+            // user a real password-reset link instead — the admin never
+            // learns or transmits the new teammate's credential.
+            'password' => ['sometimes', 'required', 'confirmed', Password::defaults()],
             'phone' => ['nullable', 'string', 'max:30'],
             'role' => ['required', 'string', 'in:'.implode(',', $staffRoles)],
             'department_ids' => ['sometimes', 'array'],

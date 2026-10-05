@@ -4,7 +4,6 @@ use App\Models\Tenant;
 use App\Models\User;
 use App\Services\TenantProvisioningService;
 use App\Support\TenantContext;
-use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
@@ -24,7 +23,7 @@ use Illuminate\Support\Facades\Password;
 */
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 it('resets only the specified tenant\'s account when the same email exists in two tenants', function () {

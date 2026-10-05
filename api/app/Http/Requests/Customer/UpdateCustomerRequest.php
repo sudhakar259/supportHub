@@ -24,7 +24,7 @@ class UpdateCustomerRequest extends FormRequest
             'external_id' => [
                 'sometimes', 'nullable', 'string', 'max:255',
                 Rule::unique('customers', 'external_id')
-                    ->where('tenant_id', $this->user()->tenant_id)
+                    ->where('tenant_id', $this->user()?->tenant_id)
                     ->ignore($this->route('customer')),
             ],
         ];

@@ -2,10 +2,12 @@
 
 namespace App\Exceptions;
 
+use App\Services\Billing\BillingUnavailableException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -54,6 +56,13 @@ class ApiExceptionRenderer
             ], 403);
         }
 
+        if ($e instanceof BillingUnavailableException) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 503);
+        }
+
         if ($e instanceof ValidationException) {
             return response()->json([
                 'success' => false,
@@ -92,6 +101,13 @@ class ApiExceptionRenderer
             ], 404);
         }
 
+        if ($e instanceof PostTooLargeException) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The uploaded content is too large. Attachments are limited to 25 MB per file.',
+            ], 413);
+        }
+
         if ($e instanceof TooManyRequestsHttpException) {
             return response()->json([
                 'success' => false,
@@ -106,23 +122,13 @@ class ApiExceptionRenderer
             ], $e->getStatusCode());
         }
 
-        $status = 500;
-        $message = 'An unexpected error occurred. Please try again later.';
-
-        if (config('app.debug')) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage() ?: $message,
-                'exception' => get_class($e),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => collect($e->getTrace())->take(15)->toArray(),
-            ], $status);
-        }
+        // Unexpected errors are logged in full, but the response never carries the
+        // exception class, file paths, or stack traces, in any environment.
+        report($e);
 
         return response()->json([
             'success' => false,
-            'message' => $message,
-        ], $status);
+            'message' => 'An unexpected error occurred. Please try again later.',
+        ], 500);
     }
 }

@@ -12,6 +12,7 @@ import { AuthCard } from '@/features/auth/components/AuthCard'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import { AuthLayout } from '@/components/layout/AuthLayout'
 import { ApiError } from '@/types/api'
+import { isPlatformAdmin } from '@/types/user'
 
 export function LoginPage() {
   const { login } = useAuth()
@@ -19,6 +20,8 @@ export function LoginPage() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [tenant, setTenant] = useState('')
+  const [showTenantField, setShowTenantField] = useState(false)
   const [rememberMe, setRememberMe] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -31,12 +34,18 @@ export function LoginPage() {
     setIsSubmitting(true)
 
     try {
-      const user = await login({ email, password })
-      navigate(user.emailVerifiedAt ? ROUTES.dashboard : ROUTES.emailVerification)
+      const user = await login({ email, password, tenant })
+      navigate(
+        !user.emailVerifiedAt ? ROUTES.emailVerification : isPlatformAdmin(user) ? ROUTES.platformDashboard : ROUTES.dashboard,
+      )
     } catch (err) {
       if (err instanceof ApiError) {
         if (err.errors) {
-          setFieldErrors({ email: err.fieldError('email') ?? '', password: err.fieldError('password') ?? '' })
+          setFieldErrors({
+            email: err.fieldError('email') ?? '',
+            password: err.fieldError('password') ?? '',
+            tenant: err.fieldError('tenant') ?? '',
+          })
         } else {
           setError(err.message)
         }
@@ -103,6 +112,26 @@ export function LoginPage() {
                   </Link>
                 }
               />
+              {showTenantField ? (
+                <TextField
+                  label="Organization"
+                  placeholder="acme-corp"
+                  value={tenant}
+                  onChange={(e) => setTenant(e.target.value)}
+                  error={fieldErrors.tenant || undefined}
+                  helperText="Only needed if your email is registered with more than one organization."
+                  leadingIcon={<Icon name="domain" size={20} />}
+                  autoComplete="organization"
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setShowTenantField(true)}
+                  className="text-label-md font-semibold text-secondary hover:text-on-surface"
+                >
+                  Signing in to a specific organization?
+                </button>
+              )}
               <div className="flex items-center justify-between pt-1">
                 <Checkbox
                   checked={rememberMe}
@@ -115,6 +144,12 @@ export function LoginPage() {
                   Sign in to Workspace
                 </Button>
               </div>
+              <p className="pt-2 text-center text-body-sm text-on-surface-variant">
+                Don&rsquo;t have an organization yet?{' '}
+                <Link to={ROUTES.register} className="font-semibold text-primary hover:underline">
+                  Register
+                </Link>
+              </p>
             </form>
           </AuthCard>
 

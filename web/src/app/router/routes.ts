@@ -1,5 +1,7 @@
 /** Central path registry so routes are never hand-typed as string literals around the app. */
 export const ROUTES = {
+  register: '/register',
+  pricing: '/pricing',
   login: '/login',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
@@ -27,4 +29,22 @@ export const ROUTES = {
   auditLogs: '/audit-logs',
   automation: '/automation',
   settings: '/settings',
+
+  apiCredentials: '/integrations/api-credentials',
+  apiCredentialsCreate: '/integrations/api-credentials/create',
+  apiCredentialDetails: (id: number | string) => `/integrations/api-credentials/${id}`,
+
+  webhooks: '/integrations/webhooks',
+  webhookDeliveries: (id: number | string) => `/integrations/webhooks/${id}/deliveries`,
+
+  onboarding: '/onboarding',
+
+  billing: '/billing',
+  billingCheckout: '/billing/checkout',
+
+  platform: '/platform',
+  platformDashboard: '/platform/dashboard',
+  platformTenants: '/platform/tenants',
+  platformTenantDetails: (id: number | string) => `/platform/tenants/${id}`,
+  platformPlans: '/platform/membership-plans',
 } as const

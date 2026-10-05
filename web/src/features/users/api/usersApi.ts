@@ -32,8 +32,8 @@ export const usersApi = {
       body: {
         name: payload.name,
         email: payload.email,
-        password: payload.password,
-        password_confirmation: payload.passwordConfirmation,
+        password: payload.password || undefined,
+        password_confirmation: payload.password ? payload.passwordConfirmation : undefined,
         phone: payload.phone || undefined,
         role: payload.role,
         department_ids: payload.departmentIds,

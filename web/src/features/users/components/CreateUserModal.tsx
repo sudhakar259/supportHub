@@ -27,6 +27,7 @@ export function CreateUserModal({ isOpen, onClose, onCreated }: CreateUserModalP
   const [departments, setDepartments] = useState<Department[]>([])
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [passwordMode, setPasswordMode] = useState<'email' | 'manual'>('email')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [phone, setPhone] = useState('')
@@ -59,13 +60,18 @@ export function CreateUserModal({ isOpen, onClose, onCreated }: CreateUserModalP
       const user = await usersApi.create({
         name,
         email,
-        password,
-        passwordConfirmation,
+        password: passwordMode === 'manual' ? password : undefined,
+        passwordConfirmation: passwordMode === 'manual' ? passwordConfirmation : undefined,
         phone: phone || undefined,
         role,
         departmentIds: [...departmentIds],
       })
-      toast.success('User Created Successfully', `${user.name} (${user.email}) was added as ${role}.`)
+      toast.success(
+        'User Created Successfully',
+        passwordMode === 'email'
+          ? `${user.name} (${user.email}) was added as ${role} and emailed a sign-in link.`
+          : `${user.name} (${user.email}) was added as ${role}.`,
+      )
       onCreated(user)
       onClose()
     } catch (err) {
@@ -104,15 +110,49 @@ export function CreateUserModal({ isOpen, onClose, onCreated }: CreateUserModalP
         {error && <p className="text-body-sm text-error">{error}</p>}
         <TextField label="Full Name" required value={name} onChange={(e) => setName(e.target.value)} error={fieldErrors.name} />
         <TextField label="Email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} error={fieldErrors.email} />
-        <div className="grid grid-cols-2 gap-space-sm">
-          <PasswordField label="Password" required value={password} onChange={(e) => setPassword(e.target.value)} error={fieldErrors.password} />
-          <PasswordField
-            label="Confirm Password"
-            required
-            value={passwordConfirmation}
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
-          />
+
+        <div className="flex flex-col gap-space-xs">
+          <span className="text-label-md uppercase tracking-wider text-secondary">Sign-in Credential</span>
+          <label className="flex items-start gap-space-sm rounded-lg bg-surface-container-low p-space-sm">
+            <input
+              type="radio"
+              name="password-mode"
+              checked={passwordMode === 'email'}
+              onChange={() => setPasswordMode('email')}
+              className="mt-0.5 h-4 w-4 cursor-pointer accent-primary"
+            />
+            <span className="flex flex-col text-body-sm text-on-surface-variant">
+              <span className="text-title-sm text-on-surface">Email a secure sign-in link</span>
+              <span>The new teammate receives a password-reset email and sets their own password. Nobody else ever sees it.</span>
+            </span>
+          </label>
+          <label className="flex items-start gap-space-sm rounded-lg bg-surface-container-low p-space-sm">
+            <input
+              type="radio"
+              name="password-mode"
+              checked={passwordMode === 'manual'}
+              onChange={() => setPasswordMode('manual')}
+              className="mt-0.5 h-4 w-4 cursor-pointer accent-primary"
+            />
+            <span className="flex flex-col text-body-sm text-on-surface-variant">
+              <span className="text-title-sm text-on-surface">Set a password now</span>
+              <span>Choose the initial password yourself.</span>
+            </span>
+          </label>
         </div>
+
+        {passwordMode === 'manual' && (
+          <div className="grid grid-cols-2 gap-space-sm">
+            <PasswordField label="Password" required value={password} onChange={(e) => setPassword(e.target.value)} error={fieldErrors.password} />
+            <PasswordField
+              label="Confirm Password"
+              required
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+            />
+          </div>
+        )}
+
         <TextField label="Phone (optional)" value={phone} onChange={(e) => setPhone(e.target.value)} />
         <SelectField label="Role" value={role} onChange={(e) => setRole(e.target.value)}>
           {STAFF_ROLES.map((r) => (

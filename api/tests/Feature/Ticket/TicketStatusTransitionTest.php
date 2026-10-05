@@ -6,16 +6,9 @@ use App\Models\SlaPolicy;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
 use App\Models\User;
-use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\TicketPrioritySeeder;
-use Database\Seeders\TicketStatusSeeder;
 
 beforeEach(function () {
-    $this->seed([
-        RolesAndPermissionsSeeder::class,
-        TicketStatusSeeder::class,
-        TicketPrioritySeeder::class,
-    ]);
+    testTenant();
 });
 
 function setTicketStatus(Ticket $ticket, string $slug): Ticket

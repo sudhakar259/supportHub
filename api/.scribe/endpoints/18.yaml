@@ -1,29 +1,27 @@
-name: 'Platform Administration'
+name: Reports
 description: |-
 
-  A single-call overview for the platform admin landing screen —
-  everything here is a cheap count query, not a report; GET
-  /platform/tenants already supports filtering/pagination for
-  anything needing the underlying rows.
+  Aggregate reporting. These run live queries rather than against a
+  pre-aggregated table — acceptable at the data volumes a support
+  desk accumulates, but the first thing to revisit if that changes.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/platform/dashboard
+    uri: api/v1/reports/tickets-summary
     metadata:
       custom: []
-      groupName: 'Platform Administration'
+      groupName: Reports
       groupDescription: |-
 
-        A single-call overview for the platform admin landing screen —
-        everything here is a cheap count query, not a report; GET
-        /platform/tenants already supports filtering/pagination for
-        anything needing the underlying rows.
+        Aggregate reporting. These run live queries rather than against a
+        pre-aggregated table — acceptable at the data volumes a support
+        desk accumulates, but the first thing to revisit if that changes.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Platform-wide overview'
-      description: ''
+      title: 'Ticket volume summary'
+      description: 'Open ticket counts grouped by status, priority and department.'
       authenticated: true
       deprecated: false
     headers:
@@ -45,9 +43,10 @@ endpoints:
           {
             "success": true, "message": "Request successful.",
             "data": {
-              "tenants": {"total": 12, "active": 9, "trial": 2, "suspended": 1},
-              "platform_admins": 2,
-              "subscriptions_by_plan": [{"plan": "Starter", "count": 7}]
+              "total_tickets": 142,
+              "by_status": [{"status": "Open", "count": 12}],
+              "by_priority": [{"priority": "High", "count": 8}],
+              "by_department": [{"department": "Billing", "count": 20}]
             }
           }
         headers: []
@@ -64,21 +63,21 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/platform/tenants
+    uri: api/v1/reports/sla-compliance
     metadata:
       custom: []
-      groupName: 'Platform Administration'
+      groupName: Reports
       groupDescription: |-
 
-        Tenant management for platform operators. Every route here requires
-        the Platform Admin role — a population entirely separate from any
-        tenant's own "Administrator" (see RequirePlatformAdmin). None of
-        these endpoints are reachable by a tenant user, no matter their
-        role within their own tenant.
+        Aggregate reporting. These run live queries rather than against a
+        pre-aggregated table — acceptable at the data volumes a support
+        desk accumulates, but the first thing to revisit if that changes.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List tenants'
-      description: ''
+      title: 'SLA compliance report'
+      description: |-
+        Breach rates for first response and resolution across all
+        tickets with a calculated SLA.
       authenticated: true
       deprecated: false
     headers:
@@ -87,56 +86,8 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters:
-      'filter[status]':
-        custom: []
-        name: 'filter[status]'
-        description: 'active, trial or suspended.'
-        required: false
-        example: trial
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      'filter[name]':
-        custom: []
-        name: 'filter[name]'
-        description: 'Partial name match.'
-        required: false
-        example: Acme
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      sort:
-        custom: []
-        name: sort
-        description: 'Sort by name or created_at.'
-        required: false
-        example: '-created_at'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      per_page:
-        custom: []
-        name: per_page
-        description: 'Items per page (max 100).'
-        required: false
-        example: 25
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanQueryParameters:
-      'filter[status]': trial
-      'filter[name]': Acme
-      sort: '-created_at'
-      per_page: 25
+    queryParameters: []
+    cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -147,7 +98,13 @@ endpoints:
         content: |-
           {
             "success": true, "message": "Request successful.",
-            "data": [{"id": 2, "name": "Acme Support", "slug": "acme-support", "status": "active", "users_count": 9}]
+            "data": {
+              "total_with_sla": 100,
+              "first_response_breached": 6,
+              "resolution_breached": 11,
+              "first_response_breach_rate": 6.0,
+              "resolution_breach_rate": 11.0
+            }
           }
         headers: []
         description: ''
@@ -163,332 +120,19 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/platform/tenants/{tenant_id}'
+    uri: api/v1/reports/agent-performance
     metadata:
       custom: []
-      groupName: 'Platform Administration'
+      groupName: Reports
       groupDescription: |-
 
-        Tenant management for platform operators. Every route here requires
-        the Platform Admin role — a population entirely separate from any
-        tenant's own "Administrator" (see RequirePlatformAdmin). None of
-        these endpoints are reachable by a tenant user, no matter their
-        role within their own tenant.
+        Aggregate reporting. These run live queries rather than against a
+        pre-aggregated table — acceptable at the data volumes a support
+        desk accumulates, but the first thing to revisit if that changes.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get a tenant'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      tenant_id:
-        custom: []
-        name: tenant_id
-        description: 'The ID of the tenant.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tenant_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 2, "name": "Acme Support", "users_count": 9}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PUT
-    uri: 'api/v1/platform/tenants/{tenant_id}'
-    metadata:
-      custom: []
-      groupName: 'Platform Administration'
-      groupDescription: |-
-
-        Tenant management for platform operators. Every route here requires
-        the Platform Admin role — a population entirely separate from any
-        tenant's own "Administrator" (see RequirePlatformAdmin). None of
-        these endpoints are reachable by a tenant user, no matter their
-        role within their own tenant.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update a tenant'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      tenant_id:
-        custom: []
-        name: tenant_id
-        description: 'The ID of the tenant.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tenant_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        custom: []
-        name: name
-        description: ''
-        required: false
-        example: 'Acme Support Inc.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      email:
-        custom: []
-        name: email
-        description: ''
-        required: false
-        example: billing@acme.com
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      phone:
-        custom: []
-        name: phone
-        description: ''
-        required: false
-        example: +1-555-0100
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      website:
-        custom: []
-        name: website
-        description: ''
-        required: false
-        example: 'https://acme.com'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      country:
-        custom: []
-        name: country
-        description: ''
-        required: false
-        example: US
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      timezone:
-        custom: []
-        name: timezone
-        description: ''
-        required: false
-        example: America/New_York
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      name: 'Acme Support Inc.'
-      email: billing@acme.com
-      phone: +1-555-0100
-      website: 'https://acme.com'
-      country: US
-      timezone: America/New_York
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Tenant updated successfully.", "data": {"id": 2, "name": "Acme Support Inc."}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: 'api/v1/platform/tenants/{tenant_id}/suspend'
-    metadata:
-      custom: []
-      groupName: 'Platform Administration'
-      groupDescription: |-
-
-        Tenant management for platform operators. Every route here requires
-        the Platform Admin role — a population entirely separate from any
-        tenant's own "Administrator" (see RequirePlatformAdmin). None of
-        these endpoints are reachable by a tenant user, no matter their
-        role within their own tenant.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Suspend a tenant'
-      description: |-
-        Immediately blocks every user of this tenant from authenticating
-        further (ResolveTenantContext rejects any tenant that isn't
-        active/trial) and from registering new accounts. Existing Sanctum
-        tokens are not individually revoked — they simply stop working
-        the next time they hit a tenant-scoped route.
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      tenant_id:
-        custom: []
-        name: tenant_id
-        description: 'The ID of the tenant.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tenant_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Tenant suspended successfully.", "data": {"id": 2, "status": "suspended"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: 'api/v1/platform/tenants/{tenant_id}/activate'
-    metadata:
-      custom: []
-      groupName: 'Platform Administration'
-      groupDescription: |-
-
-        Tenant management for platform operators. Every route here requires
-        the Platform Admin role — a population entirely separate from any
-        tenant's own "Administrator" (see RequirePlatformAdmin). None of
-        these endpoints are reachable by a tenant user, no matter their
-        role within their own tenant.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Activate (or reactivate) a tenant'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      tenant_id:
-        custom: []
-        name: tenant_id
-        description: 'The ID of the tenant.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      tenant_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Tenant activated successfully.", "data": {"id": 2, "status": "active"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: api/v1/platform/membership-plans
-    metadata:
-      custom: []
-      groupName: 'Platform Administration'
-      groupDescription: |-
-
-        Membership plans a tenant can subscribe to (see POST
-        /tenants/register and GET /tenants/register's `plan` field).
-        Platform-level data — plans have no tenant_id of their own.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'List membership plans'
-      description: ''
+      title: 'Agent performance report'
+      description: 'Resolved-ticket counts per agent, most active first.'
       authenticated: true
       deprecated: false
     headers:
@@ -506,337 +150,11 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Starter", "slug": "starter", "price_cents": 0}]}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: api/v1/platform/membership-plans
-    metadata:
-      custom: []
-      groupName: 'Platform Administration'
-      groupDescription: |-
-
-        Membership plans a tenant can subscribe to (see POST
-        /tenants/register and GET /tenants/register's `plan` field).
-        Platform-level data — plans have no tenant_id of their own.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Create a membership plan'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        custom: []
-        name: name
-        description: ''
-        required: true
-        example: Growth
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      slug:
-        custom: []
-        name: slug
-        description: ''
-        required: true
-        example: growth
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      description:
-        custom: []
-        name: description
-        description: ''
-        required: false
-        example: 'For scaling support teams.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      price_cents:
-        custom: []
-        name: price_cents
-        description: 'In the smallest currency unit.'
-        required: true
-        example: 9900
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      currency:
-        custom: []
-        name: currency
-        description: 'Defaults to USD.'
-        required: false
-        example: USD
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      billing_interval:
-        custom: []
-        name: billing_interval
-        description: 'monthly or yearly.'
-        required: true
-        example: monthly
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      limits:
-        custom: []
-        name: limits
-        description: 'Feature limits; omit or null a key for unlimited.'
-        required: false
-        example:
-          users: 25
-          customers: 5000
-        type: object
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      is_active:
-        custom: []
-        name: is_active
-        description: 'Defaults to true.'
-        required: false
-        example: true
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      sort_order:
-        custom: []
-        name: sort_order
-        description: ''
-        required: false
-        example: 2
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      name: Growth
-      slug: growth
-      description: 'For scaling support teams.'
-      price_cents: 9900
-      currency: USD
-      billing_interval: monthly
-      limits:
-        users: 25
-        customers: 5000
-      is_active: true
-      sort_order: 2
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 201
-        content: '{"success": true, "message": "Membership plan created successfully.", "data": {"id": 5, "name": "Growth", "slug": "growth"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PUT
-    uri: 'api/v1/platform/membership-plans/{plan_id}'
-    metadata:
-      custom: []
-      groupName: 'Platform Administration'
-      groupDescription: |-
-
-        Membership plans a tenant can subscribe to (see POST
-        /tenants/register and GET /tenants/register's `plan` field).
-        Platform-level data — plans have no tenant_id of their own.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update a membership plan'
-      description: |-
-        Existing subscriptions are unaffected until their next billing
-        cycle re-evaluates limits — this only changes what NEW
-        subscriptions, and PlanLimitService's live checks for all
-        subscriptions, see going forward.
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      plan_id:
-        custom: []
-        name: plan_id
-        description: 'The ID of the plan.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      plan_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        custom: []
-        name: name
-        description: ''
-        required: false
-        example: Growth
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      slug:
-        custom: []
-        name: slug
-        description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 255 characters.'
-        required: false
-        example: 'n'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      description:
-        custom: []
-        name: description
-        description: ''
-        required: false
-        example: 'Eius et animi quos velit et.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: true
-        deprecated: false
-      price_cents:
-        custom: []
-        name: price_cents
-        description: ''
-        required: false
-        example: 12900
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      currency:
-        custom: []
-        name: currency
-        description: 'Must be 3 characters.'
-        required: false
-        example: dlj
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      billing_interval:
-        custom: []
-        name: billing_interval
-        description: ''
-        required: false
-        example: yearly
-        type: string
-        enumValues:
-          - monthly
-          - yearly
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      limits:
-        custom: []
-        name: limits
-        description: ''
-        required: false
-        example:
-          users: 30
-        type: object
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      is_active:
-        custom: []
-        name: is_active
-        description: ''
-        required: false
-        example: false
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      sort_order:
-        custom: []
-        name: sort_order
-        description: 'Must be at least 0.'
-        required: false
-        example: 8
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      name: Growth
-      slug: 'n'
-      description: 'Eius et animi quos velit et.'
-      price_cents: 12900
-      currency: dlj
-      billing_interval: yearly
-      limits:
-        users: 30
-      is_active: false
-      sort_order: 8
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Membership plan updated successfully.", "data": {"id": 5, "name": "Growth"}}'
+        content: |-
+          {
+            "success": true, "message": "Request successful.",
+            "data": [{"agent_id": 5, "agent_name": "Alex Agent", "resolved_count": 34}]
+          }
         headers: []
         description: ''
     responseFields: []

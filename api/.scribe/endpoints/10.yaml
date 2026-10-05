@@ -1,28 +1,727 @@
-name: 'Ticket Messages'
+name: Tickets
 description: |-
 
-  Customer messages, agent replies and internal notes on a ticket.
-  Internal notes are never returned to a customer: this is enforced by
-  excluding them from the query entirely for any caller without the
-  tickets.view_internal_notes permission, not just by hiding a field.
+  The core ticket resource. Visibility is scoped automatically: a
+  customer only ever sees their own tickets; non-administrator staff
+  only see tickets in their department(s) or assigned directly to
+  them. Administrators see everything.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/tickets/{ticket_id}/messages'
+    uri: api/v1/tickets
     metadata:
       custom: []
-      groupName: 'Ticket Messages'
+      groupName: Tickets
       groupDescription: |-
 
-        Customer messages, agent replies and internal notes on a ticket.
-        Internal notes are never returned to a customer: this is enforced by
-        excluding them from the query entirely for any caller without the
-        tickets.view_internal_notes permission, not just by hiding a field.
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List messages on a ticket'
+      title: 'List tickets'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      'filter[status_id]':
+        custom: []
+        name: 'filter[status_id]'
+        description: ''
+        required: false
+        example: '1'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[priority_id]':
+        custom: []
+        name: 'filter[priority_id]'
+        description: ''
+        required: false
+        example: '2'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[department_id]':
+        custom: []
+        name: 'filter[department_id]'
+        description: ''
+        required: false
+        example: '1'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[assignee_id]':
+        custom: []
+        name: 'filter[assignee_id]'
+        description: ''
+        required: false
+        example: '5'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[customer_id]':
+        custom: []
+        name: 'filter[customer_id]'
+        description: ''
+        required: false
+        example: '3'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[ticket_number]':
+        custom: []
+        name: 'filter[ticket_number]'
+        description: 'Partial match.'
+        required: false
+        example: TKT-2026
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[search]':
+        custom: []
+        name: 'filter[search]'
+        description: 'Matches subject or description.'
+        required: false
+        example: 'login issue'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[sla_status]':
+        custom: []
+        name: 'filter[sla_status]'
+        description: 'One of pending, met, breached (ticket_slas.status is never set to any other value).'
+        required: false
+        example: breached
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      sort:
+        custom: []
+        name: sort
+        description: 'Sort by created_at, updated_at or priority. Prefix with - for descending.'
+        required: false
+        example: '-created_at'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Items per page (max 100).'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      'filter[status_id]': '1'
+      'filter[priority_id]': '2'
+      'filter[department_id]': '1'
+      'filter[assignee_id]': '5'
+      'filter[customer_id]': '3'
+      'filter[ticket_number]': TKT-2026
+      'filter[search]': 'login issue'
+      'filter[sla_status]': breached
+      sort: '-created_at'
+      per_page: 25
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "ticket_number": "TKT-2026-000125"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/tickets
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create a ticket'
+      description: |-
+        Runs the full creation pipeline: routing rule evaluation,
+        department/agent assignment, and SLA calculation, before
+        queuing the "ticket created" notification.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      subject:
+        custom: []
+        name: subject
+        description: ''
+        required: true
+        example: 'Unable to login'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: ''
+        required: true
+        example: 'I get an error when trying to log in with my email.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: ''
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      priority_id:
+        custom: []
+        name: priority_id
+        description: 'Defaults to the system default priority.'
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      customer_id:
+        custom: []
+        name: customer_id
+        description: 'Staff only — create on behalf of this customer.'
+        required: false
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      subject: 'Unable to login'
+      description: 'I get an error when trying to log in with my email.'
+      category_id: 1
+      priority_id: 2
+      customer_id: 3
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 201
+        content: '{"success": true, "message": "Ticket created successfully.", "data": {"id": "01HXYZ...", "ticket_number": "TKT-2026-000125"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/tickets/{id}'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get a ticket'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": {"id": "01HXYZ...", "ticket_number": "TKT-2026-000125"}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 403
+        content: '{"success": false, "message": "You do not have permission to perform this action."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/v1/tickets/{id}'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a ticket'
+      description: |-
+        Customers may edit their own ticket's subject/description/category
+        while it is still open; priority may only be changed by staff.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      subject:
+        custom: []
+        name: subject
+        description: ''
+        required: false
+        example: 'Unable to login (updated)'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: ''
+        required: false
+        example: 'Updated description.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: ''
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      priority_id:
+        custom: []
+        name: priority_id
+        description: 'Staff only.'
+        required: false
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      subject: 'Unable to login (updated)'
+      description: 'Updated description.'
+      category_id: 2
+      priority_id: 3
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket updated successfully.", "data": {"id": "01HXYZ...", "subject": "Unable to login (updated)"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/tickets/{id}'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete a ticket'
+      description: 'Soft-deletes the ticket. Administrator only.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket deleted successfully.", "data": null}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/tickets/{ticket_id}/assign'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Assign a ticket'
+      description: |-
+        Manually assigns (or reassigns) the ticket to an agent. Creates a
+        new entry in the assignment history; the previous assignment, if
+        any, is preserved with its unassigned_at timestamp set.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      assignee_id:
+        custom: []
+        name: assignee_id
+        description: ''
+        required: true
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      department_id:
+        custom: []
+        name: department_id
+        description: "Defaults to the ticket's current department."
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      note:
+        custom: []
+        name: note
+        description: ''
+        required: false
+        example: 'Reassigning — original agent is OOO.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      assignee_id: 5
+      department_id: 2
+      note: 'Reassigning — original agent is OOO.'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket assigned successfully.", "data": {"id": "01HXYZ...", "assignee": {"id": 5}}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/tickets/{ticket_id}/reassign'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Assign a ticket'
+      description: |-
+        Manually assigns (or reassigns) the ticket to an agent. Creates a
+        new entry in the assignment history; the previous assignment, if
+        any, is preserved with its unassigned_at timestamp set.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      assignee_id:
+        custom: []
+        name: assignee_id
+        description: ''
+        required: true
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      department_id:
+        custom: []
+        name: department_id
+        description: "Defaults to the ticket's current department."
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      note:
+        custom: []
+        name: note
+        description: ''
+        required: false
+        example: 'Reassigning — original agent is OOO.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      assignee_id: 5
+      department_id: 2
+      note: 'Reassigning — original agent is OOO.'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket assigned successfully.", "data": {"id": "01HXYZ...", "assignee": {"id": 5}}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/tickets/{ticket_id}/escalate'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Escalate a ticket'
       description: ''
       authenticated: true
       deprecated: false
@@ -36,7 +735,299 @@ endpoints:
         name: ticket_id
         description: 'The ID of the ticket.'
         required: true
-        example: 01m3wbzmm13qwtb9xj5yc914m6
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      reason:
+        custom: []
+        name: reason
+        description: ''
+        required: false
+        example: 'Customer is a VIP and SLA is at risk.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      reason: 'Customer is a VIP and SLA is at risk.'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket escalated successfully.", "data": {"id": "01HXYZ...", "status": {"slug": "escalated"}}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: '{"success": false, "message": "Cannot transition a ticket from \"closed\" to \"escalated\"."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/tickets/{ticket_id}/resolve'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Resolve a ticket'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      reason:
+        custom: []
+        name: reason
+        description: ''
+        required: false
+        example: "Issue fixed by clearing the user's session cache."
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      reason: "Issue fixed by clearing the user's session cache."
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket resolved successfully.", "data": {"id": "01HXYZ...", "status": {"slug": "resolved"}}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/tickets/{ticket_id}/close'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Close a ticket'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      reason:
+        custom: []
+        name: reason
+        description: ''
+        required: false
+        example: 'Customer confirmed resolution.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      reason: 'Customer confirmed resolution.'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket closed successfully.", "data": {"id": "01HXYZ...", "status": {"slug": "closed"}}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/tickets/{ticket_id}/reopen'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Reopen a ticket'
+      description: |-
+        Available to the owning customer or staff with tickets.reopen,
+        from a Closed or Resolved state.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      reason:
+        custom: []
+        name: reason
+        description: ''
+        required: false
+        example: 'The issue came back.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      reason: 'The issue came back.'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket reopened successfully.", "data": {"id": "01HXYZ...", "status": {"slug": "reopened"}}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/tickets/{ticket_id}/activities'
+    metadata:
+      custom: []
+      groupName: Tickets
+      groupDescription: |-
+
+        The core ticket resource. Visibility is scoped automatically: a
+        customer only ever sees their own tickets; non-administrator staff
+        only see tickets in their department(s) or assigned directly to
+        them. Administrators see everything.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Get a ticket's activity feed"
+      description: |-
+        The chronological system log of everything that happened to this
+        ticket (created, assigned, status changes, messages posted) —
+        distinct from the audit log, which only covers a narrow set of
+        compliance-relevant actions across the whole application.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4354e56tahm9cav0r11rs3t
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -45,7 +1036,7 @@ endpoints:
       ticket:
         custom: []
         name: ticket
-        description: "The ticket's id."
+        description: ''
         required: true
         example: 01hxyz0123456789abcdefghj
         type: string
@@ -54,7 +1045,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      ticket_id: 01m3wbzmm13qwtb9xj5yc914m6
+      ticket_id: 01m4354e56tahm9cav0r11rs3t
       ticket: 01hxyz0123456789abcdefghj
     queryParameters:
       per_page:
@@ -77,225 +1068,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "type": "agent_reply", "body": "Thanks for reaching out..."}]}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: 'api/v1/tickets/{ticket_id}/messages'
-    metadata:
-      custom: []
-      groupName: 'Ticket Messages'
-      groupDescription: |-
-
-        Customer messages, agent replies and internal notes on a ticket.
-        Internal notes are never returned to a customer: this is enforced by
-        excluding them from the query entirely for any caller without the
-        tickets.view_internal_notes permission, not just by hiding a field.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Post a message'
-      description: |-
-        Customers always post as `customer_message`. Staff post as
-        `agent_reply` by default, or `internal_note` when `is_internal`
-        is true and they hold tickets.view_internal_notes — a customer
-        sending `is_internal` has it silently ignored, never honored.
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: multipart/form-data
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m3wbzmm13qwtb9xj5yc914m6
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      ticket:
-        custom: []
-        name: ticket
-        description: ''
-        required: true
-        example: 01hxyz0123456789abcdefghj
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m3wbzmm13qwtb9xj5yc914m6
-      ticket: 01hxyz0123456789abcdefghj
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      body:
-        custom: []
-        name: body
-        description: ''
-        required: true
-        example: 'Thanks for reaching out — can you share a screenshot of the error?'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      is_internal:
-        custom: []
-        name: is_internal
-        description: 'Staff only.'
-        required: false
-        example: false
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      attachments:
-        custom: []
-        name: attachments
-        description: 'Up to 5 files, 25MB each.'
-        required: false
-        example:
-          - null
-        type: 'file[]'
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      body: 'Thanks for reaching out — can you share a screenshot of the error?'
-      is_internal: false
-    fileParameters:
-      attachments:
-        - null
-    responses:
-      -
-        custom: []
-        status: 201
-        content: '{"success": true, "message": "Message posted successfully.", "data": {"id": "01HXYZ...", "type": "agent_reply"}}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 403
-        content: '{"success": false, "message": "You do not have permission to perform this action."}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/tickets/{ticket_id}/messages/{id}'
-    metadata:
-      custom: []
-      groupName: 'Ticket Messages'
-      groupDescription: |-
-
-        Customer messages, agent replies and internal notes on a ticket.
-        Internal notes are never returned to a customer: this is enforced by
-        excluding them from the query entirely for any caller without the
-        tickets.view_internal_notes permission, not just by hiding a field.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get a single message'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m3wbzmm13qwtb9xj5yc914m6
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      id:
-        custom: []
-        name: id
-        description: 'The ID of the message.'
-        required: true
-        example: 01m3wbznhktc5zeq2h43qsgnbd
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      ticket:
-        custom: []
-        name: ticket
-        description: ''
-        required: true
-        example: 01hxyz0123456789abcdefghj
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      message:
-        custom: []
-        name: message
-        description: ''
-        required: true
-        example: 01hxyz0123456789abcdefghk
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m3wbzmm13qwtb9xj5yc914m6
-      id: 01m3wbznhktc5zeq2h43qsgnbd
-      ticket: 01hxyz0123456789abcdefghj
-      message: 01hxyz0123456789abcdefghk
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": "01HXYZ...", "type": "agent_reply"}}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 403
-        content: '{"success": false, "message": "You do not have permission to perform this action."}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "type": "created", "description": "Ticket created by Casey Customer"}]}'
         headers: []
         description: ''
     responseFields: []

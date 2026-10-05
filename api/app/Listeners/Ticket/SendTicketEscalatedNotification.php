@@ -14,6 +14,11 @@ class SendTicketEscalatedNotification implements ShouldQueue
 
     public function handle(TicketEscalated $event): void
     {
+        $this->inTenantOf($event->ticket->tenant, fn () => $this->notify($event));
+    }
+
+    private function notify(TicketEscalated $event): void
+    {
         $ticket = $event->ticket;
         $recipients = $this->departmentManagersAndSeniorAgents($ticket);
 

@@ -14,6 +14,11 @@ class SendTicketClosedNotification implements ShouldQueue
 
     public function handle(TicketClosed $event): void
     {
+        $this->inTenantOf($event->ticket->tenant, fn () => $this->notify($event));
+    }
+
+    private function notify(TicketClosed $event): void
+    {
         $ticket = $event->ticket;
 
         $this->send->execute(

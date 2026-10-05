@@ -11,8 +11,9 @@ export interface UserFilters {
 export interface CreateUserPayload {
   name: string
   email: string
-  password: string
-  passwordConfirmation: string
+  /** Omit to have the backend generate one and email the new teammate a password-reset link instead. */
+  password?: string
+  passwordConfirmation?: string
   phone?: string
   role: string
   departmentIds?: number[]

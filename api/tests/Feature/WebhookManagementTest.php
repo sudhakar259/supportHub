@@ -4,11 +4,10 @@ use App\Models\Tenant;
 use App\Models\Webhook;
 use App\Models\WebhookDelivery;
 use App\Services\TenantProvisioningService;
-use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Support\Facades\Http;
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 it('creates a webhook and returns the plain secret exactly once', function () {

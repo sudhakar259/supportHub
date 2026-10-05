@@ -23,7 +23,7 @@ class StoreRoleRequest extends FormRequest
             // unrelated tenant.
             'name' => [
                 'required', 'string', 'max:255',
-                Rule::unique('roles', 'name')->where('tenant_id', $this->user()->tenant_id),
+                Rule::unique('roles', 'name')->where('tenant_id', $this->user()?->tenant_id),
             ],
             'permissions' => ['sometimes', 'array'],
             'permissions.*' => ['string', 'exists:permissions,name'],

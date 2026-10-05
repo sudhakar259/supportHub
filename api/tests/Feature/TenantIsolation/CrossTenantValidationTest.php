@@ -8,7 +8,6 @@ use App\Models\TicketCategory;
 use App\Models\TicketPriority;
 use App\Services\TenantProvisioningService;
 use App\Support\TenantContext;
-use Database\Seeders\RolesAndPermissionsSeeder;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +26,7 @@ use Database\Seeders\RolesAndPermissionsSeeder;
 */
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 function otherTenantForValidation(): Tenant

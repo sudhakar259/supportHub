@@ -80,7 +80,7 @@ class CustomerController extends Controller
             $user = User::create([
                 'name' => $request->string('name'),
                 'email' => $request->string('email'),
-                'phone' => $request->string('phone') ?: null,
+                'phone' => $request->filled('phone') ? $request->string('phone')->toString() : null,
                 'password' => Hash::make($request->string('password')),
                 'is_active' => true,
             ]);
@@ -89,9 +89,9 @@ class CustomerController extends Controller
 
             return Customer::create([
                 'user_id' => $user->id,
-                'company_name' => $request->string('company_name') ?: null,
+                'company_name' => $request->filled('company_name') ? $request->string('company_name')->toString() : null,
                 'customer_type' => $request->input('customer_type', 'individual'),
-                'external_id' => $request->string('external_id') ?: null,
+                'external_id' => $request->filled('external_id') ? $request->string('external_id')->toString() : null,
             ]);
         });
 

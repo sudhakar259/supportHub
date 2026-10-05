@@ -17,12 +17,12 @@ Route::middleware(['integration.auth', 'throttle:integration'])->prefix('integra
         Route::get('/tickets', [TicketController::class, 'index']);
         Route::get('/tickets/{ticket}', [TicketController::class, 'show']);
     });
-    Route::middleware('scope:tickets.create')->post('/tickets', [TicketController::class, 'store']);
+    Route::middleware('scope:tickets.create')->post('/tickets', [TicketController::class, 'store'])->middleware('idempotent');
     Route::middleware('scope:tickets.update')->put('/tickets/{ticket}', [TicketController::class, 'update']);
-    Route::middleware('scope:tickets.reply')->post('/tickets/{ticket}/messages', [TicketController::class, 'reply']);
-    Route::middleware('scope:tickets.status.update')->post('/tickets/{ticket}/status', [TicketController::class, 'updateStatus']);
+    Route::middleware('scope:tickets.reply')->post('/tickets/{ticket}/messages', [TicketController::class, 'reply'])->middleware('idempotent');
+    Route::middleware('scope:tickets.status.update')->post('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->middleware('idempotent');
     Route::middleware('scope:tickets.attachments')->group(function () {
         Route::get('/tickets/{ticket}/attachments', [TicketController::class, 'attachments']);
-        Route::post('/tickets/{ticket}/attachments', [TicketController::class, 'storeAttachment']);
+        Route::post('/tickets/{ticket}/attachments', [TicketController::class, 'storeAttachment'])->middleware('idempotent');
     });
 });

@@ -6,7 +6,6 @@ use App\Models\Tenant;
 use App\Services\TenantProvisioningService;
 use App\Support\TenantContext;
 use Database\Seeders\NotificationTemplateSeeder;
-use Database\Seeders\RolesAndPermissionsSeeder;
 use Database\Seeders\SystemSettingSeeder;
 
 /*
@@ -25,7 +24,11 @@ use Database\Seeders\SystemSettingSeeder;
 */
 
 beforeEach(function () {
-    $this->seed([RolesAndPermissionsSeeder::class, NotificationTemplateSeeder::class, SystemSettingSeeder::class]);
+    testTenant();
+    $this->seed([
+        NotificationTemplateSeeder::class,
+        SystemSettingSeeder::class,
+    ]);
 });
 
 function otherProvisionedTenantForOverrides(): Tenant

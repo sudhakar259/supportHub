@@ -2,16 +2,9 @@
 
 use App\Models\Customer;
 use App\Models\Ticket;
-use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\TicketPrioritySeeder;
-use Database\Seeders\TicketStatusSeeder;
 
 beforeEach(function () {
-    $this->seed([
-        RolesAndPermissionsSeeder::class,
-        TicketStatusSeeder::class,
-        TicketPrioritySeeder::class,
-    ]);
+    testTenant();
 });
 
 it('never exposes an internal note to the owning customer, in listing or direct access', function () {

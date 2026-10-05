@@ -1,10 +1,9 @@
 <?php
 
 use App\Models\Department;
-use Database\Seeders\RolesAndPermissionsSeeder;
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 it('allows an administrator to create a department', function () {

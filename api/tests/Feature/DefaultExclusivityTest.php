@@ -3,6 +3,8 @@
 use App\Models\TicketPriority;
 use App\Models\TicketStatus;
 
+beforeEach(fn () => testTenant());
+
 // QA regression (2026-10-01): nothing previously stopped two rows from both
 // being is_default=true; TicketPriority::default()/TicketStatus::default()
 // (used whenever a ticket is created without an explicit priority/status)

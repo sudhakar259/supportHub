@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -114,12 +115,12 @@ return new class extends Migration
         $adminUserIds = DB::table($tableNames['model_has_roles'])
             ->join($tableNames['roles'], "{$tableNames['roles']}.id", '=', "{$tableNames['model_has_roles']}.role_id")
             ->where("{$tableNames['roles']}.name", 'Administrator')
-            ->where("{$tableNames['model_has_roles']}.model_type", \App\Models\User::class)
+            ->where("{$tableNames['model_has_roles']}.model_type", User::class)
             ->pluck("{$tableNames['model_has_roles']}.{$modelMorphKey}");
 
         foreach ([$tableNames['model_has_roles'], $tableNames['model_has_permissions']] as $table) {
             DB::table($table)
-                ->where('model_type', \App\Models\User::class)
+                ->where('model_type', User::class)
                 ->whereNotIn($modelMorphKey, $adminUserIds)
                 ->update([$teamsKey => $tenantId]);
         }

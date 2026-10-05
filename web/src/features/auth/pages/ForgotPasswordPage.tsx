@@ -19,6 +19,8 @@ const TIPS = [
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
+  const [tenant, setTenant] = useState('')
+  const [showTenantField, setShowTenantField] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -29,7 +31,7 @@ export function ForgotPasswordPage() {
     setError(null)
 
     try {
-      await authApi.forgotPassword({ email })
+      await authApi.forgotPassword({ email, tenant })
       setSent(true)
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Unable to reach the server. Please try again.')
@@ -97,6 +99,25 @@ export function ForgotPasswordPage() {
               helperText="Must correspond to your authorized Enterprise Workspace domain."
               autoComplete="email"
             />
+            {showTenantField ? (
+              <TextField
+                label="Organization"
+                placeholder="acme-corp"
+                value={tenant}
+                onChange={(e) => setTenant(e.target.value)}
+                helperText="Only needed if your email is registered with more than one organization."
+                leadingIcon={<Icon name="domain" size={20} />}
+                autoComplete="organization"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowTenantField(true)}
+                className="text-label-md font-semibold text-secondary hover:text-on-surface"
+              >
+                Signing in to a specific organization?
+              </button>
+            )}
             <Button type="submit" className="w-full" size="lg" isLoading={isSubmitting} trailingIcon="arrow_forward">
               {sent ? 'Resend Instructions' : 'Send Reset Link'}
             </Button>

@@ -24,7 +24,7 @@ class StoreCustomerRequest extends FormRequest
             // for self-service signup).
             'email' => [
                 'required', 'string', 'email', 'max:255',
-                Rule::unique('users', 'email')->where('tenant_id', $this->user()->tenant_id),
+                Rule::unique('users', 'email')->where('tenant_id', $this->user()?->tenant_id),
             ],
             'password' => ['required', 'confirmed', Password::defaults()],
             'phone' => ['nullable', 'string', 'max:30'],

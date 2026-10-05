@@ -284,6 +284,15 @@ currently fires it.
   link-local and reserved address ranges at creation/update time —
   resolving the hostname and checking every A record, not just the literal
   string, and refusing to accept a hostname that won't resolve at all.
+- **Test delivery**: `POST /webhooks/{webhook}/test` sends a synthetic
+  `webhook.test` event synchronously (no queue, no retry) via
+  `WebhookDispatcher::test()`, so a tenant can check its endpoint and
+  signature verification without waiting for a real ticket event. Still
+  recorded as an ordinary `WebhookDelivery` row.
+- **Secret rotation**: `POST /webhooks/{webhook}/rotate-secret` issues a new
+  secret for the same webhook (same idea as `ApiCredentialController::rotate()`)
+  — the old secret stops verifying immediately, without needing to delete
+  and recreate the webhook.
 
 ## Plan limits
 
@@ -297,6 +306,22 @@ treated as unlimited — registration always creates one, so this is a
 data-integrity fallback, not a billing decision. Exceeding a limit returns
 `403` with `{"errors": {"feature": "...", "limit": N}}`
 (`PlanLimitExceededException`, rendered by `ApiExceptionRenderer`).
+
+### API rate limiting
+
+Separate from the above (a limit on *stored* rows, checked at write time),
+the Integration API is also rate-limited per *request*, via the plan's
+`api_requests_per_day` figure. `RateLimiter::for('integration', ...)` in
+`AppServiceProvider` reads the calling credential's tenant's plan limit and
+applies `Limit::perDay($limit)->by($credential->id)` — one rolling 24h
+counter per API credential, not per tenant, so one integration hitting its
+own limit doesn't throttle a sibling credential on the same tenant. A plan
+with no `api_requests_per_day` value (e.g. Enterprise) is unlimited. The
+regular dashboard-facing `api`/`auth` limiters are unchanged — flat,
+IP/user-keyed limits meant to slow down abuse, not meter a paid plan.
+Exceeding the integration limit returns `429` with
+`{"errors": {"limit": N, "period": "day", "retry_after_seconds": N}}` plus
+the standard `Retry-After`/`X-RateLimit-*` headers.
 
 ## Testing tenant isolation
 

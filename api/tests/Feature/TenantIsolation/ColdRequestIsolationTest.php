@@ -7,7 +7,6 @@ use App\Models\Tenant;
 use App\Models\User;
 use App\Services\TenantProvisioningService;
 use App\Support\TenantContext;
-use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -39,7 +38,7 @@ use Illuminate\Support\Str;
 */
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 function provisionedTenantColdTest(string $name): Tenant
@@ -67,6 +66,7 @@ it('still 404s a cross-tenant department on a request with no pre-established am
             'password' => Hash::make('password'),
             'is_active' => true,
         ]);
+        $user->markEmailAsVerified();
         $user->assignRole('Administrator');
 
         return $user;
@@ -94,7 +94,6 @@ it('still 404s a cross-tenant customer via the integration API on a cold request
 
     $pair = ApiCredential::generateCredentialPair();
     app(TenantContext::class)->runAs($tenantA, fn () => ApiCredential::create([
-        'tenant_id' => $tenantA->id,
         'name' => 'Cold Test Credential',
         'key' => $pair['key'],
         'secret_hash' => Hash::make($pair['secret']),

@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\DB;
  * Generates the next public ticket number under the active
  * TicketNumberSetting, concurrency-safe via a row-level lock on the
  * relevant TicketNumberSequence. Two concurrent ticket creations can
- * never receive the same number: the sequence row is locked with
- * SELECT ... FOR UPDATE inside a transaction, so a second caller blocks
- * until the first commits its increment.
+ * never receive the same number: the sequence is incremented before it
+ * is read, inside one transaction, so the first statement takes the
+ * write lock and a second caller waits until the first commits.
  *
  * Changing the settings does not touch previously generated numbers —
  * each setting has its own sequences, keyed by (settings_id, period_key).
@@ -29,32 +29,21 @@ class GenerateTicketNumberAction
 
         $nextNumber = $this->retrying(function () use ($settings, $periodKey) {
             return DB::transaction(function () use ($settings, $periodKey) {
-                $sequence = TicketNumberSequence::query()
+                $sequence = fn () => TicketNumberSequence::query()
                     ->where('ticket_number_settings_id', $settings->id)
-                    ->where('period_key', $periodKey)
-                    ->lockForUpdate()
-                    ->first();
+                    ->where('period_key', $periodKey);
 
-                if (! $sequence) {
-                    $sequence = TicketNumberSequence::create([
+                if ($sequence()->increment('last_number') === 0) {
+                    TicketNumberSequence::create([
                         'ticket_number_settings_id' => $settings->id,
                         'period_key' => $periodKey,
                         'last_number' => $settings->starting_number - 1,
                     ]);
 
-                    // Re-fetch under lock: another transaction may have
-                    // inserted the row between our check and our insert
-                    // attempt (caught below) or immediately after ours.
-                    $sequence = TicketNumberSequence::query()
-                        ->where('ticket_number_settings_id', $settings->id)
-                        ->where('period_key', $periodKey)
-                        ->lockForUpdate()
-                        ->first();
+                    $sequence()->increment('last_number');
                 }
 
-                $sequence->increment('last_number');
-
-                return $sequence->last_number;
+                return $sequence()->value('last_number');
             });
         });
 

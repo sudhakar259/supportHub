@@ -1,15 +1,8 @@
 <?php
 
 use App\Models\TicketPriority;
-use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\TicketPrioritySeeder;
 
-beforeEach(function () {
-    $this->seed([
-        RolesAndPermissionsSeeder::class,
-        TicketPrioritySeeder::class,
-    ]);
-});
+beforeEach(fn () => testTenant());
 
 it('lets an admin create and list a routing rule', function () {
     $admin = actingAsAdministrator();
@@ -19,7 +12,7 @@ it('lets an admin create and list a routing rule', function () {
             'name' => 'VIP to senior queue',
             'priority' => 1,
             'conditions' => [['field' => 'customer_type', 'operator' => '=', 'value' => 'vip']],
-            'actions' => [['type' => 'set_priority', 'value' => 4]],
+            'actions' => [['type' => 'set_priority', 'value' => TicketPriority::where('slug', 'urgent')->value('id')]],
         ])->assertCreated()
         ->assertJsonPath('data.name', 'VIP to senior queue');
 

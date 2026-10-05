@@ -2,10 +2,12 @@
 
 use App\Exceptions\ApiExceptionRenderer;
 use App\Http\Middleware\ForceJsonResponse;
+use App\Http\Middleware\IdempotentRequest;
 use App\Http\Middleware\RequireApiScope;
 use App\Http\Middleware\RequirePlatformAdmin;
 use App\Http\Middleware\ResolveIntegrationTenantContext;
 use App\Http\Middleware\ResolveTenantContext;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -24,8 +26,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         apiPrefix: 'api/v1',
     )
+    // Every listener is registered explicitly in AppServiceProvider. Framework
+    // discovery would scan app/Listeners and register each one a second time,
+    // so every ticket notification and webhook fired twice.
+    ->withEvents(discover: false)
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->api(prepend: [
+            SecurityHeaders::class,
             ForceJsonResponse::class,
         ]);
 
@@ -39,6 +46,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'platform.admin' => RequirePlatformAdmin::class,
             'integration.auth' => ResolveIntegrationTenantContext::class,
             'scope' => RequireApiScope::class,
+            'idempotent' => IdempotentRequest::class,
         ]);
 
         // CRITICAL: Laravel's SubstituteBindings middleware (which

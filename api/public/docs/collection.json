@@ -5,12 +5,12 @@
             "key": "baseUrl",
             "type": "string",
             "name": "string",
-            "value": "http:\/\/localhost:8000"
+            "value": "http:\/\/localhost:8080"
         }
     ],
     "info": {
         "name": "SupportHub API Documentation",
-        "_postman_id": "ba540631-b506-4394-9e68-16da94aa92ce",
+        "_postman_id": "a5db7a25-b578-4853-96c0-2b78e09b0a1b",
         "description": "REST API for SupportHub \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -673,6 +673,41 @@
                     ]
                 },
                 {
+                    "name": "Create a role",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Billing Specialist\",\"permissions\":[\"tickets.view\",\"tickets.update\"]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Role created successfully.\", \"data\": {\"id\": 6, \"name\": \"Billing Specialist\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "Get a role",
                     "request": {
                         "url": {
@@ -708,6 +743,49 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Administrator\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a role",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/roles\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/roles\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the role."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Billing Specialist\",\"permissions\":[\"tickets.view\"]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Role updated successfully.\", \"data\": {\"id\": 6, \"name\": \"Billing Specialist\"}}",
                             "name": ""
                         }
                     ]
@@ -854,6 +932,41 @@
                     ]
                 },
                 {
+                    "name": "Create a customer (admin-created account)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/customers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/customers"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"customer_type\":\"business\",\"external_id\":\"CRM-10293\",\"password_confirmation\":\"Secret123!\"}"
+                        },
+                        "description": "Creates a User with the Customer role plus its Customer profile in\na single call, for support staff onboarding a customer by hand.\nFor self-service signup, use POST \/auth\/register instead."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Customer created successfully.\", \"data\": {\"id\": 4, \"company_name\": \"Acme Corp\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "Get a customer",
                     "request": {
                         "url": {
@@ -889,6 +1002,49 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"company_name\": \"Acme Corp\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/customers\/:customer_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/customers\/:customer_id",
+                            "variable": [
+                                {
+                                    "id": "customer_id",
+                                    "key": "customer_id",
+                                    "value": 1,
+                                    "description": "The ID of the customer."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"phone\":\"+1-555-0199\",\"company_name\":\"Acme Corporation\",\"customer_type\":\"vip\",\"timezone\":\"Antarctica\\\/Rothera\",\"external_id\":\"CRM-10293\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Customer updated successfully.\", \"data\": {\"id\": 1, \"company_name\": \"Acme Corporation\"}}",
                             "name": ""
                         }
                     ]
@@ -1407,7 +1563,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1453,7 +1609,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1496,7 +1652,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1536,7 +1692,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1579,7 +1735,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1622,7 +1778,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1671,7 +1827,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1714,7 +1870,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1757,7 +1913,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1807,7 +1963,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -1866,7 +2022,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -1912,7 +2068,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -1985,13 +2141,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m3wbznhktc5zeq2h43qsgnbd",
+                                    "value": "01m45547tnhr360w9vnp2gv2qg",
                                     "description": "The ID of the message."
                                 },
                                 {
@@ -2055,7 +2211,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2101,7 +2257,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2156,13 +2312,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "attachment_id",
                                     "key": "attachment_id",
-                                    "value": "architecto",
+                                    "value": "01m4552j7w56dcy15z4e9xxskv",
                                     "description": "The ID of the attachment."
                                 },
                                 {
@@ -2205,8 +2361,24 @@
                                     "value": "application\/json"
                                 },
                                 {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-frame-options",
+                                    "value": "DENY"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "content-security-policy",
+                                    "value": "default-src 'none'; frame-ancestors 'none'"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
                                 }
                             ],
                             "code": 401,
@@ -2239,13 +2411,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "01m4552j7w56dcy15z4e9xxskv",
                                     "description": "The ID of the attachment."
                                 },
                                 {
@@ -2539,6 +2711,41 @@
                     ]
                 },
                 {
+                    "name": "Create a status",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/statuses",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/statuses"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"on-hold\",\"color\":\"#6B7280\",\"is_default\":true,\"is_closed\":false,\"sort_order\":37}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Status created successfully.\", \"data\": {\"id\": 8, \"name\": \"On Hold\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "Get a status",
                     "request": {
                         "url": {
@@ -2574,6 +2781,49 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Open\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a status",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/statuses\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/statuses\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the status."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":false,\"is_closed\":true,\"sort_order\":37}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Status updated successfully.\", \"data\": {\"id\": 8, \"name\": \"On Hold\"}}",
                             "name": ""
                         }
                     ]
@@ -2663,6 +2913,41 @@
                     ]
                 },
                 {
+                    "name": "Create a priority",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/priorities",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/priorities"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"critical\",\"level\":5,\"color\":\"#DC2626\",\"is_default\":false}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Priority created successfully.\", \"data\": {\"id\": 5, \"name\": \"Critical\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "Get a priority",
                     "request": {
                         "url": {
@@ -2698,6 +2983,49 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"name\": \"Low\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a priority",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/priorities\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/priorities\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": 1,
+                                    "description": "The ID of the priority."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":false}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Priority updated successfully.\", \"data\": {\"id\": 5, \"name\": \"Critical\"}}",
                             "name": ""
                         }
                     ]
@@ -2833,7 +3161,7 @@
                                 {
                                     "id": "rule_id",
                                     "key": "rule_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the rule."
                                 }
                             ]
@@ -2873,7 +3201,7 @@
                                 {
                                     "id": "rule_id",
                                     "key": "rule_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the rule."
                                 }
                             ]
@@ -2891,7 +3219,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":true,\"conditions\":[{\"field\":\"keyword\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"assign_department\"}]}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":true,\"conditions\":[{\"field\":\"customer_type\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"assign_department\"}]}"
                         },
                         "description": ""
                     },
@@ -2916,7 +3244,7 @@
                                 {
                                     "id": "rule_id",
                                     "key": "rule_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the rule."
                                 }
                             ]
@@ -3525,7 +3853,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"string\",\"group\":\"n\",\"is_public\":false}]}"
+                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"json\",\"group\":\"n\",\"is_public\":true}]}"
                         },
                         "description": ""
                     },
@@ -3534,6 +3862,73 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Settings updated successfully.\", \"data\": [{\"key\": \"support_hours_message\", \"value\": \"Mon-Fri 9am-5pm UTC\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List ticket number settings",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/ticket-number-settings",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/ticket-number-settings"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Returns every row for this tenant (current and historical),\nmost recently effective first."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"department_id\": null, \"prefix\": \"TKT\", \"is_active\": true}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a ticket number setting",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/ticket-number-settings",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/ticket-number-settings"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"department_id\":null,\"prefix\":\"ACME\",\"format\":\"{prefix}-{year}-{number}\",\"starting_number\":1,\"number_length\":6,\"reset_period\":\"yearly\",\"is_active\":true}"
+                        },
+                        "description": "Deactivates any existing active row for the same scope\n(`department_id`, or the tenant's global default when omitted)\nand inserts this as the new active one \u2014 the previous row is kept\nfor history, not deleted."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"success\": true, \"message\": \"Ticket number setting created successfully.\", \"data\": {\"id\": 2, \"prefix\": \"ACME\", \"is_active\": true}}",
                             "name": ""
                         }
                     ]
@@ -3623,7 +4018,7 @@
                                 {
                                     "id": "credential_id",
                                     "key": "credential_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the credential."
                                 }
                             ]
@@ -3663,7 +4058,7 @@
                                 {
                                     "id": "credential_id",
                                     "key": "credential_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the credential."
                                 }
                             ]
@@ -3706,7 +4101,7 @@
                                 {
                                     "id": "credential_id",
                                     "key": "credential_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the credential."
                                 }
                             ]
@@ -3746,7 +4141,7 @@
                                 {
                                     "id": "credential_id",
                                     "key": "credential_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the credential."
                                 }
                             ]
@@ -3770,6 +4165,253 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"API credential revoked successfully.\", \"data\": {\"id\": 1, \"status\": \"revoked\"}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Billing",
+            "description": "\nA tenant's own view of its subscription \u2014 distinct from\nPlatform\\TenantController, which lets a platform administrator see\nevery tenant's subscription. Moving to a paid plan issues an invoice\nwith a Razorpay order; the subscription is activated when that invoice\nis paid (see InvoiceController and MarkInvoicePaidAction).",
+            "item": [
+                {
+                    "name": "Get the current subscription",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/subscription",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/subscription"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Includes a `usage` block (one entry per plan-limited feature)\ncomputed live via PlanLimitService \u2014 the same service every\nresource-creating controller already uses to enforce limits, so\nthis can never drift from what creation actually allows."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true, \"message\": \"Request successful.\",\n  \"data\": {\"id\": 1, \"status\": \"trial\", \"plan\": {\"name\": \"Starter\"}, \"usage\": {\"users\": {\"used\": 2, \"limit\": 3}}}\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Change plan",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/subscription",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/subscription"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"plan\":\"professional\"}"
+                        },
+                        "description": "A free plan activates immediately. A paid plan starts a 14-day\ntrial and issues an invoice for the plan price, with a Razorpay\norder to pay it; the subscription is activated once the invoice is\npaid. Earlier unpaid invoices are voided. If the payment provider\ncannot create the order, nothing changes and the request returns 503."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Plan updated successfully.\", \"data\": {\"status\": \"trial\", \"plan\": {\"slug\": \"professional\"}, \"invoice\": {\"status\": \"pending\"}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Cancel the subscription",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/subscription\/cancel",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/subscription\/cancel"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Subscription cancelled.\", \"data\": {\"status\": \"cancelled\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List invoices",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/subscription\/invoices",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/subscription\/invoices"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"number\": \"INV-000001\", \"status\": \"pending\", \"amount_cents\": 4900, \"currency\": \"USD\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Confirm a payment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/subscription\/payments\/verify",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/subscription\/payments\/verify"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"razorpay_order_id\":\"order_Lx1234abcd\",\"razorpay_payment_id\":\"pay_Lx1234abcd\",\"razorpay_signature\":\"architecto\"}"
+                        },
+                        "description": "Called by the browser after Razorpay Checkout succeeds. The signature\nis checked with the key secret; an unsigned or mismatched payment is\nrejected and the invoice stays pending."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Payment confirmed.\", \"data\": {\"status\": \"paid\"}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "POST api\/v1\/billing\/razorpay\/webhook",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/billing\/razorpay\/webhook",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/billing\/razorpay\/webhook"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "120"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "119"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-frame-options",
+                                    "value": "DENY"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "content-security-policy",
+                                    "value": "default-src 'none'; frame-ancestors 'none'"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 400,
+                            "body": "{\"success\":false,\"message\":\"Invalid signature.\"}",
                             "name": ""
                         }
                     ]
@@ -4120,7 +4762,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -4223,7 +4865,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -4277,7 +4919,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -4331,7 +4973,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -4391,7 +5033,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -4442,7 +5084,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m3wbzmm13qwtb9xj5yc914m6",
+                                    "value": "01m4354e56tahm9cav0r11rs3t",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -4486,6 +5128,47 @@
                             "header": [],
                             "code": 201,
                             "body": "{\"success\": true, \"message\": \"Attachment uploaded successfully.\", \"data\": {\"id\": \"01HXYZ...\", \"original_filename\": \"invoice.pdf\"}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Membership Plans",
+            "description": "\nPublic plan catalog for the pricing page and tenant registration's\n`plan` field \u2014 unauthenticated, read-only, mirrors the public\n\/tenants\/register and \/tenants\/lookup\/{slug} endpoints. Only active\nplans are listed; platform administrators manage the full catalog\n(including inactive\/retired plans) via Platform\\MembershipPlanController.",
+            "item": [
+                {
+                    "name": "List active membership plans",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/membership-plans",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/membership-plans"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"name\": \"Starter\", \"slug\": \"starter\", \"price_cents\": 0}]}",
                             "name": ""
                         }
                     ]
@@ -4744,6 +5427,49 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Tenant activated successfully.\", \"data\": {\"id\": 2, \"status\": \"active\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Assign a membership plan to a tenant",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/tenants\/:tenant_id\/subscription",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/tenants\/:tenant_id\/subscription",
+                            "variable": [
+                                {
+                                    "id": "tenant_id",
+                                    "key": "tenant_id",
+                                    "value": 1,
+                                    "description": "The ID of the tenant."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"plan\":\"professional\"}"
+                        },
+                        "description": "Same rules as the tenant's own plan change: a free plan is active with no\ntrial, a paid plan starts a 14-day trial. Creates the subscription if the\ntenant has none."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Plan updated successfully.\", \"data\": {\"id\": 2}}",
                             "name": ""
                         }
                     ]
@@ -5042,7 +5768,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5082,7 +5808,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5125,7 +5851,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5172,7 +5898,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5212,7 +5938,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5252,7 +5978,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 16,
+                                    "value": 1,
                                     "description": "The ID of the webhook."
                                 }
                             ]

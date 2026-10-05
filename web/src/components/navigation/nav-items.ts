@@ -33,6 +33,13 @@ export const NAV_SECTIONS: NavSection[] = [
     ],
   },
   {
+    title: 'Integrations',
+    items: [
+      { label: 'API Credentials', path: ROUTES.apiCredentials, icon: 'vpn_key', permission: 'api-credentials.view' },
+      { label: 'Webhooks', path: ROUTES.webhooks, icon: 'webhook', permission: 'webhooks.view' },
+    ],
+  },
+  {
     title: 'Governance',
     items: [
       { label: 'Users', path: ROUTES.users, icon: 'manage_accounts', permission: 'users.view' },
@@ -42,6 +49,7 @@ export const NAV_SECTIONS: NavSection[] = [
       { label: 'Reports', path: ROUTES.reports, icon: 'insights', permission: 'reports.view' },
       { label: 'Audit Logs', path: ROUTES.auditLogs, icon: 'history', permission: 'audit-logs.view' },
       { label: 'Automation', path: ROUTES.automation, icon: 'auto_mode', permission: ['routing.view', 'sla.view', 'notifications.view'] },
+      { label: 'Billing', path: ROUTES.billing, icon: 'credit_card', permission: 'billing.view' },
       { label: 'Settings', path: ROUTES.settings, icon: 'settings', permission: 'settings.view' },
     ],
   },

@@ -11,21 +11,12 @@ use App\Notifications\TicketEventNotification;
 use App\Services\TenantProvisioningService;
 use App\Support\TenantContext;
 use Database\Seeders\NotificationTemplateSeeder;
-use Database\Seeders\RolesAndPermissionsSeeder;
 use Database\Seeders\SystemSettingSeeder;
-use Database\Seeders\TicketNumberSettingSeeder;
-use Database\Seeders\TicketPrioritySeeder;
-use Database\Seeders\TicketStatusSeeder;
 use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
-    $this->seed([
-        RolesAndPermissionsSeeder::class,
-        TicketStatusSeeder::class,
-        TicketPrioritySeeder::class,
-        TicketNumberSettingSeeder::class,
-        NotificationTemplateSeeder::class,
-    ]);
+    testTenant();
+    $this->seed(NotificationTemplateSeeder::class);
 });
 
 it('sends a rendered ticket_created notification to the customer and logs it', function () {
@@ -114,17 +105,18 @@ it('does not notify the customer for an internal note', function () {
     Notification::assertNothingSent();
 });
 
-it('sends mail using the platform default sender name, reply-to and signature', function () {
+it('ignores the platform email defaults and signs tenant mail with the tenant\'s own name, contact address and signature', function () {
     $this->seed(SystemSettingSeeder::class);
     $tenant = testTenant();
+    $tenant->update(['email' => 'desk@acme.test']);
 
     $mail = app(TenantContext::class)->runAs($tenant, function () {
         return (new TicketEventNotification('ticket_created', 'Subject', 'Body'))->toMail(new Customer);
     });
 
-    expect($mail->from)->toBe([config('mail.from.address'), 'Support24 Team']);
-    expect($mail->replyTo[0])->toBe(['support@supporthub.test', null]);
-    expect($mail->salutation)->toBe("Regards,\nSupport24 Team");
+    expect($mail->from)->toBe([config('mail.from.address'), $tenant->name]);
+    expect($mail->replyTo[0])->toBe(['desk@acme.test', null]);
+    expect($mail->salutation)->toBe("Regards,\n{$tenant->name}");
 });
 
 it('lets a tenant override its sender name, reply-to and signature independently of the platform default', function () {
@@ -143,8 +135,8 @@ it('lets a tenant override its sender name, reply-to and signature independently
     expect($mail->from)->toBe([config('mail.from.address'), 'Acme Support']);
     expect($mail->replyTo[0])->toBe(['help@acme.test', null]);
 
-    // A sibling tenant that never overrode anything still gets the
-    // platform default — overriding one key doesn't fork every key.
+    // A sibling tenant that never overrode anything is branded with its own
+    // name, not the first tenant's overrides or the platform defaults.
     $tenantB = Tenant::create(['name' => 'Other Org', 'slug' => 'other-org-'.uniqid(), 'status' => 'active']);
     app(TenantProvisioningService::class)->provision($tenantB);
 
@@ -152,5 +144,6 @@ it('lets a tenant override its sender name, reply-to and signature independently
         return (new TicketEventNotification('ticket_created', 'Subject', 'Body'))->toMail(new Customer);
     });
 
-    expect($mailB->from)->toBe([config('mail.from.address'), 'Support24 Team']);
+    expect($mailB->from)->toBe([config('mail.from.address'), 'Other Org']);
+    expect($mailB->replyTo)->toBe([]);
 });

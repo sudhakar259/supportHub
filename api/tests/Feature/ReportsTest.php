@@ -2,16 +2,9 @@
 
 use App\Models\Department;
 use App\Models\Ticket;
-use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\TicketPrioritySeeder;
-use Database\Seeders\TicketStatusSeeder;
 
 beforeEach(function () {
-    $this->seed([
-        RolesAndPermissionsSeeder::class,
-        TicketStatusSeeder::class,
-        TicketPrioritySeeder::class,
-    ]);
+    testTenant();
 });
 
 // QA regression (2026-10-01): ticketSummary() previously grouped by

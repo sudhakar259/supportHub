@@ -13,6 +13,7 @@ Route::middleware(['auth:api', 'platform.admin'])->prefix('platform')->group(fun
     Route::put('/tenants/{tenant}', [TenantController::class, 'update']);
     Route::post('/tenants/{tenant}/suspend', [TenantController::class, 'suspend']);
     Route::post('/tenants/{tenant}/activate', [TenantController::class, 'activate']);
+    Route::put('/tenants/{tenant}/subscription', [TenantController::class, 'changePlan']);
 
     Route::get('/membership-plans', [MembershipPlanController::class, 'index']);
     Route::post('/membership-plans', [MembershipPlanController::class, 'store']);

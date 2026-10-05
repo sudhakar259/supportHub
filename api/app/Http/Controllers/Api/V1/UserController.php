@@ -14,6 +14,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -79,12 +81,18 @@ class UserController extends Controller
     {
         app(PlanLimitService::class)->assertCanCreate($request->user()->tenant, 'users');
 
-        $user = DB::transaction(function () use ($request) {
+        // No password supplied: generate one the admin never sees or
+        // transmits, and send the new teammate a real password-reset
+        // email instead (same broker /auth/forgot-password uses) so
+        // they set their own credential before ever signing in.
+        $generatedPassword = $request->filled('password') ? null : Str::password(32);
+
+        $user = DB::transaction(function () use ($request, $generatedPassword) {
             $user = User::create([
                 'name' => $request->string('name'),
                 'email' => $request->string('email'),
-                'phone' => $request->string('phone') ?: null,
-                'password' => Hash::make($request->string('password')),
+                'phone' => $request->filled('phone') ? $request->string('phone')->toString() : null,
+                'password' => Hash::make($generatedPassword ?? $request->string('password')),
                 'is_active' => true,
             ]);
 
@@ -98,6 +106,10 @@ class UserController extends Controller
         });
 
         event(new Registered($user));
+
+        if ($generatedPassword !== null) {
+            Password::sendResetLink(['email' => $user->email, 'tenant_id' => $user->tenant_id]);
+        }
 
         app(AuditLogger::class)->log('user.created', $user, null, ['email' => $user->email, 'role' => $request->string('role')->toString()], $request->user());
 
@@ -139,6 +151,11 @@ class UserController extends Controller
         }
 
         $user->update($data);
+
+        // Deactivation must end existing sessions, not only block the next login.
+        if (isset($data['is_active']) && ! $data['is_active']) {
+            $user->tokens()->delete();
+        }
 
         return $this->success(new UserResource($user->load(['roles', 'departments'])), 'User updated successfully.');
     }

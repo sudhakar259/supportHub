@@ -33,6 +33,20 @@ class ResolveTenantContext
             ], 403);
         }
 
+        if (! $user->is_active) {
+            return response()->json([
+                'success' => false,
+                'message' => 'This account has been deactivated.',
+            ], 401);
+        }
+
+        if (! $user->email_verified_at) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Verify your email address to continue.',
+            ], 403);
+        }
+
         $tenant = $user->tenant;
 
         if (! $tenant || ! $tenant->isActive()) {
@@ -40,6 +54,12 @@ class ResolveTenantContext
                 'success' => false,
                 'message' => 'This tenant account is suspended or no longer active.',
             ], 403);
+        }
+
+        $blockedMessage = $tenant->subscription?->accessBlockedMessage();
+
+        if ($blockedMessage && ! $request->is('api/v1/subscription', 'api/v1/subscription/*')) {
+            return response()->json(['success' => false, 'message' => $blockedMessage], 402);
         }
 
         app(TenantContext::class)->set($tenant);

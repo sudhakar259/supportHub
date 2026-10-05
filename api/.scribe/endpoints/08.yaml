@@ -1,24 +1,30 @@
-name: Priorities
+name: Statuses
 description: |-
 
-  Ticket priorities. `level` is a numeric ordering used by routing
-  rules and reporting (higher = more urgent).
+  The seven built-in statuses (Open, In Progress, Pending, Escalated,
+  Resolved, Closed, Reopened) drive the ticket status workflow (see
+  docs/ticket-workflow.md) and are matched by slug, not id — additional
+  statuses can be added here for labeling/reporting but will not
+  automatically participate in transition validation.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/priorities
+    uri: api/v1/statuses
     metadata:
       custom: []
-      groupName: Priorities
+      groupName: Statuses
       groupDescription: |-
 
-        Ticket priorities. `level` is a numeric ordering used by routing
-        rules and reporting (higher = more urgent).
+        The seven built-in statuses (Open, In Progress, Pending, Escalated,
+        Resolved, Closed, Reopened) drive the ticket status workflow (see
+        docs/ticket-workflow.md) and are matched by slug, not id — additional
+        statuses can be added here for labeling/reporting but will not
+        automatically participate in transition validation.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List priorities'
+      title: 'List statuses'
       description: ''
       authenticated: true
       deprecated: false
@@ -37,7 +43,126 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Low", "level": 1}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Open", "slug": "open"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/statuses
+    metadata:
+      custom: []
+      groupName: Statuses
+      groupDescription: |-
+
+        The seven built-in statuses (Open, In Progress, Pending, Escalated,
+        Resolved, Closed, Reopened) drive the ticket status workflow (see
+        docs/ticket-workflow.md) and are matched by slug, not id — additional
+        statuses can be added here for labeling/reporting but will not
+        automatically participate in transition validation.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create a status'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: ''
+        required: true
+        example: 'On Hold'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      slug:
+        custom: []
+        name: slug
+        description: 'Unique, used internally.'
+        required: true
+        example: on-hold
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      color:
+        custom: []
+        name: color
+        description: 'Hex color.'
+        required: false
+        example: '#6B7280'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_default:
+        custom: []
+        name: is_default
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      is_closed:
+        custom: []
+        name: is_closed
+        description: 'Whether this status counts as a terminal/closed state.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      sort_order:
+        custom: []
+        name: sort_order
+        description: 'Must be at least 0.'
+        required: false
+        example: 37
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'On Hold'
+      slug: on-hold
+      color: '#6B7280'
+      is_default: true
+      is_closed: false
+      sort_order: 37
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 201
+        content: '{"success": true, "message": "Status created successfully.", "data": {"id": 8, "name": "On Hold"}}'
         headers: []
         description: ''
     responseFields: []
@@ -52,17 +177,20 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/priorities/{id}'
+    uri: 'api/v1/statuses/{id}'
     metadata:
       custom: []
-      groupName: Priorities
+      groupName: Statuses
       groupDescription: |-
 
-        Ticket priorities. `level` is a numeric ordering used by routing
-        rules and reporting (higher = more urgent).
+        The seven built-in statuses (Open, In Progress, Pending, Escalated,
+        Resolved, Closed, Reopened) drive the ticket status workflow (see
+        docs/ticket-workflow.md) and are matched by slug, not id — additional
+        statuses can be added here for labeling/reporting but will not
+        automatically participate in transition validation.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get a priority'
+      title: 'Get a status'
       description: ''
       authenticated: true
       deprecated: false
@@ -74,7 +202,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the priority.'
+        description: 'The ID of the status.'
         required: true
         example: 1
         type: integer
@@ -93,7 +221,139 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Low"}}'
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Open"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/v1/statuses/{id}'
+    metadata:
+      custom: []
+      groupName: Statuses
+      groupDescription: |-
+
+        The seven built-in statuses (Open, In Progress, Pending, Escalated,
+        Resolved, Closed, Reopened) drive the ticket status workflow (see
+        docs/ticket-workflow.md) and are matched by slug, not id — additional
+        statuses can be added here for labeling/reporting but will not
+        automatically participate in transition validation.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update a status'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the status.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: ''
+        required: false
+        example: 'On Hold'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      slug:
+        custom: []
+        name: slug
+        description: 'Must contain only letters, numbers, dashes and underscores. Must not be greater than 255 characters.'
+        required: false
+        example: 'n'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      color:
+        custom: []
+        name: color
+        description: ''
+        required: false
+        example: '#F59E0B'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_default:
+        custom: []
+        name: is_default
+        description: ''
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      is_closed:
+        custom: []
+        name: is_closed
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      sort_order:
+        custom: []
+        name: sort_order
+        description: 'Must be at least 0.'
+        required: false
+        example: 37
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'On Hold'
+      slug: 'n'
+      color: '#F59E0B'
+      is_default: false
+      is_closed: true
+      sort_order: 37
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Status updated successfully.", "data": {"id": 8, "name": "On Hold"}}'
         headers: []
         description: ''
     responseFields: []
@@ -108,18 +368,21 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/v1/priorities/{id}'
+    uri: 'api/v1/statuses/{id}'
     metadata:
       custom: []
-      groupName: Priorities
+      groupName: Statuses
       groupDescription: |-
 
-        Ticket priorities. `level` is a numeric ordering used by routing
-        rules and reporting (higher = more urgent).
+        The seven built-in statuses (Open, In Progress, Pending, Escalated,
+        Resolved, Closed, Reopened) drive the ticket status workflow (see
+        docs/ticket-workflow.md) and are matched by slug, not id — additional
+        statuses can be added here for labeling/reporting but will not
+        automatically participate in transition validation.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a priority'
-      description: 'Refuses to delete a priority that is currently in use by any ticket.'
+      title: 'Delete a status'
+      description: 'Refuses to delete a status that is currently in use by any ticket.'
       authenticated: true
       deprecated: false
     headers:
@@ -130,7 +393,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The ID of the priority.'
+        description: 'The ID of the status.'
         required: true
         example: 1
         type: integer
@@ -149,13 +412,13 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Priority deleted successfully.", "data": null}'
+        content: '{"success": true, "message": "Status deleted successfully.", "data": null}'
         headers: []
         description: ''
       -
         custom: []
         status: 422
-        content: '{"success": false, "message": "This priority is in use by existing tickets and cannot be deleted."}'
+        content: '{"success": false, "message": "This status is in use by existing tickets and cannot be deleted."}'
         headers: []
         description: ''
     responseFields: []

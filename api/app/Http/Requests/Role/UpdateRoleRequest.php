@@ -17,7 +17,7 @@ class UpdateRoleRequest extends FormRequest
         return [
             'name' => [
                 'sometimes', 'required', 'string', 'max:255',
-                Rule::unique('roles', 'name')->where('tenant_id', $this->user()->tenant_id)->ignore($this->route('role')),
+                Rule::unique('roles', 'name')->where('tenant_id', $this->user()?->tenant_id)->ignore($this->route('role')),
             ],
             'permissions' => ['sometimes', 'array'],
             'permissions.*' => ['string', 'exists:permissions,name'],

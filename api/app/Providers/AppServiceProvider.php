@@ -57,6 +57,7 @@ use App\Policies\TicketStatusPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\WebhookPolicy;
 use App\Services\PlanLimitService;
+use App\Support\TenantAwarePermissionRegistrar;
 use App\Support\TenantContext;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -69,6 +70,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Spatie\Permission\PermissionRegistrar;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -85,6 +87,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Must override here (not register()) so this replaces spatie's own
+        // singleton binding after its provider has already registered —
+        // see TenantAwarePermissionRegistrar's docblock for why the
+        // override is necessary at all (a real cross-tenant permission-cache
+        // bug, not a style preference).
+        $this->app->singleton(PermissionRegistrar::class, TenantAwarePermissionRegistrar::class);
+
         Password::defaults(fn () => Password::min(10)->mixedCase()->numbers()->symbols());
 
         // This is an API-only app with no password.reset web route, so the

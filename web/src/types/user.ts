@@ -25,3 +25,10 @@ export function hasRole(user: User | null | undefined, role: string): boolean {
 export function hasPermission(user: User | null | undefined, permission: string): boolean {
   return user?.permissions.includes(permission) ?? false
 }
+
+/** Platform Admins are a distinct, tenant-less population (see api RequirePlatformAdmin middleware). */
+export const PLATFORM_ADMIN_ROLE = 'Platform Admin'
+
+export function isPlatformAdmin(user: User | null | undefined): boolean {
+  return hasRole(user, PLATFORM_ADMIN_ROLE)
+}

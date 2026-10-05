@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-#[Fillable(['tenant_id', 'name', 'url', 'secret', 'events', 'is_active'])]
+#[Fillable(['name', 'url', 'secret', 'events', 'is_active'])]
 #[Hidden(['secret'])]
 class Webhook extends Model
 {

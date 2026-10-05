@@ -3,7 +3,7 @@
 REST API for SupportHub — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.
 
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost:8000</code>
+    <strong>Base URL</strong>: <code>http://localhost:8080</code>
 </aside>
 
     This documentation aims to provide all the information you need to work with our API.

@@ -14,6 +14,11 @@ class SendAgentRepliedNotification implements ShouldQueue
 
     public function handle(AgentReplied $event): void
     {
+        $this->inTenantOf($event->message->ticket->tenant, fn () => $this->notify($event));
+    }
+
+    private function notify(AgentReplied $event): void
+    {
         $ticket = $event->message->ticket;
 
         $this->send->execute(

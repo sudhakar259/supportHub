@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -25,19 +26,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $tenantId = DB::table('tenants')->insertGetId([
-            'name' => 'Default Organization',
-            'slug' => 'default',
-            'status' => 'active',
-            'timezone' => 'UTC',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // insertOrGet rather than a bare insert: MySQL DDL later in this
+        // method auto-commits whatever DML ran before it, so if this
+        // migration fails partway through (e.g. the constraint-tightening
+        // step below) and is re-run, the "Default Organization" row from
+        // the first attempt is already permanently there — a plain
+        // insertGetId() would then fail on the unique slug instead of
+        // resuming.
+        $tenantId = DB::table('tenants')->where('slug', 'default')->value('id');
+
+        if (! $tenantId) {
+            $tenantId = DB::table('tenants')->insertGetId([
+                'name' => 'Default Organization',
+                'slug' => 'default',
+                'status' => 'active',
+                'timezone' => 'UTC',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
         $adminUserIds = DB::table('model_has_roles')
             ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('roles.name', 'Administrator')
-            ->where('model_has_roles.model_type', \App\Models\User::class)
+            ->where('model_has_roles.model_type', User::class)
             ->pluck('model_has_roles.model_id');
 
         DB::table('users')->whereNotIn('id', $adminUserIds)->update(['tenant_id' => $tenantId]);
@@ -64,37 +76,69 @@ return new class extends Migration
         $this->tightenUniqueConstraints();
     }
 
+    /**
+     * MySQL DDL auto-commits per statement, so a failure partway through
+     * this method (as originally happened at the ticket_number_sequences
+     * step below) leaves the earlier tables already converted — a re-run
+     * must skip whatever's already done rather than erroring on an index
+     * that no longer exists under its old name.
+     */
+    private function indexExists(string $table, string $indexName): bool
+    {
+        return collect(Schema::getIndexes($table))->contains('name', $indexName);
+    }
+
     private function tightenUniqueConstraints(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropUnique('users_email_unique');
-            $table->unique(['tenant_id', 'email']);
-        });
+        if ($this->indexExists('users', 'users_email_unique')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropUnique('users_email_unique');
+                $table->unique(['tenant_id', 'email']);
+            });
+        }
 
-        Schema::table('departments', function (Blueprint $table) {
-            $table->dropUnique('departments_code_unique');
-            $table->unique(['tenant_id', 'code']);
-        });
+        if ($this->indexExists('departments', 'departments_code_unique')) {
+            Schema::table('departments', function (Blueprint $table) {
+                $table->dropUnique('departments_code_unique');
+                $table->unique(['tenant_id', 'code']);
+            });
+        }
 
-        Schema::table('tickets', function (Blueprint $table) {
-            $table->dropUnique('tickets_ticket_number_unique');
-            $table->unique(['tenant_id', 'ticket_number']);
-        });
+        if ($this->indexExists('tickets', 'tickets_ticket_number_unique')) {
+            Schema::table('tickets', function (Blueprint $table) {
+                $table->dropUnique('tickets_ticket_number_unique');
+                $table->unique(['tenant_id', 'ticket_number']);
+            });
+        }
 
-        Schema::table('ticket_statuses', function (Blueprint $table) {
-            $table->dropUnique('ticket_statuses_slug_unique');
-            $table->unique(['tenant_id', 'slug']);
-        });
+        if ($this->indexExists('ticket_statuses', 'ticket_statuses_slug_unique')) {
+            Schema::table('ticket_statuses', function (Blueprint $table) {
+                $table->dropUnique('ticket_statuses_slug_unique');
+                $table->unique(['tenant_id', 'slug']);
+            });
+        }
 
-        Schema::table('ticket_priorities', function (Blueprint $table) {
-            $table->dropUnique('ticket_priorities_slug_unique');
-            $table->unique(['tenant_id', 'slug']);
-        });
+        if ($this->indexExists('ticket_priorities', 'ticket_priorities_slug_unique')) {
+            Schema::table('ticket_priorities', function (Blueprint $table) {
+                $table->dropUnique('ticket_priorities_slug_unique');
+                $table->unique(['tenant_id', 'slug']);
+            });
+        }
 
-        Schema::table('ticket_number_sequences', function (Blueprint $table) {
-            $table->dropUnique('ticket_number_sequences_unique');
-            $table->unique(['tenant_id', 'ticket_number_settings_id', 'period_key'], 'ticket_number_sequences_tenant_unique');
-        });
+        if ($this->indexExists('ticket_number_sequences', 'ticket_number_sequences_unique')) {
+            Schema::table('ticket_number_sequences', function (Blueprint $table) {
+                // ticket_number_sequences_unique is the index MySQL's InnoDB
+                // chose to back the ticket_number_settings_id foreign key
+                // (its leftmost column), so it can't be dropped on its own —
+                // the FK has to be dropped and recreated around the swap,
+                // since the replacement unique index below leads with
+                // tenant_id instead and can't serve as the FK's index.
+                $table->dropForeign(['ticket_number_settings_id']);
+                $table->dropUnique('ticket_number_sequences_unique');
+                $table->unique(['tenant_id', 'ticket_number_settings_id', 'period_key'], 'ticket_number_sequences_tenant_unique');
+                $table->foreign('ticket_number_settings_id')->references('id')->on('ticket_number_settings')->cascadeOnDelete();
+            });
+        }
 
         // MySQL only: enforce NOT NULL on the tenant_id columns that are
         // always-required (everything except users/notification_templates/
@@ -124,8 +168,10 @@ return new class extends Migration
         // "already null" vs "set by this migration" is not recoverable);
         // down() only reverts the constraint changes.
         Schema::table('ticket_number_sequences', function (Blueprint $table) {
+            $table->dropForeign(['ticket_number_settings_id']);
             $table->dropUnique('ticket_number_sequences_tenant_unique');
             $table->unique(['ticket_number_settings_id', 'period_key'], 'ticket_number_sequences_unique');
+            $table->foreign('ticket_number_settings_id')->references('id')->on('ticket_number_settings')->cascadeOnDelete();
         });
 
         Schema::table('ticket_priorities', function (Blueprint $table) {

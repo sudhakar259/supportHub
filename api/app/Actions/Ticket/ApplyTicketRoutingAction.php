@@ -2,8 +2,12 @@
 
 namespace App\Actions\Ticket;
 
+use App\Models\Department;
 use App\Models\Ticket;
+use App\Models\TicketPriority;
 use App\Models\TicketRoutingRule;
+use App\Models\User;
+use App\Support\TenantContext;
 use Illuminate\Support\Str;
 
 /**
@@ -85,14 +89,32 @@ class ApplyTicketRoutingAction
             $type = $action['type'] ?? null;
             $value = $action['value'] ?? null;
 
-            match ($type) {
-                'assign_department' => $ticket->department_id = $value,
-                'assign_agent' => $outcome['assignee_id'] = $value,
-                'set_priority' => $ticket->priority_id = $value,
-                'escalate' => $outcome['escalate'] = true,
-                'send_notification' => $outcome['notify_template_keys'][] = $value,
-                default => null,
-            };
+            if ($type === 'assign_department' && $this->isAvailable(Department::class, $value, activeOnly: true)) {
+                $ticket->department_id = $value;
+            } elseif ($type === 'assign_agent' && $this->isAvailable(User::class, $value, activeOnly: true)) {
+                $outcome['assignee_id'] = $value;
+            } elseif ($type === 'set_priority' && $this->isAvailable(TicketPriority::class, $value)) {
+                $ticket->priority_id = $value;
+            } elseif ($type === 'escalate') {
+                $outcome['escalate'] = true;
+            } elseif ($type === 'send_notification') {
+                $outcome['notify_template_keys'][] = $value;
+            }
         }
+    }
+
+    protected function isAvailable(string $model, mixed $value, bool $activeOnly = false): bool
+    {
+        if (! is_int($value) && ! (is_string($value) && ctype_digit($value))) {
+            return false;
+        }
+
+        $query = $model::query()->forTenant(app(TenantContext::class)->id() ?? 0)->whereKey($value);
+
+        if ($activeOnly) {
+            $query->where('is_active', true);
+        }
+
+        return $query->exists();
     }
 }

@@ -79,6 +79,26 @@ Supported variables, substituted by `TemplateRenderingService`:
 `{ticket_url}` points at `FRONTEND_URL` (the not-yet-built React app) plus
 `/tickets/{id}` — update `FRONTEND_URL` once that app exists.
 
+## Tenant email configuration
+
+A tenant can customize the outgoing mail its notifications are sent
+with, via the same `SystemSetting` platform-default + tenant-override
+mechanism `support_email`/`support_hours_message` already use (see
+`SystemSettingSeeder`, `PUT /api/v1/system-settings`):
+
+| Key | Effect | Falls back to |
+|---|---|---|
+| `email.sender_name` | Mail "From" display name | Platform default ("Support24 Team") |
+| `email.reply_to` | Reply-To header | `support_email`, then nothing |
+| `email.branding_signature` | Closing signature line | Platform default |
+
+`TicketEventNotification::applyTenantEmailConfig()` reads these
+ambiently from the current `TenantContext` — same assumption the
+template lookup just above it already makes, and the same limitation:
+a real async queue worker needs its own means of re-establishing that
+context (see `docs/multi-tenancy.md`), which this app's `sync` queue
+driver doesn't surface.
+
 ## Preferences
 
 Every user manages **their own** preferences via

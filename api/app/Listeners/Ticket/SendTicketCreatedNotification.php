@@ -14,6 +14,11 @@ class SendTicketCreatedNotification implements ShouldQueue
 
     public function handle(TicketCreated $event): void
     {
+        $this->inTenantOf($event->ticket->tenant, fn () => $this->notify($event));
+    }
+
+    private function notify(TicketCreated $event): void
+    {
         $ticket = $event->ticket;
 
         // Assignment (if any) happened synchronously during creation and

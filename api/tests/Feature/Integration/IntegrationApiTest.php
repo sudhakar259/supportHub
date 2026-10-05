@@ -4,18 +4,9 @@ use App\Models\Customer;
 use App\Models\Tenant;
 use App\Models\Ticket;
 use App\Services\TenantProvisioningService;
-use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\TicketNumberSettingSeeder;
-use Database\Seeders\TicketPrioritySeeder;
-use Database\Seeders\TicketStatusSeeder;
 
 beforeEach(function () {
-    $this->seed([
-        RolesAndPermissionsSeeder::class,
-        TicketStatusSeeder::class,
-        TicketPrioritySeeder::class,
-        TicketNumberSettingSeeder::class,
-    ]);
+    testTenant();
 });
 
 it('rejects a request with missing or invalid API credentials', function () {

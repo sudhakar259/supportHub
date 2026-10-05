@@ -14,6 +14,11 @@ class SendTicketReopenedNotification implements ShouldQueue
 
     public function handle(TicketReopened $event): void
     {
+        $this->inTenantOf($event->ticket->tenant, fn () => $this->notify($event));
+    }
+
+    private function notify(TicketReopened $event): void
+    {
         $ticket = $event->ticket;
         $recipients = $ticket->assignee ? [$ticket->assignee] : $this->departmentManagersAndSeniorAgents($ticket);
 

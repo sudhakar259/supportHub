@@ -1,10 +1,9 @@
 <?php
 
 use App\Models\User;
-use Database\Seeders\RolesAndPermissionsSeeder;
 
 beforeEach(function () {
-    $this->seed(RolesAndPermissionsSeeder::class);
+    testTenant();
 });
 
 it('lets an administrator create a staff user with a role', function () {
