@@ -200,7 +200,7 @@ export function RegistrationPage() {
               <TextField
                 label="Organization Name"
                 required
-                placeholder="Acme Corp"
+                placeholder="Help Corp"
                 value={tenantName}
                 onChange={(e) => handleTenantNameChange(e.target.value)}
                 error={fieldErrors.tenant_name}
@@ -208,7 +208,7 @@ export function RegistrationPage() {
               <TextField
                 label="Workspace ID"
                 required
-                placeholder="acme-corp"
+                placeholder="help-corp"
                 value={tenantSlug}
                 onChange={(e) => {
                   setTenantSlug(slugify(e.target.value))
@@ -257,7 +257,7 @@ export function RegistrationPage() {
                 label="Work Email"
                 required
                 type="email"
-                placeholder="jamie@acme.com"
+                placeholder="jamie@example.com"
                 value={ownerEmail}
                 onChange={(e) => setOwnerEmail(e.target.value)}
                 error={fieldErrors.owner_email}

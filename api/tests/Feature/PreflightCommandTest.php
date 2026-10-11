@@ -26,11 +26,11 @@ function healthyConfig(): void
         'cache.default' => 'file',
         'mail.default' => 'smtp',
         'mail.mailers.smtp.host' => 'smtp.mailgun.org',
-        'mail.from.address' => 'support@acme.io',
+        'mail.from.address' => 'support@help.io',
         'queue.default' => 'redis',
-        'app.url' => 'https://api.acme.io',
-        'app.frontend_url' => 'https://app.acme.io',
-        'cors.allowed_origins' => ['https://app.acme.io'],
+        'app.url' => 'https://api.help.io',
+        'app.frontend_url' => 'https://app.help.io',
+        'cors.allowed_origins' => ['https://app.help.io'],
         'filesystems.default' => 's3',
         'services.razorpay.key_id' => 'rzp_live_x',
         'services.razorpay.key_secret' => 'secret',
@@ -88,7 +88,7 @@ it('fails when mail is only written to a log, or sent through Gmail', function (
 
 it('fails when inbound email is on but the Mailgun signing key is missing', function () {
     healthyConfig();
-    config(['inbound_email.domain' => 'inbound.acme.io', 'inbound_email.mailgun_signing_key' => null]);
+    config(['inbound_email.domain' => 'inbound.help.io', 'inbound_email.mailgun_signing_key' => null]);
     expect(preflight()[1]['Inbound email has its Mailgun signing key'])->toBe('FAIL');
 
     config(['inbound_email.mailgun_signing_key' => 'key']);

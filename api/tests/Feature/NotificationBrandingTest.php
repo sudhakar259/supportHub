@@ -25,14 +25,14 @@ beforeEach(function () {
 
 it('brands a ticket email with the tenant name, its own contact address and a personal greeting', function () {
     $tenant = testTenant();
-    $tenant->update(['email' => 'desk@acme.test']);
+    $tenant->update(['email' => 'desk@help.test']);
     $recipient = User::factory()->create(['tenant_id' => $tenant->id, 'name' => 'Jamie Rivera']);
 
     $mail = (new TicketEventNotification('ticket_created', 'Ticket created', 'Your ticket was created.', 'https://app.test/tickets/1', null, $tenant->id))
         ->toMail($recipient);
 
     expect($mail->from)->toBe([config('mail.from.address'), $tenant->name]);
-    expect($mail->replyTo[0])->toBe(['desk@acme.test', null]);
+    expect($mail->replyTo[0])->toBe(['desk@help.test', null]);
     expect($mail->greeting)->toBe('Hello Jamie Rivera,');
     expect($mail->salutation)->toBe("Regards,\n{$tenant->name}");
     expect(implode(' ', $mail->outroLines))->toContain("sent by {$tenant->name}")->toContain('through DeskNu');
@@ -52,17 +52,17 @@ it('never falls back to the platform sender or contact address for a tenant', fu
 it('uses the tenant\'s own sender name, reply-to and signature when it sets them', function () {
     $tenant = testTenant();
     app(TenantContext::class)->runAs($tenant, function () use ($tenant) {
-        SystemSetting::create(['tenant_id' => $tenant->id, 'key' => 'email.sender_name', 'value' => 'Acme Support', 'type' => 'string']);
-        SystemSetting::create(['tenant_id' => $tenant->id, 'key' => 'email.reply_to', 'value' => 'help@acme.test', 'type' => 'string']);
-        SystemSetting::create(['tenant_id' => $tenant->id, 'key' => 'email.branding_signature', 'value' => 'Thanks,\nAcme', 'type' => 'string']);
+        SystemSetting::create(['tenant_id' => $tenant->id, 'key' => 'email.sender_name', 'value' => 'Help Support', 'type' => 'string']);
+        SystemSetting::create(['tenant_id' => $tenant->id, 'key' => 'email.reply_to', 'value' => 'help@help.test', 'type' => 'string']);
+        SystemSetting::create(['tenant_id' => $tenant->id, 'key' => 'email.branding_signature', 'value' => 'Thanks,\nHelp', 'type' => 'string']);
     });
 
     $mail = (new TicketEventNotification('ticket_created', 'Subject', 'Body', null, null, $tenant->id))
         ->toMail(User::factory()->create(['tenant_id' => $tenant->id]));
 
-    expect($mail->from[1])->toBe('Acme Support');
-    expect($mail->replyTo[0][0])->toBe('help@acme.test');
-    expect($mail->salutation)->toBe('Thanks,\nAcme');
+    expect($mail->from[1])->toBe('Help Support');
+    expect($mail->replyTo[0][0])->toBe('help@help.test');
+    expect($mail->salutation)->toBe('Thanks,\nHelp');
 });
 
 it('keeps each tenant\'s branding separate when mail is built outside a request', function () {

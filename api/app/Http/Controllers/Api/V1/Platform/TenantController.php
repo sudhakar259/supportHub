@@ -30,13 +30,13 @@ class TenantController extends Controller
      * List tenants
      *
      * @queryParam filter[status] active, trial or suspended. Example: trial
-     * @queryParam filter[name] Partial name match. Example: Acme
+     * @queryParam filter[name] Partial name match. Example: Help
      * @queryParam sort Sort by name or created_at. Example: -created_at
      * @queryParam per_page Items per page (max 100). Example: 25
      *
      * @response 200 {
      *   "success": true, "message": "Request successful.",
-     *   "data": [{"id": 2, "name": "Acme Support", "slug": "acme-support", "status": "active", "users_count": 9}]
+     *   "data": [{"id": 2, "name": "Help Support", "slug": "help-support", "status": "active", "users_count": 9}]
      * }
      */
     public function index(Request $request): JsonResponse
@@ -58,7 +58,7 @@ class TenantController extends Controller
     /**
      * Get a tenant
      *
-     * @response 200 {"success": true, "message": "Request successful.", "data": {"id": 2, "name": "Acme Support", "users_count": 9}}
+     * @response 200 {"success": true, "message": "Request successful.", "data": {"id": 2, "name": "Help Support", "users_count": 9}}
      */
     public function show(Tenant $tenant): JsonResponse
     {
@@ -70,14 +70,14 @@ class TenantController extends Controller
     /**
      * Update a tenant
      *
-     * @bodyParam name string Example: Acme Support Inc.
-     * @bodyParam email string Example: billing@acme.com
+     * @bodyParam name string Example: Help Support Inc.
+     * @bodyParam email string Example: billing@example.com
      * @bodyParam phone string Example: +1-555-0100
-     * @bodyParam website string Example: https://acme.com
+     * @bodyParam website string Example: https://example.com
      * @bodyParam country string Example: US
      * @bodyParam timezone string Example: America/New_York
      *
-     * @response 200 {"success": true, "message": "Tenant updated successfully.", "data": {"id": 2, "name": "Acme Support Inc."}}
+     * @response 200 {"success": true, "message": "Tenant updated successfully.", "data": {"id": 2, "name": "Help Support Inc."}}
      */
     public function update(UpdateTenantRequest $request, Tenant $tenant): JsonResponse
     {

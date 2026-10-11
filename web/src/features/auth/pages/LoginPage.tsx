@@ -146,7 +146,7 @@ function WorkspaceLoginPage() {
               ) : showTenantField ? (
                 <TextField
                   label="Organization"
-                  placeholder="acme-corp"
+                  placeholder="help-corp"
                   value={tenant}
                   onChange={(e) => setTenant(e.target.value)}
                   error={fieldErrors.tenant || undefined}

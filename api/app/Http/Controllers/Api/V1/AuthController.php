@@ -42,13 +42,13 @@ class AuthController extends Controller
      *
      * @unauthenticated
      *
-     * @bodyParam tenant string required The organization's slug, confirmable via GET /tenants/lookup/{slug}. Example: acme-support
+     * @bodyParam tenant string required The organization's slug, confirmable via GET /tenants/lookup/{slug}. Example: help-support
      * @bodyParam name string required The user's full name. Example: Jamie Rivera
      * @bodyParam email string required Unique within this tenant (the same email may register with a different tenant separately). Example: jamie@example.com
      * @bodyParam password string required Minimum 10 characters, including upper and lower case, a number, and a symbol. Example: Secret123!word$9
      * @bodyParam password_confirmation string required Must match password. Example: Secret123!
      * @bodyParam phone string The user's phone number. Example: +1-555-0100
-     * @bodyParam company_name string Optional company name for business customers. Example: Acme Corp
+     * @bodyParam company_name string Optional company name for business customers. Example: Help Corp
      *
      * @response 201 {
      *   "success": true,
@@ -112,7 +112,7 @@ class AuthController extends Controller
      *
      * @bodyParam email string required Example: admin@desknu.test
      * @bodyParam password string required Example: password
-     * @bodyParam tenant string Disambiguates if this email has accounts with more than one tenant. Example: acme-support
+     * @bodyParam tenant string Disambiguates if this email has accounts with more than one tenant. Example: help-support
      * @bodyParam device_name string Identifies the issued token, e.g. "iphone-15". Example: web-browser
      *
      * @response 200 {
@@ -358,7 +358,7 @@ class AuthController extends Controller
      * @unauthenticated
      *
      * @bodyParam email string required Example: admin@desknu.test
-     * @bodyParam tenant string Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first. Example: acme-support
+     * @bodyParam tenant string Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first. Example: help-support
      *
      * @response 200 {
      *   "success": true,
@@ -383,7 +383,7 @@ class AuthController extends Controller
      *
      * @bodyParam token string required The token from the reset email. Example: 9f8e7d6c5b4a
      * @bodyParam email string required Example: admin@desknu.test
-     * @bodyParam tenant string Same disambiguator as /auth/forgot-password — pass it if it was used there. Example: acme-support
+     * @bodyParam tenant string Same disambiguator as /auth/forgot-password — pass it if it was used there. Example: help-support
      * @bodyParam password string required Minimum 10 characters, including upper and lower case, a number, and a symbol. Example: NewSecret123!word$9
      * @bodyParam password_confirmation string required Must match password. Example: NewSecret123!
      *

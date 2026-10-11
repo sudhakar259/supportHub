@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
  * @group Email to ticket
  *
  * Lets a workspace turn emails sent to its support address into tickets. The
- * workspace forwards its mailbox (for example support@acme.com) to the address
+ * workspace forwards its mailbox (for example support@example.com) to the address
  * shown here; see docs/email-to-ticket.md.
  */
 class InboundEmailController extends Controller
@@ -20,7 +20,7 @@ class InboundEmailController extends Controller
     /**
      * Show email-to-ticket settings
      *
-     * @response 200 {"success": true, "message": "Request successful.", "data": {"available": true, "address": "acme@inbound.example.com", "enabled": true, "create_customers": true}}
+     * @response 200 {"success": true, "message": "Request successful.", "data": {"available": true, "address": "help@inbound.example.com", "enabled": true, "create_customers": true}}
      */
     public function show(Request $request): JsonResponse
     {

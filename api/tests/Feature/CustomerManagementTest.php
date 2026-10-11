@@ -18,14 +18,14 @@ it('lets an admin create a customer with an underlying user account', function (
             'email' => 'newcustomer@example.com',
             'password' => 'Secret123!',
             'password_confirmation' => 'Secret123!',
-            'company_name' => 'Acme Corp',
+            'company_name' => 'Help Corp',
             'customer_type' => 'business',
         ])
         ->assertCreated()
-        ->assertJsonPath('data.company_name', 'Acme Corp');
+        ->assertJsonPath('data.company_name', 'Help Corp');
 
     $this->assertDatabaseHas('users', ['email' => 'newcustomer@example.com']);
-    $this->assertDatabaseHas('customers', ['company_name' => 'Acme Corp']);
+    $this->assertDatabaseHas('customers', ['company_name' => 'Help Corp']);
 });
 
 it('lets a customer view and update their own profile', function () {

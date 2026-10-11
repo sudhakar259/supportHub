@@ -1,14 +1,14 @@
 # Email to Ticket
 
 A workspace can turn emails sent to its support address into tickets. A customer
-who writes to `support@acme.com` gets a ticket without using any form, and when
+who writes to `support@example.com` gets a ticket without using any form, and when
 they answer an email from DeskNu their reply lands back in the same ticket.
 
 It uses **Mailgun inbound routing**. Mailgun receives the mail and posts it to
 DeskNu, which creates or updates the ticket.
 
 ```
-customer → support@acme.com ──(forward)──▶ acme@inbound.example.com ──▶ Mailgun
+customer → support@example.com ──(forward)──▶ help@inbound.example.com ──▶ Mailgun
                                                                           │ POST (signed)
                                                                           ▼
                                     DeskNu  /api/v1/inbound-email/mailgun  → ticket
@@ -44,13 +44,13 @@ use a tunnel (for example ngrok) and point the Route at it.
 
 1. In DeskNu open **Settings → Email to ticket**. It shows the workspace's
    address, which is the workspace slug at your inbound domain, for example
-   `acme@inbound.example.com`.
+   `help@inbound.example.com`.
 2. **Turn it on.** Choose whether an email from an *unknown* address may create a
    new customer (the default) or must be rejected.
 3. **Forward the support mailbox** to that address. In Gmail / Google Workspace:
    Settings → Forwarding and POP/IMAP → *Add a forwarding address*. In Microsoft
    365: a mailbox forwarding rule or a shared-mailbox rule. At the host or DNS
-   provider: a forwarder for `support@acme.com`.
+   provider: a forwarder for `support@example.com`.
 
    Google and Microsoft send a **confirmation email** to the new forwarding
    address. That email arrives in DeskNu as a ticket, so open it there to read

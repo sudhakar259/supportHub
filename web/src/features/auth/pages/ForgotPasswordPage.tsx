@@ -106,7 +106,7 @@ export function ForgotPasswordPage() {
             {activeWorkspace ? <p className="text-body-sm text-secondary">Password reset for {activeWorkspace}.</p> : showTenantField ? (
               <TextField
                 label="Organization"
-                placeholder="acme-corp"
+                placeholder="help-corp"
                 value={tenant}
                 onChange={(e) => setTenant(e.target.value)}
                 helperText="Only needed if your email is registered with more than one organization."

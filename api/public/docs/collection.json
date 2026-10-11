@@ -41,7 +41,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"tenant\":\"acme-support\",\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!word$9\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"device_name\":\"z\",\"password_confirmation\":\"Secret123!\"}"
+                            "raw": "{\"tenant\":\"help-support\",\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!word$9\",\"phone\":\"+1-555-0100\",\"company_name\":\"Help Corp\",\"device_name\":\"z\",\"password_confirmation\":\"Secret123!\"}"
                         },
                         "description": "Creates a new Customer-role account and an associated customer\nprofile, then returns a Bearer token. A verification email is\nqueued automatically.",
                         "auth": {
@@ -85,7 +85,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"admin@desknu.test\",\"password\":\"password\",\"tenant\":\"acme-support\",\"device_name\":\"web-browser\"}"
+                            "raw": "{\"email\":\"admin@desknu.test\",\"password\":\"password\",\"tenant\":\"help-support\",\"device_name\":\"web-browser\"}"
                         },
                         "description": "Exchanges email\/password credentials for a Sanctum Bearer token.\nPass a `device_name` so multiple tokens (web, iOS, Android) can be\nmanaged and revoked independently per device.",
                         "auth": {
@@ -191,7 +191,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"admin@desknu.test\",\"tenant\":\"acme-support\"}"
+                            "raw": "{\"email\":\"admin@desknu.test\",\"tenant\":\"help-support\"}"
                         },
                         "description": "Sends a password reset link to the given email if an account\nexists for it. Always returns the same generic success message\nregardless of whether the email is registered, to avoid leaking\nwhich addresses have accounts.",
                         "auth": {
@@ -229,7 +229,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"token\":\"9f8e7d6c5b4a\",\"email\":\"admin@desknu.test\",\"tenant\":\"acme-support\",\"password\":\"NewSecret123!word$9\",\"password_confirmation\":\"NewSecret123!\"}"
+                            "raw": "{\"token\":\"9f8e7d6c5b4a\",\"email\":\"admin@desknu.test\",\"tenant\":\"help-support\",\"password\":\"NewSecret123!word$9\",\"password_confirmation\":\"NewSecret123!\"}"
                         },
                         "description": "Completes a password reset using the token emailed by\n\/auth\/forgot-password.",
                         "auth": {
@@ -1089,7 +1089,7 @@
                                 },
                                 {
                                     "key": "filter[company_name]",
-                                    "value": "Acme",
+                                    "value": "Help",
                                     "description": "Partial match.",
                                     "disabled": false
                                 },
@@ -1106,7 +1106,7 @@
                                     "disabled": false
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/v1\/customers?filter%5Bcustomer_type%5D=business&filter%5Bcompany_name%5D=Acme&sort=-created_at&per_page=25"
+                            "raw": "{{baseUrl}}\/api\/v1\/customers?filter%5Bcustomer_type%5D=business&filter%5Bcompany_name%5D=Help&sort=-created_at&per_page=25"
                         },
                         "method": "GET",
                         "header": [
@@ -1126,7 +1126,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"company_name\": \"Acme Corp\"}]}",
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"company_name\": \"Help Corp\"}]}",
                             "name": ""
                         }
                     ]
@@ -1153,7 +1153,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"customer_type\":\"business\",\"external_id\":\"CRM-10293\",\"password_confirmation\":\"Secret123!\"}"
+                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"company_name\":\"Help Corp\",\"customer_type\":\"business\",\"external_id\":\"CRM-10293\",\"password_confirmation\":\"Secret123!\"}"
                         },
                         "description": "Creates a User with the Customer role plus its Customer profile in\na single call, for support staff onboarding a customer by hand.\nFor self-service signup, use POST \/auth\/register instead."
                     },
@@ -1161,7 +1161,7 @@
                         {
                             "header": [],
                             "code": 201,
-                            "body": "{\"success\": true, \"message\": \"Customer created successfully.\", \"data\": {\"id\": 4, \"company_name\": \"Acme Corp\"}}",
+                            "body": "{\"success\": true, \"message\": \"Customer created successfully.\", \"data\": {\"id\": 4, \"company_name\": \"Help Corp\"}}",
                             "name": ""
                         }
                     ]
@@ -1201,7 +1201,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"company_name\": \"Acme Corp\"}}",
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"company_name\": \"Help Corp\"}}",
                             "name": ""
                         }
                     ]
@@ -1337,7 +1337,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone\":\"+1-555-0199\",\"company_name\":\"Acme Corporation\",\"customer_type\":\"vip\",\"timezone\":\"Antarctica\\\/Rothera\",\"external_id\":\"CRM-10293\"}"
+                            "raw": "{\"phone\":\"+1-555-0199\",\"company_name\":\"Help Corporation\",\"customer_type\":\"vip\",\"timezone\":\"Antarctica\\\/Rothera\",\"external_id\":\"CRM-10293\"}"
                         },
                         "description": ""
                     },
@@ -1345,7 +1345,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Customer updated successfully.\", \"data\": {\"id\": 1, \"company_name\": \"Acme Corporation\"}}",
+                            "body": "{\"success\": true, \"message\": \"Customer updated successfully.\", \"data\": {\"id\": 1, \"company_name\": \"Help Corporation\"}}",
                             "name": ""
                         }
                     ]
@@ -4647,7 +4647,7 @@
         },
         {
             "name": "Email to ticket",
-            "description": "\nLets a workspace turn emails sent to its support address into tickets. The\nworkspace forwards its mailbox (for example support@acme.com) to the address\nshown here; see docs\/email-to-ticket.md.",
+            "description": "\nLets a workspace turn emails sent to its support address into tickets. The\nworkspace forwards its mailbox (for example support@example.com) to the address\nshown here; see docs\/email-to-ticket.md.",
             "item": [
                 {
                     "name": "Show email-to-ticket settings",
@@ -4676,7 +4676,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"available\": true, \"address\": \"acme@inbound.example.com\", \"enabled\": true, \"create_customers\": true}}",
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"available\": true, \"address\": \"help@inbound.example.com\", \"enabled\": true, \"create_customers\": true}}",
                             "name": ""
                         }
                     ]
@@ -5175,7 +5175,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 4, \"external_id\": \"CRM-001\", \"company_name\": \"Acme Corp\"}]}",
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 4, \"external_id\": \"CRM-001\", \"company_name\": \"Help Corp\"}]}",
                             "name": ""
                         }
                     ]
@@ -5326,7 +5326,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"phone\":\"+1-555-0100\",\"send_invite\":true,\"company_name\":\"Acme Corp\",\"customer_type\":\"business\",\"external_id\":\"CRM-001\"}"
+                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"phone\":\"+1-555-0100\",\"send_invite\":true,\"company_name\":\"Help Corp\",\"customer_type\":\"business\",\"external_id\":\"CRM-001\"}"
                         },
                         "description": "No password is set \u2014 this customer can request one later via\nPOST \/auth\/forgot-password if they ever need direct portal\naccess; most integration-created customers never do.",
                         "auth": {
@@ -5380,7 +5380,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone\":\"+1-555-0199\",\"company_name\":\"Acme Corporation\",\"customer_type\":\"vip\",\"external_id\":\"CRM-002\"}"
+                            "raw": "{\"phone\":\"+1-555-0199\",\"company_name\":\"Help Corporation\",\"customer_type\":\"vip\",\"external_id\":\"CRM-002\"}"
                         },
                         "description": "",
                         "auth": {
@@ -6383,7 +6383,7 @@
                                 },
                                 {
                                     "key": "filter[name]",
-                                    "value": "Acme",
+                                    "value": "Help",
                                     "description": "Partial name match.",
                                     "disabled": false
                                 },
@@ -6400,7 +6400,7 @@
                                     "disabled": false
                                 }
                             ],
-                            "raw": "{{baseUrl}}\/api\/v1\/platform\/tenants?filter%5Bstatus%5D=trial&filter%5Bname%5D=Acme&sort=-created_at&per_page=25"
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/tenants?filter%5Bstatus%5D=trial&filter%5Bname%5D=Help&sort=-created_at&per_page=25"
                         },
                         "method": "GET",
                         "header": [
@@ -6420,7 +6420,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n  \"success\": true, \"message\": \"Request successful.\",\n  \"data\": [{\"id\": 2, \"name\": \"Acme Support\", \"slug\": \"acme-support\", \"status\": \"active\", \"users_count\": 9}]\n}",
+                            "body": "{\n  \"success\": true, \"message\": \"Request successful.\",\n  \"data\": [{\"id\": 2, \"name\": \"Help Support\", \"slug\": \"help-support\", \"status\": \"active\", \"users_count\": 9}]\n}",
                             "name": ""
                         }
                     ]
@@ -6460,7 +6460,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 2, \"name\": \"Acme Support\", \"users_count\": 9}}",
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 2, \"name\": \"Help Support\", \"users_count\": 9}}",
                             "name": ""
                         }
                     ]
@@ -6495,7 +6495,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Acme Support Inc.\",\"email\":\"billing@acme.com\",\"phone\":\"+1-555-0100\",\"website\":\"https:\\\/\\\/acme.com\",\"country\":\"US\",\"timezone\":\"America\\\/New_York\"}"
+                            "raw": "{\"name\":\"Help Support Inc.\",\"email\":\"billing@example.com\",\"phone\":\"+1-555-0100\",\"website\":\"https:\\\/\\\/example.com\",\"country\":\"US\",\"timezone\":\"America\\\/New_York\"}"
                         },
                         "description": ""
                     },
@@ -6503,7 +6503,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Tenant updated successfully.\", \"data\": {\"id\": 2, \"name\": \"Acme Support Inc.\"}}",
+                            "body": "{\"success\": true, \"message\": \"Tenant updated successfully.\", \"data\": {\"id\": 2, \"name\": \"Help Support Inc.\"}}",
                             "name": ""
                         }
                     ]
@@ -6812,7 +6812,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"tenant_name\":\"Acme Corp\",\"tenant_slug\":\"acme-corp\",\"owner_name\":\"Jamie Rivera\",\"owner_email\":\"jamie@acme.com\",\"owner_password\":\"Secret123!word$9\",\"plan\":\"professional\",\"phone\":\"+1-555-0100\",\"website\":\"https:\\\/\\\/acme.com\",\"country\":\"US\",\"timezone\":\"America\\\/New_York\",\"device_name\":\"y\",\"owner_password_confirmation\":\"Secret123!word$9\"}"
+                            "raw": "{\"tenant_name\":\"Help Corp\",\"tenant_slug\":\"help-corp\",\"owner_name\":\"Jamie Rivera\",\"owner_email\":\"jamie@example.com\",\"owner_password\":\"Secret123!word$9\",\"plan\":\"professional\",\"phone\":\"+1-555-0100\",\"website\":\"https:\\\/\\\/example.com\",\"country\":\"US\",\"timezone\":\"America\\\/New_York\",\"device_name\":\"y\",\"owner_password_confirmation\":\"Secret123!word$9\"}"
                         },
                         "description": "Creates the tenant, subscribes it to the given plan (the free\nStarter plan if omitted), provisions its default roles\/ticket\nstatuses\/priorities, and creates the owner account. Starter-plan\nsignups are active immediately; any paid plan starts a 14-day\ntrial (no payment is collected here \u2014 billing integration is out\nof scope for this API).",
                         "auth": {
@@ -6823,7 +6823,7 @@
                         {
                             "header": [],
                             "code": 201,
-                            "body": "{\n  \"success\": true,\n  \"message\": \"Organization registered successfully.\",\n  \"data\": {\n    \"tenant\": {\"id\": 7, \"name\": \"Acme Corp\", \"slug\": \"acme-corp\", \"status\": \"active\"},\n    \"user\": {\"id\": 42, \"name\": \"Jamie Rivera\", \"email\": \"jamie@acme.com\", \"roles\": [\"Administrator\"]},\n    \"token\": \"1|abcdef123456...\",\n    \"token_type\": \"Bearer\"\n  }\n}",
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Organization registered successfully.\",\n  \"data\": {\n    \"tenant\": {\"id\": 7, \"name\": \"Help Corp\", \"slug\": \"help-corp\", \"status\": \"active\"},\n    \"user\": {\"id\": 42, \"name\": \"Jamie Rivera\", \"email\": \"jamie@example.com\", \"roles\": [\"Administrator\"]},\n    \"token\": \"1|abcdef123456...\",\n    \"token_type\": \"Bearer\"\n  }\n}",
                             "name": ""
                         },
                         {
@@ -6846,7 +6846,7 @@
                                 {
                                     "id": "slug",
                                     "key": "slug",
-                                    "value": "acme-corp",
+                                    "value": "help-corp",
                                     "description": ""
                                 }
                             ]
@@ -6872,7 +6872,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"slug\": \"acme-corp\", \"name\": \"Acme Corp\", \"is_active\": true}}",
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"slug\": \"help-corp\", \"name\": \"Help Corp\", \"is_active\": true}}",
                             "name": ""
                         },
                         {

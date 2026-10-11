@@ -108,14 +108,14 @@ it('does not notify the customer for an internal note', function () {
 it('ignores the platform email defaults and signs tenant mail with the tenant\'s own name, contact address and signature', function () {
     $this->seed(SystemSettingSeeder::class);
     $tenant = testTenant();
-    $tenant->update(['email' => 'desk@acme.test']);
+    $tenant->update(['email' => 'desk@help.test']);
 
     $mail = app(TenantContext::class)->runAs($tenant, function () {
         return (new TicketEventNotification('ticket_created', 'Subject', 'Body'))->toMail(new Customer);
     });
 
     expect($mail->from)->toBe([config('mail.from.address'), $tenant->name]);
-    expect($mail->replyTo[0])->toBe(['desk@acme.test', null]);
+    expect($mail->replyTo[0])->toBe(['desk@help.test', null]);
     expect($mail->salutation)->toBe("Regards,\n{$tenant->name}");
 });
 
@@ -124,16 +124,16 @@ it('lets a tenant override its sender name, reply-to and signature independently
     $tenant = testTenant();
 
     app(TenantContext::class)->runAs($tenant, function () {
-        SystemSetting::create(['tenant_id' => testTenant()->id, 'key' => 'email.sender_name', 'value' => 'Acme Support', 'type' => 'string']);
-        SystemSetting::create(['tenant_id' => testTenant()->id, 'key' => 'email.reply_to', 'value' => 'help@acme.test', 'type' => 'string']);
+        SystemSetting::create(['tenant_id' => testTenant()->id, 'key' => 'email.sender_name', 'value' => 'Help Support', 'type' => 'string']);
+        SystemSetting::create(['tenant_id' => testTenant()->id, 'key' => 'email.reply_to', 'value' => 'help@help.test', 'type' => 'string']);
     });
 
     $mail = app(TenantContext::class)->runAs($tenant, function () {
         return (new TicketEventNotification('ticket_created', 'Subject', 'Body'))->toMail(new Customer);
     });
 
-    expect($mail->from)->toBe([config('mail.from.address'), 'Acme Support']);
-    expect($mail->replyTo[0])->toBe(['help@acme.test', null]);
+    expect($mail->from)->toBe([config('mail.from.address'), 'Help Support']);
+    expect($mail->replyTo[0])->toBe(['help@help.test', null]);
 
     // A sibling tenant that never overrode anything is branded with its own
     // name, not the first tenant's overrides or the platform defaults.

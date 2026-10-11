@@ -19,7 +19,7 @@ it('registers a new customer and issues a token', function () {
         'email' => 'jamie@example.com',
         'password' => 'Secret123!',
         'password_confirmation' => 'Secret123!',
-        'company_name' => 'Acme Corp',
+        'company_name' => 'Help Corp',
     ]);
 
     $response->assertCreated()

@@ -24,7 +24,7 @@ DeskNu Platform
       │
       ├── Platform Admin(s)
       │
-      ├── Tenant: Acme Support   ── Users / Roles / Departments / Customers / Tickets
+      ├── Tenant: Help Support   ── Users / Roles / Departments / Customers / Tickets
       └── Tenant: Globex Helpdesk ── Users / Roles / Departments / Customers / Tickets
 ```
 

@@ -5,7 +5,7 @@ import { ApiError } from '@/types/api'
 
 describe('error reporting privacy rules', () => {
   it('keeps the page address but drops the query string and fragment, where reset tokens and emails live', () => {
-    expect(scrubUrl('https://acme.example.com/reset-password?token=abc123&email=jamie@example.com#top')).toBe('https://acme.example.com/reset-password')
+    expect(scrubUrl('https://help.example.com/reset-password?token=abc123&email=jamie@example.com#top')).toBe('https://help.example.com/reset-password')
     expect(scrubUrl('https://example.com/tickets/42')).toBe('https://example.com/tickets/42')
   })
 

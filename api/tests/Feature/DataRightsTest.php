@@ -28,7 +28,7 @@ function customerWithHistory(): array
     return app(TenantContext::class)->runAs($tenant, function () use ($tenant, $agent) {
         $user = User::factory()->create(['tenant_id' => $tenant->id, 'name' => 'Jamie Rivera', 'email' => 'jamie@example.com', 'phone' => '+1-555-0100']);
         $user->assignRole('Customer');
-        $customer = Customer::factory()->create(['user_id' => $user->id, 'tenant_id' => $tenant->id, 'company_name' => 'Acme', 'phone' => '+1-555-0100', 'external_id' => 'wp-user-9']);
+        $customer = Customer::factory()->create(['user_id' => $user->id, 'tenant_id' => $tenant->id, 'company_name' => 'Help', 'phone' => '+1-555-0100', 'external_id' => 'wp-user-9']);
         $ticket = Ticket::factory()->create(['tenant_id' => $tenant->id, 'customer_id' => $customer->id, 'subject' => 'My card was charged twice', 'description' => 'Card ending 4242 charged twice']);
 
         $ticket->messages()->create(['author_id' => $user->id, 'type' => 'customer_message', 'body' => 'Please refund me, I live at 1 Main St']);
@@ -55,7 +55,7 @@ it('exports everything held about a customer, without internal notes or staff na
     $data = json_decode($response->streamedContent(), true);
 
     expect($response->headers->get('content-disposition'))->toContain('customer-'.$customer->id.'-data-')
-        ->and($data['customer'])->toMatchArray(['name' => 'Jamie Rivera', 'email' => 'jamie@example.com', 'company_name' => 'Acme', 'external_id' => 'wp-user-9'])
+        ->and($data['customer'])->toMatchArray(['name' => 'Jamie Rivera', 'email' => 'jamie@example.com', 'company_name' => 'Help', 'external_id' => 'wp-user-9'])
         ->and($data['tickets'])->toHaveCount(1)
         ->and($data['tickets'][0]['subject'])->toBe('My card was charged twice')
         ->and(collect($data['tickets'][0]['messages'])->pluck('from')->all())->toBe(['customer', 'support team'])

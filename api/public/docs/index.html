@@ -888,12 +888,12 @@ queued automatically.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"tenant\": \"acme-support\",
+    \"tenant\": \"help-support\",
     \"name\": \"Jamie Rivera\",
     \"email\": \"jamie@example.com\",
     \"password\": \"Secret123!word$9\",
     \"phone\": \"+1-555-0100\",
-    \"company_name\": \"Acme Corp\",
+    \"company_name\": \"Help Corp\",
     \"device_name\": \"z\",
     \"password_confirmation\": \"Secret123!\"
 }"
@@ -911,12 +911,12 @@ const headers = {
 };
 
 let body = {
-    "tenant": "acme-support",
+    "tenant": "help-support",
     "name": "Jamie Rivera",
     "email": "jamie@example.com",
     "password": "Secret123!word$9",
     "phone": "+1-555-0100",
-    "company_name": "Acme Corp",
+    "company_name": "Help Corp",
     "device_name": "z",
     "password_confirmation": "Secret123!"
 };
@@ -1047,10 +1047,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="tenant"                data-endpoint="POSTapi-v1-auth-register"
-               value="acme-support"
+               value="help-support"
                data-component="body">
     <br>
-<p>The organization's slug, confirmable via GET /tenants/lookup/{slug}. Example: <code>acme-support</code></p>
+<p>The organization's slug, confirmable via GET /tenants/lookup/{slug}. Example: <code>help-support</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
@@ -1107,10 +1107,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="company_name"                data-endpoint="POSTapi-v1-auth-register"
-               value="Acme Corp"
+               value="Help Corp"
                data-component="body">
     <br>
-<p>Optional company name for business customers. Example: <code>Acme Corp</code></p>
+<p>Optional company name for business customers. Example: <code>Help Corp</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>device_name</code></b>&nbsp;&nbsp;
@@ -1159,7 +1159,7 @@ managed and revoked independently per device.</p>
     --data "{
     \"email\": \"admin@desknu.test\",
     \"password\": \"password\",
-    \"tenant\": \"acme-support\",
+    \"tenant\": \"help-support\",
     \"device_name\": \"web-browser\"
 }"
 </code></pre></div>
@@ -1178,7 +1178,7 @@ const headers = {
 let body = {
     "email": "admin@desknu.test",
     "password": "password",
-    "tenant": "acme-support",
+    "tenant": "help-support",
     "device_name": "web-browser"
 };
 
@@ -1353,10 +1353,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="tenant"                data-endpoint="POSTapi-v1-auth-login"
-               value="acme-support"
+               value="help-support"
                data-component="body">
     <br>
-<p>Disambiguates if this email has accounts with more than one tenant. Example: <code>acme-support</code></p>
+<p>Disambiguates if this email has accounts with more than one tenant. Example: <code>help-support</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>device_name</code></b>&nbsp;&nbsp;
@@ -1598,7 +1598,7 @@ which addresses have accounts.</p>
     --header "Accept: application/json" \
     --data "{
     \"email\": \"admin@desknu.test\",
-    \"tenant\": \"acme-support\"
+    \"tenant\": \"help-support\"
 }"
 </code></pre></div>
 
@@ -1615,7 +1615,7 @@ const headers = {
 
 let body = {
     "email": "admin@desknu.test",
-    "tenant": "acme-support"
+    "tenant": "help-support"
 };
 
 fetch(url, {
@@ -1730,10 +1730,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="tenant"                data-endpoint="POSTapi-v1-auth-forgot-password"
-               value="acme-support"
+               value="help-support"
                data-component="body">
     <br>
-<p>Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first. Example: <code>acme-support</code></p>
+<p>Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first. Example: <code>help-support</code></p>
         </div>
         </form>
 
@@ -1757,7 +1757,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"token\": \"9f8e7d6c5b4a\",
     \"email\": \"admin@desknu.test\",
-    \"tenant\": \"acme-support\",
+    \"tenant\": \"help-support\",
     \"password\": \"NewSecret123!word$9\",
     \"password_confirmation\": \"NewSecret123!\"
 }"
@@ -1777,7 +1777,7 @@ const headers = {
 let body = {
     "token": "9f8e7d6c5b4a",
     "email": "admin@desknu.test",
-    "tenant": "acme-support",
+    "tenant": "help-support",
     "password": "NewSecret123!word$9",
     "password_confirmation": "NewSecret123!"
 };
@@ -1921,10 +1921,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="tenant"                data-endpoint="POSTapi-v1-auth-reset-password"
-               value="acme-support"
+               value="help-support"
                data-component="body">
     <br>
-<p>Same disambiguator as /auth/forgot-password — pass it if it was used there. Example: <code>acme-support</code></p>
+<p>Same disambiguator as /auth/forgot-password — pass it if it was used there. Example: <code>help-support</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -5302,7 +5302,7 @@ fields (company, customer type) layered on top of it.</p>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8082/api/v1/customers?filter%5Bcustomer_type%5D=business&amp;filter%5Bcompany_name%5D=Acme&amp;sort=-created_at&amp;per_page=25" \
+    --get "http://localhost:8082/api/v1/customers?filter%5Bcustomer_type%5D=business&amp;filter%5Bcompany_name%5D=Help&amp;sort=-created_at&amp;per_page=25" \
     --header "Authorization: Bearer {YOUR_AUTH_TOKEN}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -5315,7 +5315,7 @@ fields (company, customer type) layered on top of it.</p>
 
 const params = {
     "filter[customer_type]": "business",
-    "filter[company_name]": "Acme",
+    "filter[company_name]": "Help",
     "sort": "-created_at",
     "per_page": "25",
 };
@@ -5348,7 +5348,7 @@ fetch(url, {
     &quot;data&quot;: [
         {
             &quot;id&quot;: 1,
-            &quot;company_name&quot;: &quot;Acme Corp&quot;
+            &quot;company_name&quot;: &quot;Help Corp&quot;
         }
     ]
 }</code>
@@ -5457,10 +5457,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="filter[company_name]"                data-endpoint="GETapi-v1-customers"
-               value="Acme"
+               value="Help"
                data-component="query">
     <br>
-<p>Partial match. Example: <code>Acme</code></p>
+<p>Partial match. Example: <code>Help</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>sort</code></b>&nbsp;&nbsp;
@@ -5513,7 +5513,7 @@ For self-service signup, use POST /auth/register instead.</p>
     \"email\": \"jamie@example.com\",
     \"password\": \"Secret123!\",
     \"phone\": \"+1-555-0100\",
-    \"company_name\": \"Acme Corp\",
+    \"company_name\": \"Help Corp\",
     \"customer_type\": \"business\",
     \"external_id\": \"CRM-10293\",
     \"password_confirmation\": \"Secret123!\"
@@ -5537,7 +5537,7 @@ let body = {
     "email": "jamie@example.com",
     "password": "Secret123!",
     "phone": "+1-555-0100",
-    "company_name": "Acme Corp",
+    "company_name": "Help Corp",
     "customer_type": "business",
     "external_id": "CRM-10293",
     "password_confirmation": "Secret123!"
@@ -5562,7 +5562,7 @@ fetch(url, {
     &quot;message&quot;: &quot;Customer created successfully.&quot;,
     &quot;data&quot;: {
         &quot;id&quot;: 4,
-        &quot;company_name&quot;: &quot;Acme Corp&quot;
+        &quot;company_name&quot;: &quot;Help Corp&quot;
     }
 }</code>
  </pre>
@@ -5706,10 +5706,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="company_name"                data-endpoint="POSTapi-v1-customers"
-               value="Acme Corp"
+               value="Help Corp"
                data-component="body">
     <br>
-<p>Example: <code>Acme Corp</code></p>
+<p>Example: <code>Help Corp</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>customer_type</code></b>&nbsp;&nbsp;
@@ -5799,7 +5799,7 @@ fetch(url, {
     &quot;message&quot;: &quot;Request successful.&quot;,
     &quot;data&quot;: {
         &quot;id&quot;: 1,
-        &quot;company_name&quot;: &quot;Acme Corp&quot;
+        &quot;company_name&quot;: &quot;Help Corp&quot;
     }
 }</code>
  </pre>
@@ -6321,7 +6321,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"phone\": \"+1-555-0199\",
-    \"company_name\": \"Acme Corporation\",
+    \"company_name\": \"Help Corporation\",
     \"customer_type\": \"vip\",
     \"timezone\": \"Antarctica\\/Rothera\",
     \"external_id\": \"CRM-10293\"
@@ -6342,7 +6342,7 @@ const headers = {
 
 let body = {
     "phone": "+1-555-0199",
-    "company_name": "Acme Corporation",
+    "company_name": "Help Corporation",
     "customer_type": "vip",
     "timezone": "Antarctica\/Rothera",
     "external_id": "CRM-10293"
@@ -6367,7 +6367,7 @@ fetch(url, {
     &quot;message&quot;: &quot;Customer updated successfully.&quot;,
     &quot;data&quot;: {
         &quot;id&quot;: 1,
-        &quot;company_name&quot;: &quot;Acme Corporation&quot;
+        &quot;company_name&quot;: &quot;Help Corporation&quot;
     }
 }</code>
  </pre>
@@ -6488,10 +6488,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="company_name"                data-endpoint="PUTapi-v1-customers--customer_id-"
-               value="Acme Corporation"
+               value="Help Corporation"
                data-component="body">
     <br>
-<p>Example: <code>Acme Corporation</code></p>
+<p>Example: <code>Help Corporation</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>customer_type</code></b>&nbsp;&nbsp;
@@ -21189,7 +21189,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                 <h1 id="email-to-ticket">Email to ticket</h1>
 
     <p>Lets a workspace turn emails sent to its support address into tickets. The
-workspace forwards its mailbox (for example support@acme.com) to the address
+workspace forwards its mailbox (for example support@example.com) to the address
 shown here; see docs/email-to-ticket.md.</p>
 
                                 <h2 id="email-to-ticket-GETapi-v1-inbound-email">Show email-to-ticket settings</h2>
@@ -21242,7 +21242,7 @@ fetch(url, {
     &quot;message&quot;: &quot;Request successful.&quot;,
     &quot;data&quot;: {
         &quot;available&quot;: true,
-        &quot;address&quot;: &quot;acme@inbound.example.com&quot;,
+        &quot;address&quot;: &quot;help@inbound.example.com&quot;,
         &quot;enabled&quot;: true,
         &quot;create_customers&quot;: true
     }
@@ -22728,7 +22728,7 @@ fetch(url, {
         {
             &quot;id&quot;: 4,
             &quot;external_id&quot;: &quot;CRM-001&quot;,
-            &quot;company_name&quot;: &quot;Acme Corp&quot;
+            &quot;company_name&quot;: &quot;Help Corp&quot;
         }
     ]
 }</code>
@@ -23265,7 +23265,7 @@ access; most integration-created customers never do.</p>
     \"email\": \"jamie@example.com\",
     \"phone\": \"+1-555-0100\",
     \"send_invite\": true,
-    \"company_name\": \"Acme Corp\",
+    \"company_name\": \"Help Corp\",
     \"customer_type\": \"business\",
     \"external_id\": \"CRM-001\"
 }"
@@ -23289,7 +23289,7 @@ let body = {
     "email": "jamie@example.com",
     "phone": "+1-555-0100",
     "send_invite": true,
-    "company_name": "Acme Corp",
+    "company_name": "Help Corp",
     "customer_type": "business",
     "external_id": "CRM-001"
 };
@@ -23479,10 +23479,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="company_name"                data-endpoint="POSTapi-v1-integration-customers"
-               value="Acme Corp"
+               value="Help Corp"
                data-component="body">
     <br>
-<p>Example: <code>Acme Corp</code></p>
+<p>Example: <code>Help Corp</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>customer_type</code></b>&nbsp;&nbsp;
@@ -23530,7 +23530,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"phone\": \"+1-555-0199\",
-    \"company_name\": \"Acme Corporation\",
+    \"company_name\": \"Help Corporation\",
     \"customer_type\": \"vip\",
     \"external_id\": \"CRM-002\"
 }"
@@ -23551,7 +23551,7 @@ const headers = {
 
 let body = {
     "phone": "+1-555-0199",
-    "company_name": "Acme Corporation",
+    "company_name": "Help Corporation",
     "customer_type": "vip",
     "external_id": "CRM-002"
 };
@@ -23708,10 +23708,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="company_name"                data-endpoint="PUTapi-v1-integration-customers--customer_id-"
-               value="Acme Corporation"
+               value="Help Corporation"
                data-component="body">
     <br>
-<p>Example: <code>Acme Corporation</code></p>
+<p>Example: <code>Help Corporation</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>customer_type</code></b>&nbsp;&nbsp;
@@ -26919,7 +26919,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8082/api/v1/platform/tenants?filter%5Bstatus%5D=trial&amp;filter%5Bname%5D=Acme&amp;sort=-created_at&amp;per_page=25" \
+    --get "http://localhost:8082/api/v1/platform/tenants?filter%5Bstatus%5D=trial&amp;filter%5Bname%5D=Help&amp;sort=-created_at&amp;per_page=25" \
     --header "Authorization: Bearer {YOUR_AUTH_TOKEN}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -26932,7 +26932,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 const params = {
     "filter[status]": "trial",
-    "filter[name]": "Acme",
+    "filter[name]": "Help",
     "sort": "-created_at",
     "per_page": "25",
 };
@@ -26965,8 +26965,8 @@ fetch(url, {
     &quot;data&quot;: [
         {
             &quot;id&quot;: 2,
-            &quot;name&quot;: &quot;Acme Support&quot;,
-            &quot;slug&quot;: &quot;acme-support&quot;,
+            &quot;name&quot;: &quot;Help Support&quot;,
+            &quot;slug&quot;: &quot;help-support&quot;,
             &quot;status&quot;: &quot;active&quot;,
             &quot;users_count&quot;: 9
         }
@@ -27077,10 +27077,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="filter[name]"                data-endpoint="GETapi-v1-platform-tenants"
-               value="Acme"
+               value="Help"
                data-component="query">
     <br>
-<p>Partial name match. Example: <code>Acme</code></p>
+<p>Partial name match. Example: <code>Help</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>sort</code></b>&nbsp;&nbsp;
@@ -27158,7 +27158,7 @@ fetch(url, {
     &quot;message&quot;: &quot;Request successful.&quot;,
     &quot;data&quot;: {
         &quot;id&quot;: 2,
-        &quot;name&quot;: &quot;Acme Support&quot;,
+        &quot;name&quot;: &quot;Help Support&quot;,
         &quot;users_count&quot;: 9
     }
 }</code>
@@ -27281,10 +27281,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"Acme Support Inc.\",
-    \"email\": \"billing@acme.com\",
+    \"name\": \"Help Support Inc.\",
+    \"email\": \"billing@example.com\",
     \"phone\": \"+1-555-0100\",
-    \"website\": \"https:\\/\\/acme.com\",
+    \"website\": \"https:\\/\\/example.com\",
     \"country\": \"US\",
     \"timezone\": \"America\\/New_York\"
 }"
@@ -27303,10 +27303,10 @@ const headers = {
 };
 
 let body = {
-    "name": "Acme Support Inc.",
-    "email": "billing@acme.com",
+    "name": "Help Support Inc.",
+    "email": "billing@example.com",
     "phone": "+1-555-0100",
-    "website": "https:\/\/acme.com",
+    "website": "https:\/\/example.com",
     "country": "US",
     "timezone": "America\/New_York"
 };
@@ -27330,7 +27330,7 @@ fetch(url, {
     &quot;message&quot;: &quot;Tenant updated successfully.&quot;,
     &quot;data&quot;: {
         &quot;id&quot;: 2,
-        &quot;name&quot;: &quot;Acme Support Inc.&quot;
+        &quot;name&quot;: &quot;Help Support Inc.&quot;
     }
 }</code>
  </pre>
@@ -27439,10 +27439,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="PUTapi-v1-platform-tenants--tenant_id-"
-               value="Acme Support Inc."
+               value="Help Support Inc."
                data-component="body">
     <br>
-<p>Example: <code>Acme Support Inc.</code></p>
+<p>Example: <code>Help Support Inc.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -27451,10 +27451,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="PUTapi-v1-platform-tenants--tenant_id-"
-               value="billing@acme.com"
+               value="billing@example.com"
                data-component="body">
     <br>
-<p>Example: <code>billing@acme.com</code></p>
+<p>Example: <code>billing@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
@@ -27475,10 +27475,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="website"                data-endpoint="PUTapi-v1-platform-tenants--tenant_id-"
-               value="https://acme.com"
+               value="https://example.com"
                data-component="body">
     <br>
-<p>Example: <code>https://acme.com</code></p>
+<p>Example: <code>https://example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>country</code></b>&nbsp;&nbsp;
@@ -28945,14 +28945,14 @@ of scope for this API).</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"tenant_name\": \"Acme Corp\",
-    \"tenant_slug\": \"acme-corp\",
+    \"tenant_name\": \"Help Corp\",
+    \"tenant_slug\": \"help-corp\",
     \"owner_name\": \"Jamie Rivera\",
-    \"owner_email\": \"jamie@acme.com\",
+    \"owner_email\": \"jamie@example.com\",
     \"owner_password\": \"Secret123!word$9\",
     \"plan\": \"professional\",
     \"phone\": \"+1-555-0100\",
-    \"website\": \"https:\\/\\/acme.com\",
+    \"website\": \"https:\\/\\/example.com\",
     \"country\": \"US\",
     \"timezone\": \"America\\/New_York\",
     \"device_name\": \"y\",
@@ -28972,14 +28972,14 @@ const headers = {
 };
 
 let body = {
-    "tenant_name": "Acme Corp",
-    "tenant_slug": "acme-corp",
+    "tenant_name": "Help Corp",
+    "tenant_slug": "help-corp",
     "owner_name": "Jamie Rivera",
-    "owner_email": "jamie@acme.com",
+    "owner_email": "jamie@example.com",
     "owner_password": "Secret123!word$9",
     "plan": "professional",
     "phone": "+1-555-0100",
-    "website": "https:\/\/acme.com",
+    "website": "https:\/\/example.com",
     "country": "US",
     "timezone": "America\/New_York",
     "device_name": "y",
@@ -29006,14 +29006,14 @@ fetch(url, {
     &quot;data&quot;: {
         &quot;tenant&quot;: {
             &quot;id&quot;: 7,
-            &quot;name&quot;: &quot;Acme Corp&quot;,
-            &quot;slug&quot;: &quot;acme-corp&quot;,
+            &quot;name&quot;: &quot;Help Corp&quot;,
+            &quot;slug&quot;: &quot;help-corp&quot;,
             &quot;status&quot;: &quot;active&quot;
         },
         &quot;user&quot;: {
             &quot;id&quot;: 42,
             &quot;name&quot;: &quot;Jamie Rivera&quot;,
-            &quot;email&quot;: &quot;jamie@acme.com&quot;,
+            &quot;email&quot;: &quot;jamie@example.com&quot;,
             &quot;roles&quot;: [
                 &quot;Administrator&quot;
             ]
@@ -29118,10 +29118,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="tenant_name"                data-endpoint="POSTapi-v1-tenants-register"
-               value="Acme Corp"
+               value="Help Corp"
                data-component="body">
     <br>
-<p>The organization's display name. Example: <code>Acme Corp</code></p>
+<p>The organization's display name. Example: <code>Help Corp</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>tenant_slug</code></b>&nbsp;&nbsp;
@@ -29130,10 +29130,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="tenant_slug"                data-endpoint="POSTapi-v1-tenants-register"
-               value="acme-corp"
+               value="help-corp"
                data-component="body">
     <br>
-<p>Globally unique, used in the <code>tenant</code> field of /auth/login and /auth/register. Example: <code>acme-corp</code></p>
+<p>Globally unique, used in the <code>tenant</code> field of /auth/login and /auth/register. Example: <code>help-corp</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>owner_name</code></b>&nbsp;&nbsp;
@@ -29154,10 +29154,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="owner_email"                data-endpoint="POSTapi-v1-tenants-register"
-               value="jamie@acme.com"
+               value="jamie@example.com"
                data-component="body">
     <br>
-<p>Example: <code>jamie@acme.com</code></p>
+<p>Example: <code>jamie@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>owner_password</code></b>&nbsp;&nbsp;
@@ -29202,10 +29202,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="website"                data-endpoint="POSTapi-v1-tenants-register"
-               value="https://acme.com"
+               value="https://example.com"
                data-component="body">
     <br>
-<p>Example: <code>https://acme.com</code></p>
+<p>Example: <code>https://example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>country</code></b>&nbsp;&nbsp;
@@ -29272,14 +29272,14 @@ credentials. Deliberately returns only non-sensitive fields.</p>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8082/api/v1/tenants/lookup/acme-corp" \
+    --get "http://localhost:8082/api/v1/tenants/lookup/help-corp" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8082/api/v1/tenants/lookup/acme-corp"
+    "http://localhost:8082/api/v1/tenants/lookup/help-corp"
 );
 
 const headers = {
@@ -29305,8 +29305,8 @@ fetch(url, {
     &quot;success&quot;: true,
     &quot;message&quot;: &quot;Request successful.&quot;,
     &quot;data&quot;: {
-        &quot;slug&quot;: &quot;acme-corp&quot;,
-        &quot;name&quot;: &quot;Acme Corp&quot;,
+        &quot;slug&quot;: &quot;help-corp&quot;,
+        &quot;name&quot;: &quot;Help Corp&quot;,
         &quot;is_active&quot;: true
     }
 }</code>
@@ -29401,10 +29401,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="slug"                data-endpoint="GETapi-v1-tenants-lookup--slug-"
-               value="acme-corp"
+               value="help-corp"
                data-component="url">
     <br>
-<p>Example: <code>acme-corp</code></p>
+<p>Example: <code>help-corp</code></p>
             </div>
                     </form>
 

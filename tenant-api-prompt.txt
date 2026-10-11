@@ -1473,7 +1473,7 @@ Example:
 
 ```text
 Tenant A:
-Acme Support
+Help Support
 
 Tenant B:
 Demo Corporation

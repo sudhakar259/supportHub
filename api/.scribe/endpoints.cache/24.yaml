@@ -60,7 +60,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 4, "external_id": "CRM-001", "company_name": "Acme Corp"}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 4, "external_id": "CRM-001", "company_name": "Help Corp"}]}'
         headers: []
         description: ''
     responseFields: []
@@ -310,7 +310,7 @@ endpoints:
         name: company_name
         description: ''
         required: false
-        example: 'Acme Corp'
+        example: 'Help Corp'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -343,7 +343,7 @@ endpoints:
       email: jamie@example.com
       phone: +1-555-0100
       send_invite: true
-      company_name: 'Acme Corp'
+      company_name: 'Help Corp'
       customer_type: business
       external_id: CRM-001
     fileParameters: []
@@ -419,7 +419,7 @@ endpoints:
         name: company_name
         description: ''
         required: false
-        example: 'Acme Corporation'
+        example: 'Help Corporation'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -449,7 +449,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       phone: +1-555-0199
-      company_name: 'Acme Corporation'
+      company_name: 'Help Corporation'
       customer_type: vip
       external_id: CRM-002
     fileParameters: []

@@ -115,7 +115,7 @@ without editing a hosts file. Use the actual port printed by Vite if different.
 
 For the existing demo tenants:
 
-- `http://acme-support.localhost:5173`
+- `http://help-support.localhost:5173`
 - `http://globex-helpdesk.localhost:5173`
 
 Only existing tenant slugs open real workspaces. `/demo` on the root website

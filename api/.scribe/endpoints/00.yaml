@@ -47,7 +47,7 @@ endpoints:
         name: tenant_name
         description: "The organization's display name."
         required: true
-        example: 'Acme Corp'
+        example: 'Help Corp'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -58,7 +58,7 @@ endpoints:
         name: tenant_slug
         description: 'Globally unique, used in the `tenant` field of /auth/login and /auth/register.'
         required: true
-        example: acme-corp
+        example: help-corp
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -80,7 +80,7 @@ endpoints:
         name: owner_email
         description: ''
         required: true
-        example: jamie@acme.com
+        example: jamie@example.com
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -124,7 +124,7 @@ endpoints:
         name: website
         description: ''
         required: false
-        example: 'https://acme.com'
+        example: 'https://example.com'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -175,14 +175,14 @@ endpoints:
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      tenant_name: 'Acme Corp'
-      tenant_slug: acme-corp
+      tenant_name: 'Help Corp'
+      tenant_slug: help-corp
       owner_name: 'Jamie Rivera'
-      owner_email: jamie@acme.com
+      owner_email: jamie@example.com
       owner_password: Secret123!word$9
       plan: professional
       phone: +1-555-0100
-      website: 'https://acme.com'
+      website: 'https://example.com'
       country: US
       timezone: America/New_York
       device_name: 'y'
@@ -197,8 +197,8 @@ endpoints:
             "success": true,
             "message": "Organization registered successfully.",
             "data": {
-              "tenant": {"id": 7, "name": "Acme Corp", "slug": "acme-corp", "status": "active"},
-              "user": {"id": 42, "name": "Jamie Rivera", "email": "jamie@acme.com", "roles": ["Administrator"]},
+              "tenant": {"id": 7, "name": "Help Corp", "slug": "help-corp", "status": "active"},
+              "user": {"id": 42, "name": "Jamie Rivera", "email": "jamie@example.com", "roles": ["Administrator"]},
               "token": "1|abcdef123456...",
               "token_type": "Bearer"
             }
@@ -254,14 +254,14 @@ endpoints:
         name: slug
         description: ''
         required: true
-        example: acme-corp
+        example: help-corp
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      slug: acme-corp
+      slug: help-corp
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -271,7 +271,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"slug": "acme-corp", "name": "Acme Corp", "is_active": true}}'
+        content: '{"success": true, "message": "Request successful.", "data": {"slug": "help-corp", "name": "Help Corp", "is_active": true}}'
         headers: []
         description: ''
       -

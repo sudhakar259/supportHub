@@ -104,7 +104,7 @@ endpoints:
         name: 'filter[name]'
         description: 'Partial name match.'
         required: false
-        example: Acme
+        example: Help
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -134,7 +134,7 @@ endpoints:
         deprecated: false
     cleanQueryParameters:
       'filter[status]': trial
-      'filter[name]': Acme
+      'filter[name]': Help
       sort: '-created_at'
       per_page: 25
     bodyParameters: []
@@ -147,7 +147,7 @@ endpoints:
         content: |-
           {
             "success": true, "message": "Request successful.",
-            "data": [{"id": 2, "name": "Acme Support", "slug": "acme-support", "status": "active", "users_count": 9}]
+            "data": [{"id": 2, "name": "Help Support", "slug": "help-support", "status": "active", "users_count": 9}]
           }
         headers: []
         description: ''
@@ -207,7 +207,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 2, "name": "Acme Support", "users_count": 9}}'
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 2, "name": "Help Support", "users_count": 9}}'
         headers: []
         description: ''
     responseFields: []
@@ -265,7 +265,7 @@ endpoints:
         name: name
         description: ''
         required: false
-        example: 'Acme Support Inc.'
+        example: 'Help Support Inc.'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -276,7 +276,7 @@ endpoints:
         name: email
         description: ''
         required: false
-        example: billing@acme.com
+        example: billing@example.com
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -298,7 +298,7 @@ endpoints:
         name: website
         description: ''
         required: false
-        example: 'https://acme.com'
+        example: 'https://example.com'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -327,10 +327,10 @@ endpoints:
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: 'Acme Support Inc.'
-      email: billing@acme.com
+      name: 'Help Support Inc.'
+      email: billing@example.com
       phone: +1-555-0100
-      website: 'https://acme.com'
+      website: 'https://example.com'
       country: US
       timezone: America/New_York
     fileParameters: []
@@ -338,7 +338,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Tenant updated successfully.", "data": {"id": 2, "name": "Acme Support Inc."}}'
+        content: '{"success": true, "message": "Tenant updated successfully.", "data": {"id": 2, "name": "Help Support Inc."}}'
         headers: []
         description: ''
     responseFields: []

@@ -47,7 +47,7 @@ endpoints:
         name: 'filter[company_name]'
         description: 'Partial match.'
         required: false
-        example: Acme
+        example: Help
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -77,7 +77,7 @@ endpoints:
         deprecated: false
     cleanQueryParameters:
       'filter[customer_type]': business
-      'filter[company_name]': Acme
+      'filter[company_name]': Help
       sort: '-created_at'
       per_page: 25
     bodyParameters: []
@@ -87,7 +87,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "company_name": "Acme Corp"}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "company_name": "Help Corp"}]}'
         headers: []
         description: ''
     responseFields: []
@@ -178,7 +178,7 @@ endpoints:
         name: company_name
         description: ''
         required: false
-        example: 'Acme Corp'
+        example: 'Help Corp'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -222,7 +222,7 @@ endpoints:
       email: jamie@example.com
       password: Secret123!
       phone: +1-555-0100
-      company_name: 'Acme Corp'
+      company_name: 'Help Corp'
       customer_type: business
       external_id: CRM-10293
       password_confirmation: Secret123!
@@ -231,7 +231,7 @@ endpoints:
       -
         custom: []
         status: 201
-        content: '{"success": true, "message": "Customer created successfully.", "data": {"id": 4, "company_name": "Acme Corp"}}'
+        content: '{"success": true, "message": "Customer created successfully.", "data": {"id": 4, "company_name": "Help Corp"}}'
         headers: []
         description: ''
     responseFields: []
@@ -288,7 +288,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "company_name": "Acme Corp"}}'
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "company_name": "Help Corp"}}'
         headers: []
         description: ''
     responseFields: []
@@ -532,7 +532,7 @@ endpoints:
         name: company_name
         description: ''
         required: false
-        example: 'Acme Corporation'
+        example: 'Help Corporation'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -573,7 +573,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       phone: +1-555-0199
-      company_name: 'Acme Corporation'
+      company_name: 'Help Corporation'
       customer_type: vip
       timezone: Antarctica/Rothera
       external_id: CRM-10293
@@ -582,7 +582,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Customer updated successfully.", "data": {"id": 1, "company_name": "Acme Corporation"}}'
+        content: '{"success": true, "message": "Customer updated successfully.", "data": {"id": 1, "company_name": "Help Corporation"}}'
         headers: []
         description: ''
     responseFields: []

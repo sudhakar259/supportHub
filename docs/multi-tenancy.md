@@ -15,7 +15,7 @@ DeskNu Platform
       │
       ├── Platform Admin(s)        (tenant_id = NULL, manage the platform itself)
       │
-      ├── Tenant: Acme Support
+      ├── Tenant: Help Support
       │     ├── Users / Roles
       │     ├── Departments
       │     ├── Customers

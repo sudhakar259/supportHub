@@ -51,7 +51,7 @@ class GlobexDemoSeeder extends Seeder
 
         app(CreateTicketAction::class)->execute($customer, [
             'subject' => 'Welcome to Globex Helpdesk',
-            'description' => 'This ticket exists purely to demonstrate that Acme Support cannot see it.',
+            'description' => 'This ticket exists purely to demonstrate that Help Support cannot see it.',
         ]);
     }
 }

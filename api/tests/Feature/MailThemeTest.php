@@ -11,7 +11,7 @@ function renderedEmail(string $level = 'primary'): string
         ->line('Your ticket has been created.')
         ->action('View ticket', 'https://example.com/tickets/1', )
         ->level($level)
-        ->salutation('Regards, Acme')
+        ->salutation('Regards, Help')
         ->render();
 }
 

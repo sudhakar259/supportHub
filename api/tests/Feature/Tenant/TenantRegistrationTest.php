@@ -14,27 +14,27 @@ it('registers a new organization on the free starter plan and issues a token', f
     Notification::fake();
 
     $response = $this->postJson('/api/v1/tenants/register', [
-        'tenant_name' => 'Acme Corp',
-        'tenant_slug' => 'acme-corp',
+        'tenant_name' => 'Help Corp',
+        'tenant_slug' => 'help-corp',
         'owner_name' => 'Jamie Rivera',
-        'owner_email' => 'jamie@acme.com',
+        'owner_email' => 'jamie@example.com',
         'owner_password' => 'Secret123!',
         'owner_password_confirmation' => 'Secret123!',
     ]);
 
     $response->assertCreated()
         ->assertJsonPath('success', true)
-        ->assertJsonPath('data.tenant.slug', 'acme-corp')
+        ->assertJsonPath('data.tenant.slug', 'help-corp')
         ->assertJsonPath('data.tenant.status', 'active')
-        ->assertJsonPath('data.user.email', 'jamie@acme.com')
+        ->assertJsonPath('data.user.email', 'jamie@example.com')
         ->assertJsonPath('data.token_type', 'Bearer')
         ->assertJsonStructure(['data' => ['token']]);
 
-    $tenant = Tenant::where('slug', 'acme-corp')->first();
+    $tenant = Tenant::where('slug', 'help-corp')->first();
     expect($tenant)->not->toBeNull();
     expect($tenant->trial_ends_at)->toBeNull();
 
-    $owner = User::where('tenant_id', $tenant->id)->where('email', 'jamie@acme.com')->first();
+    $owner = User::where('tenant_id', $tenant->id)->where('email', 'jamie@example.com')->first();
     expect($owner)->not->toBeNull();
 
     app(TenantContext::class)->set($tenant);
@@ -82,9 +82,9 @@ it('rejects registration with a duplicate tenant slug', function () {
 });
 
 it('reports a taken slug as unavailable without revealing the tenant', function () {
-    Tenant::create(['name' => 'Acme Corp', 'slug' => 'acme-corp', 'status' => 'active']);
+    Tenant::create(['name' => 'Help Corp', 'slug' => 'help-corp', 'status' => 'active']);
 
-    $this->getJson('/api/v1/tenants/lookup/acme-corp')
+    $this->getJson('/api/v1/tenants/lookup/help-corp')
         ->assertOk()
         ->assertJsonPath('data.available', false)
         ->assertJsonMissingPath('data.name')

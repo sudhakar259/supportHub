@@ -66,7 +66,7 @@ tags:
     description: "\nA tenant's own view of its subscription — distinct from\nPlatform\\TenantController, which lets a platform administrator see\nevery tenant's subscription. Moving to a paid plan issues an invoice\nwith a Razorpay order; the subscription is activated when that invoice\nis paid (see InvoiceController and MarkInvoicePaidAction)."
   -
     name: 'Email to ticket'
-    description: "\nLets a workspace turn emails sent to its support address into tickets. The\nworkspace forwards its mailbox (for example support@acme.com) to the address\nshown here; see docs/email-to-ticket.md."
+    description: "\nLets a workspace turn emails sent to its support address into tickets. The\nworkspace forwards its mailbox (for example support@example.com) to the address\nshown here; see docs/email-to-ticket.md."
   -
     name: Endpoints
     description: ''
@@ -209,7 +209,7 @@ paths:
                 tenant:
                   type: string
                   description: "The organization's slug, confirmable via GET /tenants/lookup/{slug}."
-                  example: acme-support
+                  example: help-support
                 name:
                   type: string
                   description: "The user's full name."
@@ -230,7 +230,7 @@ paths:
                 company_name:
                   type: string
                   description: 'Optional company name for business customers.'
-                  example: 'Acme Corp'
+                  example: 'Help Corp'
                   nullable: true
                 device_name:
                   type: string
@@ -391,7 +391,7 @@ paths:
                 tenant:
                   type: string
                   description: 'Disambiguates if this email has accounts with more than one tenant.'
-                  example: acme-support
+                  example: help-support
                 device_name:
                   type: string
                   description: 'Identifies the issued token, e.g. "iphone-15".'
@@ -558,7 +558,7 @@ paths:
                 tenant:
                   type: string
                   description: 'Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first.'
-                  example: acme-support
+                  example: help-support
               required:
                 - email
       security: []
@@ -638,7 +638,7 @@ paths:
                 tenant:
                   type: string
                   description: 'Same disambiguator as /auth/forgot-password — pass it if it was used there.'
-                  example: acme-support
+                  example: help-support
                 password:
                   type: string
                   description: 'Minimum 10 characters, including upper and lower case, a number, and a symbol.'
@@ -1777,12 +1777,12 @@ paths:
           in: query
           name: 'filter[company_name]'
           description: 'Partial match.'
-          example: Acme
+          example: Help
           required: false
           schema:
             type: string
             description: 'Partial match.'
-            example: Acme
+            example: Help
         -
           in: query
           name: sort
@@ -1816,7 +1816,7 @@ paths:
                   data:
                     -
                       id: 1
-                      company_name: 'Acme Corp'
+                      company_name: 'Help Corp'
                 properties:
                   success:
                     type: boolean
@@ -1829,7 +1829,7 @@ paths:
                     example:
                       -
                         id: 1
-                        company_name: 'Acme Corp'
+                        company_name: 'Help Corp'
                     items:
                       type: object
                       properties:
@@ -1838,7 +1838,7 @@ paths:
                           example: 1
                         company_name:
                           type: string
-                          example: 'Acme Corp'
+                          example: 'Help Corp'
       tags:
         - Customers
     post:
@@ -1858,7 +1858,7 @@ paths:
                   message: 'Customer created successfully.'
                   data:
                     id: 4
-                    company_name: 'Acme Corp'
+                    company_name: 'Help Corp'
                 properties:
                   success:
                     type: boolean
@@ -1874,7 +1874,7 @@ paths:
                         example: 4
                       company_name:
                         type: string
-                        example: 'Acme Corp'
+                        example: 'Help Corp'
       tags:
         - Customers
       requestBody:
@@ -1904,7 +1904,7 @@ paths:
                 company_name:
                   type: string
                   description: ''
-                  example: 'Acme Corp'
+                  example: 'Help Corp'
                   nullable: true
                 customer_type:
                   type: string
@@ -1942,7 +1942,7 @@ paths:
                   message: 'Request successful.'
                   data:
                     id: 1
-                    company_name: 'Acme Corp'
+                    company_name: 'Help Corp'
                 properties:
                   success:
                     type: boolean
@@ -1958,7 +1958,7 @@ paths:
                         example: 1
                       company_name:
                         type: string
-                        example: 'Acme Corp'
+                        example: 'Help Corp'
       tags:
         - Customers
     put:
@@ -1978,7 +1978,7 @@ paths:
                   message: 'Customer updated successfully.'
                   data:
                     id: 1
-                    company_name: 'Acme Corporation'
+                    company_name: 'Help Corporation'
                 properties:
                   success:
                     type: boolean
@@ -1994,7 +1994,7 @@ paths:
                         example: 1
                       company_name:
                         type: string
-                        example: 'Acme Corporation'
+                        example: 'Help Corporation'
       tags:
         - Customers
       requestBody:
@@ -2012,7 +2012,7 @@ paths:
                 company_name:
                   type: string
                   description: ''
-                  example: 'Acme Corporation'
+                  example: 'Help Corporation'
                   nullable: true
                 customer_type:
                   type: string
@@ -7017,7 +7017,7 @@ paths:
                   message: 'Request successful.'
                   data:
                     available: true
-                    address: acme@inbound.example.com
+                    address: help@inbound.example.com
                     enabled: true
                     create_customers: true
                 properties:
@@ -7035,7 +7035,7 @@ paths:
                         example: true
                       address:
                         type: string
-                        example: acme@inbound.example.com
+                        example: help@inbound.example.com
                       enabled:
                         type: boolean
                         example: true
@@ -7405,7 +7405,7 @@ paths:
                     -
                       id: 4
                       external_id: CRM-001
-                      company_name: 'Acme Corp'
+                      company_name: 'Help Corp'
                 properties:
                   success:
                     type: boolean
@@ -7419,7 +7419,7 @@ paths:
                       -
                         id: 4
                         external_id: CRM-001
-                        company_name: 'Acme Corp'
+                        company_name: 'Help Corp'
                     items:
                       type: object
                       properties:
@@ -7431,7 +7431,7 @@ paths:
                           example: CRM-001
                         company_name:
                           type: string
-                          example: 'Acme Corp'
+                          example: 'Help Corp'
       tags:
         - 'Integration API — Customers'
       security: []
@@ -7512,7 +7512,7 @@ paths:
                 company_name:
                   type: string
                   description: ''
-                  example: 'Acme Corp'
+                  example: 'Help Corp'
                   nullable: true
                 customer_type:
                   type: string
@@ -7747,7 +7747,7 @@ paths:
                 company_name:
                   type: string
                   description: ''
-                  example: 'Acme Corporation'
+                  example: 'Help Corporation'
                   nullable: true
                 customer_type:
                   type: string
@@ -9108,12 +9108,12 @@ paths:
           in: query
           name: 'filter[name]'
           description: 'Partial name match.'
-          example: Acme
+          example: Help
           required: false
           schema:
             type: string
             description: 'Partial name match.'
-            example: Acme
+            example: Help
         -
           in: query
           name: sort
@@ -9147,8 +9147,8 @@ paths:
                   data:
                     -
                       id: 2
-                      name: 'Acme Support'
-                      slug: acme-support
+                      name: 'Help Support'
+                      slug: help-support
                       status: active
                       users_count: 9
                 properties:
@@ -9163,8 +9163,8 @@ paths:
                     example:
                       -
                         id: 2
-                        name: 'Acme Support'
-                        slug: acme-support
+                        name: 'Help Support'
+                        slug: help-support
                         status: active
                         users_count: 9
                     items:
@@ -9175,10 +9175,10 @@ paths:
                           example: 2
                         name:
                           type: string
-                          example: 'Acme Support'
+                          example: 'Help Support'
                         slug:
                           type: string
-                          example: acme-support
+                          example: help-support
                         status:
                           type: string
                           example: active
@@ -9205,7 +9205,7 @@ paths:
                   message: 'Request successful.'
                   data:
                     id: 2
-                    name: 'Acme Support'
+                    name: 'Help Support'
                     users_count: 9
                 properties:
                   success:
@@ -9222,7 +9222,7 @@ paths:
                         example: 2
                       name:
                         type: string
-                        example: 'Acme Support'
+                        example: 'Help Support'
                       users_count:
                         type: integer
                         example: 9
@@ -9245,7 +9245,7 @@ paths:
                   message: 'Tenant updated successfully.'
                   data:
                     id: 2
-                    name: 'Acme Support Inc.'
+                    name: 'Help Support Inc.'
                 properties:
                   success:
                     type: boolean
@@ -9261,7 +9261,7 @@ paths:
                         example: 2
                       name:
                         type: string
-                        example: 'Acme Support Inc.'
+                        example: 'Help Support Inc.'
       tags:
         - 'Platform Administration'
       requestBody:
@@ -9274,11 +9274,11 @@ paths:
                 name:
                   type: string
                   description: ''
-                  example: 'Acme Support Inc.'
+                  example: 'Help Support Inc.'
                 email:
                   type: string
                   description: ''
-                  example: billing@acme.com
+                  example: billing@example.com
                   nullable: true
                 phone:
                   type: string
@@ -9288,7 +9288,7 @@ paths:
                 website:
                   type: string
                   description: ''
-                  example: 'https://acme.com'
+                  example: 'https://example.com'
                   nullable: true
                 country:
                   type: string
@@ -9772,13 +9772,13 @@ paths:
                   data:
                     tenant:
                       id: 7
-                      name: 'Acme Corp'
-                      slug: acme-corp
+                      name: 'Help Corp'
+                      slug: help-corp
                       status: active
                     user:
                       id: 42
                       name: 'Jamie Rivera'
-                      email: jamie@acme.com
+                      email: jamie@example.com
                       roles:
                         - Administrator
                     token: 1|abcdef123456...
@@ -9801,10 +9801,10 @@ paths:
                             example: 7
                           name:
                             type: string
-                            example: 'Acme Corp'
+                            example: 'Help Corp'
                           slug:
                             type: string
-                            example: acme-corp
+                            example: help-corp
                           status:
                             type: string
                             example: active
@@ -9819,7 +9819,7 @@ paths:
                             example: 'Jamie Rivera'
                           email:
                             type: string
-                            example: jamie@acme.com
+                            example: jamie@example.com
                           roles:
                             type: array
                             example:
@@ -9872,11 +9872,11 @@ paths:
                 tenant_name:
                   type: string
                   description: "The organization's display name."
-                  example: 'Acme Corp'
+                  example: 'Help Corp'
                 tenant_slug:
                   type: string
                   description: 'Globally unique, used in the `tenant` field of /auth/login and /auth/register.'
-                  example: acme-corp
+                  example: help-corp
                 owner_name:
                   type: string
                   description: ''
@@ -9884,7 +9884,7 @@ paths:
                 owner_email:
                   type: string
                   description: ''
-                  example: jamie@acme.com
+                  example: jamie@example.com
                 owner_password:
                   type: string
                   description: 'Minimum 10 characters, including upper and lower case, a number, and a symbol.'
@@ -9901,7 +9901,7 @@ paths:
                 website:
                   type: string
                   description: ''
-                  example: 'https://acme.com'
+                  example: 'https://example.com'
                   nullable: true
                 country:
                   type: string
@@ -9947,8 +9947,8 @@ paths:
                   success: true
                   message: 'Request successful.'
                   data:
-                    slug: acme-corp
-                    name: 'Acme Corp'
+                    slug: help-corp
+                    name: 'Help Corp'
                     is_active: true
                 properties:
                   success:
@@ -9962,10 +9962,10 @@ paths:
                     properties:
                       slug:
                         type: string
-                        example: acme-corp
+                        example: help-corp
                       name:
                         type: string
-                        example: 'Acme Corp'
+                        example: 'Help Corp'
                       is_active:
                         type: boolean
                         example: true
@@ -9993,7 +9993,7 @@ paths:
         in: path
         name: slug
         description: ''
-        example: acme-corp
+        example: help-corp
         required: true
         schema:
           type: string

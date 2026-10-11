@@ -116,7 +116,7 @@ Create a customer:
   "name": "Jamie Rivera",
   "email": "jamie@example.com",
   "phone": "+1-555-0100",
-  "company_name": "Acme Corp",
+  "company_name": "Help Corp",
   "customer_type": "individual",
   "external_id": "wp-user-7842"
 }

@@ -40,15 +40,15 @@ class TenantController extends Controller
      *
      * @unauthenticated
      *
-     * @bodyParam tenant_name string required The organization's display name. Example: Acme Corp
-     * @bodyParam tenant_slug string required Globally unique, used in the `tenant` field of /auth/login and /auth/register. Example: acme-corp
+     * @bodyParam tenant_name string required The organization's display name. Example: Help Corp
+     * @bodyParam tenant_slug string required Globally unique, used in the `tenant` field of /auth/login and /auth/register. Example: help-corp
      * @bodyParam owner_name string required Example: Jamie Rivera
-     * @bodyParam owner_email string required Example: jamie@acme.com
+     * @bodyParam owner_email string required Example: jamie@example.com
      * @bodyParam owner_password string required Minimum 10 characters, including upper and lower case, a number, and a symbol. Example: Secret123!word$9
      * @bodyParam owner_password_confirmation string required Must match owner_password. Example: Secret123!word$9
      * @bodyParam plan string The membership plan slug. Defaults to "starter". Example: professional
      * @bodyParam phone string Example: +1-555-0100
-     * @bodyParam website string Example: https://acme.com
+     * @bodyParam website string Example: https://example.com
      * @bodyParam country string ISO 3166-1 alpha-2. Example: US
      * @bodyParam timezone string Example: America/New_York
      *
@@ -56,8 +56,8 @@ class TenantController extends Controller
      *   "success": true,
      *   "message": "Organization registered successfully.",
      *   "data": {
-     *     "tenant": {"id": 7, "name": "Acme Corp", "slug": "acme-corp", "status": "active"},
-     *     "user": {"id": 42, "name": "Jamie Rivera", "email": "jamie@acme.com", "roles": ["Administrator"]},
+     *     "tenant": {"id": 7, "name": "Help Corp", "slug": "help-corp", "status": "active"},
+     *     "user": {"id": 42, "name": "Jamie Rivera", "email": "jamie@example.com", "roles": ["Administrator"]},
      *     "token": "1|abcdef123456...",
      *     "token_type": "Bearer"
      *   }
@@ -147,9 +147,9 @@ class TenantController extends Controller
      *
      * @unauthenticated
      *
-     * @urlParam slug string required Example: acme-corp
+     * @urlParam slug string required Example: help-corp
      *
-     * @response 200 {"success": true, "message": "Request successful.", "data": {"slug": "acme-corp", "name": "Acme Corp", "is_active": true}}
+     * @response 200 {"success": true, "message": "Request successful.", "data": {"slug": "help-corp", "name": "Help Corp", "is_active": true}}
      * @response 404 {"success": false, "message": "No organization found for that identifier."}
      */
     public function lookup(string $slug): JsonResponse

@@ -44,7 +44,7 @@ endpoints:
         name: tenant
         description: "The organization's slug, confirmable via GET /tenants/lookup/{slug}."
         required: true
-        example: acme-support
+        example: help-support
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -99,7 +99,7 @@ endpoints:
         name: company_name
         description: 'Optional company name for business customers.'
         required: false
-        example: 'Acme Corp'
+        example: 'Help Corp'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -128,12 +128,12 @@ endpoints:
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      tenant: acme-support
+      tenant: help-support
       name: 'Jamie Rivera'
       email: jamie@example.com
       password: Secret123!word$9
       phone: +1-555-0100
-      company_name: 'Acme Corp'
+      company_name: 'Help Corp'
       device_name: z
       password_confirmation: Secret123!
     fileParameters: []
@@ -227,7 +227,7 @@ endpoints:
         name: tenant
         description: 'Disambiguates if this email has accounts with more than one tenant.'
         required: false
-        example: acme-support
+        example: help-support
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -247,7 +247,7 @@ endpoints:
     cleanBodyParameters:
       email: admin@desknu.test
       password: password
-      tenant: acme-support
+      tenant: help-support
       device_name: web-browser
     fileParameters: []
     responses:
@@ -445,7 +445,7 @@ endpoints:
         name: tenant
         description: 'Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first.'
         required: false
-        example: acme-support
+        example: help-support
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -453,7 +453,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       email: admin@desknu.test
-      tenant: acme-support
+      tenant: help-support
     fileParameters: []
     responses:
       -
@@ -529,7 +529,7 @@ endpoints:
         name: tenant
         description: 'Same disambiguator as /auth/forgot-password — pass it if it was used there.'
         required: false
-        example: acme-support
+        example: help-support
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -560,7 +560,7 @@ endpoints:
     cleanBodyParameters:
       token: 9f8e7d6c5b4a
       email: admin@desknu.test
-      tenant: acme-support
+      tenant: help-support
       password: NewSecret123!word$9
       password_confirmation: NewSecret123!
     fileParameters: []

@@ -34,11 +34,11 @@ class CustomerController extends Controller
      * List customers
      *
      * @queryParam filter[customer_type] individual, business or vip. Example: business
-     * @queryParam filter[company_name] Partial match. Example: Acme
+     * @queryParam filter[company_name] Partial match. Example: Help
      * @queryParam sort Sort by created_at. Example: -created_at
      * @queryParam per_page Items per page (max 100). Example: 25
      *
-     * @response 200 {"success": true, "message": "Request successful.", "data": [{"id": 1, "company_name": "Acme Corp"}]}
+     * @response 200 {"success": true, "message": "Request successful.", "data": [{"id": 1, "company_name": "Help Corp"}]}
      */
     public function index(Request $request): JsonResponse
     {
@@ -69,11 +69,11 @@ class CustomerController extends Controller
      * @bodyParam password string required Example: Secret123!
      * @bodyParam password_confirmation string required Example: Secret123!
      * @bodyParam phone string Example: +1-555-0100
-     * @bodyParam company_name string Example: Acme Corp
+     * @bodyParam company_name string Example: Help Corp
      * @bodyParam customer_type string individual, business or vip. Defaults to individual. Example: business
      * @bodyParam external_id string This tenant's own identifier for the customer (CRM id, account number, etc.), unique within this tenant. Example: CRM-10293
      *
-     * @response 201 {"success": true, "message": "Customer created successfully.", "data": {"id": 4, "company_name": "Acme Corp"}}
+     * @response 201 {"success": true, "message": "Customer created successfully.", "data": {"id": 4, "company_name": "Help Corp"}}
      */
     public function store(StoreCustomerRequest $request): JsonResponse
     {
@@ -108,7 +108,7 @@ class CustomerController extends Controller
     /**
      * Get a customer
      *
-     * @response 200 {"success": true, "message": "Request successful.", "data": {"id": 1, "company_name": "Acme Corp"}}
+     * @response 200 {"success": true, "message": "Request successful.", "data": {"id": 1, "company_name": "Help Corp"}}
      */
     public function show(Customer $customer): JsonResponse
     {
@@ -121,11 +121,11 @@ class CustomerController extends Controller
      * Update a customer
      *
      * @bodyParam phone string Example: +1-555-0199
-     * @bodyParam company_name string Example: Acme Corporation
+     * @bodyParam company_name string Example: Help Corporation
      * @bodyParam customer_type string Example: vip
      * @bodyParam external_id string Example: CRM-10293
      *
-     * @response 200 {"success": true, "message": "Customer updated successfully.", "data": {"id": 1, "company_name": "Acme Corporation"}}
+     * @response 200 {"success": true, "message": "Customer updated successfully.", "data": {"id": 1, "company_name": "Help Corporation"}}
      */
     public function update(UpdateCustomerRequest $request, Customer $customer): JsonResponse
     {

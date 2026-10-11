@@ -88,7 +88,7 @@ export function TeamStep({ onNext }: TeamStepProps) {
           <TextField
             label="Work Email"
             type="email"
-            placeholder="jamie@acme.com"
+            placeholder="jamie@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             error={fieldErrors.email}

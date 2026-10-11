@@ -3,11 +3,13 @@
 The single source of truth for color is the YAML block in
 [`design/solar_navy_enterprise/DESIGN.md`](../design/solar_navy_enterprise/DESIGN.md). It is
 implemented as theme tokens in [`web/src/index.css`](../web/src/index.css); everything else in the product
-(emails, API reference, payment window, browser theme, icons) takes its colors from the same values.
+(emails, API reference, payment window, browser theme, interface icons) takes its colors from the same values.
+The supplied logo artwork retains its original brand colors.
 
 > **Rule for contributors:** never write a hex color in a component. Use a token class
 > (`bg-primary`, `text-on-surface-variant`, `border-outline-variant`…). The only colors that are not tokens are
-> the ones a workspace administrator chooses for ticket statuses and priorities (see [Tenant colors](#tenant-colors)).
+> supplied logo artwork colors and the ones a workspace administrator chooses for ticket statuses and priorities
+> (see [Tenant colors](#tenant-colors)).
 
 ## The idea
 
@@ -107,7 +109,7 @@ Color is never the only signal: status labels and icons accompany it.
 ## Tenant colors
 
 A workspace administrator picks the color of each ticket **status** and **priority** (Statuses & Priorities page). These are
-data, not part of the product palette, and are the one place arbitrary colors appear. They are rendered as a small dot plus a
+data, not part of the product palette, and are the one place administrator-selected colors appear. They are rendered as a small dot plus a
 14% tint behind a label in `on-surface` text, so any chosen color stays readable (`StatusBadge`). The defaults offered
 in the form are slate gray `#6B7280` and blue `#3B82F6`.
 

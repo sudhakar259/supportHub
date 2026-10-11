@@ -149,7 +149,7 @@ export function DemoWorkspace({ compact = false }: { compact?: boolean }) {
         <aside className="demo-sidebar">
           <span className="demo-workspace-brand">
             <BrandMark size={25} />
-            <span>Acme support</span>
+            <span>Help support</span>
           </span>
           <span className="demo-sidebar-label">WORKSPACE</span>
           <nav aria-label={compact ? 'Preview navigation' : 'Demo navigation'}>

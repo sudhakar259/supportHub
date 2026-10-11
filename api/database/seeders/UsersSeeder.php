@@ -65,7 +65,7 @@ class UsersSeeder extends Seeder
         }
 
         $customers = [
-            ['name' => 'Casey Customer', 'email' => 'customer1@desknu.test', 'company_name' => 'Acme Corp', 'customer_type' => 'business'],
+            ['name' => 'Casey Customer', 'email' => 'customer1@desknu.test', 'company_name' => 'Help Corp', 'customer_type' => 'business'],
             ['name' => 'Drew Client', 'email' => 'customer2@desknu.test', 'company_name' => null, 'customer_type' => 'individual'],
             ['name' => 'Taylor VIP', 'email' => 'customer3@desknu.test', 'company_name' => 'Globex Inc', 'customer_type' => 'vip'],
         ];
