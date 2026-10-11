@@ -1,6 +1,6 @@
 # Root-level ignores for the DeskZeal monorepo.
 # Each sub-project (api/, web/) also maintains its own .gitignore.
-
+api/.env
 .DS_Store
 Thumbs.db
 *.log
