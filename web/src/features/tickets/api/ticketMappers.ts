@@ -80,6 +80,7 @@ export interface RawTicket {
   ticket_number: string
   subject: string
   description: string
+  attachments?: RawTicketAttachment[]
   customer?: RawCustomer | null
   category?: RawTicketCategory | null
   priority?: RawTicketPriority | null
@@ -185,6 +186,7 @@ export function mapTicket(raw: RawTicket): Ticket {
     department: raw.department ? mapDepartment(raw.department) : null,
     assignee: raw.assignee ? mapUser(raw.assignee) : null,
     sla: raw.sla ? mapTicketSla(raw.sla) : null,
+    attachments: (raw.attachments ?? []).map(mapTicketAttachment),
     tags: raw.tags ?? [],
     reopenedCount: raw.reopened_count,
     firstResponseAt: raw.first_response_at,

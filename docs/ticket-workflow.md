@@ -151,8 +151,8 @@ the SLA's first-response deadline as met or breached.
 
 ## Attachments
 
-Files are validated on upload (MIME/extension allowlist, 25 MB max, max 5
-per message) and stored via Laravel's filesystem abstraction
+Files are validated on upload (MIME/extension allowlist, 2 MB max, max 5
+per message — `config/attachments.php`) and stored via Laravel's filesystem abstraction
 (`UploadTicketAttachmentAction`) — switching `FILESYSTEM_DISK` from `local`
 to `s3` (or any other configured disk) requires no application code
 changes. Downloads always go through `TicketAttachmentController::download()`,

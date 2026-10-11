@@ -3,7 +3,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 
 import { authApi } from '@/features/auth/api/authApi'
 import type { LoginCredentials } from '@/features/auth/types'
-import { tokenStorage } from '@/services/storage/tokenStorage'
+import { impersonatorStorage, tokenStorage } from '@/services/storage/tokenStorage'
+import { usersApi } from '@/features/users/api/usersApi'
 import { ApiError } from '@/types/api'
 import type { User } from '@/types/user'
 import { isPlatformAdmin as checkIsPlatformAdmin } from '@/types/user'
@@ -20,6 +21,12 @@ interface AuthContextValue {
   isPlatformAdmin: boolean
   login: (credentials: LoginCredentials) => Promise<User>
   logout: () => Promise<void>
+  /** Set while an administrator is "logged in as" someone else; null otherwise. */
+  impersonator: { name: string } | null
+  /** Administrator only: switch this browser session to act as another user. */
+  startImpersonation: (userId: number) => Promise<void>
+  /** Drop the impersonated session and go back to the administrator's own account. */
+  stopImpersonation: () => Promise<void>
   /** Updates the cached user (e.g. after email verification) without a full re-fetch. */
   setUser: (user: User) => void
 }
@@ -30,6 +37,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isBootstrapping, setIsBootstrapping] = useState(true)
   const [sessionError, setSessionError] = useState<string | null>(null)
+  const [impersonator] = useState(() => {
+    const session = impersonatorStorage.get()
+    return session ? { name: session.name } : null
+  })
 
   const restoreSession = useCallback(() => {
     if (!tokenStorage.get()) {
@@ -69,7 +80,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await authApi.logout()
     } finally {
       tokenStorage.clear()
+      impersonatorStorage.clear()
       setUser(null)
+    }
+  }, [])
+
+  // Both switches end in a full page load so no cached data (tickets, lookups,
+  // permissions) from the previous identity can leak into the next one.
+  const startImpersonation = useCallback(
+    async (userId: number) => {
+      const adminToken = tokenStorage.get()
+      const { token } = await usersApi.impersonate(userId)
+      if (adminToken && user) impersonatorStorage.set({ token: adminToken, name: user.name })
+      tokenStorage.set(token)
+      window.location.assign('/dashboard')
+    },
+    [user],
+  )
+
+  const stopImpersonation = useCallback(async () => {
+    const session = impersonatorStorage.get()
+    try {
+      await authApi.logout() // revokes the impersonation token
+    } catch {
+      /* token already expired or revoked — nothing left to clean up server-side */
+    }
+    impersonatorStorage.clear()
+    if (session) {
+      tokenStorage.set(session.token)
+      window.location.assign('/users')
+    } else {
+      tokenStorage.clear()
+      window.location.assign('/login')
     }
   }, [])
 
@@ -83,9 +125,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isPlatformAdmin: checkIsPlatformAdmin(user),
       login,
       logout,
+      impersonator,
+      startImpersonation,
+      stopImpersonation,
       setUser,
     }),
-    [user, isBootstrapping, sessionError, restoreSession, login, logout],
+    [user, isBootstrapping, sessionError, restoreSession, login, logout, impersonator, startImpersonation, stopImpersonation],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

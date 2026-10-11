@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { ImpersonationBanner } from '@/components/layout/ImpersonationBanner'
 import { Sidebar } from '@/components/navigation/Sidebar'
 import { TopNavigation } from '@/components/navigation/TopNavigation'
 
@@ -22,6 +23,8 @@ export function AppShell() {
           </div>
         </div>
       )}
+
+      <ImpersonationBanner />
 
       <div className="lg:pl-64">
         <TopNavigation onOpenMenu={() => setIsDrawerOpen(true)} />

@@ -10,6 +10,7 @@ export type ApiCredentialScope =
   | 'tickets.update'
   | 'tickets.reply'
   | 'tickets.status.update'
+  | 'tickets.reopen'
   | 'tickets.attachments'
 
 export type ApiCredentialStatus = 'active' | 'revoked'
@@ -69,6 +70,7 @@ export const SCOPE_GROUPS: ScopeGroup[] = [
       { scope: 'tickets.update', description: 'Modify ticket subject, description, category, or priority.' },
       { scope: 'tickets.reply', description: 'Post customer replies into ticket threads.' },
       { scope: 'tickets.status.update', description: 'Change ticket status (e.g. resolve, reopen).' },
+      { scope: 'tickets.reopen', description: 'Let customers reopen their resolved or closed tickets (cannot set any other status).' },
       { scope: 'tickets.attachments', description: 'Upload and download ticket attachments.' },
     ],
   },

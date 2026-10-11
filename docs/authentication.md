@@ -130,6 +130,9 @@ regardless of how the key/secret check went. See `docs/multi-tenancy.md`
 for the full scope list and `/api/v1/api-credentials` (credential
 management, Sanctum-authenticated, for tenant admins).
 
+For a step-by-step guide to using this from a client's own site (including
+WordPress and webhooks), see `docs/integration-guide.md`.
+
 ## Rate limiting
 
 `auth/register`, `auth/login`, `auth/forgot-password`, and

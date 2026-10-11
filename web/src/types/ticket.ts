@@ -89,6 +89,8 @@ export interface Ticket {
   department: Department | null
   assignee: User | null
   sla: TicketSla | null
+  /** Files attached to the ticket itself (not to a reply). Only present on the single-ticket endpoint. */
+  attachments: TicketAttachment[]
   tags: string[]
   reopenedCount: number
   firstResponseAt: string | null

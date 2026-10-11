@@ -56,6 +56,12 @@ export const usersApi = {
     return mapUser(raw)
   },
 
+  /** "Login as" — returns a short-lived token for the target user. Needs users.impersonate. */
+  async impersonate(id: number): Promise<{ user: User; token: string }> {
+    const result = await apiFetch<{ user: RawUser; token: string }>(`/users/${id}/impersonate`, { method: 'POST' })
+    return { user: mapUser(result.user), token: result.token }
+  },
+
   async destroy(id: number): Promise<void> {
     await apiFetch<null>(`/users/${id}`, { method: 'DELETE' })
   },

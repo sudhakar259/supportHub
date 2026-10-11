@@ -7,6 +7,7 @@ import { SelectField } from '@/components/ui/SelectField'
 import { lookupsApi } from '@/features/tickets/api/lookupsApi'
 import { fetchOrDefault } from '@/utils/fetchOrDefault'
 import type { Department } from '@/types/department'
+import { ApiError } from '@/types/api'
 import type { AssignTicketPayload } from '@/types/ticket'
 import type { User } from '@/types/user'
 
@@ -16,9 +17,11 @@ export interface AssignmentDialogProps {
   onAssign: (payload: AssignTicketPayload) => Promise<void>
   currentAssigneeId?: number
   currentDepartmentId?: number
+  /** Set when assigning several tickets at once; changes the wording only. */
+  ticketCount?: number
 }
 
-export function AssignmentDialog({ isOpen, onClose, onAssign, currentAssigneeId, currentDepartmentId }: AssignmentDialogProps) {
+export function AssignmentDialog({ isOpen, onClose, onAssign, currentAssigneeId, currentDepartmentId, ticketCount }: AssignmentDialogProps) {
   const toast = useToast()
   const [agents, setAgents] = useState<User[]>([])
   const [departments, setDepartments] = useState<Department[]>([])
@@ -46,11 +49,20 @@ export function AssignmentDialog({ isOpen, onClose, onAssign, currentAssigneeId,
     try {
       await onAssign({ assigneeId: Number(assigneeId), departmentId: departmentId ? Number(departmentId) : undefined, note })
       const agentName = agents.find((a) => a.id === Number(assigneeId))?.name ?? 'the selected agent'
-      toast.success(currentAssigneeId ? 'Ticket Reassigned' : 'Ticket Assigned', `Assigned to ${agentName}.`)
+      if (ticketCount) {
+        toast.success('Tickets Assigned', `${ticketCount} ticket${ticketCount === 1 ? '' : 's'} assigned to ${agentName}.`)
+      } else {
+        toast.success(currentAssigneeId ? 'Ticket Reassigned' : 'Ticket Assigned', `Assigned to ${agentName}.`)
+      }
       setNote('')
       onClose()
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to assign ticket.'
+      const message =
+        err instanceof ApiError
+          ? (err.fieldError('assignee_id') ?? err.fieldError('department_id') ?? err.message)
+          : err instanceof Error
+            ? err.message
+            : 'Failed to assign ticket.'
       setError(message)
       toast.error('Assignment Failed', message)
     } finally {
@@ -62,7 +74,7 @@ export function AssignmentDialog({ isOpen, onClose, onAssign, currentAssigneeId,
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={currentAssigneeId ? 'Reassign Ticket' : 'Assign Ticket'}
+      title={ticketCount ? `Assign ${ticketCount} Ticket${ticketCount === 1 ? '' : 's'}` : currentAssigneeId ? 'Reassign Ticket' : 'Assign Ticket'}
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>

@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Icon } from '@/components/ui/Icon'
 import { IconButton } from '@/components/ui/IconButton'
 import { Switch } from '@/components/ui/Switch'
+import { InboundEmailCard } from '@/features/settings/components/InboundEmailCard'
 import { AddSettingModal } from '@/features/settings/components/AddSettingModal'
 import { systemSettingsApi } from '@/features/settings/api/systemSettingsApi'
 import { useAuth } from '@/features/auth/hooks/useAuth'
@@ -120,6 +121,7 @@ export function SystemSettingsPage() {
       />
 
       <div className="flex flex-col gap-space-md px-gutter-lg">
+        <InboundEmailCard />
         {groups.length === 0 ? (
           <p className="rounded-xl bg-surface-container-lowest p-space-md text-center text-body-sm text-on-surface-variant shadow-sm">
             No settings configured yet. Click &ldquo;Add Setting&rdquo; to create one.

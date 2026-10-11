@@ -1,7 +1,12 @@
 /** Central path registry so routes are never hand-typed as string literals around the app. */
 export const ROUTES = {
+  home: '/',
   register: '/register',
   pricing: '/pricing',
+  contact: '/contact',
+  terms: '/terms',
+  privacy: '/privacy',
+  cookies: '/cookies',
   login: '/login',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',

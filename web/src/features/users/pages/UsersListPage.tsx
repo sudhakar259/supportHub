@@ -8,6 +8,7 @@ import { Avatar } from '@/components/ui/Avatar'
 import { Badge } from '@/components/ui/Badge'
 import { Icon } from '@/components/ui/Icon'
 import { IconButton } from '@/components/ui/IconButton'
+import { useToast } from '@/components/feedback/ToastProvider'
 import { ConfirmDialog } from '@/components/feedback/ConfirmDialog'
 import { CreateUserModal } from '@/features/users/components/CreateUserModal'
 import { EditUserModal } from '@/features/users/components/EditUserModal'
@@ -22,10 +23,12 @@ import type { User } from '@/types/user'
 const PER_PAGE = 20
 
 export function UsersListPage() {
-  const { user: currentUser } = useAuth()
+  const { user: currentUser, startImpersonation, impersonator } = useAuth()
+  const toast = useToast()
   const canCreate = hasPermission(currentUser, 'users.create')
   const canUpdate = hasPermission(currentUser, 'users.update')
   const canDelete = hasPermission(currentUser, 'users.delete')
+  const canImpersonate = hasPermission(currentUser, 'users.impersonate') && !impersonator
   const [filters, setFilters] = useState<UserFilters>({ page: 1, perPage: PER_PAGE, sort: 'name' })
   const [nameInput, setNameInput] = useState('')
   const debouncedName = useDebouncedValue(nameInput, 300)
@@ -85,6 +88,17 @@ export function UsersListPage() {
       className: 'text-right whitespace-nowrap',
       render: (u) => (
         <div className="flex items-center justify-end gap-1">
+          {canImpersonate && u.id !== currentUser?.id && !u.roles.includes('Administrator') && u.isActive && (
+            <IconButton
+              icon="login"
+              label={`Login as ${u.name}`}
+              onClick={() =>
+                startImpersonation(u.id).catch((err: unknown) =>
+                  toast.error('Login As Failed', err instanceof Error ? err.message : 'Could not switch to this user.'),
+                )
+              }
+            />
+          )}
           {canUpdate && <IconButton icon="edit" label="Edit user" onClick={() => setEditingUser(u)} />}
           {canDelete && <IconButton icon="delete" label="Delete user" onClick={() => setDeletingUser(u)} />}
         </div>

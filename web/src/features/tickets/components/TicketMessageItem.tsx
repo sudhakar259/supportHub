@@ -1,4 +1,5 @@
 import { Avatar } from '@/components/ui/Avatar'
+import { AttachmentLink } from '@/features/tickets/components/AttachmentLink'
 import { Icon } from '@/components/ui/Icon'
 import { formatRelativeTime } from '@/utils/datetime'
 import type { TicketMessage } from '@/types/ticket'
@@ -49,14 +50,7 @@ export function TicketMessageItem({ message }: TicketMessageItemProps) {
       {message.attachments.length > 0 && (
         <footer className="flex flex-wrap items-center gap-2 pt-2">
           {message.attachments.map((attachment) => (
-            <a
-              key={attachment.id}
-              href={attachment.downloadUrl}
-              className="inline-flex items-center gap-1.5 rounded bg-surface-container px-2.5 py-1 text-code-sm text-on-surface transition-colors hover:bg-surface-container-high"
-            >
-              <Icon name="description" size={16} className="text-primary" />
-              <span>{attachment.originalFilename}</span>
-            </a>
+            <AttachmentLink key={attachment.id} attachment={attachment} />
           ))}
         </footer>
       )}

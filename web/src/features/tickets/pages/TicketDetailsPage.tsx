@@ -8,6 +8,7 @@ import { AssignmentDialog } from '@/features/tickets/components/AssignmentDialog
 import { CustomerProfilePanel } from '@/features/tickets/components/CustomerProfilePanel'
 import { ReplyComposer } from '@/features/tickets/components/ReplyComposer'
 import { StatusActionDialog } from '@/features/tickets/components/StatusActionDialog'
+import { TicketOriginalRequest } from '@/features/tickets/components/TicketOriginalRequest'
 import { TicketConversation } from '@/features/tickets/components/TicketConversation'
 import { TicketHeader } from '@/features/tickets/components/TicketHeader'
 import { TicketPropertiesPanel } from '@/features/tickets/components/TicketPropertiesPanel'
@@ -45,6 +46,7 @@ export function TicketDetailsPage() {
 
       <div className="grid grid-cols-12 items-start gap-gutter px-gutter-lg py-space-md">
         <div className="col-span-12 flex flex-col gap-space-md xl:col-span-8">
+          <TicketOriginalRequest ticket={ticket} />
           <TicketConversation messages={messages} isLoading={messagesLoading} error={messagesError} onRetry={refetchMessages} />
           <ReplyComposer
             recipientEmail={ticket.customer?.user?.email}

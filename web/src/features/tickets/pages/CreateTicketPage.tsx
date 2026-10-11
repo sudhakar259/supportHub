@@ -10,6 +10,7 @@ import { SelectField } from '@/components/ui/SelectField'
 import { TextField } from '@/components/ui/TextField'
 import { lookupsApi } from '@/features/tickets/api/lookupsApi'
 import { ticketsApi } from '@/features/tickets/api/ticketsApi'
+import { AttachmentPicker } from '@/features/tickets/components/AttachmentPicker'
 import { useTicketLookups } from '@/features/tickets/hooks/useTicketLookups'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import { hasRole } from '@/types/user'
@@ -34,6 +35,7 @@ export function CreateTicketPage() {
   const [description, setDescription] = useState('')
   const [categoryId, setCategoryId] = useState<number | ''>('')
   const [priorityId, setPriorityId] = useState<number | ''>('')
+  const [files, setFiles] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
@@ -61,7 +63,16 @@ export function CreateTicketPage() {
         priorityId: priorityId || undefined,
         customerId: isStaff ? (customerId || undefined) : undefined,
       })
-      toast.success('Ticket Created', `Ticket ${ticket.ticketNumber} has been created.`)
+      // The ticket exists now, so a file that fails must not undo it: upload one
+      // by one, then say which (if any) did not make it.
+      const results = await Promise.allSettled(files.map((file) => ticketsApi.uploadAttachment(ticket.id, file)))
+      const failed = results.filter((r) => r.status === 'rejected').length
+
+      if (failed > 0) {
+        toast.warning('Ticket Created, Some Files Failed', `Ticket ${ticket.ticketNumber} was created, but ${failed} of ${files.length} file(s) could not be attached. Add them from the ticket.`)
+      } else {
+        toast.success('Ticket Created', `Ticket ${ticket.ticketNumber} has been created.`)
+      }
       navigate(ROUTES.ticketDetails(ticket.id))
     } catch (err) {
       if (err instanceof ApiError && err.errors) {
@@ -179,6 +190,8 @@ export function CreateTicketPage() {
             />
             {fieldErrors.description && <p className="text-body-sm text-error">{fieldErrors.description}</p>}
           </div>
+
+          <AttachmentPicker files={files} onChange={setFiles} disabled={isSubmitting} />
         </div>
 
         <div className="flex items-center justify-end gap-space-sm">

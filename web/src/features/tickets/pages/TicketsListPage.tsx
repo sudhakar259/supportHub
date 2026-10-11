@@ -14,12 +14,13 @@ import { DataTable } from '@/components/tables/DataTable'
 import { Pagination } from '@/components/tables/Pagination'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import { ticketsApi } from '@/features/tickets/api/ticketsApi'
+import { AssignmentDialog } from '@/features/tickets/components/AssignmentDialog'
 import { SlaCountdown } from '@/features/tickets/components/SlaCountdown'
 import { TicketFiltersBar } from '@/features/tickets/components/TicketFiltersBar'
 import { useTicketLookups } from '@/features/tickets/hooks/useTicketLookups'
 import { useTickets } from '@/features/tickets/hooks/useTickets'
 import { formatDateTime, formatRelativeTime } from '@/utils/datetime'
-import type { Ticket, TicketFilters } from '@/types/ticket'
+import type { AssignTicketPayload, Ticket, TicketFilters } from '@/types/ticket'
 
 const PER_PAGE = 20
 
@@ -40,6 +41,7 @@ export function TicketsListPage({ scope = 'all' }: TicketsListPageProps) {
   })
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [isBulkActing, setIsBulkActing] = useState(false)
+  const [isAssignOpen, setIsAssignOpen] = useState(false)
 
   const { tickets, meta, isLoading, error, refetch } = useTickets(filters)
   const { statuses, priorities, departments } = useTicketLookups()
@@ -88,6 +90,30 @@ export function TicketsListPage({ scope = 'all' }: TicketsListPageProps) {
     } finally {
       setIsBulkActing(false)
     }
+  }
+
+  /**
+   * Same allSettled approach as bulk close: one ticket failing must not hide
+   * the others' outcome. Throws only when nothing succeeded, so the dialog
+   * stays open with the reason; partial success closes it and warns.
+   */
+  async function handleBulkAssign(payload: AssignTicketPayload) {
+    const results = await Promise.allSettled(selectedTickets.map((t) => ticketsApi.assign(t.id, payload)))
+    const failed = results.filter((r): r is PromiseRejectedResult => r.status === 'rejected')
+
+    if (failed.length === results.length) {
+      throw failed[0].reason
+    }
+
+    if (failed.length > 0) {
+      toast.warning(
+        'Bulk Assign Partially Completed',
+        `${results.length - failed.length} ticket${results.length - failed.length === 1 ? '' : 's'} assigned, ${failed.length} failed.`,
+      )
+    }
+
+    setSelectedIds(new Set())
+    refetch()
   }
 
   const columns: DataTableColumn<Ticket>[] = [
@@ -217,6 +243,15 @@ export function TicketsListPage({ scope = 'all' }: TicketsListPageProps) {
               <button
                 type="button"
                 disabled={isBulkActing}
+                onClick={() => setIsAssignOpen(true)}
+                className="flex h-8 items-center gap-1.5 rounded-lg bg-surface-container-high/15 px-2.5 text-title-sm transition-colors hover:bg-primary hover:text-on-primary disabled:opacity-50"
+              >
+                <Icon name="person_add" size={16} />
+                Assign Selected
+              </button>
+              <button
+                type="button"
+                disabled={isBulkActing}
                 onClick={handleBulkClose}
                 className="flex h-8 items-center gap-1.5 rounded-lg bg-surface-container-high/15 px-2.5 text-title-sm transition-colors hover:bg-error hover:text-on-error disabled:opacity-50"
               >
@@ -234,6 +269,13 @@ export function TicketsListPage({ scope = 'all' }: TicketsListPageProps) {
           </div>
         </div>
       )}
+
+      <AssignmentDialog
+        isOpen={isAssignOpen}
+        onClose={() => setIsAssignOpen(false)}
+        onAssign={handleBulkAssign}
+        ticketCount={selectedIds.size}
+      />
 
       <div className="px-gutter-lg">
         <DataTable

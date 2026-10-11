@@ -74,14 +74,18 @@ async function request<T>(path: string, options: RequestOptions): Promise<ApiEnv
   const { method = 'GET', body, params, signal } = options
   const token = tokenStorage.get()
 
+  // A FormData body (file uploads) must be sent as-is: the browser sets the
+  // multipart Content-Type and boundary itself, so we must not set one.
+  const isForm = body instanceof FormData
+
   const response = await fetch(buildUrl(path, params), {
     method,
     headers: {
       Accept: 'application/json',
-      ...(body ? { 'Content-Type': 'application/json' } : {}),
+      ...(body && !isForm ? { 'Content-Type': 'application/json' } : {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: body ? JSON.stringify(body) : undefined,
+    body: body ? (isForm ? body : JSON.stringify(body)) : undefined,
     signal,
   })
 
@@ -132,4 +136,31 @@ export async function apiFetchPage<TRaw, TMapped>(
     : { currentPage: 1, lastPage: 1, perPage: payload.data.length, total: payload.data.length }
 
   return { items: payload.data.map(mapItem), meta }
+}
+
+/**
+ * Fetches a protected file (attachment download) with the signed-in user's
+ * token. A plain <a href> cannot do this: the browser would not send the
+ * Authorization header, so the API would answer 401.
+ */
+export async function apiFetchBlob(url: string): Promise<Blob> {
+  const token = tokenStorage.get()
+  const response = await fetch(url, {
+    headers: { Accept: '*/*', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  })
+
+  if (response.status === 401) handleUnauthorized()
+
+  if (!response.ok) {
+    let message = `Download failed with status ${response.status}`
+    try {
+      const payload = (await response.json()) as { message?: string }
+      if (payload.message) message = payload.message
+    } catch {
+      /* not JSON — keep the generic message */
+    }
+    throw new ApiError(message, response.status)
+  }
+
+  return response.blob()
 }

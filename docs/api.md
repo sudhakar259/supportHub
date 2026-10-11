@@ -90,8 +90,10 @@ See `docs/authentication.md` — Bearer token via Sanctum, obtained from
 File uploads use `multipart/form-data`, not JSON — both
 `POST /tickets/{ticket}/messages` (attachments inline with a message) and
 `POST /tickets/{ticket}/attachments` (ticket-level, no message) accept
-files this way. Allowed types: jpg, jpeg, png, gif, pdf, doc, docx, xls,
-xlsx, txt, csv, zip; 25 MB max per file, 5 files max per message.
+files this way. Allowed types: jpg, jpeg, png, webp, txt, pdf, docx, ppt,
+pptx; 2 MB max per file, 5 files max per message (configured in
+`config/attachments.php`; `ATTACHMENT_MAX_KB` overrides the size). The same
+limits apply to customers, support staff and the integration API.
 Downloads are authenticated — there is no public attachment URL (see
 `docs/ticket-workflow.md`).
 

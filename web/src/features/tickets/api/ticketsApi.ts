@@ -1,7 +1,7 @@
-import type { RawTicket, RawTicketMessage } from '@/features/tickets/api/ticketMappers'
-import { mapTicket, mapTicketMessage } from '@/features/tickets/api/ticketMappers'
-import type { AssignTicketPayload, CreateTicketPayload, StatusActionPayload, Ticket, TicketFilters, TicketMessage } from '@/types/ticket'
-import { apiFetch, apiFetchPage } from '@/services/api/client'
+import type { RawTicket, RawTicketAttachment, RawTicketMessage } from '@/features/tickets/api/ticketMappers'
+import { mapTicket, mapTicketAttachment, mapTicketMessage } from '@/features/tickets/api/ticketMappers'
+import type { AssignTicketPayload, CreateTicketPayload, StatusActionPayload, Ticket, TicketAttachment, TicketFilters, TicketMessage } from '@/types/ticket'
+import { apiFetch, apiFetchBlob, apiFetchPage } from '@/services/api/client'
 import type { Paginated } from '@/types/pagination'
 
 function toQueryParams(filters: TicketFilters): Record<string, string | number | undefined> {
@@ -81,11 +81,41 @@ export const ticketsApi = {
     })
   },
 
-  async postMessage(ticketId: string, body: string, isInternal: boolean): Promise<TicketMessage> {
-    const raw = await apiFetch<RawTicketMessage>(`/tickets/${ticketId}/messages`, {
-      method: 'POST',
-      body: { body, is_internal: isInternal },
-    })
+  async postMessage(ticketId: string, body: string, isInternal: boolean, files: File[] = []): Promise<TicketMessage> {
+    // With files the request must be multipart. Laravel's boolean rule accepts
+    // "1"/"0" (not "true"/"false"), hence the numeric strings.
+    const requestBody = files.length
+      ? (() => {
+          const form = new FormData()
+          form.append('body', body)
+          form.append('is_internal', isInternal ? '1' : '0')
+          files.forEach((file) => form.append('attachments[]', file))
+          return form
+        })()
+      : { body, is_internal: isInternal }
+
+    const raw = await apiFetch<RawTicketMessage>(`/tickets/${ticketId}/messages`, { method: 'POST', body: requestBody })
     return mapTicketMessage(raw)
+  },
+
+  /** Attaches a file to the ticket itself (shown with the original request). */
+  async uploadAttachment(ticketId: string, file: File): Promise<TicketAttachment> {
+    const form = new FormData()
+    form.append('file', file)
+    const raw = await apiFetch<RawTicketAttachment>(`/tickets/${ticketId}/attachments`, { method: 'POST', body: form })
+    return mapTicketAttachment(raw)
+  },
+
+  /** Downloads an attachment with the signed-in user's token and hands it to the browser as a file save. */
+  async downloadAttachment(attachment: TicketAttachment): Promise<void> {
+    const blob = await apiFetchBlob(attachment.downloadUrl)
+    const objectUrl = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = objectUrl
+    link.download = attachment.originalFilename
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    URL.revokeObjectURL(objectUrl)
   },
 }

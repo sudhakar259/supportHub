@@ -27,11 +27,11 @@ export function useTicketMessages(ticketId: string | undefined) {
   }, [load])
 
   const postMessage = useCallback(
-    async (body: string, isInternal: boolean) => {
+    async (body: string, isInternal: boolean, files: File[] = []) => {
       if (!ticketId) return
       setIsPosting(true)
       try {
-        const message = await ticketsApi.postMessage(ticketId, body, isInternal)
+        const message = await ticketsApi.postMessage(ticketId, body, isInternal, files)
         setMessages((prev) => [...prev, message])
         toast.success(isInternal ? 'Internal Note Saved' : 'Reply Sent')
       } catch (err) {

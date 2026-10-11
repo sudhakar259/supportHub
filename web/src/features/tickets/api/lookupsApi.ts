@@ -44,6 +44,8 @@ export const lookupsApi = {
 
   async listAgents(search?: string): Promise<User[]> {
     const page = await apiFetchPage<RawUser, User>('/users', mapUser, { params: { ...LOOKUP_PAGE, search } })
-    return page.items
+    // Only active staff can hold a ticket — the assign endpoint rejects
+    // customers, role-less and deactivated accounts with a 422, so don't offer them.
+    return page.items.filter((u) => u.isActive && u.roles.length > 0 && !u.roles.includes('Customer'))
   },
 }

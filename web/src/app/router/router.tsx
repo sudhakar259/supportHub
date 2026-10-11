@@ -13,6 +13,10 @@ import { AutomationPage } from '@/features/automation/pages/AutomationPage'
 import { EmailVerificationPage } from '@/features/auth/pages/EmailVerificationPage'
 import { ForgotPasswordPage } from '@/features/auth/pages/ForgotPasswordPage'
 import { LoginPage } from '@/features/auth/pages/LoginPage'
+import { ContactPage } from '@/features/legal/pages/ContactPage'
+import { CookiesPage } from '@/features/legal/pages/CookiesPage'
+import { PrivacyPage } from '@/features/legal/pages/PrivacyPage'
+import { TermsPage } from '@/features/legal/pages/TermsPage'
 import { LandingPage } from '@/features/landing/pages/LandingPage'
 import { ResetPasswordPage } from '@/features/auth/pages/ResetPasswordPage'
 import { SessionExpiredPage } from '@/features/auth/pages/SessionExpiredPage'
@@ -54,6 +58,10 @@ export const router = createBrowserRouter([
 
   { path: ROUTES.register, element: <RegistrationPage /> },
   { path: ROUTES.pricing, element: <PricingPage /> },
+  { path: ROUTES.contact, element: <ContactPage /> },
+  { path: ROUTES.terms, element: <TermsPage /> },
+  { path: ROUTES.privacy, element: <PrivacyPage /> },
+  { path: ROUTES.cookies, element: <CookiesPage /> },
   { path: ROUTES.login, element: <LoginPage /> },
   { path: ROUTES.forgotPassword, element: <ForgotPasswordPage /> },
   { path: ROUTES.resetPassword, element: <ResetPasswordPage /> },

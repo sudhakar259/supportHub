@@ -227,7 +227,7 @@ session. See `ResolveIntegrationTenantContext`
 4. Each credential carries a `scopes` array (`customers.read`,
    `customers.create`, `customers.update`, `tickets.read`,
    `tickets.create`, `tickets.update`, `tickets.reply`,
-   `tickets.status.update`, `tickets.attachments`); `RequireApiScope`
+   `tickets.status.update`, `tickets.reopen`, `tickets.attachments`); `RequireApiScope`
    (`scope:X` route middleware) rejects any request whose credential
    lacks the scope the endpoint requires.
 

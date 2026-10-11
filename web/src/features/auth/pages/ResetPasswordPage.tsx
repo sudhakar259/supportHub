@@ -20,7 +20,7 @@ export function ResetPasswordPage() {
 
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [tenant, setTenant] = useState('')
+  const [tenant, setTenant] = useState(searchParams.get('tenant') ?? '')
   const [showTenantField, setShowTenantField] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [succeeded, setSucceeded] = useState(false)

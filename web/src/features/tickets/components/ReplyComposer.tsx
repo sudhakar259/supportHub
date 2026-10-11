@@ -2,11 +2,12 @@ import { useState } from 'react'
 
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
+import { AttachmentPicker } from '@/features/tickets/components/AttachmentPicker'
 import { cn } from '@/utils/cn'
 
 export interface ReplyComposerProps {
   recipientEmail?: string
-  onSubmit: (body: string, isInternal: boolean) => Promise<void>
+  onSubmit: (body: string, isInternal: boolean, files: File[]) => Promise<void>
   isSubmitting: boolean
   canPostInternalNotes: boolean
   /**
@@ -28,11 +29,13 @@ export function ReplyComposer({
 }: ReplyComposerProps) {
   const [mode, setMode] = useState<'public' | 'internal'>('public')
   const [body, setBody] = useState('')
+  const [files, setFiles] = useState<File[]>([])
 
   async function handleSend() {
     if (!body.trim() || isTicketClosed) return
-    await onSubmit(body, mode === 'internal')
+    await onSubmit(body, mode === 'internal', files)
     setBody('')
+    setFiles([])
   }
 
   const isInternal = mode === 'internal'
@@ -105,7 +108,8 @@ export function ReplyComposer({
         />
       </div>
 
-      <div className="flex items-center justify-end gap-2 bg-surface-container-low px-space-md py-space-sm">
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-surface-container-low px-space-md py-space-sm">
+        <AttachmentPicker files={files} onChange={setFiles} disabled={isSubmitting} />
         <Button
           variant={isInternal ? 'secondary' : 'primary'}
           leadingIcon={isInternal ? 'lock' : 'send'}
