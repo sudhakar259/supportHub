@@ -126,7 +126,10 @@ class TicketController extends Controller
     {
         $this->authorize('view', $ticket);
 
-        $ticket->load(['customer.user', 'category', 'priority', 'status', 'department', 'assignee', 'sla', 'tags']);
+        $ticket->load([
+            'customer.user', 'category', 'priority', 'status', 'department', 'assignee', 'sla', 'tags',
+            'attachments' => fn ($q) => $q->whereNull('ticket_message_id'),
+        ]);
 
         return $this->success(new TicketResource($ticket));
     }

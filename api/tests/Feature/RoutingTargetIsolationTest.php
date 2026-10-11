@@ -122,3 +122,66 @@ it('routes a ticket to an active department in the current tenant', function () 
     expect($ticket->department_id)->toBe($department->id);
     expect(app(TenantContext::class)->id())->not->toBeNull();
 });
+
+it('rejects a routing rule that assigns tickets to a customer account', function () {
+    $admin = actingAsAdministrator();
+    $customer = actingAsCustomer();
+
+    $this->actingAs($admin, 'api')
+        ->postJson('/api/v1/routing-rules', [
+            'name' => 'Bad assign',
+            'conditions' => [['field' => 'keyword', 'operator' => '=', 'value' => 'billing']],
+            'actions' => [['type' => 'assign_agent', 'value' => $customer->id]],
+        ])
+        ->assertStatus(422)
+        ->assertJsonValidationErrors(['actions.0.value']);
+});
+
+it('accepts a routing rule that assigns tickets to an active agent', function () {
+    $admin = actingAsAdministrator();
+    $agent = actingAsAgent();
+
+    $this->actingAs($admin, 'api')
+        ->postJson('/api/v1/routing-rules', [
+            'name' => 'Good assign',
+            'conditions' => [['field' => 'keyword', 'operator' => '=', 'value' => 'billing']],
+            'actions' => [['type' => 'assign_agent', 'value' => $agent->id]],
+        ])
+        ->assertCreated();
+});
+
+it('does not apply an assign_agent action that points at a customer', function () {
+    actingAsAdministrator();
+    $customer = actingAsCustomer();
+    $agent = actingAsAgent();
+
+    TicketRoutingRule::create([
+        'name' => 'To customer',
+        'conditions' => [['field' => 'keyword', 'operator' => '=', 'value' => 'billing']],
+        'actions' => [['type' => 'assign_agent', 'value' => $customer->id]],
+    ]);
+    TicketRoutingRule::create([
+        'name' => 'To agent',
+        'conditions' => [['field' => 'keyword', 'operator' => '=', 'value' => 'invoice']],
+        'actions' => [['type' => 'assign_agent', 'value' => $agent->id]],
+    ]);
+
+    $ticket = new Ticket(['subject' => 'Billing question', 'description' => 'unrelated']);
+    expect(app(ApplyTicketRoutingAction::class)->execute($ticket)['assignee_id'])->toBeNull();
+
+    $ticket = new Ticket(['subject' => 'Invoice question', 'description' => 'unrelated']);
+    expect(app(ApplyTicketRoutingAction::class)->execute($ticket)['assignee_id'])->toBe($agent->id);
+});
+
+it('refuses to manually assign a ticket to a customer', function () {
+    $admin = actingAsAdministrator();
+    $customer = actingAsCustomer();
+    $ticket = Ticket::factory()->create();
+
+    $this->actingAs($admin, 'api')
+        ->postJson("/api/v1/tickets/{$ticket->id}/assign", ['assignee_id' => $customer->id])
+        ->assertStatus(422)
+        ->assertJsonValidationErrors(['assignee_id']);
+
+    expect($ticket->fresh()->assignee_id)->toBeNull();
+});

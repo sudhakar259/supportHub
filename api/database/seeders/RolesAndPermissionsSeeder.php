@@ -21,7 +21,7 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public const PERMISSIONS = [
         'tickets' => ['view', 'view_internal_notes', 'create', 'update', 'assign', 'escalate', 'resolve', 'close', 'reopen', 'delete'],
-        'users' => ['view', 'create', 'update', 'delete'],
+        'users' => ['view', 'create', 'update', 'delete', 'impersonate'],
         'customers' => ['view', 'create', 'update', 'delete'],
         'departments' => ['view', 'create', 'update', 'delete'],
         'categories' => ['view', 'create', 'update', 'delete'],

@@ -65,7 +65,7 @@ class TicketMessageController extends Controller
      *
      * @bodyParam body string required Example: Thanks for reaching out — can you share a screenshot of the error?
      * @bodyParam is_internal boolean Staff only. Example: false
-     * @bodyParam attachments file[] Up to 5 files, 25MB each.
+     * @bodyParam attachments file[] Up to 5 files, 2 MB each (jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx).
      *
      * @response 201 {"success": true, "message": "Message posted successfully.", "data": {"id": "01HXYZ...", "type": "agent_reply"}}
      * @response 403 {"success": false, "message": "You do not have permission to perform this action."}

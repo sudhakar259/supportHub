@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Integration;
 
 use App\Actions\Ticket\CreateTicketAction;
 use App\Actions\Ticket\CreateTicketMessageAction;
+use App\Actions\Ticket\ReopenTicketAction;
 use App\Actions\Ticket\UpdateTicketStatusAction;
 use App\Actions\Ticket\UploadTicketAttachmentAction;
 use App\Enums\TicketMessageType;
@@ -16,11 +17,18 @@ use App\Http\Resources\TicketAttachmentResource;
 use App\Http\Resources\TicketMessageResource;
 use App\Http\Resources\TicketResource;
 use App\Models\Customer;
+use App\Models\Department;
 use App\Models\Ticket;
+use App\Models\TicketAttachment;
+use App\Models\TicketMessage;
+use App\Models\TicketPriority;
 use App\Services\PlanLimitService;
+use App\Support\AttachmentRules;
 use App\Support\TenantContext;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @group Integration API — Tickets
@@ -43,8 +51,26 @@ class TicketController extends Controller
         private CreateTicketAction $createTicket,
         private CreateTicketMessageAction $createMessage,
         private UpdateTicketStatusAction $updateStatus,
+        private ReopenTicketAction $reopenTicket,
         private UploadTicketAttachmentAction $uploadAttachment,
     ) {}
+
+    /**
+     * List ticket options
+     *
+     * The priorities and (active) departments a customer-facing "new
+     * ticket" form can offer. Both are optional on ticket creation; omitted
+     * values fall back to the tenant default priority and routing rules.
+     *
+     * @response 200 {"success": true, "message": "Request successful.", "data": {"priorities": [{"id": 2, "name": "Medium", "slug": "medium", "level": 2, "is_default": true}], "departments": [{"id": 1, "name": "Technical Support"}]}}
+     */
+    public function options(): JsonResponse
+    {
+        return $this->success([
+            'priorities' => TicketPriority::orderBy('level')->get(['id', 'name', 'slug', 'level', 'is_default']),
+            'departments' => Department::where('is_active', true)->orderBy('name')->get(['id', 'name']),
+        ]);
+    }
 
     /**
      * List tickets
@@ -72,8 +98,44 @@ class TicketController extends Controller
     public function show(Ticket $ticket): JsonResponse
     {
         return $this->success(new TicketResource(
-            $ticket->load(['customer.user', 'category', 'priority', 'status', 'department', 'assignee', 'sla'])
+            $ticket->load([
+                'customer.user', 'category', 'priority', 'status', 'department', 'assignee', 'sla',
+                'attachments' => fn ($q) => $q->whereNull('ticket_message_id'),
+            ])
         ));
+    }
+
+    /**
+     * List a ticket's customer-visible messages
+     *
+     * Customer messages and agent replies only — internal notes are never
+     * returned. Authors are reduced to a display name (no email or roles).
+     *
+     * @response 200 {"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "type": "agent_reply", "body": "We are looking into it.", "author_name": "Sam", "created_at": "2026-10-09T10:00:00+00:00"}]}
+     */
+    public function messages(Ticket $ticket): JsonResponse
+    {
+        $messages = $ticket->messages()
+            ->where('type', '!=', TicketMessageType::InternalNote->value)
+            ->with(['author:id,name', 'attachments'])
+            ->orderBy('created_at')
+            ->orderBy('id')
+            ->get()
+            ->map(fn ($m) => [
+                'id' => $m->id,
+                'type' => $m->type->value,
+                'body' => $m->body,
+                'author_name' => $m->author?->name,
+                'attachments' => $m->attachments->map(fn ($a) => [
+                    'id' => $a->id,
+                    'original_filename' => $a->original_filename,
+                    'mime_type' => $a->mime_type,
+                    'size' => $a->size,
+                ])->values(),
+                'created_at' => $m->created_at?->toIso8601String(),
+            ]);
+
+        return $this->success($messages);
     }
 
     /**
@@ -90,6 +152,8 @@ class TicketController extends Controller
      * @bodyParam customer_external_id string This tenant's own identifier for the customer. Example: CRM-001
      * @bodyParam category_id integer Example: 2
      * @bodyParam priority_id integer Example: 3
+     * @bodyParam attachments file[] Optional, sent as multipart/form-data. Up to 5 files, 2 MB each. Needs the tickets.attachments scope as well as tickets.create.
+     * @bodyParam department_id integer An active department; see GET /ticket-options. Example: 1
      *
      * @response 201 {"success": true, "message": "Ticket created successfully.", "data": {"id": 12, "ticket_number": "TKT-2026-000012"}}
      * @response 404 {"success": false, "message": "No matching customer found for the given identifier."}
@@ -108,9 +172,21 @@ class TicketController extends Controller
 
         app(PlanLimitService::class)->assertCanCreate(app(TenantContext::class)->get(), 'tickets_per_month');
 
-        $ticket = $this->createTicket->execute($customer, $request->validated());
+        $files = $request->file('attachments', []);
 
-        return $this->created(new TicketResource($ticket), 'Ticket created successfully.');
+        // Same rule as replies: files are an attachment upload, so they need
+        // that scope too.
+        if ($files !== [] && ! $request->attributes->get('apiCredential')?->hasScope('tickets.attachments')) {
+            return $this->error('This API credential does not have the required scope: tickets.attachments.', 403);
+        }
+
+        $ticket = $this->createTicket->execute($customer, Arr::except($request->validated(), ['attachments']));
+
+        foreach ($files as $file) {
+            $this->uploadAttachment->execute($ticket, $file, $customer->user);
+        }
+
+        return $this->created(new TicketResource($ticket->load(['attachments' => fn ($q) => $q->whereNull('ticket_message_id')])), 'Ticket created successfully.');
     }
 
     /**
@@ -137,19 +213,34 @@ class TicketController extends Controller
      * into the ticket thread, attributed to the ticket's own customer.
      *
      * @bodyParam body string required Example: Any update on this?
+     * @bodyParam attachments file[] Optional, sent as multipart/form-data. Up to 5 files, 2 MB each (jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx). Needs the tickets.attachments scope as well as tickets.reply.
      *
      * @response 201 {"success": true, "message": "Reply added successfully.", "data": {"id": 9, "body": "Any update on this?"}}
      */
     public function reply(ReplyIntegrationTicketRequest $request, Ticket $ticket): JsonResponse
     {
+        $files = $request->file('attachments', []);
+
+        // Files on a reply are an attachment upload, so they need that scope
+        // too — tickets.reply alone must not become a way around it.
+        if ($files !== [] && ! $request->attributes->get('apiCredential')?->hasScope('tickets.attachments')) {
+            return $this->error('This API credential does not have the required scope: tickets.attachments.', 403);
+        }
+
+        $customerUser = $ticket->customer->user;
+
         $message = $this->createMessage->execute(
             $ticket,
-            $ticket->customer->user,
+            $customerUser,
             TicketMessageType::CustomerMessage,
             $request->string('body')->toString(),
         );
 
-        return $this->created(new TicketMessageResource($message->load('author')), 'Reply added successfully.');
+        foreach ($files as $file) {
+            $this->uploadAttachment->execute($ticket, $file, $customerUser, $message);
+        }
+
+        return $this->created(new TicketMessageResource($message->load(['author', 'attachments'])), 'Reply added successfully.');
     }
 
     /**
@@ -169,26 +260,72 @@ class TicketController extends Controller
     }
 
     /**
+     * Reopen a ticket as the customer
+     *
+     * For when a ticket was resolved or closed but the problem is not
+     * actually fixed. Unlike the general status endpoint this can only move
+     * a ticket to "reopened", so a customer-facing site can expose it
+     * without being able to resolve or close tickets. Only Resolved and
+     * Closed tickets can be reopened.
+     *
+     * @bodyParam reason string Why the ticket is being reopened. Example: The issue came back after the fix.
+     *
+     * @response 200 {"success": true, "message": "Ticket reopened successfully.", "data": {"id": 12, "status": {"slug": "reopened"}}}
+     * @response 422 {"success": false, "message": "Cannot transition from open to reopened."}
+     */
+    public function reopen(Request $request, Ticket $ticket): JsonResponse
+    {
+        $request->validate(['reason' => ['sometimes', 'nullable', 'string', 'max:2000']]);
+
+        $ticket = $this->reopenTicket->execute($ticket, $ticket->customer->user, $request->input('reason'));
+
+        return $this->success(new TicketResource($ticket->load('status')), 'Ticket reopened successfully.');
+    }
+
+    /**
      * List a ticket's attachments
      *
      * @response 200 {"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "original_filename": "screenshot.png"}]}
      */
     public function attachments(Ticket $ticket): JsonResponse
     {
-        return $this->success(TicketAttachmentResource::collection($ticket->attachments()->get()));
+        // Customer-uploaded files only — never staff files or internal-note attachments.
+        return $this->success(TicketAttachmentResource::collection(
+            $ticket->attachments()->where('uploaded_by', $ticket->customer->user_id)->get()
+        ));
+    }
+
+    /**
+     * Download a ticket attachment
+     *
+     * Streams the file. Attachments that belong to another ticket, or to an
+     * internal note, are reported as not found.
+     *
+     * @response 404 {"success": false, "message": "The requested resource was not found."}
+     */
+    public function downloadAttachment(Ticket $ticket, TicketAttachment $attachment)
+    {
+        $message = $attachment->ticket_message_id ? TicketMessage::find($attachment->ticket_message_id) : null;
+
+        if ($attachment->ticket_id !== $ticket->id || $message?->isInternalNote()
+            || (! $message && $attachment->uploaded_by !== $ticket->customer->user_id)) {
+            return $this->error('The requested resource was not found.', 404);
+        }
+
+        return Storage::disk($attachment->disk)->download($attachment->path, $attachment->original_filename);
     }
 
     /**
      * Upload a ticket attachment as the customer
      *
-     * @bodyParam file file required Max 25MB. One of jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, csv, zip.
+     * @bodyParam file file required Max 2 MB. One of jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx.
      *
      * @response 201 {"success": true, "message": "Attachment uploaded successfully.", "data": {"id": "01HXYZ...", "original_filename": "invoice.pdf"}}
      */
     public function storeAttachment(Request $request, Ticket $ticket): JsonResponse
     {
         $request->validate([
-            'file' => ['required', 'file', 'max:25600', 'mimes:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,csv,zip', 'extensions:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,csv,zip'],
+            'file' => ['required', ...AttachmentRules::file()],
         ]);
 
         $attachment = $this->uploadAttachment->execute($ticket, $request->file('file'), $ticket->customer->user);

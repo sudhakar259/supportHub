@@ -69,6 +69,14 @@ class SystemSettingController extends Controller
         $tenantId = $request->user()->tenant_id;
         $keys = [];
 
+        // Verification is the platform's call (PUT /platform/tenants/{tenant}/email-domain);
+        // a tenant must not be able to mark its own domain verified.
+        abort_if(
+            collect($validated['settings'])->contains('key', 'email.domain_verified'),
+            403,
+            'The sending domain can only be verified by the platform.'
+        );
+
         foreach ($validated['settings'] as $setting) {
             $value = $setting['value'];
             $type = $setting['type'] ?? 'string';

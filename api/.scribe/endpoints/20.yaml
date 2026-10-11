@@ -292,6 +292,17 @@ endpoints:
         exampleWasSpecified: true
         nullable: true
         deprecated: false
+      send_invite:
+        custom: []
+        name: send_invite
+        description: 'Email the customer a link to set their own password so they can sign in to follow their tickets. Defaults to false.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
       company_name:
         custom: []
         name: company_name
@@ -329,6 +340,7 @@ endpoints:
       name: 'Jamie Rivera'
       email: jamie@example.com
       phone: +1-555-0100
+      send_invite: true
       company_name: 'Acme Corp'
       customer_type: business
       external_id: CRM-001

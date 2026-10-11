@@ -91,7 +91,7 @@ class ApplyTicketRoutingAction
 
             if ($type === 'assign_department' && $this->isAvailable(Department::class, $value, activeOnly: true)) {
                 $ticket->department_id = $value;
-            } elseif ($type === 'assign_agent' && $this->isAvailable(User::class, $value, activeOnly: true)) {
+            } elseif ($type === 'assign_agent' && $this->isAvailable(User::class, $value, activeOnly: true, staffOnly: true)) {
                 $outcome['assignee_id'] = $value;
             } elseif ($type === 'set_priority' && $this->isAvailable(TicketPriority::class, $value)) {
                 $ticket->priority_id = $value;
@@ -103,7 +103,7 @@ class ApplyTicketRoutingAction
         }
     }
 
-    protected function isAvailable(string $model, mixed $value, bool $activeOnly = false): bool
+    protected function isAvailable(string $model, mixed $value, bool $activeOnly = false, bool $staffOnly = false): bool
     {
         if (! is_int($value) && ! (is_string($value) && ctype_digit($value))) {
             return false;
@@ -113,6 +113,12 @@ class ApplyTicketRoutingAction
 
         if ($activeOnly) {
             $query->where('is_active', true);
+        }
+
+        if ($staffOnly) {
+            // Re-checked at apply time: the rule may have been saved when this
+            // user was staff, and they have since been demoted to Customer.
+            $query->whereHas('roles')->whereDoesntHave('roles', fn ($q) => $q->where('name', 'Customer'));
         }
 
         return $query->exists();

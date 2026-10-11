@@ -71,6 +71,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasRole('Customer');
     }
 
+    /**
+     * True when the current request is authenticated with a "login as"
+     * token (see UserImpersonationController) rather than the user's own
+     * credentials. Safe to call outside a token-authenticated request.
+     */
+    public function isImpersonated(): bool
+    {
+        $token = $this->currentAccessToken();
+
+        return $token instanceof \Laravel\Sanctum\PersonalAccessToken
+            && str_starts_with((string) $token->name, 'impersonation:');
+    }
+
     public function isPlatformAdmin(): bool
     {
         return $this->tenant_id === null;

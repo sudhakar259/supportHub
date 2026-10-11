@@ -1,35 +1,31 @@
-name: Billing
+name: Webhooks
 description: |-
 
-  A tenant's own view of its subscription — distinct from
-  Platform\TenantController, which lets a platform administrator see
-  every tenant's subscription. Moving to a paid plan issues an invoice
-  with a Razorpay order; the subscription is activated when that invoice
-  is paid (see InvoiceController and MarkInvoicePaidAction).
+  Tenant-configured HTTP callbacks for ticket lifecycle events (see
+  Webhook::EVENTS). Every delivery is signed with the webhook's own
+  secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+  JSON body) so the receiving endpoint can verify it actually came
+  from this platform.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/subscription
+    uri: api/v1/webhooks
     metadata:
       custom: []
-      groupName: Billing
+      groupName: Webhooks
       groupDescription: |-
 
-        A tenant's own view of its subscription — distinct from
-        Platform\TenantController, which lets a platform administrator see
-        every tenant's subscription. Moving to a paid plan issues an invoice
-        with a Razorpay order; the subscription is activated when that invoice
-        is paid (see InvoiceController and MarkInvoicePaidAction).
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get the current subscription'
-      description: |-
-        Includes a `usage` block (one entry per plan-limited feature)
-        computed live via PlanLimitService — the same service every
-        resource-creating controller already uses to enforce limits, so
-        this can never drift from what creation actually allows.
+      title: 'List webhooks'
+      description: ''
       authenticated: true
       deprecated: false
     headers:
@@ -47,10 +43,113 @@ endpoints:
       -
         custom: []
         status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Ticket sync", "url": "https://example.com/hooks", "events": ["ticket.created"]}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/webhooks
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create a webhook'
+      description: |-
+        The secret is returned exactly once, here — it is encrypted at
+        rest and this is the only response that ever includes it in
+        plain text. Use it to verify the X-Webhook-Signature header on
+        each delivery.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: ''
+        required: true
+        example: 'Ticket sync'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      url:
+        custom: []
+        name: url
+        description: 'Must not point to a local/private address.'
+        required: true
+        example: 'https://example.com/webhooks/supporthub'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      events:
+        custom: []
+        name: events
+        description: 'One or more of ticket.created, ticket.updated, ticket.assigned, ticket.replied, ticket.status_changed, ticket.resolved, ticket.closed, ticket.reopened.'
+        required: true
+        example:
+          - ticket.created
+          - ticket.status_changed
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: 'Defaults to true.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'Ticket sync'
+      url: 'https://example.com/webhooks/supporthub'
+      events:
+        - ticket.created
+        - ticket.status_changed
+      is_active: true
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 201
         content: |-
           {
-            "success": true, "message": "Request successful.",
-            "data": {"id": 1, "status": "trial", "plan": {"name": "Starter"}, "usage": {"users": {"used": 2, "limit": 3}}}
+            "success": true, "message": "Webhook created successfully.",
+            "data": {"id": 1, "name": "Ticket sync", "url": "https://example.com/webhooks/supporthub", "secret": "whsec_..."}
           }
         headers: []
         description: ''
@@ -65,57 +164,52 @@ endpoints:
   -
     custom: []
     httpMethods:
-      - PUT
-    uri: api/v1/subscription
+      - GET
+    uri: 'api/v1/webhooks/{webhook_id}'
     metadata:
       custom: []
-      groupName: Billing
+      groupName: Webhooks
       groupDescription: |-
 
-        A tenant's own view of its subscription — distinct from
-        Platform\TenantController, which lets a platform administrator see
-        every tenant's subscription. Moving to a paid plan issues an invoice
-        with a Razorpay order; the subscription is activated when that invoice
-        is paid (see InvoiceController and MarkInvoicePaidAction).
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Change plan'
-      description: |-
-        A free plan activates immediately. A paid plan starts a 14-day
-        trial and issues an invoice for the plan price, with a Razorpay
-        order to pay it; the subscription is activated once the invoice is
-        paid. Earlier unpaid invoices are voided. If the payment provider
-        cannot create the order, nothing changes and the request returns 503.
+      title: 'Get a webhook'
+      description: ''
       authenticated: true
       deprecated: false
     headers:
       Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      plan:
+    urlParameters:
+      webhook_id:
         custom: []
-        name: plan
-        description: 'The membership plan slug to switch to.'
+        name: webhook_id
+        description: 'The ID of the webhook.'
         required: true
-        example: professional
-        type: string
+        example: 16
+        type: integer
         enumValues: []
-        exampleWasSpecified: true
+        exampleWasSpecified: false
         nullable: false
         deprecated: false
-    cleanBodyParameters:
-      plan: professional
+    cleanUrlParameters:
+      webhook_id: 16
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Plan updated successfully.", "data": {"status": "trial", "plan": {"slug": "professional"}, "invoice": {"status": "pending"}}}'
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Ticket sync"}}'
         headers: []
         description: ''
     responseFields: []
@@ -129,21 +223,21 @@ endpoints:
   -
     custom: []
     httpMethods:
-      - POST
-    uri: api/v1/subscription/cancel
+      - PUT
+    uri: 'api/v1/webhooks/{webhook_id}'
     metadata:
       custom: []
-      groupName: Billing
+      groupName: Webhooks
       groupDescription: |-
 
-        A tenant's own view of its subscription — distinct from
-        Platform\TenantController, which lets a platform administrator see
-        every tenant's subscription. Moving to a paid plan issues an invoice
-        with a Razorpay order; the subscription is activated when that invoice
-        is paid (see InvoiceController and MarkInvoicePaidAction).
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Cancel the subscription'
+      title: 'Update a webhook'
       description: ''
       authenticated: true
       deprecated: false
@@ -151,8 +245,129 @@ endpoints:
       Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 16
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: ''
+        required: false
+        example: 'Ticket sync (v2)'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      url:
+        custom: []
+        name: url
+        description: ''
+        required: false
+        example: 'https://example.com/webhooks/v2'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      events:
+        custom: []
+        name: events
+        description: ''
+        required: false
+        example:
+          - ticket.created
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: ''
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'Ticket sync (v2)'
+      url: 'https://example.com/webhooks/v2'
+      events:
+        - ticket.created
+      is_active: false
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Webhook updated successfully.", "data": {"id": 1, "name": "Ticket sync (v2)"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/webhooks/{webhook_id}'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete a webhook'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -162,7 +377,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Subscription cancelled.", "data": {"status": "cancelled"}}'
+        content: '{"success": true, "message": "Webhook deleted successfully.", "data": null}'
         headers: []
         description: ''
     responseFields: []
@@ -177,17 +392,20 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/subscription/invoices
+    uri: 'api/v1/webhooks/{webhook_id}/deliveries'
     metadata:
       custom: []
-      groupName: Billing
+      groupName: Webhooks
       groupDescription: |-
 
-        Invoices issued when a tenant moves to a paid plan, and the browser
-        callback that confirms a Razorpay payment for one of them.
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List invoices'
+      title: "List a webhook's recent delivery attempts"
       description: ''
       authenticated: true
       deprecated: false
@@ -195,10 +413,34 @@ endpoints:
       Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 16
+    queryParameters:
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Items per page (max 100).'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      per_page: 25
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -206,7 +448,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "number": "INV-000001", "status": "pending", "amount_cents": 4900, "currency": "USD"}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "event": "ticket.created", "success": true, "response_status": 200}]}'
         headers: []
         description: ''
     responseFields: []
@@ -221,75 +463,127 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/v1/subscription/payments/verify
+    uri: 'api/v1/webhooks/{webhook_id}/test'
     metadata:
       custom: []
-      groupName: Billing
+      groupName: Webhooks
       groupDescription: |-
 
-        Invoices issued when a tenant moves to a paid plan, and the browser
-        callback that confirms a Razorpay payment for one of them.
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Confirm a payment'
+      title: 'Send a test event to a webhook'
       description: |-
-        Called by the browser after Razorpay Checkout succeeds. The signature
-        is checked with the key secret; an unsigned or mismatched payment is
-        rejected and the invoice stays pending.
+        Delivers a synthetic `webhook.test` event to this webhook's URL
+        right away (not queued, never retried) so its endpoint and
+        signature verification can be checked without waiting for a
+        real ticket event. The attempt is still recorded as an ordinary
+        delivery, visible via GET /webhooks/{webhook}/deliveries.
       authenticated: true
       deprecated: false
     headers:
       Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      razorpay_order_id:
+    urlParameters:
+      webhook_id:
         custom: []
-        name: razorpay_order_id
-        description: 'The order id the invoice was issued with.'
+        name: webhook_id
+        description: 'The ID of the webhook.'
         required: true
-        example: order_Lx1234abcd
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      razorpay_payment_id:
-        custom: []
-        name: razorpay_payment_id
-        description: 'The payment id returned by Razorpay Checkout.'
-        required: true
-        example: pay_Lx1234abcd
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      razorpay_signature:
-        custom: []
-        name: razorpay_signature
-        description: 'The signature returned by Razorpay Checkout.'
-        required: true
-        example: architecto
-        type: string
+        example: 16
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-    cleanBodyParameters:
-      razorpay_order_id: order_Lx1234abcd
-      razorpay_payment_id: pay_Lx1234abcd
-      razorpay_signature: architecto
+    cleanUrlParameters:
+      webhook_id: 16
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Payment confirmed.", "data": {"status": "paid"}}'
+        content: |-
+          {
+            "success": true, "message": "Test webhook sent.",
+            "data": {"id": 9, "event": "webhook.test", "response_status": 200, "success": true}
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/webhooks/{webhook_id}/rotate-secret'
+    metadata:
+      custom: []
+      groupName: Webhooks
+      groupDescription: |-
+
+        Tenant-configured HTTP callbacks for ticket lifecycle events (see
+        Webhook::EVENTS). Every delivery is signed with the webhook's own
+        secret via an X-Webhook-Signature header (HMAC-SHA256 of the raw
+        JSON body) so the receiving endpoint can verify it actually came
+        from this platform.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Rotate a webhook's signing secret"
+      description: |-
+        Issues a brand-new secret for this webhook; the old one no
+        longer verifies X-Webhook-Signature on any future delivery. Use
+        this instead of deleting and recreating the webhook when only
+        the secret needs to change.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      webhook_id:
+        custom: []
+        name: webhook_id
+        description: 'The ID of the webhook.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      webhook_id: 16
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true, "message": "Webhook secret rotated successfully.",
+            "data": {"id": 1, "name": "Ticket sync", "secret": "whsec_..."}
+          }
         headers: []
         description: ''
     responseFields: []

@@ -36,7 +36,7 @@ class NotificationTemplateSeeder extends Seeder
             'key' => 'agent_replied',
             'name' => 'Agent Replied',
             'subject' => 'New reply on your ticket {ticket_number}',
-            'body' => "Hi {customer_name},\n\n{agent_name} replied to your ticket {ticket_number} (\"{ticket_subject}\").\n\nView ticket: {ticket_url}",
+            'body' => "Hi {customer_name},\n\n{agent_name} replied to your ticket {ticket_number} (\"{ticket_subject}\"):\n\n{reply_body}\n\nView ticket: {ticket_url}",
         ],
         [
             'key' => 'ticket_escalated',

@@ -104,7 +104,7 @@ class ApiExceptionRenderer
         if ($e instanceof PostTooLargeException) {
             return response()->json([
                 'success' => false,
-                'message' => 'The uploaded content is too large. Attachments are limited to 25 MB per file.',
+                'message' => 'The uploaded content is too large. Attachments are limited to '.\App\Support\AttachmentRules::maxSizeLabel().' per file.',
             ], 413);
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Support\AttachmentRules;
 use App\Actions\Ticket\UploadTicketAttachmentAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TicketAttachmentResource;
@@ -51,7 +52,7 @@ class TicketAttachmentController extends Controller
      *
      * @urlParam ticket string required Example: 01hxyz0123456789abcdefghj
      *
-     * @bodyParam file file required Max 25MB. One of jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, csv, zip.
+     * @bodyParam file file required Max 2 MB. One of jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx.
      *
      * @response 201 {"success": true, "message": "Attachment uploaded successfully.", "data": {"id": "01HXYZ...", "original_filename": "invoice.pdf"}}
      */
@@ -60,12 +61,7 @@ class TicketAttachmentController extends Controller
         $this->authorize('update', $ticket);
 
         $request->validate([
-            // mimes: alone checks the file's content-sniffed type, not its
-            // filename — a file named malware.exe with plain-text content
-            // satisfies mimes:txt. extensions: additionally rejects any
-            // filename extension outside the allow-list regardless of what
-            // the content sniffs as, closing that gap.
-            'file' => ['required', 'file', 'max:25600', 'mimes:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,csv,zip', 'extensions:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,csv,zip'],
+            'file' => ['required', ...AttachmentRules::file()],
         ]);
 
         $attachment = $this->uploadAttachment->execute($ticket, $request->file('file'), $request->user());

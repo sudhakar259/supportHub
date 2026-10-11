@@ -124,7 +124,7 @@ endpoints:
         name: is_default
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -135,7 +135,7 @@ endpoints:
       slug: critical
       level: 5
       color: '#DC2626'
-      is_default: false
+      is_default: true
     fileParameters: []
     responses:
       -

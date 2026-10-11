@@ -34,7 +34,10 @@ trait ValidatesRoutingTargets
 
                 $exists = match ($type) {
                     'assign_department' => Department::query()->forTenant($tenantId)->whereKey($value)->where('is_active', true)->exists(),
-                    'assign_agent' => User::query()->forTenant($tenantId)->whereKey($value)->where('is_active', true)->exists(),
+                    // Staff only — a Customer (or role-less) account can never hold a
+                    // ticket, same rule as manual assignment (AssignTicketRequest).
+                    'assign_agent' => User::query()->forTenant($tenantId)->whereKey($value)->where('is_active', true)
+                        ->whereHas('roles')->whereDoesntHave('roles', fn ($q) => $q->where('name', 'Customer'))->exists(),
                     'set_priority' => TicketPriority::query()->forTenant($tenantId)->whereKey($value)->exists(),
                 };
 

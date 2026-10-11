@@ -20,7 +20,7 @@ class ApiCredential extends Model
     public const ALL_SCOPES = [
         'customers.read', 'customers.create', 'customers.update',
         'tickets.read', 'tickets.create', 'tickets.update', 'tickets.reply',
-        'tickets.status.update', 'tickets.attachments',
+        'tickets.status.update', 'tickets.reopen', 'tickets.attachments',
     ];
 
     protected function casts(): array

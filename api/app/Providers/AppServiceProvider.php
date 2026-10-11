@@ -106,7 +106,11 @@ class AppServiceProvider extends ServiceProvider
         ResetPassword::createUrlUsing(function ($user, string $token) {
             $frontendUrl = rtrim(config('app.frontend_url'), '/');
 
-            return "{$frontendUrl}/reset-password?token={$token}&email=".urlencode($user->email);
+            // The same email can exist in more than one tenant, so the link names the
+            // tenant; the reset page sends it back and the broker picks the right account.
+            $tenant = $user->tenant?->slug ? '&tenant='.urlencode($user->tenant->slug) : '';
+
+            return "{$frontendUrl}/reset-password?token={$token}&email=".urlencode($user->email).$tenant;
         });
 
         Event::listen(Registered::class, SendEmailVerificationNotification::class);

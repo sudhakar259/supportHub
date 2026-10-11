@@ -5,12 +5,12 @@
             "key": "baseUrl",
             "type": "string",
             "name": "string",
-            "value": "http:\/\/localhost:8080"
+            "value": "http:\/\/localhost:8082"
         }
     ],
     "info": {
         "name": "SupportHub API Documentation",
-        "_postman_id": "a5db7a25-b578-4853-96c0-2b78e09b0a1b",
+        "_postman_id": "ccc7ec3e-dd7a-4c17-88e8-76882c5e52c6",
         "description": "REST API for SupportHub \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -630,6 +630,58 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Roles updated successfully.\", \"data\": {\"id\": 2, \"roles\": [\"Senior Agent\"]}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Login as a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user_id\/impersonate",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/:user_id\/impersonate",
+                            "variable": [
+                                {
+                                    "id": "user_id",
+                                    "key": "user_id",
+                                    "value": 1,
+                                    "description": "The ID of the user."
+                                },
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": 5,
+                                    "description": "The user to act as."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Lets an administrator (`users.impersonate`) act as another user in the\nsame tenant to see exactly what they see. Returns a short-lived Bearer\ntoken for that user; the administrator's own token is untouched, so the\nclient can switch back by discarding this one (`POST \/auth\/logout` with\nit). Not allowed on yourself, inactive users, other administrators, or\nfrom inside an impersonation session. Every use is written to the audit\nlog as `user.impersonated`."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Now logged in as the selected user.\", \"data\": {\"user\": {\"id\": 5}, \"token\": \"2|abc...\", \"token_type\": \"Bearer\", \"expires_at\": \"2026-10-09T20:00:00+00:00\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"success\": false, \"message\": \"You do not have permission to perform this action.\"}",
                             "name": ""
                         }
                     ]
@@ -1563,7 +1615,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1609,7 +1661,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1652,7 +1704,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1692,7 +1744,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1735,7 +1787,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1778,7 +1830,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1827,7 +1879,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1870,7 +1922,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1913,7 +1965,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1963,7 +2015,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2022,7 +2074,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2068,7 +2120,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2141,13 +2193,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m45547tnhr360w9vnp2gv2qg",
+                                    "value": "01m4grbvnqc5qwsqhmenr8sr3m",
                                     "description": "The ID of the message."
                                 },
                                 {
@@ -2211,7 +2263,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2257,7 +2309,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2312,13 +2364,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "attachment_id",
                                     "key": "attachment_id",
-                                    "value": "01m4552j7w56dcy15z4e9xxskv",
+                                    "value": "01m4gxn2jt2tc1sb0nk66rwj08",
                                     "description": "The ID of the attachment."
                                 },
                                 {
@@ -2411,13 +2463,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m4552j7w56dcy15z4e9xxskv",
+                                    "value": "01m4gxn2jt2tc1sb0nk66rwj08",
                                     "description": "The ID of the attachment."
                                 },
                                 {
@@ -2732,7 +2784,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"On Hold\",\"slug\":\"on-hold\",\"color\":\"#6B7280\",\"is_default\":true,\"is_closed\":false,\"sort_order\":37}"
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"on-hold\",\"color\":\"#6B7280\",\"is_default\":false,\"is_closed\":false,\"sort_order\":37}"
                         },
                         "description": ""
                     },
@@ -2934,7 +2986,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Critical\",\"slug\":\"critical\",\"level\":5,\"color\":\"#DC2626\",\"is_default\":false}"
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"critical\",\"level\":5,\"color\":\"#DC2626\",\"is_default\":true}"
                         },
                         "description": ""
                     },
@@ -3161,7 +3213,7 @@
                                 {
                                     "id": "rule_id",
                                     "key": "rule_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the rule."
                                 }
                             ]
@@ -3201,7 +3253,7 @@
                                 {
                                     "id": "rule_id",
                                     "key": "rule_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the rule."
                                 }
                             ]
@@ -3219,7 +3271,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":true,\"conditions\":[{\"field\":\"customer_type\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"assign_department\"}]}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":false,\"conditions\":[{\"field\":\"priority_id\",\"operator\":\"!=\"}],\"actions\":[{\"type\":\"escalate\"}]}"
                         },
                         "description": ""
                     },
@@ -3244,7 +3296,7 @@
                                 {
                                     "id": "rule_id",
                                     "key": "rule_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the rule."
                                 }
                             ]
@@ -3332,7 +3384,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":false,\"is_active\":true}"
+                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":true,\"is_active\":true}"
                         },
                         "description": ""
                     },
@@ -3415,7 +3467,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":false,\"is_default\":true,\"is_active\":false}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":true,\"is_default\":true,\"is_active\":false}"
                         },
                         "description": ""
                     },
@@ -3853,7 +3905,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"json\",\"group\":\"n\",\"is_public\":true}]}"
+                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"string\",\"group\":\"n\",\"is_public\":true}]}"
                         },
                         "description": ""
                     },
@@ -4231,7 +4283,7 @@
                             "mode": "raw",
                             "raw": "{\"plan\":\"professional\"}"
                         },
-                        "description": "A free plan activates immediately. A paid plan starts a 14-day\ntrial and issues an invoice for the plan price, with a Razorpay\norder to pay it; the subscription is activated once the invoice is\npaid. Earlier unpaid invoices are voided. If the payment provider\ncannot create the order, nothing changes and the request returns 503."
+                        "description": "A free plan activates immediately. A paid plan starts a 14-day\ntrial and issues an invoice for the plan price, with a Razorpay\norder to pay it; the subscription is activated once the invoice is\npaid. A lapsed subscription (past_due, suspended or expired) gets no\nnew trial and keeps its lapsed status until that invoice is paid.\nEarlier unpaid invoices are voided. If the payment provider\ncannot create the order, nothing changes and the request returns 503."
                     },
                     "response": [
                         {
@@ -4344,6 +4396,124 @@
             ]
         },
         {
+            "name": "Email to ticket",
+            "description": "\nLets a workspace turn emails sent to its support address into tickets. The\nworkspace forwards its mailbox (for example support@acme.com) to the address\nshown here; see docs\/email-to-ticket.md.",
+            "item": [
+                {
+                    "name": "Show email-to-ticket settings",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/inbound-email",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/inbound-email"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"available\": true, \"address\": \"acme@inbound.example.com\", \"enabled\": true, \"create_customers\": true}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update email-to-ticket settings",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/inbound-email",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/inbound-email"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"enabled\":true,\"create_customers\":true}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Email-to-ticket settings updated.\", \"data\": {\"enabled\": true}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Email-to-ticket is not available on this platform yet.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List received emails",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/inbound-email\/log",
+                            "query": [
+                                {
+                                    "key": "per_page",
+                                    "value": "25",
+                                    "description": "Items per page (max 100).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/inbound-email\/log?per_page=25"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "What happened to each email sent to the workspace address, newest first,\nincluding the ones that were ignored or rejected and why."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 1, \"from_email\": \"jamie@example.com\", \"subject\": \"Cannot log in\", \"status\": \"ticket_created\", \"ticket_id\": \"01HXYZ...\"}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Endpoints",
             "description": "",
             "item": [
@@ -4411,6 +4581,75 @@
                                 }
                             ],
                             "code": 400,
+                            "body": "{\"success\":false,\"message\":\"Invalid signature.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "POST api\/v1\/inbound-email\/mailgun",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/inbound-email\/mailgun",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/inbound-email\/mailgun"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "120"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "119"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-frame-options",
+                                    "value": "DENY"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "content-security-policy",
+                                    "value": "default-src 'none'; frame-ancestors 'none'"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 401,
                             "body": "{\"success\":false,\"message\":\"Invalid signature.\"}",
                             "name": ""
                         }
@@ -4618,7 +4857,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"phone\":\"+1-555-0100\",\"company_name\":\"Acme Corp\",\"customer_type\":\"business\",\"external_id\":\"CRM-001\"}"
+                            "raw": "{\"name\":\"Jamie Rivera\",\"email\":\"jamie@example.com\",\"phone\":\"+1-555-0100\",\"send_invite\":true,\"company_name\":\"Acme Corp\",\"customer_type\":\"business\",\"external_id\":\"CRM-001\"}"
                         },
                         "description": "No password is set \u2014 this customer can request one later via\nPOST \/auth\/forgot-password if they ever need direct portal\naccess; most integration-created customers never do.",
                         "auth": {
@@ -4691,9 +4930,187 @@
             ]
         },
         {
+            "name": "Integration API \u2014 Lookups",
+            "description": "\nThe ids a client site needs to fill its \"new ticket\" form (priority,\ndepartment, category dropdowns). Read-only, scoped to the credential's own\ntenant, and only active departments\/categories are returned. Requires the\ntickets.create scope \u2014 these exist to build create-ticket requests.",
+            "item": [
+                {
+                    "name": "List priorities",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/priorities",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/priorities"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 11, \"name\": \"High\", \"slug\": \"high\", \"level\": 3, \"color\": \"#F59E0B\", \"is_default\": false}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List departments",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/departments",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/departments"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Active departments only. Pass the chosen `id` as `department_id` when\ncreating a ticket. A routing rule on the tenant may still re-route the ticket.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 2, \"name\": \"Billing\", \"code\": \"BILL\", \"description\": \"Invoices and payments\", \"is_active\": true}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List categories",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/categories",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/categories"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Active categories only. Pass the chosen `id` as `category_id` when\ncreating a ticket.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": 3, \"name\": \"Technical Issue\", \"slug\": \"technical-issue\"}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Integration API \u2014 Tickets",
             "description": "\nSame credential-based auth as the Customers integration endpoints.\n\"Reply\" and \"attachment\" actions here are posted on behalf of the\nticket's customer \u2014 there is no staff Sanctum session backing this\ncredential, so there is no agent identity to attribute them to; use\nthe regular Sanctum-authenticated ticket endpoints for agent-side\nactions.",
             "item": [
+                {
+                    "name": "List ticket options",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/ticket-options",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/ticket-options"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "The priorities and (active) departments a customer-facing \"new\nticket\" form can offer. Both are optional on ticket creation; omitted\nvalues fall back to the tenant default priority and routing rules.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"priorities\": [{\"id\": 2, \"name\": \"Medium\", \"slug\": \"medium\", \"level\": 2, \"is_default\": true}], \"departments\": [{\"id\": 1, \"name\": \"Technical Support\"}]}}",
+                            "name": ""
+                        }
+                    ]
+                },
                 {
                     "name": "List tickets",
                     "request": {
@@ -4762,7 +5179,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -4802,6 +5219,57 @@
                     ]
                 },
                 {
+                    "name": "List a ticket's customer-visible messages",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets\/:ticket_id\/messages",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets\/:ticket_id\/messages",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Customer messages and agent replies only \u2014 internal notes are never\nreturned. Authors are reduced to a display name (no email or roles).",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"id\": \"01HXYZ...\", \"type\": \"agent_reply\", \"body\": \"We are looking into it.\", \"author_name\": \"Sam\", \"created_at\": \"2026-10-09T10:00:00+00:00\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "Create a ticket",
                     "request": {
                         "url": {
@@ -4822,7 +5290,7 @@
                             },
                             {
                                 "key": "Content-Type",
-                                "value": "application\/json"
+                                "value": "multipart\/form-data"
                             },
                             {
                                 "key": "Accept",
@@ -4830,8 +5298,62 @@
                             }
                         ],
                         "body": {
-                            "mode": "raw",
-                            "raw": "{\"subject\":\"Cannot access my account\",\"description\":\"Getting a 500 error at login.\",\"category_id\":2,\"priority_id\":3,\"customer_id\":4,\"customer_email\":\"jamie@example.com\",\"customer_external_id\":\"CRM-001\"}"
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "subject",
+                                    "value": "Cannot access my account",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "Getting a 500 error at login.",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "category_id",
+                                    "value": "2",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "priority_id",
+                                    "value": "3",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "department_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": "An active department; see GET \/ticket-options."
+                                },
+                                {
+                                    "key": "customer_id",
+                                    "value": "4",
+                                    "type": "text",
+                                    "description": "The internal customer id, if already known."
+                                },
+                                {
+                                    "key": "customer_email",
+                                    "value": "jamie@example.com",
+                                    "type": "text",
+                                    "description": "The customer's email, looked up within this tenant."
+                                },
+                                {
+                                    "key": "customer_external_id",
+                                    "value": "CRM-001",
+                                    "type": "text",
+                                    "description": "This tenant's own identifier for the customer."
+                                },
+                                {
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
                         },
                         "description": "The customer is identified by exactly one of customer_id,\ncustomer_email or customer_external_id \u2014 whichever the caller's\nown system already has on hand.",
                         "auth": {
@@ -4865,7 +5387,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -4919,7 +5441,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -4936,7 +5458,7 @@
                             },
                             {
                                 "key": "Content-Type",
-                                "value": "application\/json"
+                                "value": "multipart\/form-data"
                             },
                             {
                                 "key": "Accept",
@@ -4944,8 +5466,20 @@
                             }
                         ],
                         "body": {
-                            "mode": "raw",
-                            "raw": "{\"body\":\"Any update on this?\"}"
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "body",
+                                    "value": "Any update on this?",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
                         },
                         "description": "Syncs a message from another channel (chat widget, email, CRM)\ninto the ticket thread, attributed to the ticket's own customer.",
                         "auth": {
@@ -4973,7 +5507,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -5022,6 +5556,66 @@
                     ]
                 },
                 {
+                    "name": "Reopen a ticket as the customer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets\/:ticket_id\/reopen",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets\/:ticket_id\/reopen",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "description": "The ID of the ticket."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"reason\":\"The issue came back after the fix.\"}"
+                        },
+                        "description": "For when a ticket was resolved or closed but the problem is not\nactually fixed. Unlike the general status endpoint this can only move\na ticket to \"reopened\", so a customer-facing site can expose it\nwithout being able to resolve or close tickets. Only Resolved and\nClosed tickets can be reopened.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Ticket reopened successfully.\", \"data\": {\"id\": 12, \"status\": {\"slug\": \"reopened\"}}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Cannot transition from open to reopened.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "List a ticket's attachments",
                     "request": {
                         "url": {
@@ -5033,7 +5627,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -5073,6 +5667,98 @@
                     ]
                 },
                 {
+                    "name": "Download a ticket attachment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/integration\/tickets\/:ticket_id\/attachments\/:attachment_id\/download",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/integration\/tickets\/:ticket_id\/attachments\/:attachment_id\/download",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "attachment_id",
+                                    "key": "attachment_id",
+                                    "value": "01m4gxn2jt2tc1sb0nk66rwj08",
+                                    "description": "The ID of the attachment."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-Api-Key",
+                                "value": "ak_abcdef1234567890abcdef1234567890"
+                            },
+                            {
+                                "key": "X-Api-Secret",
+                                "value": "as_abcdef1234567890abcdef1234567890abcdef12345678"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Streams the file. Attachments that belong to another ticket, or to an\ninternal note, are reported as not found.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-frame-options",
+                                    "value": "DENY"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "content-security-policy",
+                                    "value": "default-src 'none'; frame-ancestors 'none'"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"Invalid API credentials.\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\"success\": false, \"message\": \"The requested resource was not found.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "Upload a ticket attachment as the customer",
                     "request": {
                         "url": {
@@ -5084,7 +5770,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4354e56tahm9cav0r11rs3t",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -5432,6 +6118,49 @@
                     ]
                 },
                 {
+                    "name": "Verify a tenant's sending domain",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/platform\/tenants\/:tenant_id\/email-domain",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/platform\/tenants\/:tenant_id\/email-domain",
+                            "variable": [
+                                {
+                                    "id": "tenant_id",
+                                    "key": "tenant_id",
+                                    "value": 1,
+                                    "description": "The ID of the tenant."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"verified\":true}"
+                        },
+                        "description": "Marks the tenant's `email.sending_domain` as having SPF\/DKIM in place.\nOnly then, and only on a plan above Starter, do the tenant's emails go\nout from support@<domain> instead of the platform address."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Sending domain updated successfully.\", \"data\": {\"verified\": true}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "Assign a membership plan to a tenant",
                     "request": {
                         "url": {
@@ -5768,7 +6497,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5808,7 +6537,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5851,7 +6580,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5898,7 +6627,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5938,7 +6667,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the webhook."
                                 }
                             ]
@@ -5978,7 +6707,7 @@
                                 {
                                     "id": "webhook_id",
                                     "key": "webhook_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the webhook."
                                 }
                             ]

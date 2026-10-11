@@ -34,3 +34,4 @@ require __DIR__.'/api/api-credentials.php';
 require __DIR__.'/api/webhooks.php';
 require __DIR__.'/api/ticket-number-settings.php';
 require __DIR__.'/api/subscription.php';
+require __DIR__.'/api/inbound-email.php';

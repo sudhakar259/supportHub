@@ -119,7 +119,7 @@ endpoints:
         name: 'settings[].type'
         description: ''
         required: false
-        example: json
+        example: string
         type: string
         enumValues:
           - string
@@ -210,7 +210,7 @@ endpoints:
       settings:
         -
           key: b
-          type: json
+          type: string
           group: 'n'
           is_public: true
     fileParameters: []

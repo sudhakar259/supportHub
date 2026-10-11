@@ -24,7 +24,7 @@ class SendAgentRepliedNotification implements ShouldQueue
         $this->send->execute(
             'agent_replied',
             array_filter([$ticket->customer?->user]),
-            $this->variables($ticket, $event->message->author),
+            $this->variables($ticket, $event->message->author) + ['reply_body' => $event->message->body],
             $this->ticketUrl($ticket)
         );
     }

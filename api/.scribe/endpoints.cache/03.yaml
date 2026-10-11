@@ -575,3 +575,81 @@ endpoints:
     controller: null
     method: null
     route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/users/{user_id}/impersonate'
+    metadata:
+      custom: []
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Login as a user'
+      description: |-
+        Lets an administrator (`users.impersonate`) act as another user in the
+        same tenant to see exactly what they see. Returns a short-lived Bearer
+        token for that user; the administrator's own token is untouched, so the
+        client can switch back by discarding this one (`POST /auth/logout` with
+        it). Not allowed on yourself, inactive users, other administrators, or
+        from inside an impersonation session. Every use is written to the audit
+        log as `user.impersonated`.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      user_id:
+        custom: []
+        name: user_id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      user:
+        custom: []
+        name: user
+        description: 'The user to act as.'
+        required: true
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      user_id: 1
+      user: 5
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Now logged in as the selected user.", "data": {"user": {"id": 5}, "token": "2|abc...", "token_type": "Bearer", "expires_at": "2026-10-09T20:00:00+00:00"}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 403
+        content: '{"success": false, "message": "You do not have permission to perform this action."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

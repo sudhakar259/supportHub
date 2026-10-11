@@ -46,7 +46,7 @@ class ApiCredentialController extends Controller
      * it's lost, rotate the credential for a new one.
      *
      * @bodyParam name string required Example: Chat widget
-     * @bodyParam scopes string[] required One or more of customers.read, customers.create, customers.update, tickets.read, tickets.create, tickets.update, tickets.reply, tickets.status.update, tickets.attachments. Example: ["customers.read", "tickets.create"]
+     * @bodyParam scopes string[] required One or more of customers.read, customers.create, customers.update, tickets.read, tickets.create, tickets.update, tickets.reply, tickets.status.update, tickets.reopen, tickets.attachments. Example: ["customers.read", "tickets.create"]
      *
      * @response 201 {
      *   "success": true, "message": "API credential created successfully.",

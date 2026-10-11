@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Models\NotificationLog;
 use App\Models\Tenant;
+use App\Services\InboundEmail\InboundEmailSettings;
 use App\Support\TenantContext;
 use App\Support\TenantEmailBranding;
 use Illuminate\Bus\Queueable;
@@ -63,9 +64,15 @@ class TicketEventNotification extends Notification implements ShouldQueue
             ? "This message was sent by {$tenant->name} through SupportHub."
             : 'This message was sent through SupportHub.');
 
-        $mail->from(config('mail.from.address'), $branding['sender_name']);
+        $mail->from($branding['from_address'] ?? config('mail.from.address'), $branding['sender_name']);
 
-        if ($branding['reply_to']) {
+        // A customer's reply to this email goes straight back into the ticket when the
+        // workspace has email-to-ticket on; otherwise it goes to the workspace's own address.
+        $inboundAddress = $tenant && InboundEmailSettings::enabled($tenant) ? InboundEmailSettings::address($tenant) : null;
+
+        if ($inboundAddress && method_exists($notifiable, 'hasRole') && $notifiable->hasRole('Customer')) {
+            $mail->replyTo($inboundAddress);
+        } elseif ($branding['reply_to']) {
             $mail->replyTo($branding['reply_to']);
         }
 

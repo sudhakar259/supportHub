@@ -40,7 +40,10 @@ class ResolveTenantContext
             ], 401);
         }
 
-        if (! $user->email_verified_at) {
+        // An administrator acting as this user ("login as") vouches for the
+        // account, so the user's own email verification is not required —
+        // customers created through the integration API never verify one.
+        if (! $user->email_verified_at && ! $user->isImpersonated()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Verify your email address to continue.',

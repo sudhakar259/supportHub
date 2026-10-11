@@ -11,6 +11,9 @@ use App\Models\User;
 use App\Notifications\TicketEventNotification;
 use App\Services\TenantProvisioningService;
 use App\Support\TenantContext;
+use App\Models\MembershipPlan;
+use App\Models\Subscription;
+use Database\Seeders\MembershipPlanSeeder;
 use Database\Seeders\NotificationTemplateSeeder;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Support\Facades\Notification;
@@ -108,4 +111,62 @@ it('sends a ticket listener\'s email with the ticket tenant\'s template when no 
         fn (TicketEventNotification $notification) => $notification->tenantId === $tenantB->id
             && str_starts_with($notification->subject, 'Globex ticket'),
     );
+});
+
+
+function customDomainMail(string $planSlug, bool $verified): array
+{
+    (new MembershipPlanSeeder)->run();
+    $tenant = testTenant();
+    Subscription::updateOrCreate(['tenant_id' => $tenant->id], [
+        'membership_plan_id' => MembershipPlan::where('slug', $planSlug)->value('id'), 'status' => 'active',
+    ]);
+    SystemSetting::create(['tenant_id' => $tenant->id, 'key' => 'email.sending_domain', 'value' => 'crevol.com', 'type' => 'string']);
+    SystemSetting::create(['tenant_id' => $tenant->id, 'key' => 'email.domain_verified', 'value' => $verified ? '1' : '0', 'type' => 'boolean']);
+
+    return [(new TicketEventNotification('ticket_created', 'S', 'B', null, null, $tenant->id))
+        ->toMail(User::factory()->create(['tenant_id' => $tenant->id])), $tenant];
+}
+
+it('sends from the tenant\'s verified domain on a plan above Starter', function () {
+    [$mail] = customDomainMail('professional', true);
+
+    expect($mail->from[0])->toBe('support@crevol.com');
+});
+
+it('keeps the platform address on the Starter plan even with a verified domain', function () {
+    [$mail] = customDomainMail('starter', true);
+
+    expect($mail->from[0])->toBe(config('mail.from.address'));
+});
+
+it('keeps the platform address until the domain is verified', function () {
+    [$mail] = customDomainMail('business', false);
+
+    expect($mail->from[0])->toBe(config('mail.from.address'));
+});
+
+it('stops a tenant marking its own sending domain verified', function () {
+    $admin = actingAsAdministrator();
+
+    $this->actingAs($admin, 'api')
+        ->putJson('/api/v1/settings', ['settings' => [['key' => 'email.domain_verified', 'value' => '1']]])
+        ->assertStatus(403);
+});
+
+it('lets a platform admin verify a tenant\'s sending domain', function () {
+    $tenant = testTenant();
+    $platformAdmin = actingAsPlatformAdmin();
+
+    $this->actingAs($platformAdmin, 'api')
+        ->putJson("/api/v1/platform/tenants/{$tenant->id}/email-domain", ['verified' => true])
+        ->assertStatus(422);
+
+    SystemSetting::create(['tenant_id' => $tenant->id, 'key' => 'email.sending_domain', 'value' => 'crevol.com', 'type' => 'string']);
+
+    $this->actingAs($platformAdmin, 'api')
+        ->putJson("/api/v1/platform/tenants/{$tenant->id}/email-domain", ['verified' => true])
+        ->assertOk();
+
+    expect(SystemSetting::withoutTenantScope()->where('tenant_id', $tenant->id)->where('key', 'email.domain_verified')->value('value'))->toBe('1');
 });

@@ -23,6 +23,9 @@ class TicketResource extends JsonResource
             'department' => new DepartmentResource($this->whenLoaded('department')),
             'assignee' => new UserResource($this->whenLoaded('assignee')),
             'sla' => new TicketSlaResource($this->whenLoaded('sla')),
+            // Files attached to the ticket itself (at creation, or via the ticket-level
+            // upload) — not files on a reply, which belong to that message.
+            'attachments' => $this->whenLoaded('attachments', fn () => TicketAttachmentResource::collection($this->attachments)),
             'tags' => $this->whenLoaded('tags', fn () => $this->tags->pluck('name')),
             'reopened_count' => $this->reopened_count,
             'first_response_at' => $this->first_response_at?->toIso8601String(),

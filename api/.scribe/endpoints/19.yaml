@@ -476,6 +476,80 @@ endpoints:
     custom: []
     httpMethods:
       - PUT
+    uri: 'api/v1/platform/tenants/{tenant_id}/email-domain'
+    metadata:
+      custom: []
+      groupName: 'Platform Administration'
+      groupDescription: |-
+
+        Tenant management for platform operators. Every route here requires
+        the Platform Admin role — a population entirely separate from any
+        tenant's own "Administrator" (see RequirePlatformAdmin). None of
+        these endpoints are reachable by a tenant user, no matter their
+        role within their own tenant.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Verify a tenant's sending domain"
+      description: |-
+        Marks the tenant's `email.sending_domain` as having SPF/DKIM in place.
+        Only then, and only on a plan above Starter, do the tenant's emails go
+        out from support@<domain> instead of the platform address.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      tenant_id:
+        custom: []
+        name: tenant_id
+        description: 'The ID of the tenant.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      tenant_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      verified:
+        custom: []
+        name: verified
+        description: ''
+        required: true
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      verified: true
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Sending domain updated successfully.", "data": {"verified": true}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
     uri: 'api/v1/platform/tenants/{tenant_id}/subscription'
     metadata:
       custom: []

@@ -40,7 +40,7 @@ endpoints:
         name: ticket_id
         description: 'The ID of the ticket.'
         required: true
-        example: 01m4354e56tahm9cav0r11rs3t
+        example: 01m4grbvc2v68162hmf9xr8fgh
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -58,7 +58,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      ticket_id: 01m4354e56tahm9cav0r11rs3t
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
       ticket: 01hxyz0123456789abcdefghj
     queryParameters: []
     cleanQueryParameters: []
@@ -114,7 +114,7 @@ endpoints:
         name: ticket_id
         description: 'The ID of the ticket.'
         required: true
-        example: 01m4354e56tahm9cav0r11rs3t
+        example: 01m4grbvc2v68162hmf9xr8fgh
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -132,7 +132,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      ticket_id: 01m4354e56tahm9cav0r11rs3t
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
       ticket: 01hxyz0123456789abcdefghj
     queryParameters: []
     cleanQueryParameters: []
@@ -140,7 +140,7 @@ endpoints:
       file:
         custom: []
         name: file
-        description: 'Max 25MB. One of jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt, csv, zip.'
+        description: 'Max 2 MB. One of jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx.'
         required: true
         example: null
         type: file
@@ -197,7 +197,7 @@ endpoints:
         name: ticket_id
         description: 'The ID of the ticket.'
         required: true
-        example: 01m4354e56tahm9cav0r11rs3t
+        example: 01m4grbvc2v68162hmf9xr8fgh
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -208,7 +208,7 @@ endpoints:
         name: attachment_id
         description: 'The ID of the attachment.'
         required: true
-        example: 01m4552j7w56dcy15z4e9xxskv
+        example: 01m4gxn2jt2tc1sb0nk66rwj08
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -237,8 +237,8 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      ticket_id: 01m4354e56tahm9cav0r11rs3t
-      attachment_id: 01m4552j7w56dcy15z4e9xxskv
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+      attachment_id: 01m4gxn2jt2tc1sb0nk66rwj08
       ticket: 01hxyz0123456789abcdefghj
       attachment: 01hxyz0123456789abcdefghm
     queryParameters: []
@@ -311,7 +311,7 @@ endpoints:
         name: ticket_id
         description: 'The ID of the ticket.'
         required: true
-        example: 01m4354e56tahm9cav0r11rs3t
+        example: 01m4grbvc2v68162hmf9xr8fgh
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -322,7 +322,7 @@ endpoints:
         name: id
         description: 'The ID of the attachment.'
         required: true
-        example: 01m4552j7w56dcy15z4e9xxskv
+        example: 01m4gxn2jt2tc1sb0nk66rwj08
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -351,8 +351,8 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      ticket_id: 01m4354e56tahm9cav0r11rs3t
-      id: 01m4552j7w56dcy15z4e9xxskv
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+      id: 01m4gxn2jt2tc1sb0nk66rwj08
       ticket: 01hxyz0123456789abcdefghj
       attachment: 01hxyz0123456789abcdefghm
     queryParameters: []

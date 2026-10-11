@@ -7,6 +7,7 @@ use App\Http\Requests\Platform\UpdateTenantRequest;
 use App\Http\Resources\TenantResource;
 use App\Models\MembershipPlan;
 use App\Models\Subscription;
+use App\Models\SystemSetting;
 use App\Models\Tenant;
 use App\Services\AuditLogger;
 use Illuminate\Http\JsonResponse;
@@ -155,5 +156,34 @@ class TenantController extends Controller
         app(AuditLogger::class)->log('platform.subscription.changed', $subscription, $before, ['membership_plan_id' => $plan->id, 'status' => $subscription->status], $request->user());
 
         return $this->success(new TenantResource($tenant->load('subscription.plan')->loadCount(['users', 'customers', 'tickets'])), 'Plan updated successfully.');
+    }
+
+    /**
+     * Verify a tenant's sending domain
+     *
+     * Marks the tenant's `email.sending_domain` as having SPF/DKIM in place.
+     * Only then, and only on a plan above Starter, do the tenant's emails go
+     * out from support@<domain> instead of the platform address.
+     *
+     * @bodyParam verified boolean required Example: true
+     *
+     * @response 200 {"success": true, "message": "Sending domain updated successfully.", "data": {"verified": true}}
+     */
+    public function verifyEmailDomain(Request $request, Tenant $tenant): JsonResponse
+    {
+        $data = $request->validate(['verified' => ['required', 'boolean']]);
+
+        $hasDomain = SystemSetting::withoutTenantScope()
+            ->where('tenant_id', $tenant->id)->where('key', 'email.sending_domain')->whereNotNull('value')->exists();
+        abort_if($data['verified'] && ! $hasDomain, 422, 'The tenant has not set an email.sending_domain.');
+
+        SystemSetting::withoutTenantScope()->updateOrCreate(
+            ['tenant_id' => $tenant->id, 'key' => 'email.domain_verified'],
+            ['value' => $data['verified'] ? '1' : '0', 'type' => 'boolean', 'group' => 'email', 'is_public' => false]
+        );
+
+        app(AuditLogger::class)->log('platform.tenant.email_domain_verified', $tenant, null, ['verified' => $data['verified']], $request->user());
+
+        return $this->success(['verified' => $data['verified']], 'Sending domain updated successfully.');
     }
 }

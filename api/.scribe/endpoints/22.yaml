@@ -1,35 +1,34 @@
-name: 'API Credentials'
+name: 'Integration API — Lookups'
 description: |-
 
-  Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-  to call the Integration API (see docs under "Integration API —
-  Customers/Tickets"). Scoped to the caller's own tenant like
-  everything else here; a credential's secret is only ever visible in
-  the response to the single store()/rotate() call that generated it.
+  The ids a client site needs to fill its "new ticket" form (priority,
+  department, category dropdowns). Read-only, scoped to the credential's own
+  tenant, and only active departments/categories are returned. Requires the
+  tickets.create scope — these exist to build create-ticket requests.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/api-credentials
+    uri: api/v1/integration/priorities
     metadata:
       custom: []
-      groupName: 'API Credentials'
+      groupName: 'Integration API — Lookups'
       groupDescription: |-
 
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
+        The ids a client site needs to fill its "new ticket" form (priority,
+        department, category dropdowns). Read-only, scoped to the credential's own
+        tenant, and only active departments/categories are returned. Requires the
+        tickets.create scope — these exist to build create-ticket requests.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List API credentials'
+      title: 'List priorities'
       description: ''
-      authenticated: true
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -43,96 +42,11 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Chat widget", "key": "ak_...", "status": "active"}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 11, "name": "High", "slug": "high", "level": 3, "color": "#F59E0B", "is_default": false}]}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: api/v1/api-credentials
-    metadata:
-      custom: []
-      groupName: 'API Credentials'
-      groupDescription: |-
-
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Create an API credential'
-      description: |-
-        The secret is returned exactly once, here — it is hashed at
-        rest and cannot be recovered afterward. Store it securely; if
-        it's lost, rotate the credential for a new one.
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        custom: []
-        name: name
-        description: ''
-        required: true
-        example: 'Chat widget'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      scopes:
-        custom: []
-        name: scopes
-        description: 'One or more of customers.read, customers.create, customers.update, tickets.read, tickets.create, tickets.update, tickets.reply, tickets.status.update, tickets.attachments.'
-        required: true
-        example:
-          - customers.read
-          - tickets.create
-        type: 'string[]'
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      name: 'Chat widget'
-      scopes:
-        - customers.read
-        - tickets.create
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 201
-        content: |-
-          {
-            "success": true, "message": "API credential created successfully.",
-            "data": {"id": 1, "name": "Chat widget", "key": "ak_abc123...", "secret": "as_def456...", "scopes": ["customers.read"]}
-          }
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
@@ -140,189 +54,31 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/api-credentials/{credential_id}'
+    uri: api/v1/integration/departments
     metadata:
       custom: []
-      groupName: 'API Credentials'
+      groupName: 'Integration API — Lookups'
       groupDescription: |-
 
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
+        The ids a client site needs to fill its "new ticket" form (priority,
+        department, category dropdowns). Read-only, scoped to the credential's own
+        tenant, and only active departments/categories are returned. Requires the
+        tickets.create scope — these exist to build create-ticket requests.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get an API credential'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      credential_id:
-        custom: []
-        name: credential_id
-        description: 'The ID of the credential.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      credential_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Chat widget"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PUT
-    uri: 'api/v1/api-credentials/{credential_id}'
-    metadata:
-      custom: []
-      groupName: 'API Credentials'
-      groupDescription: |-
-
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
-      subgroup: ''
-      subgroupDescription: ''
-      title: "Update an API credential's name or scopes"
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      credential_id:
-        custom: []
-        name: credential_id
-        description: 'The ID of the credential.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      credential_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        custom: []
-        name: name
-        description: ''
-        required: false
-        example: 'Chat widget (prod)'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      scopes:
-        custom: []
-        name: scopes
-        description: ''
-        required: false
-        example:
-          - customers.read
-        type: 'string[]'
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      name: 'Chat widget (prod)'
-      scopes:
-        - customers.read
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "API credential updated successfully.", "data": {"id": 1, "name": "Chat widget (prod)"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: 'api/v1/api-credentials/{credential_id}/rotate'
-    metadata:
-      custom: []
-      groupName: 'API Credentials'
-      groupDescription: |-
-
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
-      subgroup: ''
-      subgroupDescription: ''
-      title: "Rotate an API credential's secret"
+      title: 'List departments'
       description: |-
-        Issues a brand-new secret for the same key; the old secret
-        stops working immediately. Use this instead of revoking +
-        recreating when only the secret (not the whole credential and
-        its scopes/history) needs to change.
-      authenticated: true
+        Active departments only. Pass the chosen `id` as `department_id` when
+        creating a ticket. A routing rule on the tenant may still re-route the ticket.
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      credential_id:
-        custom: []
-        name: credential_id
-        description: 'The ID of the credential.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      credential_id: 1
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -332,59 +88,43 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Secret rotated successfully.", "data": {"id": 1, "key": "ak_abc123...", "secret": "as_newsecret..."}}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 2, "name": "Billing", "code": "BILL", "description": "Invoices and payments", "is_active": true}]}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
   -
     custom: []
     httpMethods:
-      - POST
-    uri: 'api/v1/api-credentials/{credential_id}/revoke'
+      - GET
+    uri: api/v1/integration/categories
     metadata:
       custom: []
-      groupName: 'API Credentials'
+      groupName: 'Integration API — Lookups'
       groupDescription: |-
 
-        Key+secret pairs a tenant issues to its own backend/CRM/chat widget
-        to call the Integration API (see docs under "Integration API —
-        Customers/Tickets"). Scoped to the caller's own tenant like
-        everything else here; a credential's secret is only ever visible in
-        the response to the single store()/rotate() call that generated it.
+        The ids a client site needs to fill its "new ticket" form (priority,
+        department, category dropdowns). Read-only, scoped to the credential's own
+        tenant, and only active departments/categories are returned. Requires the
+        tickets.create scope — these exist to build create-ticket requests.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Revoke an API credential'
+      title: 'List categories'
       description: |-
-        Immediately and permanently stops this credential from
-        authenticating. Cannot be undone — issue a new credential
-        instead of expecting this one to work again.
-      authenticated: true
+        Active categories only. Pass the chosen `id` as `category_id` when
+        creating a ticket.
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      credential_id:
-        custom: []
-        name: credential_id
-        description: 'The ID of the credential.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      credential_id: 1
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -394,14 +134,11 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "API credential revoked successfully.", "data": {"id": 1, "status": "revoked"}}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 3, "name": "Technical Issue", "slug": "technical-issue"}]}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null

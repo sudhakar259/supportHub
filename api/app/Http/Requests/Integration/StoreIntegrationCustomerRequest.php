@@ -25,6 +25,7 @@ class StoreIntegrationCustomerRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->where('tenant_id', $tenantId)],
             'phone' => ['nullable', 'string', 'max:30'],
+            'send_invite' => ['sometimes', 'boolean'],
             'company_name' => ['nullable', 'string', 'max:255'],
             'customer_type' => ['sometimes', 'string', 'in:individual,business,vip'],
             'external_id' => [

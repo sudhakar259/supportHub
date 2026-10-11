@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Ticket;
 
+use App\Support\AttachmentRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTicketMessageRequest extends FormRequest
@@ -18,11 +19,8 @@ class StoreTicketMessageRequest extends FormRequest
             // Staff only — a customer's `is_internal` is always ignored
             // and forced false in the controller, never trusted from input.
             'is_internal' => ['sometimes', 'boolean'],
-            'attachments' => ['sometimes', 'array', 'max:5'],
-            // mimes: checks content-sniffed type only; extensions: additionally
-            // rejects any filename extension outside the allow-list regardless
-            // of what the content sniffs as (see TicketAttachmentController).
-            'attachments.*' => ['file', 'max:25600', 'mimes:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,csv,zip', 'extensions:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,csv,zip'],
+            'attachments' => ['sometimes', 'array', 'max:'.config('attachments.max_per_message')],
+            'attachments.*' => AttachmentRules::file(),
         ];
     }
 }

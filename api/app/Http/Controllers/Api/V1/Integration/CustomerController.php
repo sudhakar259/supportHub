@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 /**
@@ -100,6 +101,7 @@ class CustomerController extends Controller
      * @bodyParam company_name string Example: Acme Corp
      * @bodyParam customer_type string individual, business or vip. Defaults to individual. Example: business
      * @bodyParam external_id string This tenant's own identifier for the customer. Example: CRM-001
+     * @bodyParam send_invite boolean Email the customer a link to set their own password so they can sign in to follow their tickets. Defaults to false. Example: true
      *
      * @response 201 {"success": true, "message": "Customer created successfully.", "data": {"id": 4, "external_id": "CRM-001"}}
      */
@@ -126,6 +128,17 @@ class CustomerController extends Controller
                 'external_id' => $request->filled('external_id') ? $request->string('external_id')->toString() : null,
             ]);
         });
+
+        if ($request->boolean('send_invite')) {
+            // Same flow as "forgot password": following the emailed link lets them choose a
+            // password, and completing it also verifies the address. A mail failure must not
+            // undo the customer that was just created.
+            try {
+                Password::sendResetLink(['email' => $customer->user->email, 'tenant_id' => $tenant->id]);
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
 
         return $this->created(new CustomerResource($customer->load('user')), 'Customer created successfully.');
     }

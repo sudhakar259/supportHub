@@ -167,7 +167,7 @@ endpoints:
         name: 'conditions[].field'
         description: ''
         required: true
-        example: customer_type
+        example: keyword
         type: string
         enumValues:
           - category_id
@@ -182,7 +182,7 @@ endpoints:
         name: 'conditions[].operator'
         description: ''
         required: false
-        example: '='
+        example: '!='
         type: string
         enumValues:
           - '='
@@ -207,7 +207,7 @@ endpoints:
         name: 'actions[].type'
         description: ''
         required: true
-        example: escalate
+        example: assign_agent
         type: string
         enumValues:
           - assign_department
@@ -289,14 +289,14 @@ endpoints:
         name: rule_id
         description: 'The ID of the rule.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      rule_id: 1
+      rule_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -347,14 +347,14 @@ endpoints:
         name: rule_id
         description: 'The ID of the rule.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      rule_id: 1
+      rule_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -407,7 +407,7 @@ endpoints:
         name: stop_processing
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -440,7 +440,7 @@ endpoints:
         name: 'conditions[].field'
         description: 'This field is required when <code>conditions</code> is present.'
         required: false
-        example: customer_type
+        example: priority_id
         type: string
         enumValues:
           - category_id
@@ -455,7 +455,7 @@ endpoints:
         name: 'conditions[].operator'
         description: ''
         required: false
-        example: '='
+        example: '!='
         type: string
         enumValues:
           - '='
@@ -480,7 +480,7 @@ endpoints:
         name: 'actions[].type'
         description: 'This field is required when <code>actions</code> is present.'
         required: false
-        example: assign_department
+        example: escalate
         type: string
         enumValues:
           - assign_department
@@ -507,14 +507,14 @@ endpoints:
       description: 'Eius et animi quos velit et.'
       priority: 5
       is_active: false
-      stop_processing: true
+      stop_processing: false
       conditions:
         -
-          field: customer_type
-          operator: '='
+          field: priority_id
+          operator: '!='
       actions:
         -
-          type: assign_department
+          type: escalate
     fileParameters: []
     responses:
       -
@@ -560,14 +560,14 @@ endpoints:
         name: rule_id
         description: 'The ID of the rule.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      rule_id: 1
+      rule_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
