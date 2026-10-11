@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ROUTES } from '@/app/router/routes'
@@ -8,13 +9,15 @@ import { PublicCta } from '@/features/landing/components/PublicCta'
 import { HOME_FAQ, PRODUCT_FEATURES, SOLUTIONS } from '@/features/landing/content'
 
 export function LandingPage() {
+  const [isMotionPaused, setIsMotionPaused] = useState(false)
+
   return (
     <PublicLayout>
-      <section className="marketing-hero">
+      <section className="marketing-hero" data-motion={isMotionPaused ? 'paused' : 'running'}>
         <div className="marketing-container marketing-hero-grid">
           <div className="marketing-hero-copy">
             <span className="marketing-eyebrow">
-              <span className="marketing-live-dot" /> HELPDESK & CUSTOMER SUPPORT SOFTWARE
+              <span className="marketing-live-dot" aria-hidden="true" /> HELPDESK & CUSTOMER SUPPORT SOFTWARE
             </span>
             <h1>
               Customer support.
@@ -46,26 +49,44 @@ export function LandingPage() {
             </div>
           </div>
           <div className="marketing-hero-visual">
-            <div className="marketing-visual-caption">
-              <span /> A PLACE FOR EVERY CONVERSATION
-            </div>
-            <figure className="marketing-product-preview">
-              <Link to={ROUTES.demo} aria-label="Explore the DeskNu sample workspace">
+            <div className="marketing-support-orbit" aria-hidden="true" />
+            <figure className="marketing-support-image">
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet="/images/support-team-640.webp 640w, /images/support-team-1280.webp 1280w"
+                  sizes="(max-width: 704px) calc(100vw - 36px), (max-width: 1023px) 660px, (max-width: 1280px) 52vw, 624px"
+                />
                 <img
-                  src="/images/workspace-preview.jpg"
-                  width={1200}
-                  height={840}
-                  alt="DeskNu sample workspace showing the ticket inbox, customer conversation, assignment and reply controls."
+                  src="/images/support-team.jpg"
+                  width={1280}
+                  height={960}
+                  alt="A customer support representative wearing a headset, with a teammate working nearby in a bright office."
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
                 />
-              </Link>
+              </picture>
               <figcaption>
-                <span>Built for your team’s daily work.</span>
-                <Link to={ROUTES.demo}>Explore the product tour <Icon name="arrow_forward" size={16} /></Link>
+                <span className="marketing-support-caption-icon"><Icon name="support_agent" size={26} /></span>
+                <span className="marketing-support-caption-copy">
+                  <small>BUILT FOR CUSTOMER CARE</small>
+                  <strong>Good support starts with people.</strong>
+                </span>
+                <button
+                  type="button"
+                  className="marketing-hero-motion-toggle"
+                  onClick={() => setIsMotionPaused((paused) => !paused)}
+                  aria-pressed={isMotionPaused}
+                  aria-label={isMotionPaused ? 'Resume hero animations' : 'Pause hero animations'}
+                  title={isMotionPaused ? 'Resume animations' : 'Pause animations'}
+                >
+                  <Icon name={isMotionPaused ? 'play_arrow' : 'pause'} size={19} />
+                </button>
               </figcaption>
             </figure>
+            <span className="marketing-support-accent marketing-support-accent-mail" aria-hidden="true"><Icon name="mail" size={25} /></span>
+            <span className="marketing-support-accent marketing-support-accent-check" aria-hidden="true"><Icon name="task_alt" size={24} /></span>
           </div>
         </div>
       </section>

@@ -15,9 +15,11 @@ use App\Services\AuditLogger;
 use App\Services\LoginSecurity;
 use App\Services\TwoFactorService;
 use App\Support\TenantContext;
+use App\Support\WorkspaceDomains;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -483,19 +485,32 @@ class AuthController extends Controller
      * @response 200 {"success": true, "message": "Email verified successfully.", "data": null}
      * @response 403 {"success": false, "message": "Invalid verification link."}
      */
-    public function verifyEmail(Request $request, int $id, string $hash): JsonResponse
+    /**
+     * The link in the email opens in a browser, so a person lands on a page of
+     * the app rather than on raw JSON. Clients that ask for JSON still get JSON.
+     */
+    public function verifyEmail(Request $request, int $id, string $hash): JsonResponse|RedirectResponse
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+        $problem = match (true) {
+            ! $request->hasValidSignature() => 'expired',
+            $user === null, ! hash_equals((string) $hash, sha1($user->getEmailForVerification())) => 'invalid',
+            default => null,
+        };
 
-        if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
-            return $this->error('Invalid verification link.', 403);
-        }
-
-        if (! $user->hasVerifiedEmail()) {
+        if ($problem === null && ! $user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
             event(new Verified($user));
         }
 
-        return $this->success(null, 'Email verified successfully.');
+        if ($request->wantsJson()) {
+            return $problem
+                ? $this->error($problem === 'expired' ? 'This verification link has expired or is not valid.' : 'Invalid verification link.', 403)
+                : $this->success(null, 'Email verified successfully.');
+        }
+
+        $query = $problem ? '?verified=0&reason='.$problem : '?verified=1';
+
+        return redirect()->away(WorkspaceDomains::url($user?->tenant, '/email-verification').$query);
     }
 }

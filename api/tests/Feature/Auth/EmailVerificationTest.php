@@ -61,3 +61,31 @@ it('tells an already-verified user their email is already verified', function ()
         ->assertOk()
         ->assertJsonPath('message', 'Email already verified.');
 });
+
+it('sends a browser that opens the emailed link to the app instead of showing JSON', function () {
+    $user = User::factory()->unverified()->create();
+
+    $url = URL::temporarySignedRoute('verification.verify', now()->addMinutes(60), [
+        'id' => $user->id,
+        'hash' => sha1($user->getEmailForVerification()),
+    ]);
+
+    $response = $this->get($url)->assertRedirect();
+
+    expect($response->headers->get('Location'))->toEndWith('/email-verification?verified=1');
+    expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
+});
+
+it('sends a browser with an expired link to the app with a reason, and verifies nothing', function () {
+    $user = User::factory()->unverified()->create();
+
+    $url = URL::temporarySignedRoute('verification.verify', now()->subMinute(), [
+        'id' => $user->id,
+        'hash' => sha1($user->getEmailForVerification()),
+    ]);
+
+    $response = $this->get($url)->assertRedirect();
+
+    expect($response->headers->get('Location'))->toEndWith('/email-verification?verified=0&reason=expired');
+    expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
+});

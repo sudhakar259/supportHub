@@ -32,10 +32,17 @@ email or modify real customer data. Switching to the customer view hides private
 notes. Resolving a sample ticket changes the report counts. Reset restores the
 initial data; leaving the page also discards changes.
 
-The home page uses an optimized screenshot of the sample workspace in
-`web/public/images/workspace-preview.jpg`. It includes descriptive alternative
-text and fixed image dimensions, and links to the interactive tour at `/demo`,
+The homepage hero uses an original, illustrative customer support team photo,
+with navy and orange accents that match the brand. Responsive WebP versions are
+in `web/public/images/support-team-640.webp` and `support-team-1280.webp`, with
+`support-team.jpg` as a fallback. The image has descriptive alternative text,
+fixed dimensions and high loading priority. See the [asset notes and generation
+prompt](assets/support-team.md). The hero's product tour button opens `/demo`,
 which includes the reply composer and visibility controls.
+
+The hero's eyebrow indicator pulses, background rings move gently, and email
+and resolution icons float. A pause/resume button stops all hero animation.
+The hero stays still when the visitor enables reduced motion on their device.
 
 The header groups the implemented features under Product, workflow sections
 under Solutions, and guides, security and contact links under Resources.

@@ -25,6 +25,7 @@ function canSeeNavItem(user: User | null, item: NavItem): boolean {
 export function Sidebar({ variant = 'desktop', onNavigate }: SidebarProps) {
   const location = useLocation()
   const { user } = useAuth()
+  const workspaceLabel = user?.tenant?.name ? `${user.tenant.name} workspace` : 'Support workspace'
 
   return (
     <aside
@@ -35,9 +36,11 @@ export function Sidebar({ variant = 'desktop', onNavigate }: SidebarProps) {
     >
       <div className="flex h-full flex-col overflow-hidden">
         <div className="flex h-16 items-center px-gutter">
-          <div className="flex flex-col gap-1">
+          <div className="flex min-w-0 flex-col gap-1">
             <BrandLogo tone="dark" size={22} />
-            <span className="pl-10 text-label-sm uppercase tracking-wider text-inverse-primary">Support workspace</span>
+            <span className="truncate pl-10 text-label-sm uppercase tracking-wider text-inverse-primary" title={workspaceLabel}>
+              {workspaceLabel}
+            </span>
           </div>
         </div>
 

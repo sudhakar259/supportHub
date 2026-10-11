@@ -22,8 +22,7 @@ knowledge base or CSAT surveys; those are not advertised as available.
   `web/public`. `npm run brand:sync` copies source artwork from `design/logo`
   and rebuilds SVG wrappers. The source design folder is ignored by Git, so
   deployments use the checked-in public assets. Refresh the social-card and
-  touch-icon PNG exports after changing their SVGs, and recapture the sample
-  workspace preview after changing the tour's appearance.
+  touch-icon PNG exports after changing their SVGs.
 - The website has seven dedicated feature pages, a resources hub, three practical
   guides and a security/access-controls page. Product cards and navigation link
   to the new content. Prices and usage limits still come from the plan API.
@@ -31,10 +30,12 @@ knowledge base or CSAT surveys; those are not advertised as available.
   support Tab, arrow-key opening, Escape and outside-click dismissal; mobile
   menus expand within a scrollable panel and close after a destination is chosen.
   Solutions link directly to the corresponding workflow sections.
-- The homepage displays `web/public/images/workspace-preview.jpg`, a 1200 × 840
-  screenshot of the fictional product tour, with descriptive alternative text,
-  explicit dimensions and high loading priority. The image links to `/demo`.
-  Refresh it from the sample workspace when its appearance changes.
+- The homepage hero displays an original customer support team photo, with
+  responsive WebP images and a JPEG fallback in `web/public/images/support-team*`.
+  It uses descriptive alternative text, explicit dimensions and high loading
+  priority. Decorative email and resolution icons use the standard palette.
+  The photo is illustrative; it does not represent a customer or endorsement.
+  See the [asset notes and generation prompt](assets/support-team.md).
 - Website, workspace and notification emails use the Solar Navy Enterprise
   palette in `design/solar_navy_enterprise/DESIGN.md`: orange actions, cool
   surfaces and navy dark sections. The Laravel email theme is inlined during

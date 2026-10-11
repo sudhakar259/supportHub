@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { ROUTES } from '@/app/router/routes'
 import { AuthLayout } from '@/components/layout/AuthLayout'
@@ -11,6 +11,60 @@ import { useAuth } from '@/features/auth/hooks/useAuth'
 import { ApiError } from '@/types/api'
 
 export function EmailVerificationPage() {
+  const [searchParams] = useSearchParams()
+  const outcome = searchParams.get('verified')
+  if (outcome === '1' || outcome === '0') return <VerificationResult verified={outcome === '1'} reason={searchParams.get('reason')} />
+  return <CheckInboxPage />
+}
+
+/** Where the link in the verification email lands, once the server has checked it. */
+function VerificationResult({ verified, reason }: { verified: boolean; reason: string | null }) {
+  const { user, setUser } = useAuth()
+  const expired = reason === 'expired'
+  const signedIn = Boolean(user)
+
+  // Someone already signed in here holds a stale copy of their account that still
+  // says "unverified", which would bounce them straight back to this step.
+  useEffect(() => {
+    if (!verified || !signedIn) return
+    authApi.me().then(setUser).catch(() => undefined)
+  }, [verified, signedIn, setUser])
+
+  return (
+    <AuthLayout>
+      <AuthCard maxWidthClassName="w-full max-w-2xl" accentClassName={verified ? 'bg-tertiary' : 'bg-error'}>
+        <div className="flex flex-col items-center text-center">
+          <div className="mb-space-lg flex h-20 w-20 items-center justify-center rounded-2xl bg-surface-container">
+            <Icon name={verified ? 'verified' : 'link_off'} size={36} filled className={verified ? 'text-tertiary' : 'text-error'} />
+          </div>
+          <h1 className="mb-space-xs text-headline-lg tracking-tight">{verified ? 'Email verified' : expired ? 'This link has expired' : 'This link is not valid'}</h1>
+          <p className="mb-space-lg max-w-md text-body-md text-on-surface-variant">
+            {verified
+              ? 'Thanks — your email address is confirmed. You can carry on.'
+              : 'Verification links work for 60 minutes. Sign in and ask for a new one — it only takes a moment.'}
+          </p>
+          <div className="flex w-full max-w-sm flex-col gap-space-sm">
+            {verified ? (
+              <Link to={user ? ROUTES.dashboard : ROUTES.login}>
+                <Button className="w-full" size="lg" trailingIcon="arrow_forward">
+                  {user ? 'Go to your dashboard' : 'Sign in'}
+                </Button>
+              </Link>
+            ) : (
+              <Link to={user ? ROUTES.emailVerification : ROUTES.login}>
+                <Button className="w-full" size="lg" trailingIcon="arrow_forward">
+                  {user ? 'Send me a new link' : 'Sign in to get a new link'}
+                </Button>
+              </Link>
+            )}
+          </div>
+        </div>
+      </AuthCard>
+    </AuthLayout>
+  )
+}
+
+function CheckInboxPage() {
   const { user, setUser } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()

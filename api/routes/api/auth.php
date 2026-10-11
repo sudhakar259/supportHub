@@ -19,7 +19,7 @@ Route::prefix('auth')->group(function () {
     // built-in VerifyEmail notification hardcodes this route name when it
     // builds the signed verification link.
     Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
-        ->middleware(['signed', 'throttle:6,1'])
+        ->middleware('throttle:6,1')
         ->name('verification.verify');
 
     Route::middleware('auth:api')->group(function () {

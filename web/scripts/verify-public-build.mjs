@@ -35,6 +35,13 @@ for (const file of ['social-card.png', 'brand-mark.png', 'apple-touch-icon.png',
   const png = await readFile(resolve(dist, file))
   assert.equal(png.subarray(1, 4).toString(), 'PNG', `${file}: valid image export`)
 }
+for (const file of ['images/support-team-640.webp', 'images/support-team-1280.webp']) {
+  const webp = await readFile(resolve(dist, file))
+  assert.equal(webp.subarray(0, 4).toString(), 'RIFF', `${file}: valid image container`)
+  assert.equal(webp.subarray(8, 12).toString(), 'WEBP', `${file}: valid WebP export`)
+}
+const heroFallback = await readFile(resolve(dist, 'images/support-team.jpg'))
+assert.deepEqual([...heroFallback.subarray(0, 3)], [255, 216, 255], 'Homepage JPEG fallback exported')
 const source = await readFile(resolve(dist, 'hosting/cloudfront-routing.js'), 'utf8')
 const handler = runInNewContext(`${source}\nhandler;`)
 const root = source.match(/var root = "([^"]+)"/)[1]

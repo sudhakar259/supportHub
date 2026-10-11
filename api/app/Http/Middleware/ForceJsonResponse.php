@@ -10,7 +10,11 @@ class ForceJsonResponse
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $request->headers->set('Accept', 'application/json');
+        // The emailed verification link is opened by a browser, which must be
+        // sent on to the app; only API clients that ask for JSON get JSON there.
+        if (! $request->routeIs('verification.verify')) {
+            $request->headers->set('Accept', 'application/json');
+        }
 
         return $next($request);
     }
