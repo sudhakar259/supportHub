@@ -55,15 +55,15 @@ other.
 
 | Email | Role |
 |---|---|
-| admin@desknu.test | Administrator |
-| manager@desknu.test | Department Manager (Technical Support) |
-| senior.agent@desknu.test | Senior Agent (Technical Support) |
-| agent1@desknu.test | Agent (Technical Support) |
-| agent2@desknu.test | Agent (Billing) |
-| agent3@desknu.test | Agent (General Support) |
-| customer1@desknu.test | Customer (business) |
-| customer2@desknu.test | Customer (individual) |
-| customer3@desknu.test | Customer (vip) |
+| admin@deskzeal.test | Administrator |
+| manager@deskzeal.test | Department Manager (Technical Support) |
+| senior.agent@deskzeal.test | Senior Agent (Technical Support) |
+| agent1@deskzeal.test | Agent (Technical Support) |
+| agent2@deskzeal.test | Agent (Billing) |
+| agent3@deskzeal.test | Agent (General Support) |
+| customer1@deskzeal.test | Customer (business) |
+| customer2@deskzeal.test | Customer (individual) |
+| customer3@deskzeal.test | Customer (vip) |
 
 `DemoTicketSeeder` creates 5 sample tickets (one resolved, one with an
 agent reply already posted) so the API isn't empty on first run.
@@ -95,10 +95,16 @@ cd api
 php artisan scribe:generate
 ```
 
-This rewrites `public/docs/index.html`, `public/docs/openapi.yaml`, and
-`public/docs/collection.json` from the actual current routes and
+This rewrites `resources/developer-docs/reference/index.html`, `openapi.yaml`, and
+`collection.json` from the actual current routes and
 docblocks — there's no hand-maintained copy to fall out of sync. Commit the
 regenerated files alongside the code change that prompted them.
+
+Sign in to a tenant workspace and open **Integrations → Developer Docs** to
+read the reference or download an export. The canonical integration guide is
+`api/resources/developer-docs/integration-guide.md`. Keep generated files out of
+`api/public/`; the development and production nginx configs reject `/docs` and
+its former static assets so stale files cannot expose documentation.
 
 Every endpoint has a hand-written `@response` example (see
 `config/scribe.php`'s comment on `ResponseCalls`), so generation doesn't

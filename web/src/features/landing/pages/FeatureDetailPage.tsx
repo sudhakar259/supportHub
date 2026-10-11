@@ -26,7 +26,7 @@ export function FeatureDetailPage({ slug }: { slug?: string }) {
               <Link to={ROUTES.features}>Features</Link><span>/</span>
               <span>{feature.label}</span>
             </nav>
-            <span className="marketing-eyebrow"><span className="marketing-topic-icon"><Icon name={feature.icon} size={20} /></span> DESKNU / {feature.label}</span>
+            <span className="marketing-eyebrow"><span className="marketing-topic-icon"><Icon name={feature.icon} size={20} /></span> DESKZEAL / {feature.label}</span>
             <h1>{headline}.<br /><span>{headlineRest.join('. ')}</span></h1>
             <p>{feature.intro}</p>
             <div className="marketing-actions">

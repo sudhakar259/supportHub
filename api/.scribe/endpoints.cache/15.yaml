@@ -38,7 +38,7 @@ endpoints:
         name: ticket_id
         description: 'The ID of the ticket.'
         required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -56,7 +56,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+      ticket_id: architecto
       ticket: 01hxyz0123456789abcdefghj
     queryParameters:
       per_page:
@@ -124,7 +124,7 @@ endpoints:
         name: ticket_id
         description: 'The ID of the ticket.'
         required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -142,7 +142,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+      ticket_id: architecto
       ticket: 01hxyz0123456789abcdefghj
     queryParameters: []
     cleanQueryParameters: []
@@ -238,7 +238,7 @@ endpoints:
         name: ticket_id
         description: 'The ID of the ticket.'
         required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -249,7 +249,7 @@ endpoints:
         name: id
         description: 'The ID of the message.'
         required: true
-        example: 01m4grbvnqc5qwsqhmenr8sr3m
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -278,8 +278,8 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
-      id: 01m4grbvnqc5qwsqhmenr8sr3m
+      ticket_id: architecto
+      id: architecto
       ticket: 01hxyz0123456789abcdefghj
       message: 01hxyz0123456789abcdefghk
     queryParameters: []

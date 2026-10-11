@@ -1,6 +1,6 @@
 # Homepage support team image
 
-Created with the built-in imagegen tool for DeskNu's homepage hero. The people
+Created with the built-in imagegen tool for DeskZeal's homepage hero. The people
 are illustrative, not actual staff, customers or endorsers. No competitor
 artwork was used.
 
@@ -22,7 +22,7 @@ disable it automatically.
 ## Generation prompt
 
 Use case: photorealistic-natural. Asset type: a customer support SaaS homepage
-hero photo for DeskNu, next to a large headline in a two-column layout. Create
+hero photo for DeskZeal, next to a large headline in a two-column layout. Create
 an original professional editorial photograph of a friendly South Asian woman
 customer support representative in her early thirties wearing a slim discreet
 microphone headset and a navy blue shirt, sitting at a bright modern desk with

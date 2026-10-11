@@ -271,14 +271,14 @@ endpoints:
         name: customer_id
         description: 'The ID of the customer.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      customer_id: 1
+      customer_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -331,7 +331,7 @@ endpoints:
         name: customer_id
         description: 'The ID of the customer.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -349,7 +349,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      customer_id: 1
+      customer_id: 16
       customer: 4
     queryParameters: []
     cleanQueryParameters: []
@@ -406,7 +406,7 @@ endpoints:
         name: customer_id
         description: 'The ID of the customer.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -424,7 +424,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      customer_id: 1
+      customer_id: 16
       customer: 4
     queryParameters: []
     cleanQueryParameters: []
@@ -505,14 +505,14 @@ endpoints:
         name: customer_id
         description: 'The ID of the customer.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      customer_id: 1
+      customer_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -624,14 +624,14 @@ endpoints:
         name: customer_id
         description: 'The ID of the customer.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      customer_id: 1
+      customer_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

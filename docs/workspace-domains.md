@@ -1,16 +1,16 @@
 # Tenant workspace domains
 
-One DeskNu deployment serves the public website and every tenant workspace.
+One DeskZeal deployment serves the public website and every tenant workspace.
 The tenant's existing globally unique slug is its subdomain:
 
 | Address | Experience |
 | --- | --- |
-| `https://desknu.com` | Public website, product tour, pricing and signup |
-| `https://desknu.com/login` | Workspace finder; enter `crevol` to continue |
-| `https://crevol.desknu.com` | Crevol's authenticated dashboard or sign-in |
-| `https://crevol.desknu.com/login` | Sign-in scoped automatically to Crevol |
-| `https://api.desknu.com/api/v1` | Shared Laravel API |
-| `https://desknu.com/login?platform=1` | Platform administrator sign-in |
+| `https://deskzeal.com` | Public website, product tour, pricing and signup |
+| `https://deskzeal.com/login` | Workspace finder; enter `crevol` to continue |
+| `https://crevol.deskzeal.com` | Crevol's authenticated dashboard or sign-in |
+| `https://crevol.deskzeal.com/login` | Sign-in scoped automatically to Crevol |
+| `https://api.deskzeal.com/api/v1` | Shared Laravel API |
+| `https://deskzeal.com/login?platform=1` | Platform administrator sign-in |
 
 Creating a tenant does not require an individual frontend deployment or DNS
 record. All tenant subdomains use the same frontend build. New workspace IDs
@@ -24,20 +24,20 @@ be used as subdomains; single-domain API access remains available.
 In the API deployment's environment:
 
 ```dotenv
-APP_URL=https://api.desknu.com
-FRONTEND_URL=https://desknu.com
-WORKSPACE_DOMAIN=desknu.com
+APP_URL=https://api.deskzeal.com
+FRONTEND_URL=https://deskzeal.com
+WORKSPACE_DOMAIN=deskzeal.com
 WORKSPACE_SCHEME=https
 WORKSPACE_PORT=
-CORS_ALLOWED_ORIGINS=https://desknu.com,https://www.desknu.com
+CORS_ALLOWED_ORIGINS=https://deskzeal.com,https://www.deskzeal.com
 ```
 
 In the frontend's build environment:
 
 ```dotenv
-VITE_API_URL=https://api.desknu.com/api/v1
-VITE_SITE_URL=https://desknu.com
-VITE_WORKSPACE_DOMAIN=desknu.com
+VITE_API_URL=https://api.deskzeal.com/api/v1
+VITE_SITE_URL=https://deskzeal.com
+VITE_WORKSPACE_DOMAIN=deskzeal.com
 VITE_WORKSPACE_PORT=
 ```
 
@@ -49,8 +49,8 @@ store, such as Redis, for session handoff codes and locks.
 
 On your DNS and hosting providers:
 
-1. Point the root domain and `*.desknu.com` to the frontend's hosting entry
-   point. Configure `api.desknu.com` explicitly for the API if it is separate.
+1. Point the root domain and `*.deskzeal.com` to the frontend's hosting entry
+   point. Configure `api.deskzeal.com` explicitly for the API if it is separate.
 2. Configure the frontend host to accept both the root and wildcard domains.
 3. Provision HTTPS for the root, wildcard tenant domains and API. Wildcard
    certificates usually require DNS validation through your certificate provider.
@@ -120,7 +120,7 @@ For the existing demo tenants:
 
 Only existing tenant slugs open real workspaces. `/demo` on the root website
 remains the clearly labeled fictional product tour. A new `crevol` tenant would
-use `http://crevol.localhost:5173` locally and `https://crevol.desknu.com` when
+use `http://crevol.localhost:5173` locally and `https://crevol.deskzeal.com` when
 deployed with the configuration above.
 
 If workspace domains are left unset in production, the existing single-domain

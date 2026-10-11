@@ -26,7 +26,7 @@ export function LandingPage() {
               One <span>shared desk.</span>
             </h1>
             <p>
-              Turn support emails into tickets, route requests to your team and track SLA deadlines. DeskNu brings
+              Turn support emails into tickets, route requests to your team and track SLA deadlines. DeskZeal brings
               customer conversations, collaboration and reporting into one helpdesk workspace.
             </p>
             <div className="marketing-actions">
@@ -194,7 +194,7 @@ export function LandingPage() {
               <span>One connected conversation.</span>
             </h2>
             <p>
-              Keep your customers on your website while your team works in DeskNu. Create tickets and send replies
+              Keep your customers on your website while your team works in DeskZeal. Create tickets and send replies
               through the API, then keep your app updated with signed webhooks.
             </p>
             <Link to={`${ROUTES.features}/api-webhooks`} className="marketing-text-link">
@@ -216,7 +216,7 @@ export function LandingPage() {
             <div className="marketing-integration-node marketing-integration-hub marketing-tone-primary">
               <span className="marketing-topic-icon"><Icon name="support_agent" size={25} /></span>
               <span>
-                DeskNu<small>Your team picks up the conversation</small>
+                DeskZeal<small>Your team picks up the conversation</small>
               </span>
               <span className="marketing-hub-badge">Ticket created</span>
             </div>
@@ -291,7 +291,7 @@ export function LandingPage() {
               Frequently
               <br /> asked questions.
             </h2>
-            <p>Get to know DeskNu before you get started.</p>
+            <p>Get to know DeskZeal before you get started.</p>
             <Link to={ROUTES.pricing} className="marketing-text-link">
               Compare plans <Icon name="arrow_forward" size={18} />
             </Link>

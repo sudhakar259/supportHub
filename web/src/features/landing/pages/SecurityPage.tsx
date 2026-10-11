@@ -22,7 +22,7 @@ export function SecurityPage() {
           <div className="marketing-page-hero-copy">
             <span className="marketing-eyebrow">WORKSPACE SECURITY & ACCESS</span>
             <h1>Helpdesk security.<br /><span>Accountable support.</span></h1>
-            <p>Understand the access controls, account protection and customer data tools available in DeskNu.</p>
+            <p>Understand the access controls, account protection and customer data tools available in DeskZeal.</p>
             <a href="#workspace-controls" className="marketing-button">Explore the controls <Icon name="arrow_downward" size={18} /></a>
           </div>
           <WorkflowIllustration topic="security" />

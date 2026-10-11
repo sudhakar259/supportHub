@@ -87,7 +87,7 @@ export function InboundEmailCard() {
             Email to ticket
           </h2>
           <p className="max-w-2xl text-body-sm text-on-surface-variant">
-            Forward your support mailbox to the address below and every email becomes a ticket. When a customer replies to an email from DeskNu, the reply is added to the same ticket.
+            Forward your support mailbox to the address below and every email becomes a ticket. When a customer replies to an email from DeskZeal, the reply is added to the same ticket.
           </p>
         </div>
         <Switch

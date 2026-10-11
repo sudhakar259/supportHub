@@ -43,6 +43,7 @@ export const ROUTES = {
   platformAccountSecurity: '/platform/account/security',
 
   apiCredentials: '/integrations/api-credentials',
+  developerDocs: '/integrations/developer-docs',
   apiCredentialsCreate: '/integrations/api-credentials/create',
   apiCredentialDetails: (id: number | string) => `/integrations/api-credentials/${id}`,
 

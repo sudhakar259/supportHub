@@ -13,7 +13,7 @@ export function ContactPage() {
         <div className="marketing-container marketing-visual-hero-grid">
           <div className="marketing-page-hero-copy">
             <span className="marketing-eyebrow">LET’S FIND YOUR NEXT STEP</span>
-            <h1>Contact DeskNu.<br /><span>We’re here to help.</span></h1>
+            <h1>Contact DeskZeal.<br /><span>We’re here to help.</span></h1>
             <p>Questions about plans, Enterprise pricing, privacy or your account? Tell us what your team needs.</p>
             <a href="#contact-options" className="marketing-button">Find the right contact <Icon name="arrow_downward" size={18} /></a>
           </div>

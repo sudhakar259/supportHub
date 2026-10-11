@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 /** Runs the command and returns [exit code, ['Check name' => 'PASS'|'WARN'|'FAIL']]. */
 function preflight(array $options = []): array
 {
-    $code = Artisan::call('desknu:preflight', $options);
+    $code = Artisan::call('deskzeal:preflight', $options);
     $statuses = [];
 
     foreach (explode("\n", Artisan::output()) as $line) {
@@ -105,7 +105,7 @@ it('fails when payments are configured without a webhook secret', function () {
 it('flags seeded demo accounts', function () {
     healthyConfig();
     testTenant();
-    User::factory()->create(['email' => 'admin@desknu.test', 'tenant_id' => testTenant()->id]);
+    User::factory()->create(['email' => 'admin@deskzeal.test', 'tenant_id' => testTenant()->id]);
 
     [, $r] = preflight();
     expect($r['No demo accounts'])->toBe('WARN');

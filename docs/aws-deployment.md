@@ -1,6 +1,6 @@
 # First Release on AWS
 
-What you need, and exactly how to put DeskNu on AWS for the first release.
+What you need, and exactly how to put DeskZeal on AWS for the first release.
 
 This is a **single-server** setup: simple enough to run and understand on day one, sturdy
 enough for the first customers, with a clear path to grow (see [What this does not give
@@ -52,7 +52,7 @@ you](#what-this-does-not-give-you)).
 - [x] Reads real visitor IPs behind the load balancer (without this, one visitor's failed
       sign-ins would lock everyone out; it is tested)
 - [x] Sign-ins expire (`SANCTUM_TOKEN_EXPIRATION_MINUTES`), account lockout, two-step verification
-- [x] `desknu:preflight --production` checks the configuration, `desknu:create-platform-admin`
+- [x] `deskzeal:preflight --production` checks the configuration, `deskzeal:create-platform-admin`
       creates the first admin without the demo accounts
 - [x] Deploy, rollback and first-run scripts in `deploy/aws/`
 
@@ -323,7 +323,7 @@ On the server:
 curl -s localhost/up                                    # 200
 sudo docker compose --env-file /opt/supporthub/.env.production -f /opt/supporthub/app/docker-compose.prod.yml ps
 sudo docker compose --env-file /opt/supporthub/.env.production -f /opt/supporthub/app/docker-compose.prod.yml \
-     exec -T app php artisan desknu:preflight --production      # everything PASS
+     exec -T app php artisan deskzeal:preflight --production      # everything PASS
 ```
 
 From a browser and your phone:
@@ -456,10 +456,10 @@ EC2/RDS lines once you are sure of the sizes.
 **Launch**
 - [ ] Manual RDS snapshot
 - [ ] `deploy-api.sh`, `first-run.sh`, `deploy-web.sh`
-- [ ] `desknu:preflight --production` all PASS
+- [ ] `deskzeal:preflight --production` all PASS
 - [ ] Section 6 walked through on the live addresses (including a real paid subscription)
 - [ ] Platform administrator has two-step verification on; recovery codes stored in a password manager
-- [ ] Demo accounts do not exist: `exec app php artisan tinker --execute='echo App\Models\User::withoutGlobalScopes()->where("email","like","%@desknu.test")->count();'` prints `0`
+- [ ] Demo accounts do not exist: `exec app php artisan tinker --execute='echo App\Models\User::withoutGlobalScopes()->where("email","like","%@deskzeal.test")->count();'` prints `0`
 
 **After**
 - [ ] Watch the logs and alarms closely for the first days

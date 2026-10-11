@@ -39,22 +39,7 @@ endpoints:
     cleanBodyParameters:
       code: bngzmiyvdljnikhwaykcmyuwpwlvqwrsitcpscqldzsnrwtujwvlxjklqppwqbew
     fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 403
-        content: '{"success":false,"message":"Open this sign-in link at your workspace address."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '10'
-          x-ratelimit-remaining: '9'
-          x-content-type-options: nosniff
-          x-frame-options: DENY
-          referrer-policy: no-referrer
-          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
-          vary: Origin
-        description: null
+    responses: []
     responseFields: []
     auth:
       - headers
@@ -89,20 +74,7 @@ endpoints:
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 401
-        content: '{"success":false,"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-content-type-options: nosniff
-          x-frame-options: DENY
-          referrer-policy: no-referrer
-          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
-          vary: Origin
-        description: null
+    responses: []
     responseFields: []
     auth:
       - headers
@@ -137,22 +109,7 @@ endpoints:
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 400
-        content: '{"success":false,"message":"Invalid signature."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '120'
-          x-ratelimit-remaining: '119'
-          x-content-type-options: nosniff
-          x-frame-options: DENY
-          referrer-policy: no-referrer
-          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
-          vary: Origin
-        description: null
+    responses: []
     responseFields: []
     auth:
       - headers
@@ -187,22 +144,7 @@ endpoints:
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 401
-        content: '{"success":false,"message":"Invalid signature."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '120'
-          x-ratelimit-remaining: '119'
-          x-content-type-options: nosniff
-          x-frame-options: DENY
-          referrer-policy: no-referrer
-          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
-          vary: Origin
-        description: null
+    responses: []
     responseFields: []
     auth:
       - headers

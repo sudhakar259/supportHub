@@ -75,7 +75,7 @@ export function ResetPasswordPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-label-sm uppercase tracking-wider text-secondary-fixed">Zero-Trust Credential Sync</span>
-                  <span className="text-title-sm">DeskNu Identity Guardian</span>
+                  <span className="text-title-sm">DeskZeal Identity Guardian</span>
                 </div>
               </div>
               <div className="flex flex-col gap-space-xs">

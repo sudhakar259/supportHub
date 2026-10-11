@@ -24,7 +24,7 @@ export function GuidePage({ slug }: { slug?: string }) {
               <Link to={ROUTES.resources}>Resources</Link><span>/</span>
               <span>{guide.category}</span>
             </nav>
-            <span className="marketing-eyebrow"><span className="marketing-topic-icon"><Icon name="menu_book" size={20} /></span>{guide.category} / DESKNU GUIDE</span>
+            <span className="marketing-eyebrow"><span className="marketing-topic-icon"><Icon name="menu_book" size={20} /></span>{guide.category} / DESKZEAL GUIDE</span>
             <h1>{guide.headline}</h1>
             <p>{guide.intro}</p>
             <a href="#guide-step-1" className="marketing-button">Start the guide <Icon name="arrow_downward" size={18} /></a>
@@ -48,7 +48,7 @@ export function GuidePage({ slug }: { slug?: string }) {
           <div className={`marketing-guide-next marketing-tone-${marketingTone(guide.featureSlug)}`}>
           <h2>Explore the tools behind this workflow.</h2>
           <Link to={`${ROUTES.features}/${guide.featureSlug}`} className="marketing-text-link">
-            See the DeskNu feature <Icon name="arrow_forward" size={18} />
+            See the DeskZeal feature <Icon name="arrow_forward" size={18} />
           </Link>
           <Link to={ROUTES.resources} className="marketing-text-link">Browse all guides</Link>
           </div>

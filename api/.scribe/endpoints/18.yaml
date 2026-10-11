@@ -185,7 +185,7 @@ endpoints:
         name: is_active
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -201,7 +201,7 @@ endpoints:
       resolution_minutes: 120
       business_hours_only: false
       is_default: false
-      is_active: true
+      is_active: false
     fileParameters: []
     responses:
       -
@@ -248,14 +248,14 @@ endpoints:
         name: policy_id
         description: 'The ID of the policy.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      policy_id: 1
+      policy_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -307,14 +307,14 @@ endpoints:
         name: policy_id
         description: 'The ID of the policy.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      policy_id: 1
+      policy_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -485,14 +485,14 @@ endpoints:
         name: policy_id
         description: 'The ID of the policy.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      policy_id: 1
+      policy_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

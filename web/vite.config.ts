@@ -14,7 +14,7 @@ function contentSecurityPolicy(apiUrl: string, errorReportingDsn = ''): Plugin {
   const errorReportingOrigin = errorReportingDsn ? ` ${new URL(errorReportingDsn).origin}` : ''
 
   return {
-    name: 'desknu-content-security-policy',
+    name: 'deskzeal-content-security-policy',
     apply: 'build',
     transformIndexHtml() {
       // Razorpay Checkout loads its script, assets and payment frame from *.razorpay.com.
@@ -45,7 +45,7 @@ function contentSecurityPolicy(apiUrl: string, errorReportingDsn = ''): Plugin {
 // Match the production public/tenant split when reviewing the built site locally.
 function publicPagePreview(siteUrl: string): Plugin {
   return {
-    name: 'desknu-public-page-preview',
+    name: 'deskzeal-public-page-preview',
     async configurePreviewServer(server) {
       const dist = resolve(server.config.root, server.config.build.outDir)
       const paths: string[] = JSON.parse(await readFile(resolve(dist, 'public-routes.json'), 'utf8'))
@@ -84,7 +84,7 @@ export default defineConfig(({ mode }) => {
     // Browsers resolve *.localhost to IPv4 loopback, enabling local tenant URLs.
     server: { host: '127.0.0.1' },
     preview: { host: '127.0.0.1' },
-    plugins: [react(), tailwindcss(), contentSecurityPolicy(apiUrl, env.VITE_SENTRY_DSN), publicPagePreview(env.VITE_SITE_URL || 'https://desknu.com')],
+    plugins: [react(), tailwindcss(), contentSecurityPolicy(apiUrl, env.VITE_SENTRY_DSN), publicPagePreview(env.VITE_SITE_URL || 'https://deskzeal.com')],
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),

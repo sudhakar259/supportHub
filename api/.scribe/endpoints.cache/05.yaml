@@ -171,7 +171,7 @@ endpoints:
         name: email
         description: ''
         required: true
-        example: alex@desknu.test
+        example: alex@deskzeal.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -236,7 +236,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: 'Alex Agent'
-      email: alex@desknu.test
+      email: alex@deskzeal.test
       password: Secret123!
       phone: +1-555-0100
       role: Agent
@@ -289,14 +289,14 @@ endpoints:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      user_id: 1
+      user_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -349,14 +349,14 @@ endpoints:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      user_id: 1
+      user_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -376,7 +376,7 @@ endpoints:
         name: email
         description: ''
         required: false
-        example: alex@desknu.test
+        example: alex@deskzeal.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -417,7 +417,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: 'Alex Agent'
-      email: alex@desknu.test
+      email: alex@deskzeal.test
       phone: +1-555-0199
       timezone: Europe/Dublin
       is_active: true
@@ -468,14 +468,14 @@ endpoints:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      user_id: 1
+      user_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -533,14 +533,14 @@ endpoints:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      user_id: 1
+      user_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -606,7 +606,7 @@ endpoints:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -624,7 +624,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      user_id: 1
+      user_id: 16
       user: 5
     queryParameters: []
     cleanQueryParameters: []
@@ -678,7 +678,7 @@ endpoints:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -696,7 +696,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      user_id: 1
+      user_id: 16
       user: 5
     queryParameters: []
     cleanQueryParameters: []
@@ -750,7 +750,7 @@ endpoints:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -768,7 +768,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      user_id: 1
+      user_id: 16
       user: 5
     queryParameters: []
     cleanQueryParameters: []

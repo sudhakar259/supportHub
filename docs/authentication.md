@@ -1,6 +1,6 @@
 # Authentication
 
-DeskNu uses **Laravel Sanctum personal access tokens** (Bearer tokens),
+DeskZeal uses **Laravel Sanctum personal access tokens** (Bearer tokens),
 not cookie-based SPA sessions. This is deliberate: the API has to serve a
 future React web app, native mobile apps, and third-party integrations
 equally, and a Bearer token works identically for all three, whereas

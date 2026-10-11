@@ -65,7 +65,7 @@ it('builds the API reference theme only from palette colors, and loads no outsid
     $offPalette = array_values(array_filter(array_unique($m[0]), fn (string $hex) => ! in_array($hex, $palette, true)));
     expect($offPalette)->toBe([]); // anything listed here is a color the API reference uses that is not in DESIGN.md
 
-    $generated = file_get_contents(public_path('docs/index.html'));
+    $generated = file_get_contents(resource_path('developer-docs/reference/index.html'));
     expect($generated)->toContain('--primary: #a33900')->not->toContain('fonts.googleapis.com');
 });
 

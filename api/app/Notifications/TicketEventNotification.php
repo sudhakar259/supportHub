@@ -62,8 +62,8 @@ class TicketEventNotification extends Notification implements ShouldQueue
         }
 
         $mail->line($tenant
-            ? "This message was sent by {$tenant->name} through DeskNu."
-            : 'This message was sent through DeskNu.');
+            ? "This message was sent by {$tenant->name} through DeskZeal."
+            : 'This message was sent through DeskZeal.');
 
         $mail->from($branding['from_address'] ?? config('mail.from.address'), $branding['sender_name']);
 

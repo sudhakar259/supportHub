@@ -146,6 +146,9 @@ const WebhookDeliveriesPage = lazy(() =>
 const WebhooksListPage = lazy(() =>
   import('@/features/webhooks/pages/WebhooksListPage').then((module) => ({ default: module.WebhooksListPage })),
 )
+const DeveloperDocsPage = lazy(() =>
+  import('@/features/integrations/pages/DeveloperDocsPage').then((module) => ({ default: module.DeveloperDocsPage })),
+)
 const AuditLogsPage = lazy(() =>
   import('@/features/reports/pages/AuditLogsPage').then((module) => ({ default: module.AuditLogsPage })),
 )
@@ -227,6 +230,7 @@ export const router = createBrowserRouter([
                   { path: ROUTES.tickets, element: <TicketsListPage /> },
                   { path: '/tickets/:ticketId', element: <TicketDetailsPage /> },
                   { path: ROUTES.myTickets, element: <TicketsListPage scope="mine" /> },
+                  { path: ROUTES.developerDocs, element: <DeveloperDocsPage /> },
                   {
                     path: ROUTES.customers,
                     element: (

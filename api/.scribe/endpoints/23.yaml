@@ -190,14 +190,14 @@ endpoints:
         name: tenant_id
         description: 'The ID of the tenant.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tenant_id: 1
+      tenant_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -249,14 +249,14 @@ endpoints:
         name: tenant_id
         description: 'The ID of the tenant.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tenant_id: 1
+      tenant_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -385,14 +385,14 @@ endpoints:
         name: tenant_id
         description: 'The ID of the tenant.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tenant_id: 1
+      tenant_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -444,14 +444,14 @@ endpoints:
         name: tenant_id
         description: 'The ID of the tenant.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tenant_id: 1
+      tenant_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -506,14 +506,14 @@ endpoints:
         name: tenant_id
         description: 'The ID of the tenant.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tenant_id: 1
+      tenant_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -580,14 +580,14 @@ endpoints:
         name: tenant_id
         description: 'The ID of the tenant.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      tenant_id: 1
+      tenant_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -855,14 +855,14 @@ endpoints:
         name: plan_id
         description: 'The ID of the plan.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      plan_id: 1
+      plan_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -926,7 +926,7 @@ endpoints:
         name: billing_interval
         description: ''
         required: false
-        example: yearly
+        example: monthly
         type: string
         enumValues:
           - monthly
@@ -974,7 +974,7 @@ endpoints:
       description: 'Eius et animi quos velit et.'
       price_cents: 12900
       currency: dlj
-      billing_interval: yearly
+      billing_interval: monthly
       limits:
         users: 30
       is_active: false

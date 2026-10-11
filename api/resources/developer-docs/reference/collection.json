@@ -5,13 +5,13 @@
             "key": "baseUrl",
             "type": "string",
             "name": "string",
-            "value": "http:\/\/localhost:8082"
+            "value": "http:\/\/localhost:8000"
         }
     ],
     "info": {
-        "name": "DeskNu API Documentation",
-        "_postman_id": "e238ba04-b55b-4791-ba1a-d1c4227a145f",
-        "description": "REST API for DeskNu \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
+        "name": "DeskZeal API Documentation",
+        "_postman_id": "308c28bb-87b2-40b3-a6b3-3c04fae62e8c",
+        "description": "REST API for DeskZeal \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
     "item": [
@@ -85,7 +85,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"admin@desknu.test\",\"password\":\"password\",\"tenant\":\"help-support\",\"device_name\":\"web-browser\"}"
+                            "raw": "{\"email\":\"admin@deskzeal.test\",\"password\":\"password\",\"tenant\":\"help-support\",\"device_name\":\"web-browser\"}"
                         },
                         "description": "Exchanges email\/password credentials for a Sanctum Bearer token.\nPass a `device_name` so multiple tokens (web, iOS, Android) can be\nmanaged and revoked independently per device.",
                         "auth": {
@@ -96,7 +96,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n  \"success\": true,\n  \"message\": \"Login successful.\",\n  \"data\": {\n    \"user\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@desknu.test\", \"roles\": [\"Administrator\"]},\n    \"token\": \"1|abcdef123456...\",\n    \"token_type\": \"Bearer\"\n  }\n}",
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Login successful.\",\n  \"data\": {\n    \"user\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@deskzeal.test\", \"roles\": [\"Administrator\"]},\n    \"token\": \"1|abcdef123456...\",\n    \"token_type\": \"Bearer\"\n  }\n}",
                             "name": ""
                         },
                         {
@@ -191,7 +191,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"admin@desknu.test\",\"tenant\":\"help-support\"}"
+                            "raw": "{\"email\":\"admin@deskzeal.test\",\"tenant\":\"help-support\"}"
                         },
                         "description": "Sends a password reset link to the given email if an account\nexists for it. Always returns the same generic success message\nregardless of whether the email is registered, to avoid leaking\nwhich addresses have accounts.",
                         "auth": {
@@ -229,7 +229,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"token\":\"9f8e7d6c5b4a\",\"email\":\"admin@desknu.test\",\"tenant\":\"help-support\",\"password\":\"NewSecret123!word$9\",\"password_confirmation\":\"NewSecret123!\"}"
+                            "raw": "{\"token\":\"9f8e7d6c5b4a\",\"email\":\"admin@deskzeal.test\",\"tenant\":\"help-support\",\"password\":\"NewSecret123!word$9\",\"password_confirmation\":\"NewSecret123!\"}"
                         },
                         "description": "Completes a password reset using the token emailed by\n\/auth\/forgot-password.",
                         "auth": {
@@ -288,51 +288,7 @@
                         "body": null,
                         "description": ""
                     },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-ratelimit-limit",
-                                    "value": "6"
-                                },
-                                {
-                                    "key": "x-ratelimit-remaining",
-                                    "value": "5"
-                                },
-                                {
-                                    "key": "x-content-type-options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "x-frame-options",
-                                    "value": "DENY"
-                                },
-                                {
-                                    "key": "referrer-policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "content-security-policy",
-                                    "value": "default-src 'none'; frame-ancestors 'none'"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 500,
-                            "body": "{\"success\":false,\"message\":\"An unexpected error occurred. Please try again later.\"}",
-                            "name": ""
-                        }
-                    ]
+                    "response": []
                 },
                 {
                     "name": "Logout",
@@ -393,7 +349,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n  \"success\": true,\n  \"message\": \"Request successful.\",\n  \"data\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@desknu.test\", \"roles\": [\"Administrator\"], \"permissions\": [\"tickets.view\", \"...\"]}\n}",
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Request successful.\",\n  \"data\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@deskzeal.test\", \"roles\": [\"Administrator\"], \"permissions\": [\"tickets.view\", \"...\"]}\n}",
                             "name": ""
                         }
                     ]
@@ -533,7 +489,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@desknu.test\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"role\":\"Agent\",\"department_ids\":[1,2],\"password_confirmation\":\"Secret123!\"}"
+                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@deskzeal.test\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"role\":\"Agent\",\"department_ids\":[1,2],\"password_confirmation\":\"Secret123!\"}"
                         },
                         "description": "Creates an internal account (agent, senior agent, department\nmanager or administrator) with a single role and optional\ndepartment memberships."
                     },
@@ -558,7 +514,7 @@
                                 {
                                     "id": "user_id",
                                     "key": "user_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the user."
                                 }
                             ]
@@ -598,7 +554,7 @@
                                 {
                                     "id": "user_id",
                                     "key": "user_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the user."
                                 }
                             ]
@@ -616,7 +572,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@desknu.test\",\"phone\":\"+1-555-0199\",\"timezone\":\"Europe\\\/Dublin\",\"is_active\":true}"
+                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@deskzeal.test\",\"phone\":\"+1-555-0199\",\"timezone\":\"Europe\\\/Dublin\",\"is_active\":true}"
                         },
                         "description": "Users may update their own name\/phone\/timezone; only holders of\n`users.update` may change another user's record or flip\n`is_active`."
                     },
@@ -641,7 +597,7 @@
                                 {
                                     "id": "user_id",
                                     "key": "user_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the user."
                                 }
                             ]
@@ -687,7 +643,7 @@
                                 {
                                     "id": "user_id",
                                     "key": "user_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the user."
                                 }
                             ]
@@ -730,7 +686,7 @@
                                 {
                                     "id": "user_id",
                                     "key": "user_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the user."
                                 },
                                 {
@@ -776,7 +732,7 @@
                                 {
                                     "id": "user_id",
                                     "key": "user_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the user."
                                 },
                                 {
@@ -822,7 +778,7 @@
                                 {
                                     "id": "user_id",
                                     "key": "user_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the user."
                                 },
                                 {
@@ -947,7 +903,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the role."
                                 }
                             ]
@@ -987,7 +943,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the role."
                                 }
                             ]
@@ -1030,7 +986,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the role."
                                 }
                             ]
@@ -1206,7 +1162,7 @@
                                 {
                                     "id": "customer_id",
                                     "key": "customer_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the customer."
                                 }
                             ]
@@ -1246,7 +1202,7 @@
                                 {
                                     "id": "customer_id",
                                     "key": "customer_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the customer."
                                 },
                                 {
@@ -1292,7 +1248,7 @@
                                 {
                                     "id": "customer_id",
                                     "key": "customer_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the customer."
                                 },
                                 {
@@ -1347,7 +1303,7 @@
                                 {
                                     "id": "customer_id",
                                     "key": "customer_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the customer."
                                 }
                             ]
@@ -1390,7 +1346,7 @@
                                 {
                                     "id": "customer_id",
                                     "key": "customer_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the customer."
                                 }
                             ]
@@ -1534,7 +1490,7 @@
                                 {
                                     "id": "department_id",
                                     "key": "department_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the department."
                                 }
                             ]
@@ -1580,7 +1536,7 @@
                                 {
                                     "id": "department_id",
                                     "key": "department_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the department."
                                 }
                             ]
@@ -1623,7 +1579,7 @@
                                 {
                                     "id": "department_id",
                                     "key": "department_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the department."
                                 }
                             ]
@@ -1663,7 +1619,7 @@
                                 {
                                     "id": "department_id",
                                     "key": "department_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the department."
                                 }
                             ]
@@ -1706,13 +1662,13 @@
                                 {
                                     "id": "department_id",
                                     "key": "department_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the department."
                                 },
                                 {
                                     "id": "user_id",
                                     "key": "user_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the user."
                                 },
                                 {
@@ -1892,7 +1848,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1938,7 +1894,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -1981,7 +1937,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -2021,7 +1977,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -2064,7 +2020,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -2107,7 +2063,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -2156,7 +2112,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -2199,7 +2155,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -2242,7 +2198,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -2292,7 +2248,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2351,7 +2307,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2397,7 +2353,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2470,13 +2426,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m4grbvnqc5qwsqhmenr8sr3m",
+                                    "value": "architecto",
                                     "description": "The ID of the message."
                                 },
                                 {
@@ -2540,7 +2496,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2586,7 +2542,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -2641,13 +2597,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "attachment_id",
                                     "key": "attachment_id",
-                                    "value": "01m4gxn2jt2tc1sb0nk66rwj08",
+                                    "value": "architecto",
                                     "description": "The ID of the attachment."
                                 },
                                 {
@@ -2680,41 +2636,6 @@
                     },
                     "response": [
                         {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-content-type-options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "x-frame-options",
-                                    "value": "DENY"
-                                },
-                                {
-                                    "key": "referrer-policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "content-security-policy",
-                                    "value": "default-src 'none'; frame-ancestors 'none'"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"success\":false,\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        },
-                        {
                             "header": [],
                             "code": 403,
                             "body": "{\"success\": false, \"message\": \"You do not have permission to perform this action.\"}",
@@ -2740,13 +2661,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "01m4gxn2jt2tc1sb0nk66rwj08",
+                                    "value": "architecto",
                                     "description": "The ID of the attachment."
                                 },
                                 {
@@ -2890,7 +2811,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -2930,7 +2851,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -2973,7 +2894,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -3086,7 +3007,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the status."
                                 }
                             ]
@@ -3126,7 +3047,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the status."
                                 }
                             ]
@@ -3144,7 +3065,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":false,\"is_closed\":false,\"sort_order\":37}"
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":true,\"is_closed\":false,\"sort_order\":37}"
                         },
                         "description": ""
                     },
@@ -3169,7 +3090,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the status."
                                 }
                             ]
@@ -3288,7 +3209,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the priority."
                                 }
                             ]
@@ -3328,7 +3249,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the priority."
                                 }
                             ]
@@ -3346,7 +3267,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":true}"
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":false}"
                         },
                         "description": ""
                     },
@@ -3371,7 +3292,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the priority."
                                 }
                             ]
@@ -3548,7 +3469,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":true,\"conditions\":[{\"field\":\"customer_type\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"escalate\"}]}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":true,\"conditions\":[{\"field\":\"priority_id\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"assign_department\"}]}"
                         },
                         "description": ""
                     },
@@ -3661,7 +3582,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":false,\"is_active\":true}"
+                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":false,\"is_active\":false}"
                         },
                         "description": ""
                     },
@@ -3686,7 +3607,7 @@
                                 {
                                     "id": "policy_id",
                                     "key": "policy_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the policy."
                                 }
                             ]
@@ -3726,7 +3647,7 @@
                                 {
                                     "id": "policy_id",
                                     "key": "policy_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the policy."
                                 }
                             ]
@@ -3769,7 +3690,7 @@
                                 {
                                     "id": "policy_id",
                                     "key": "policy_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the policy."
                                 }
                             ]
@@ -3914,7 +3835,7 @@
                                 {
                                     "id": "template_id",
                                     "key": "template_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the template."
                                 },
                                 {
@@ -4182,7 +4103,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"integer\",\"group\":\"n\",\"is_public\":false}]}"
+                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"string\",\"group\":\"n\",\"is_public\":true}]}"
                         },
                         "description": ""
                     },
@@ -4253,43 +4174,7 @@
                         },
                         "description": "Send a colour as `null` to go back to its default. Only the colours you send\nchange. A primary colour white text could not be read on, or a sidebar colour\ntoo light for the sidebar's text, is refused."
                     },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-content-type-options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "x-frame-options",
-                                    "value": "DENY"
-                                },
-                                {
-                                    "key": "referrer-policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "content-security-policy",
-                                    "value": "default-src 'none'; frame-ancestors 'none'"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"success\":false,\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
+                    "response": []
                 },
                 {
                     "name": "List ticket number settings",
@@ -4443,7 +4328,7 @@
                                 {
                                     "id": "credential_id",
                                     "key": "credential_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the credential."
                                 }
                             ]
@@ -4483,7 +4368,7 @@
                                 {
                                     "id": "credential_id",
                                     "key": "credential_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the credential."
                                 }
                             ]
@@ -4526,7 +4411,7 @@
                                 {
                                     "id": "credential_id",
                                     "key": "credential_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the credential."
                                 }
                             ]
@@ -4566,7 +4451,7 @@
                                 {
                                     "id": "credential_id",
                                     "key": "credential_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the credential."
                                 }
                             ]
@@ -4769,6 +4654,96 @@
             ]
         },
         {
+            "name": "Developer Documentation",
+            "description": "\nDocumentation and reference exports require an authenticated tenant session.",
+            "item": [
+                {
+                    "name": "Read developer documentation",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/developer-docs",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/developer-docs"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Returns the integration guide and generated endpoint reference for the workspace viewer."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"guide\": \"# Integration guide\", \"reference\": [], \"baseUrl\": \"https:\/\/api.example.com\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\"success\": false, \"message\": \"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Download an API reference export",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/developer-docs\/:format",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/developer-docs\/:format",
+                            "variable": [
+                                {
+                                    "id": "format",
+                                    "key": "format",
+                                    "value": "postman",
+                                    "description": "The export format: openapi or postman."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"info\": {\"name\": \"API reference\"}, \"item\": []}",
+                            "name": "Postman file download"
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\"success\": false, \"message\": \"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Email to ticket",
             "description": "\nLets a workspace turn emails sent to its support address into tickets. The\nworkspace forwards its mailbox (for example support@example.com) to the address\nshown here; see docs\/email-to-ticket.md.",
             "item": [
@@ -4916,51 +4891,7 @@
                         },
                         "description": ""
                     },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-ratelimit-limit",
-                                    "value": "10"
-                                },
-                                {
-                                    "key": "x-ratelimit-remaining",
-                                    "value": "9"
-                                },
-                                {
-                                    "key": "x-content-type-options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "x-frame-options",
-                                    "value": "DENY"
-                                },
-                                {
-                                    "key": "referrer-policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "content-security-policy",
-                                    "value": "default-src 'none'; frame-ancestors 'none'"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 403,
-                            "body": "{\"success\":false,\"message\":\"Open this sign-in link at your workspace address.\"}",
-                            "name": ""
-                        }
-                    ]
+                    "response": []
                 },
                 {
                     "name": "Move an already authenticated session to its workspace without putting a bearer token in a URL.",
@@ -4985,43 +4916,7 @@
                         "body": null,
                         "description": ""
                     },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-content-type-options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "x-frame-options",
-                                    "value": "DENY"
-                                },
-                                {
-                                    "key": "referrer-policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "content-security-policy",
-                                    "value": "default-src 'none'; frame-ancestors 'none'"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"success\":false,\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
+                    "response": []
                 },
                 {
                     "name": "POST api\/v1\/billing\/razorpay\/webhook",
@@ -5046,51 +4941,7 @@
                         "body": null,
                         "description": ""
                     },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-ratelimit-limit",
-                                    "value": "120"
-                                },
-                                {
-                                    "key": "x-ratelimit-remaining",
-                                    "value": "119"
-                                },
-                                {
-                                    "key": "x-content-type-options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "x-frame-options",
-                                    "value": "DENY"
-                                },
-                                {
-                                    "key": "referrer-policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "content-security-policy",
-                                    "value": "default-src 'none'; frame-ancestors 'none'"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 400,
-                            "body": "{\"success\":false,\"message\":\"Invalid signature.\"}",
-                            "name": ""
-                        }
-                    ]
+                    "response": []
                 },
                 {
                     "name": "POST api\/v1\/inbound-email\/mailgun",
@@ -5115,51 +4966,7 @@
                         "body": null,
                         "description": ""
                     },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-ratelimit-limit",
-                                    "value": "120"
-                                },
-                                {
-                                    "key": "x-ratelimit-remaining",
-                                    "value": "119"
-                                },
-                                {
-                                    "key": "x-content-type-options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "x-frame-options",
-                                    "value": "DENY"
-                                },
-                                {
-                                    "key": "referrer-policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "content-security-policy",
-                                    "value": "default-src 'none'; frame-ancestors 'none'"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"success\":false,\"message\":\"Invalid signature.\"}",
-                            "name": ""
-                        }
-                    ]
+                    "response": []
                 }
             ]
         },
@@ -5202,7 +5009,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from\":\"2026-10-11T15:26:00\",\"to\":\"2026-10-11T15:26:00\"}"
+                            "raw": "{\"from\":\"2026-10-11T16:09:52\",\"to\":\"2026-10-11T16:09:52\"}"
                         },
                         "description": "One row per ticket you are allowed to see. Requires `reports.view`."
                     },
@@ -5380,7 +5187,7 @@
                                 {
                                     "id": "customer_id",
                                     "key": "customer_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the customer."
                                 }
                             ]
@@ -5477,7 +5284,7 @@
                                 {
                                     "id": "customer_id",
                                     "key": "customer_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the customer."
                                 }
                             ]
@@ -5771,7 +5578,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -5822,7 +5629,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -5979,7 +5786,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -6033,7 +5840,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -6099,7 +5906,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -6159,7 +5966,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -6219,7 +6026,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -6270,13 +6077,13 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
                                     "id": "attachment_id",
                                     "key": "attachment_id",
-                                    "value": "01m4gxn2jt2tc1sb0nk66rwj08",
+                                    "value": "architecto",
                                     "description": "The ID of the attachment."
                                 }
                             ]
@@ -6308,41 +6115,6 @@
                     },
                     "response": [
                         {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "x-content-type-options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "x-frame-options",
-                                    "value": "DENY"
-                                },
-                                {
-                                    "key": "referrer-policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "content-security-policy",
-                                    "value": "default-src 'none'; frame-ancestors 'none'"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"success\":false,\"message\":\"Invalid API credentials.\"}",
-                            "name": ""
-                        },
-                        {
                             "header": [],
                             "code": 404,
                             "body": "{\"success\": false, \"message\": \"The requested resource was not found.\"}",
@@ -6362,7 +6134,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 }
                             ]
@@ -6558,7 +6330,7 @@
                                 {
                                     "id": "tenant_id",
                                     "key": "tenant_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the tenant."
                                 }
                             ]
@@ -6598,7 +6370,7 @@
                                 {
                                     "id": "tenant_id",
                                     "key": "tenant_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the tenant."
                                 }
                             ]
@@ -6641,7 +6413,7 @@
                                 {
                                     "id": "tenant_id",
                                     "key": "tenant_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the tenant."
                                 }
                             ]
@@ -6681,7 +6453,7 @@
                                 {
                                     "id": "tenant_id",
                                     "key": "tenant_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the tenant."
                                 }
                             ]
@@ -6721,7 +6493,7 @@
                                 {
                                     "id": "tenant_id",
                                     "key": "tenant_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the tenant."
                                 }
                             ]
@@ -6764,7 +6536,7 @@
                                 {
                                     "id": "tenant_id",
                                     "key": "tenant_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the tenant."
                                 }
                             ]
@@ -6874,7 +6646,7 @@
                                 {
                                     "id": "plan_id",
                                     "key": "plan_id",
-                                    "value": 1,
+                                    "value": 16,
                                     "description": "The ID of the plan."
                                 }
                             ]
@@ -6892,7 +6664,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Growth\",\"slug\":\"n\",\"description\":\"Eius et animi quos velit et.\",\"price_cents\":12900,\"currency\":\"dlj\",\"billing_interval\":\"yearly\",\"limits\":{\"users\":30},\"is_active\":false,\"sort_order\":8}"
+                            "raw": "{\"name\":\"Growth\",\"slug\":\"n\",\"description\":\"Eius et animi quos velit et.\",\"price_cents\":12900,\"currency\":\"dlj\",\"billing_interval\":\"monthly\",\"limits\":{\"users\":30},\"is_active\":false,\"sort_order\":8}"
                         },
                         "description": "Existing subscriptions are unaffected until their next billing\ncycle re-evaluates limits \u2014 this only changes what NEW\nsubscriptions, and PlanLimitService's live checks for all\nsubscriptions, see going forward."
                     },
@@ -7022,7 +6794,7 @@
                                 {
                                     "id": "ticket_id",
                                     "key": "ticket_id",
-                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "value": "architecto",
                                     "description": "The ID of the ticket."
                                 },
                                 {
@@ -7127,7 +6899,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Scan the code, then confirm with a code from your app.\", \"data\": {\"secret\": \"JBSWY3DPEHPK3PXP\", \"otpauth_url\": \"otpauth:\/\/totp\/DeskNu:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=DeskNu\"}}",
+                            "body": "{\"success\": true, \"message\": \"Scan the code, then confirm with a code from your app.\", \"data\": {\"secret\": \"JBSWY3DPEHPK3PXP\", \"otpauth_url\": \"otpauth:\/\/totp\/DeskZeal:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=DeskZeal\"}}",
                             "name": ""
                         },
                         {
@@ -7309,7 +7081,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Ticket sync\",\"url\":\"https:\\\/\\\/example.com\\\/webhooks\\\/desknu\",\"events\":[\"ticket.created\",\"ticket.status_changed\"],\"is_active\":true}"
+                            "raw": "{\"name\":\"Ticket sync\",\"url\":\"https:\\\/\\\/example.com\\\/webhooks\\\/deskzeal\",\"events\":[\"ticket.created\",\"ticket.status_changed\"],\"is_active\":true}"
                         },
                         "description": "The secret is returned exactly once, here \u2014 it is encrypted at\nrest and this is the only response that ever includes it in\nplain text. Use it to verify the X-Webhook-Signature header on\neach delivery."
                     },
@@ -7317,7 +7089,7 @@
                         {
                             "header": [],
                             "code": 201,
-                            "body": "{\n  \"success\": true, \"message\": \"Webhook created successfully.\",\n  \"data\": {\"id\": 1, \"name\": \"Ticket sync\", \"url\": \"https:\/\/example.com\/webhooks\/desknu\", \"secret\": \"whsec_...\"}\n}",
+                            "body": "{\n  \"success\": true, \"message\": \"Webhook created successfully.\",\n  \"data\": {\"id\": 1, \"name\": \"Ticket sync\", \"url\": \"https:\/\/example.com\/webhooks\/deskzeal\", \"secret\": \"whsec_...\"}\n}",
                             "name": ""
                         }
                     ]

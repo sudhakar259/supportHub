@@ -30,6 +30,5 @@ api/tests
 docs
 design
 *.html
-!api/public/docs/**
 !api/resources/**
 *.log

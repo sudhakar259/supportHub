@@ -16,7 +16,7 @@ it('creates a webhook and returns the plain secret exactly once', function () {
     $response = $this->actingAs($admin, 'api')
         ->postJson('/api/v1/webhooks', [
             'name' => 'Ticket sync',
-            'url' => 'https://example.com/webhooks/desknu',
+            'url' => 'https://example.com/webhooks/deskzeal',
             'events' => ['ticket.created', 'ticket.status_changed'],
         ])
         ->assertCreated()

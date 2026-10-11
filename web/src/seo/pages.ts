@@ -10,17 +10,17 @@ export interface PublicPage {
 
 /** This allowlist also drives static rendering, the sitemap and hosting rewrites. */
 export const PUBLIC_PAGES: Record<string, PublicPage> = {
-  '/': { title: 'DeskNu | Helpdesk & Customer Support Software', description: 'DeskNu brings support tickets, email conversations, routing, SLA targets, team collaboration and reporting into one customer support workspace.' },
-  '/features': { title: 'Helpdesk Software Features | DeskNu', description: 'Explore DeskNu ticketing, email intake, routing automation, SLA management, team permissions, support reports, API access and signed webhooks.' },
-  '/solutions': { title: 'Customer Support & IT Helpdesk Solutions | DeskNu', description: 'Organize customer support, internal IT requests and product support with DeskNu departments, ticket routing, SLA policies and integration APIs.' },
-  '/demo': { title: 'Interactive Helpdesk Demo | DeskNu', description: 'Try DeskNu with fictional sample tickets. Explore public replies, private notes, ticket resolution, routing and reports without creating an account.' },
-  '/pricing': { title: 'Helpdesk Plans & Workspace Pricing | DeskNu', description: 'Compare DeskNu plans and current workspace usage limits. Explore the free Starter plan, paid-plan trials and custom Enterprise pricing.' },
-  '/resources': { title: 'Helpdesk Guides: Email, SLAs & Ticket Routing | DeskNu', description: 'Practical DeskNu guides to email ticketing, first-response and resolution SLA targets, department routing and support team workflows.' },
-  '/security': { title: 'Helpdesk Security & Workspace Access Controls | DeskNu', description: 'Learn about DeskNu workspace separation, roles, two-step verification, scoped API credentials, signed webhooks, audit logs and customer data tools.' },
-  '/contact': { title: 'Contact DeskNu | Sales & Customer Support', description: 'Contact DeskNu about helpdesk plans, Enterprise requirements, your workspace or service policies. Find the published support email and account help.' },
-  '/terms': { title: 'Terms of Service | DeskNu', description: 'Read the DeskNu Terms of Service covering accounts, subscriptions, acceptable use and operating the customer support platform.' },
-  '/privacy': { title: 'Privacy Policy | DeskNu', description: 'Read how the DeskNu service handles account and customer support data, including customer data requests and service operator responsibilities.' },
-  '/cookies': { title: 'Cookie & Browser Storage Policy | DeskNu', description: 'Understand the browser storage used by DeskNu for sign-in sessions, onboarding and payment checkout.' },
+  '/': { title: 'DeskZeal | Helpdesk & Customer Support Software', description: 'DeskZeal brings support tickets, email conversations, routing, SLA targets, team collaboration and reporting into one customer support workspace.' },
+  '/features': { title: 'Helpdesk Software Features | DeskZeal', description: 'Explore DeskZeal ticketing, email intake, routing automation, SLA management, team permissions, support reports, API access and signed webhooks.' },
+  '/solutions': { title: 'Customer Support & IT Helpdesk Solutions | DeskZeal', description: 'Organize customer support, internal IT requests and product support with DeskZeal departments, ticket routing, SLA policies and integration APIs.' },
+  '/demo': { title: 'Interactive Helpdesk Demo | DeskZeal', description: 'Try DeskZeal with fictional sample tickets. Explore public replies, private notes, ticket resolution, routing and reports without creating an account.' },
+  '/pricing': { title: 'Helpdesk Plans & Workspace Pricing | DeskZeal', description: 'Compare DeskZeal plans and current workspace usage limits. Explore the free Starter plan, paid-plan trials and custom Enterprise pricing.' },
+  '/resources': { title: 'Helpdesk Guides: Email, SLAs & Ticket Routing | DeskZeal', description: 'Practical DeskZeal guides to email ticketing, first-response and resolution SLA targets, department routing and support team workflows.' },
+  '/security': { title: 'Helpdesk Security & Workspace Access Controls | DeskZeal', description: 'Learn about DeskZeal workspace separation, roles, two-step verification, scoped API credentials, signed webhooks, audit logs and customer data tools.' },
+  '/contact': { title: 'Contact DeskZeal | Sales & Customer Support', description: 'Contact DeskZeal about helpdesk plans, Enterprise requirements, your workspace or service policies. Find the published support email and account help.' },
+  '/terms': { title: 'Terms of Service | DeskZeal', description: 'Read the DeskZeal Terms of Service covering accounts, subscriptions, acceptable use and operating the customer support platform.' },
+  '/privacy': { title: 'Privacy Policy | DeskZeal', description: 'Read how the DeskZeal service handles account and customer support data, including customer data requests and service operator responsibilities.' },
+  '/cookies': { title: 'Cookie & Browser Storage Policy | DeskZeal', description: 'Understand the browser storage used by DeskZeal for sign-in sessions, onboarding and payment checkout.' },
 }
 
 const FEATURE_TITLES: Record<string, string> = {
@@ -35,13 +35,13 @@ const FEATURE_TITLES: Record<string, string> = {
 
 for (const feature of FEATURE_PAGES) {
   PUBLIC_PAGES[`/features/${feature.slug}`] = {
-    title: `${FEATURE_TITLES[feature.slug]} | DeskNu`, description: feature.description,
+    title: `${FEATURE_TITLES[feature.slug]} | DeskZeal`, description: feature.description,
     breadcrumbs: [{ name: 'Home', path: '/' }, { name: 'Features', path: '/features' }, { name: feature.label, path: `/features/${feature.slug}` }],
   }
 }
 for (const guide of GUIDES) {
   PUBLIC_PAGES[`/resources/${guide.slug}`] = {
-    title: `${guide.title} | DeskNu`, description: guide.description, article: true,
+    title: `${guide.title} | DeskZeal`, description: guide.description, article: true,
     breadcrumbs: [{ name: 'Home', path: '/' }, { name: 'Resources', path: '/resources' }, { name: guide.title, path: `/resources/${guide.slug}` }],
   }
 }
@@ -53,6 +53,7 @@ const PRIVATE_TITLES: Record<string, string> = {
   '/dashboard': 'Support dashboard', '/tickets': 'Tickets', '/my-tickets': 'My tickets', '/customers': 'Customers',
   '/departments': 'Departments', '/users': 'Team members', '/roles-and-permissions': 'Roles & permissions',
   '/reports': 'Support reports', '/audit-logs': 'Audit logs', '/automation': 'Automation', '/settings': 'Settings',
+  '/integrations/developer-docs': 'Developer Docs',
   '/billing': 'Billing', '/onboarding': 'Set up your workspace', '/platform/dashboard': 'Platform dashboard',
 }
 
@@ -74,12 +75,12 @@ export function getSeoMetadata(pathname: string, options: { production: boolean;
   const isPublic = Boolean(page && !options.tenant)
   const canonical = isPublic ? `${site.origin}${path}` : null
   const indexable = isPublic && options.production && isPublicHost
-  const description = isPublic ? page.description : 'Sign in to your DeskNu workspace to manage customer support.'
-  const title = isPublic ? page.title : `${PRIVATE_TITLES[path] || ((path.startsWith('/features/') || path.startsWith('/resources/')) ? 'Page not found' : 'Workspace')} | DeskNu`
+  const description = isPublic ? page.description : 'Sign in to your DeskZeal workspace to manage customer support.'
+  const title = isPublic ? page.title : `${PRIVATE_TITLES[path] || ((path.startsWith('/features/') || path.startsWith('/resources/')) ? 'Page not found' : 'Workspace')} | DeskZeal`
   const graph: Record<string, unknown>[] = [
-    { '@type': 'Organization', '@id': `${site.origin}/#organization`, name: SITE.name, url: `${site.origin}/`, logo: `${site.origin}/branding/deskNu-logo.png`, ...(SITE.supportEmail ? { email: SITE.supportEmail } : {}) },
+    { '@type': 'Organization', '@id': `${site.origin}/#organization`, name: SITE.name, url: `${site.origin}/`, logo: `${site.origin}/branding/deskzeal-logo.png`, ...(SITE.supportEmail ? { email: SITE.supportEmail } : {}) },
     { '@type': 'WebSite', '@id': `${site.origin}/#website`, name: SITE.name, url: `${site.origin}/`, publisher: { '@id': `${site.origin}/#organization` } },
-    { '@type': page?.article ? 'Article' : 'WebPage', '@id': `${canonical}#page`, name: title, ...(page?.article ? { headline: page.title.replace(/ \| DeskNu$/, ''), author: { '@id': `${site.origin}/#organization` }, publisher: { '@id': `${site.origin}/#organization` }, image: `${site.origin}/social-card.png` } : {}), description, url: canonical, isPartOf: { '@id': `${site.origin}/#website` } },
+    { '@type': page?.article ? 'Article' : 'WebPage', '@id': `${canonical}#page`, name: title, ...(page?.article ? { headline: page.title.replace(/ \| DeskZeal$/, ''), author: { '@id': `${site.origin}/#organization` }, publisher: { '@id': `${site.origin}/#organization` }, image: `${site.origin}/social-card.png` } : {}), description, url: canonical, isPartOf: { '@id': `${site.origin}/#website` } },
   ]
   if (page?.breadcrumbs) {
     graph.push({ '@type': 'BreadcrumbList', itemListElement: page.breadcrumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: `${site.origin}${item.path}` })) })
@@ -103,7 +104,7 @@ export function renderSeoHead(metadata: SeoMetadata): string {
     metadata.canonical ? `<link rel="canonical" href="${escapeHtml(metadata.canonical)}" />` : '',
     meta('og:site_name', SITE.name, true), meta('og:title', metadata.title, true), meta('og:description', metadata.description, true),
     meta('og:type', metadata.type, true), metadata.canonical ? meta('og:url', metadata.canonical, true) : '',
-    meta('og:image', metadata.image, true), meta('og:image:width', '1200', true), meta('og:image:height', '630', true), meta('og:image:alt', 'DeskNu helpdesk and customer support software', true),
+    meta('og:image', metadata.image, true), meta('og:image:width', '1200', true), meta('og:image:height', '630', true), meta('og:image:alt', 'DeskZeal helpdesk and customer support software', true),
     meta('twitter:card', 'summary_large_image'), meta('twitter:title', metadata.title), meta('twitter:description', metadata.description), meta('twitter:image', metadata.image),
     metadata.structuredData ? `<script id="seo-jsonld" type="application/ld+json">${serializeJsonLd(metadata.structuredData)}</script>` : '',
   ].filter(Boolean).join('\n    ')

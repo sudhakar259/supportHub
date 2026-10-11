@@ -60,7 +60,7 @@ endpoints:
         name: from
         description: 'Must be a valid date.'
         required: false
-        example: '2026-10-11T15:26:00'
+        example: '2026-10-11T16:09:52'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -71,15 +71,15 @@ endpoints:
         name: to
         description: 'Must be a valid date.'
         required: false
-        example: '2026-10-11T15:26:00'
+        example: '2026-10-11T16:09:52'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         deprecated: false
     cleanBodyParameters:
-      from: '2026-10-11T15:26:00'
-      to: '2026-10-11T15:26:00'
+      from: '2026-10-11T16:09:52'
+      to: '2026-10-11T16:09:52'
     fileParameters: []
     responses:
       -

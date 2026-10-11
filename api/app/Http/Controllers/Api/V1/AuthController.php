@@ -112,7 +112,7 @@ class AuthController extends Controller
      *
      * @unauthenticated
      *
-     * @bodyParam email string required Example: admin@desknu.test
+     * @bodyParam email string required Example: admin@deskzeal.test
      * @bodyParam password string required Example: password
      * @bodyParam tenant string Disambiguates if this email has accounts with more than one tenant. Example: help-support
      * @bodyParam device_name string Identifies the issued token, e.g. "iphone-15". Example: web-browser
@@ -121,7 +121,7 @@ class AuthController extends Controller
      *   "success": true,
      *   "message": "Login successful.",
      *   "data": {
-     *     "user": {"id": 1, "name": "System Administrator", "email": "admin@desknu.test", "roles": ["Administrator"]},
+     *     "user": {"id": 1, "name": "System Administrator", "email": "admin@deskzeal.test", "roles": ["Administrator"]},
      *     "token": "1|abcdef123456...",
      *     "token_type": "Bearer"
      *   }
@@ -325,7 +325,7 @@ class AuthController extends Controller
      * @response 200 {
      *   "success": true,
      *   "message": "Request successful.",
-     *   "data": {"id": 1, "name": "System Administrator", "email": "admin@desknu.test", "roles": ["Administrator"], "permissions": ["tickets.view", "..."]}
+     *   "data": {"id": 1, "name": "System Administrator", "email": "admin@deskzeal.test", "roles": ["Administrator"], "permissions": ["tickets.view", "..."]}
      * }
      */
     public function me(Request $request): JsonResponse
@@ -359,7 +359,7 @@ class AuthController extends Controller
      *
      * @unauthenticated
      *
-     * @bodyParam email string required Example: admin@desknu.test
+     * @bodyParam email string required Example: admin@deskzeal.test
      * @bodyParam tenant string Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first. Example: help-support
      *
      * @response 200 {
@@ -384,7 +384,7 @@ class AuthController extends Controller
      * @unauthenticated
      *
      * @bodyParam token string required The token from the reset email. Example: 9f8e7d6c5b4a
-     * @bodyParam email string required Example: admin@desknu.test
+     * @bodyParam email string required Example: admin@deskzeal.test
      * @bodyParam tenant string Same disambiguator as /auth/forgot-password — pass it if it was used there. Example: help-support
      * @bodyParam password string required Minimum 10 characters, including upper and lower case, a number, and a symbol. Example: NewSecret123!word$9
      * @bodyParam password_confirmation string required Must match password. Example: NewSecret123!

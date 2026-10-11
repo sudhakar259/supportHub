@@ -1,4 +1,4 @@
-# DeskNu
+# DeskZeal
 
 A multi-tenant customer support platform with a Laravel REST API and React
 frontend. Includes a public SaaS website, organization signup, ticket workflows,
@@ -22,7 +22,8 @@ supporthub/
   it explains the overall design and links to the rest (auth,
   authorization, ticket workflow, routing, notifications, development,
   deployment). [`docs/api.md`](docs/api.md) plus the generated reference in
-  `api/public/docs/` are everything a frontend or mobile developer needs
+  `api/resources/developer-docs/reference/` (available after workspace sign-in
+  under **Integrations → Developer Docs**) are everything a frontend or mobile developer needs
   without reading any Laravel source.
 - **`web/`** — the React frontend, including a public homepage, product
   and solution pages, interactive demo, API-backed pricing and workspace
@@ -50,7 +51,7 @@ docker compose up -d
 docker compose exec app php artisan migrate --seed
 ```
 
-Demo login: `admin@desknu.test` / `password`.
+Demo login: `admin@deskzeal.test` / `password`.
 
 To run the frontend, follow [`web/README.md`](web/README.md).
 

@@ -9,7 +9,7 @@ Work through this top to bottom before the first real customer signs up. Items m
 ## 0. Check the configuration automatically
 
 ```bash
-php artisan desknu:preflight --production
+php artisan deskzeal:preflight --production
 ```
 
 It exits non-zero and says what is wrong: debug mode, placeholder mail, a synchronous
@@ -41,8 +41,8 @@ Start from `api/.env.production.example`.
 - [ ] Do **not** run the demo seeders. Seed only what production needs
       (`RolesAndPermissionsSeeder`, `MembershipPlanSeeder`, `NotificationTemplateSeeder`,
       `SystemSettingSeeder`) and create your platform administrator with
-      `php artisan desknu:create-platform-admin you@yourcompany.com` (it asks for a strong
-      password). `deploy/aws/first-run.sh` does both. The demo accounts (`…@desknu.test`, password `password`) must not exist.
+      `php artisan deskzeal:create-platform-admin you@yourcompany.com` (it asks for a strong
+      password). `deploy/aws/first-run.sh` does both. The demo accounts (`…@deskzeal.test`, password `password`) must not exist.
 
 ## 3. Background work
 

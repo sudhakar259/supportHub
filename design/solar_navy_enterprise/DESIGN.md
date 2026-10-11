@@ -166,7 +166,7 @@ spacing:
 
 ## Brand & Style
 
-DeskNu uses a warm, orange-led interface on cool blue-tinted surfaces, with a navy
+DeskZeal uses a warm, orange-led interface on cool blue-tinted surfaces, with a navy
 shell for dark areas and teal reserved for positive states. The public website,
 registration screens, workspace and platform console share the same color roles.
 DM Sans and the existing layouts are retained.

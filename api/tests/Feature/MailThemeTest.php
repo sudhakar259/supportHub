@@ -41,9 +41,9 @@ it('uses the supporthub theme by default', function () {
     expect(config('mail.markdown.theme'))->toBe('supporthub');
 });
 
-it('renders the supplied DeskNu wordmark with an absolute image address', function () {
-    config(['app.name' => 'DeskNu', 'app.url' => 'https://api.desknu.test']);
+it('renders the supplied DeskZeal wordmark with an absolute image address', function () {
+    config(['app.name' => 'DeskZeal', 'app.url' => 'https://api.deskzeal.test']);
 
-    expect(renderedEmail())->toContain('https://api.desknu.test/branding/light-mode-desknu-logo.png')
-        ->toContain('alt="DeskNu"');
+    expect(renderedEmail())->toContain('https://api.deskzeal.test/branding/deskzeal-logo.png')
+        ->toContain('>Zeal</span>');
 });

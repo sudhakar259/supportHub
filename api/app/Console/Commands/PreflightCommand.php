@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Schema;
  * unsafe settings are found before launch instead of after. Run it on the server (or in
  * the image) with the production environment loaded:
  *
- *     php artisan desknu:preflight               # fails (exit 1) only in production
- *     php artisan desknu:preflight --production  # judge as if this were production
+ *     php artisan deskzeal:preflight               # fails (exit 1) only in production
+ *     php artisan deskzeal:preflight --production  # judge as if this were production
  */
 class PreflightCommand extends Command
 {
-    protected $signature = 'desknu:preflight {--production : Treat every production-only warning as a failure}';
+    protected $signature = 'deskzeal:preflight {--production : Treat every production-only warning as a failure}';
 
     protected $aliases = ['supporthub:preflight'];
 
@@ -144,11 +144,11 @@ class PreflightCommand extends Command
         }
 
         $demo = User::withoutGlobalScopes()
-            ->where(fn ($q) => $q->where('email', 'like', '%@desknu.test')
+            ->where(fn ($q) => $q->where('email', 'like', '%@deskzeal.test')
                 ->orWhere('email', 'like', '%@supporthub.test')
                 ->orWhere('email', 'like', '%@%-helpdesk.test'))
             ->count();
-        $this->expect($demo === 0, 'No demo accounts', "{$demo} seeded demo account(s) exist (…@desknu.test). They have well-known passwords: delete them or run on a fresh database without the demo seeders.");
+        $this->expect($demo === 0, 'No demo accounts', "{$demo} seeded demo account(s) exist (…@deskzeal.test). They have well-known passwords: delete them or run on a fresh database without the demo seeders.");
     }
 
     /**

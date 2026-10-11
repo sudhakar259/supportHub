@@ -8,7 +8,7 @@ import { LoadingState } from '@/components/feedback/LoadingState'
 export function App() {
   return (
     <AppProviders>
-      <Suspense fallback={<LoadingState label="Opening DeskNu…" />}>
+      <Suspense fallback={<LoadingState label="Opening DeskZeal…" />}>
         <RouterProvider router={router} />
       </Suspense>
     </AppProviders>

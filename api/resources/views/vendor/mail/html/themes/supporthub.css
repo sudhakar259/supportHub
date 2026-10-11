@@ -1,5 +1,5 @@
 /*
- * DeskNu email theme — the product palette (design/solar_navy_enterprise/DESIGN.md,
+ * DeskZeal email theme — the product palette (design/solar_navy_enterprise/DESIGN.md,
  * explained in docs/color-palette.md):
  *   primary orange #a33900 (buttons, links, quote-panel edge)
  *   on-surface #0b1c30 (headings)       on-surface-variant #5a4138 (body text, footer)
@@ -129,11 +129,15 @@ img {
     width: 75px;
 }
 
+.brand-accent {
+    color: #a33900;
+}
+
 .brand-logo {
     display: block;
     height: auto;
     max-width: 100%;
-    width: 240px;
+    width: 44px;
 }
 
 /* Body */

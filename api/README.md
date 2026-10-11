@@ -1,6 +1,6 @@
-# DeskNu API
+# DeskZeal API
 
-Laravel 13 REST API for DeskNu — see the [project root README](../README.md)
+Laravel 13 REST API for DeskZeal — see the [project root README](../README.md)
 for the overall picture and [`docs/`](../docs/) for architecture, auth,
 authorization, ticket workflow, routing, notifications, development, and
 deployment documentation.
@@ -15,7 +15,7 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-Demo login: `admin@desknu.test` / `password` (see
+Demo login: `admin@deskzeal.test` / `password` (see
 [`docs/development.md`](../docs/development.md) for the full account list).
 
 ## Tests
@@ -30,6 +30,8 @@ Demo login: `admin@desknu.test` / `password` (see
 php artisan scribe:generate
 ```
 
-then open `http://localhost:8000/docs` (or browse `public/docs/index.html`
-directly). An OpenAPI spec and Postman collection are generated alongside
-it in the same folder.
+Then sign in to a tenant workspace and open **Integrations → Developer Docs**.
+The guide, endpoint reference, OpenAPI download and Postman download all require
+an authenticated tenant session. Generated files live in
+`resources/developer-docs/reference/`, outside the public web directory;
+the former public `/docs` addresses return 404.

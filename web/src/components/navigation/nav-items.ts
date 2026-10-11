@@ -35,6 +35,7 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     title: 'Integrations',
     items: [
+      { label: 'Developer Docs', path: ROUTES.developerDocs, icon: 'code' },
       { label: 'API Credentials', path: ROUTES.apiCredentials, icon: 'vpn_key', permission: 'api-credentials.view' },
       { label: 'Webhooks', path: ROUTES.webhooks, icon: 'webhook', permission: 'webhooks.view' },
     ],

@@ -33,7 +33,7 @@ class TwoFactorController extends Controller
      *
      * @bodyParam password string required The current password. Example: Secret123!word
      *
-     * @response 200 {"success": true, "message": "Scan the code, then confirm with a code from your app.", "data": {"secret": "JBSWY3DPEHPK3PXP", "otpauth_url": "otpauth://totp/DeskNu:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=DeskNu"}}
+     * @response 200 {"success": true, "message": "Scan the code, then confirm with a code from your app.", "data": {"secret": "JBSWY3DPEHPK3PXP", "otpauth_url": "otpauth://totp/DeskZeal:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=DeskZeal"}}
      * @response 422 {"success": false, "message": "Two-factor authentication is already on. Turn it off first to set it up again."}
      */
     public function setup(Request $request): JsonResponse

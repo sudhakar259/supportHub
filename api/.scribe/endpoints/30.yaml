@@ -1,27 +1,35 @@
-name: 'Email to ticket'
+name: Billing
 description: |-
 
-  Lets a workspace turn emails sent to its support address into tickets. The
-  workspace forwards its mailbox (for example support@example.com) to the address
-  shown here; see docs/email-to-ticket.md.
+  A tenant's own view of its subscription — distinct from
+  Platform\TenantController, which lets a platform administrator see
+  every tenant's subscription. Moving to a paid plan issues an invoice
+  with a Razorpay order; the subscription is activated when that invoice
+  is paid (see InvoiceController and MarkInvoicePaidAction).
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/inbound-email
+    uri: api/v1/subscription
     metadata:
       custom: []
-      groupName: 'Email to ticket'
+      groupName: Billing
       groupDescription: |-
 
-        Lets a workspace turn emails sent to its support address into tickets. The
-        workspace forwards its mailbox (for example support@example.com) to the address
-        shown here; see docs/email-to-ticket.md.
+        A tenant's own view of its subscription — distinct from
+        Platform\TenantController, which lets a platform administrator see
+        every tenant's subscription. Moving to a paid plan issues an invoice
+        with a Razorpay order; the subscription is activated when that invoice
+        is paid (see InvoiceController and MarkInvoicePaidAction).
       subgroup: ''
       subgroupDescription: ''
-      title: 'Show email-to-ticket settings'
-      description: ''
+      title: 'Get the current subscription'
+      description: |-
+        Includes a `usage` block (one entry per plan-limited feature)
+        computed live via PlanLimitService — the same service every
+        resource-creating controller already uses to enforce limits, so
+        this can never drift from what creation actually allows.
       authenticated: true
       deprecated: false
     headers:
@@ -39,7 +47,11 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"available": true, "address": "help@inbound.example.com", "enabled": true, "create_customers": true}}'
+        content: |-
+          {
+            "success": true, "message": "Request successful.",
+            "data": {"id": 1, "status": "trial", "plan": {"name": "Starter"}, "usage": {"users": {"used": 2, "limit": 3}}}
+          }
         headers: []
         description: ''
     responseFields: []
@@ -54,19 +66,28 @@ endpoints:
     custom: []
     httpMethods:
       - PUT
-    uri: api/v1/inbound-email
+    uri: api/v1/subscription
     metadata:
       custom: []
-      groupName: 'Email to ticket'
+      groupName: Billing
       groupDescription: |-
 
-        Lets a workspace turn emails sent to its support address into tickets. The
-        workspace forwards its mailbox (for example support@example.com) to the address
-        shown here; see docs/email-to-ticket.md.
+        A tenant's own view of its subscription — distinct from
+        Platform\TenantController, which lets a platform administrator see
+        every tenant's subscription. Moving to a paid plan issues an invoice
+        with a Razorpay order; the subscription is activated when that invoice
+        is paid (see InvoiceController and MarkInvoicePaidAction).
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update email-to-ticket settings'
-      description: ''
+      title: 'Change plan'
+      description: |-
+        A free plan activates immediately. A paid plan starts a 14-day
+        trial and issues an invoice for the plan price, with a Razorpay
+        order to pay it; the subscription is activated once the invoice is
+        paid. A lapsed subscription (past_due, suspended or expired) gets no
+        new trial and keeps its lapsed status until that invoice is paid.
+        Earlier unpaid invoices are voided. If the payment provider
+        cannot create the order, nothing changes and the request returns 503.
       authenticated: true
       deprecated: false
     headers:
@@ -78,43 +99,72 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      enabled:
+      plan:
         custom: []
-        name: enabled
-        description: 'Turn email-to-ticket on or off.'
+        name: plan
+        description: 'The membership plan slug to switch to.'
         required: true
-        example: true
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      create_customers:
-        custom: []
-        name: create_customers
-        description: 'Create a customer when an unknown address emails in. If false, mail from unknown senders is rejected.'
-        required: true
-        example: true
-        type: boolean
+        example: professional
+        type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      enabled: true
-      create_customers: true
+      plan: professional
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Email-to-ticket settings updated.", "data": {"enabled": true}}'
+        content: '{"success": true, "message": "Plan updated successfully.", "data": {"status": "trial", "plan": {"slug": "professional"}, "invoice": {"status": "pending"}}}'
         headers: []
         description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/subscription/cancel
+    metadata:
+      custom: []
+      groupName: Billing
+      groupDescription: |-
+
+        A tenant's own view of its subscription — distinct from
+        Platform\TenantController, which lets a platform administrator see
+        every tenant's subscription. Moving to a paid plan issues an invoice
+        with a Razorpay order; the subscription is activated when that invoice
+        is paid (see InvoiceController and MarkInvoicePaidAction).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Cancel the subscription'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
       -
         custom: []
-        status: 422
-        content: '{"success": false, "message": "Email-to-ticket is not available on this platform yet."}'
+        status: 200
+        content: '{"success": true, "message": "Subscription cancelled.", "data": {"status": "cancelled"}}'
         headers: []
         description: ''
     responseFields: []
@@ -129,21 +179,18 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/inbound-email/log
+    uri: api/v1/subscription/invoices
     metadata:
       custom: []
-      groupName: 'Email to ticket'
+      groupName: Billing
       groupDescription: |-
 
-        Lets a workspace turn emails sent to its support address into tickets. The
-        workspace forwards its mailbox (for example support@example.com) to the address
-        shown here; see docs/email-to-ticket.md.
+        Invoices issued when a tenant moves to a paid plan, and the browser
+        callback that confirms a Razorpay payment for one of them.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List received emails'
-      description: |-
-        What happened to each email sent to the workspace address, newest first,
-        including the ones that were ignored or rejected and why.
+      title: 'List invoices'
+      description: ''
       authenticated: true
       deprecated: false
     headers:
@@ -152,20 +199,8 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters:
-      per_page:
-        custom: []
-        name: per_page
-        description: 'Items per page (max 100).'
-        required: false
-        example: 25
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanQueryParameters:
-      per_page: 25
+    queryParameters: []
+    cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -173,7 +208,90 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "from_email": "jamie@example.com", "subject": "Cannot log in", "status": "ticket_created", "ticket_id": "01HXYZ..."}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "number": "INV-000001", "status": "pending", "amount_cents": 4900, "currency": "USD"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/subscription/payments/verify
+    metadata:
+      custom: []
+      groupName: Billing
+      groupDescription: |-
+
+        Invoices issued when a tenant moves to a paid plan, and the browser
+        callback that confirms a Razorpay payment for one of them.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Confirm a payment'
+      description: |-
+        Called by the browser after Razorpay Checkout succeeds. The signature
+        is checked with the key secret; an unsigned or mismatched payment is
+        rejected and the invoice stays pending.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      razorpay_order_id:
+        custom: []
+        name: razorpay_order_id
+        description: 'The order id the invoice was issued with.'
+        required: true
+        example: order_Lx1234abcd
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      razorpay_payment_id:
+        custom: []
+        name: razorpay_payment_id
+        description: 'The payment id returned by Razorpay Checkout.'
+        required: true
+        example: pay_Lx1234abcd
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      razorpay_signature:
+        custom: []
+        name: razorpay_signature
+        description: 'The signature returned by Razorpay Checkout.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      razorpay_order_id: order_Lx1234abcd
+      razorpay_payment_id: pay_Lx1234abcd
+      razorpay_signature: architecto
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Payment confirmed.", "data": {"status": "paid"}}'
         headers: []
         description: ''
     responseFields: []

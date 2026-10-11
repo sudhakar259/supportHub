@@ -4,7 +4,6 @@ use Knuckles\Scribe\Config\AuthIn;
 use Knuckles\Scribe\Config\Defaults;
 use Knuckles\Scribe\Extracting\Strategies;
 
-use function Knuckles\Scribe\Config\configureStrategy;
 use function Knuckles\Scribe\Config\removeStrategies;
 
 // Scribe is a require-dev package (API doc generation only — never used at
@@ -28,7 +27,7 @@ return [
     'title' => config('app.name').' API Documentation',
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
-    'description' => 'REST API for DeskNu — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.',
+    'description' => 'REST API for DeskZeal — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.',
 
     // Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
     'intro_text' => <<<'INTRO'
@@ -66,12 +65,12 @@ return [
     ],
 
     // The type of documentation output to generate.
-    // - "static" will generate a static HTMl page in the /public/docs folder,
+    // - "static" generates files in static.output_path (private resources here),
     // - "laravel" will generate the documentation as a Blade view, so you can add routing and authentication.
     // - "external_static" and "external_laravel" do the same as above, but pass the OpenAPI spec as a URL to an external UI template
     // 'static' avoids any Blade rendering at runtime — this API has no
     // Blade dependency for application functionality (see docs/architecture.md)
-    // and the docs are served as plain static files under /docs.
+    // Generated files stay outside public/ and are served only by authenticated API routes.
     'type' => 'static',
 
     // See https://scribe.knuckles.wtf/laravel/reference/config#theme for supported options
@@ -80,7 +79,7 @@ return [
     'static' => [
         // HTML documentation, assets and Postman collection will be generated to this folder.
         // Source Markdown will still be in resources/docs.
-        'output_path' => 'public/docs',
+        'output_path' => 'resources/developer-docs/reference',
     ],
 
     'laravel' => [
@@ -149,7 +148,7 @@ return [
     ],
 
     // Generate a Postman collection (v2.1.0) in addition to HTML docs.
-    // For 'static' docs, the collection will be generated to public/docs/collection.json.
+    // For 'static' docs, the collection is generated under static.output_path.
     // For 'laravel' docs, it will be generated to storage/app/scribe/collection.json.
     // Setting `laravel.add_routes` to true (above) will also add a route for the collection.
     'postman' => [
@@ -161,7 +160,7 @@ return [
     ],
 
     // Generate an OpenAPI spec in addition to docs webpage.
-    // For 'static' docs, the collection will be generated to public/docs/openapi.yaml.
+    // For 'static' docs, the specification is generated under static.output_path.
     // For 'laravel' docs, it will be generated to storage/app/scribe/openapi.yaml.
     // Setting `laravel.add_routes` to true (above) will also add a route for the spec.
     'openapi' => [
@@ -261,9 +260,9 @@ return [
         // (required by the project's Scribe documentation standard — see
         // docs/api.md), so automatic ResponseCalls is disabled rather than
         // mixing in auto-captured 401s for endpoints that need auth.
-        'responses' => configureStrategy(
+        'responses' => removeStrategies(
             Defaults::RESPONSES_STRATEGIES,
-            Strategies\Responses\ResponseCalls::withSettings(only: [])
+            [Strategies\Responses\ResponseCalls::class]
         ),
         'responseFields' => [
             ...Defaults::RESPONSE_FIELDS_STRATEGIES,

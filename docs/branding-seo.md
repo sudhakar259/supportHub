@@ -1,20 +1,21 @@
-# DeskNu branding and public website
+# DeskZeal branding and public website
 
-The product is **DeskNu** (pronounced “desk new”). The public copy describes the
+The product is **DeskZeal** (pronounced “desk new”). The public copy describes the
 features implemented in this checkout: ticketing, customer accounts, inbound
 email, routing, SLA policies, departments and permissions, reports, APIs and
-signed webhooks. DeskNu does not currently ship AI replies, live chat, a public
+signed webhooks. DeskZeal does not currently ship AI replies, live chat, a public
 knowledge base or CSAT surveys; those are not advertised as available.
 
 ## What changed
 
-- DeskNu appears in public pages, navigation, workspace and platform shells,
+- DeskZeal appears in public pages, navigation, workspace and platform shells,
   onboarding, account screens, email attribution, checkout, recovery-code files,
   API documentation and developer documentation.
-- The supplied `design/logo/deskNu-logo.png` is the shared brand mark. Light
-  headers use dark “Desk” lettering; navy footers, sidebars and platform headers
-  use white lettering. “Nu” remains orange, following the supplied light/dark
-  references. `BrandMark` frames the original PNG; it does not redraw the logo.
+- The supplied `design/logo/deskzeal-logo.png` is the default brand mark for
+  light backgrounds and `design/logo/deskzeal-dark.png` is the variant for dark
+  backgrounds (navy footers, sidebars, platform headers, dark mode). Light
+  headers use dark “Desk” lettering; dark surfaces use white lettering. “Zeal”
+  remains orange. The PNGs are trimmed of transparent padding but not redrawn.
   Login, setup, the product tour, checkout, email headers, API docs and sharing
   images use the same artwork. Browser tabs use the supplied `favicon.png`.
 - Deployable copies are in `web/public/branding` and `api/public/branding`;
@@ -74,27 +75,27 @@ be indexed before JavaScript runs.
 
 ## Production variables and domains
 
-Choose and register your domain before publishing. `desknu.com` is the prepared
+Choose and register your domain before publishing. `deskzeal.com` is the prepared
 canonical default; this code change does not register it, configure DNS or deploy.
 
 ```dotenv
 # Frontend build environment
-VITE_SITE_URL=https://desknu.com
-VITE_API_URL=https://api.desknu.com/api/v1
-VITE_WORKSPACE_DOMAIN=desknu.com
+VITE_SITE_URL=https://deskzeal.com
+VITE_API_URL=https://api.deskzeal.com/api/v1
+VITE_WORKSPACE_DOMAIN=deskzeal.com
 VITE_WORKSPACE_PORT=
 VITE_LEGAL_ENTITY=Your registered company name
 VITE_SUPPORT_EMAIL=Your working support mailbox
 
 # API environment
-APP_NAME=DeskNu
-APP_URL=https://api.desknu.com
-FRONTEND_URL=https://desknu.com
-WORKSPACE_DOMAIN=desknu.com
+APP_NAME=DeskZeal
+APP_URL=https://api.deskzeal.com
+FRONTEND_URL=https://deskzeal.com
+WORKSPACE_DOMAIN=deskzeal.com
 WORKSPACE_SCHEME=https
 WORKSPACE_PORT=
-TWO_FACTOR_ISSUER=DeskNu
-MAIL_FROM_NAME=DeskNu
+TWO_FACTOR_ISSUER=DeskZeal
+MAIL_FROM_NAME=DeskZeal
 ```
 
 `VITE_SITE_URL` must be a bare HTTPS origin. Use the same parent domain in both
@@ -115,9 +116,9 @@ users, email addresses and tenant slugs are not rewritten in the database.
 Browser tokens and administrator-return sessions migrate from the old keys on
 read; logout clears both names. This preserves sessions on the same origin.
 A move to a different production domain requires users to sign in on that origin.
-The new Artisan commands are `desknu:preflight` and
-`desknu:create-platform-admin`; previous names remain supported aliases. Demo
-account checks detect both DeskNu and legacy SupportHub test addresses.
+The new Artisan commands are `deskzeal:preflight` and
+`deskzeal:create-platform-admin`; previous names remain supported aliases. Demo
+account checks detect both DeskZeal and legacy SupportHub test addresses.
 Docker resource names, database names, persistent volumes, S3 buckets and SSM
 paths retain existing identifiers to avoid disconnecting stored data. They can
 be migrated separately with a storage/infrastructure migration plan.
@@ -157,12 +158,12 @@ metadata complement existing authentication; they do not replace access checks.
 ## Still needed from the service owner
 
 - [ ] **Domain and HTTPS:** register the chosen domain; configure root/www,
-  `*.desknu.com` and `api.desknu.com`, hosting rewrites and certificates. If a
+  `*.deskzeal.com` and `api.deskzeal.com`, hosting rewrites and certificates. If a
   different domain wins, update the environment variables and rebuild first.
 - [ ] **Business details:** supply the legal operator/company name and working
   support/sales email. Review terms, privacy/cookie text, jurisdiction, data
   retention, subprocessors and any refund/cancellation policy for your actual
-  service. The default DeskNu name is a brand fallback, not a registered entity.
+  service. The default DeskZeal name is a brand fallback, not a registered entity.
 - [ ] **Plan catalog:** confirm live currencies, prices, limits and trial terms in
   platform administration. Configure Razorpay live keys and verified webhook
   delivery before collecting payment.

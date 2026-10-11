@@ -17,15 +17,15 @@ class SystemSettingSeeder extends Seeder
     {
         $settings = [
             ['key' => 'support_hours_message', 'value' => 'Mon-Fri 9am-5pm UTC', 'type' => 'string', 'group' => 'general', 'is_public' => true],
-            ['key' => 'support_email', 'value' => 'support@desknu.test', 'type' => 'string', 'group' => 'general', 'is_public' => true],
+            ['key' => 'support_email', 'value' => 'support@deskzeal.test', 'type' => 'string', 'group' => 'general', 'is_public' => true],
             ['key' => 'max_open_tickets_per_customer', 'value' => '10', 'type' => 'integer', 'group' => 'tickets', 'is_public' => false],
             ['key' => 'maintenance_mode', 'value' => 'false', 'type' => 'boolean', 'group' => 'general', 'is_public' => false],
             // Section 39 — tenant-specific email configuration. Platform
             // defaults here (tenant_id null); a tenant that writes its own
             // override via PUT /system-settings forks its own row the
             // same way every other HasTenantOverride setting does.
-            ['key' => 'email.sender_name', 'value' => 'DeskNu Team', 'type' => 'string', 'group' => 'email', 'is_public' => false],
-            ['key' => 'email.branding_signature', 'value' => "Regards,\nDeskNu Team", 'type' => 'string', 'group' => 'email', 'is_public' => false],
+            ['key' => 'email.sender_name', 'value' => 'DeskZeal Team', 'type' => 'string', 'group' => 'email', 'is_public' => false],
+            ['key' => 'email.branding_signature', 'value' => "Regards,\nDeskZeal Team", 'type' => 'string', 'group' => 'email', 'is_public' => false],
         ];
 
         foreach ($settings as $setting) {

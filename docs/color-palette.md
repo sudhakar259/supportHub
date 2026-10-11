@@ -123,7 +123,7 @@ in the form are slate gray `#6B7280` and blue `#3B82F6`.
 | Logo, favicon, share image | `web/public/branding`, `web/public/*.svg`, `*.png` | Supplied `design/logo` artwork; transparent orange mark and light/dark wordmarks. The dark wordmark's `Nu` uses the reference artwork's `#ea580c` as a brand-only accent. Interface color roles stay unchanged. |
 | Payment window (Razorpay) | `web/src/features/billing/lib/razorpayCheckout.ts` | Reads `--color-primary`, falls back to `#a33900` |
 | Notification emails | `api/resources/views/vendor/mail/html/themes/supporthub.css`, selected in `api/config/mail.php` | Buttons and links orange; headings `on-surface`; body and footer `on-surface-variant`; success and error buttons use the semantic colors |
-| API reference (`/docs`) | `api/resources/views/vendor/scribe/themes/default/palette.blade.php` | Navy sidebar and example panel; HTTP method badges: GET success, POST navy, PUT info, PATCH warning, DELETE error. Regenerate with `php artisan scribe:generate` |
+| Private developer documentation (`/integrations/developer-docs`) | `web/src/features/integrations/pages/developer-docs.css` | Uses application palette tokens for the guide, code panels and semantic HTTP method badges. The private generated reference uses `api/resources/views/vendor/scribe/themes/default/palette.blade.php`; regenerate with `php artisan scribe:generate`. |
 
 ## Changing the palette
 

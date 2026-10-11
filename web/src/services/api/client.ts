@@ -175,7 +175,7 @@ export async function apiFetchBlob(url: string): Promise<Blob> {
 export async function apiDownloadFile(path: string, fallbackName: string, params?: RequestOptions['params']): Promise<void> {
   const token = tokenStorage.get()
   const response = await fetch(buildUrl(path, params), {
-    headers: { Accept: '*/*', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    headers: { Accept: '*/*', ...workspaceHeaders(), ...(token ? { Authorization: `Bearer ${token}` } : {}) },
   })
 
   if (response.status === 401) handleUnauthorized()

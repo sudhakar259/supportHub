@@ -1,6 +1,6 @@
-# DeskNu — Convert Existing Laravel API into a Multi-Tenant SaaS Platform
+# DeskZeal — Convert Existing Laravel API into a Multi-Tenant SaaS Platform
 
-You are working on an existing DeskNu Laravel application.
+You are working on an existing DeskZeal Laravel application.
 
 The backend API has already been developed.
 
@@ -34,14 +34,14 @@ Do not redesign or rewrite the React frontend unless a backend API change requir
 
 # 2. PRIMARY OBJECTIVE
 
-Convert the existing DeskNu system into:
+Convert the existing DeskZeal system into:
 
 > A secure multi-tenant SaaS ticket support platform where each tenant has completely isolated data, users, customers, tickets, departments, settings, API credentials, integrations, and billing/subscription information.
 
 The system must support:
 
 ```text
-DeskNu SaaS
+DeskZeal SaaS
       │
       ├── Tenant A
       │     ├── Users
@@ -232,7 +232,7 @@ plan_features
 platform_settings
 ```
 
-These belong to DeskNu itself.
+These belong to DeskZeal itself.
 
 ## Tenant-Level Data
 
@@ -469,7 +469,7 @@ Verify Email
    ↓
 Tenant Onboarding
    ↓
-DeskNu Workspace
+DeskZeal Workspace
 ```
 
 Registration should create:
@@ -487,7 +487,7 @@ Do not create a tenant merely because an arbitrary API user registers.
 
 # 15. TENANT LOGIN
 
-Tenant users log into DeskNu using their own accounts.
+Tenant users log into DeskZeal using their own accounts.
 
 After authentication:
 
@@ -755,7 +755,7 @@ External ID:
 wp-user-7842
 ```
 
-This allows a tenant's existing application to map its customer to DeskNu.
+This allows a tenant's existing application to map its customer to DeskZeal.
 
 The combination should be tenant-safe:
 
@@ -1783,7 +1783,7 @@ The report must contain:
 The implementation is considered successful only when all of the following are true:
 
 ```text
-✓ Existing DeskNu functionality still works
+✓ Existing DeskZeal functionality still works
 
 ✓ Multiple tenants can exist
 

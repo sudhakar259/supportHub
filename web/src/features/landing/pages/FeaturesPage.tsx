@@ -14,13 +14,13 @@ export function FeaturesPage() {
       <section className="marketing-page-hero">
         <div className="marketing-container marketing-visual-hero-grid">
           <div className="marketing-page-hero-copy">
-            <span className="marketing-eyebrow">THE DESKNU TOOLKIT</span>
+            <span className="marketing-eyebrow">THE DESKZEAL TOOLKIT</span>
             <h1>
               Helpdesk features.
               <br />
               <span>Connected in one workspace.</span>
             </h1>
-            <p>Manage support tickets, email intake, routing rules, SLA targets, team access and reporting with DeskNu.</p>
+            <p>Manage support tickets, email intake, routing rules, SLA targets, team access and reporting with DeskZeal.</p>
             <div className="marketing-actions">
               <Link to={ROUTES.demo} className="marketing-button">
                 Try the product tour <Icon name="arrow_forward" size={19} />

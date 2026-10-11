@@ -117,7 +117,7 @@ endpoints:
         name: 'settings[].type'
         description: ''
         required: false
-        example: integer
+        example: string
         type: string
         enumValues:
           - string
@@ -143,7 +143,7 @@ endpoints:
         name: 'settings[].is_public'
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -208,9 +208,9 @@ endpoints:
       settings:
         -
           key: b
-          type: integer
+          type: string
           group: 'n'
-          is_public: false
+          is_public: true
     fileParameters: []
     responses:
       -
@@ -325,20 +325,7 @@ endpoints:
       primary_color: '#0f766e'
       sidebar_color: '#14213d'
     fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 401
-        content: '{"success":false,"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-content-type-options: nosniff
-          x-frame-options: DENY
-          referrer-policy: no-referrer
-          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
-          vary: Origin
-        description: null
+    responses: []
     responseFields: []
     auth:
       - headers

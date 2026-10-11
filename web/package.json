@@ -1,5 +1,5 @@
 {
-  "name": "desknu-web",
+  "name": "deskzeal-web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -17,7 +17,9 @@
     "qrcode": "^1.5.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.4"
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.18.4",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

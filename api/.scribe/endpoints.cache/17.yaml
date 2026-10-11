@@ -169,7 +169,7 @@ endpoints:
         name: 'conditions[].field'
         description: ''
         required: true
-        example: priority_id
+        example: category_id
         type: string
         enumValues:
           - category_id
@@ -184,7 +184,7 @@ endpoints:
         name: 'conditions[].operator'
         description: ''
         required: false
-        example: in
+        example: '='
         type: string
         enumValues:
           - '='
@@ -442,7 +442,7 @@ endpoints:
         name: 'conditions[].field'
         description: 'This field is required when <code>conditions</code> is present.'
         required: false
-        example: customer_type
+        example: priority_id
         type: string
         enumValues:
           - category_id
@@ -482,7 +482,7 @@ endpoints:
         name: 'actions[].type'
         description: 'This field is required when <code>actions</code> is present.'
         required: false
-        example: escalate
+        example: assign_department
         type: string
         enumValues:
           - assign_department
@@ -512,11 +512,11 @@ endpoints:
       stop_processing: true
       conditions:
         -
-          field: customer_type
+          field: priority_id
           operator: '='
       actions:
         -
-          type: escalate
+          type: assign_department
     fileParameters: []
     responses:
       -

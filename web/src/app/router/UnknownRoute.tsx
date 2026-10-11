@@ -15,7 +15,7 @@ export function UnknownRoute() {
   if (isBootstrapping) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <LoadingState label="Opening DeskNu…" />
+        <LoadingState label="Opening DeskZeal…" />
       </div>
     )
   }

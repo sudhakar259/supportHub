@@ -42,7 +42,7 @@ export function DemoPage() {
           </div>
           <DemoWorkspace />
           <p className="marketing-demo-footnote">
-            This tour illustrates existing DeskNu features.{' '}
+            This tour illustrates existing DeskZeal features.{' '}
             <Link to={ROUTES.register}>Create your own workspace</Link> to configure your team, SLA policies and
             integrations.
           </p>

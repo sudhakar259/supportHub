@@ -103,7 +103,7 @@ export function WebhookFormModal({ isOpen, webhook, onClose, onSaved, onCreatedW
           label="Payload URL"
           required
           type="url"
-          placeholder="https://example.com/webhooks/desknu"
+          placeholder="https://example.com/webhooks/deskzeal"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           error={fieldErrors.url}

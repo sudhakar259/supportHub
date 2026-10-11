@@ -97,7 +97,7 @@ function WorkspaceLoginPage() {
                 <div className="text-code-sm text-secondary">Your team’s support workspace</div>
               </div>
             </div>
-            <h1 className="mb-space-xs text-headline-lg tracking-tight">{activeWorkspace ? `Sign in to ${activeWorkspace}` : 'Welcome back to DeskNu'}</h1>
+            <h1 className="mb-space-xs text-headline-lg tracking-tight">{activeWorkspace ? `Sign in to ${activeWorkspace}` : 'Welcome back to DeskZeal'}</h1>
             <p className="mb-space-lg text-body-md text-on-surface-variant">
               Sign in to manage your tickets, customers and team in one place.
             </p>

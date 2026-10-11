@@ -74,7 +74,7 @@ export function SetPasswordPage() {
                   </div>
                   <div>
                     <p className="text-headline-sm leading-none tracking-tight text-surface">Security Provisioning</p>
-                    <p className="mt-1 text-label-sm text-secondary-fixed-dim">DeskNu Enterprise Desk</p>
+                    <p className="mt-1 text-label-sm text-secondary-fixed-dim">DeskZeal Enterprise Desk</p>
                   </div>
                 </div>
                 <p className="pt-space-xs leading-relaxed text-body-md text-surface-dim">
@@ -100,7 +100,7 @@ export function SetPasswordPage() {
                   <Icon name="key" size={16} />
                   <span>Identity Provisioning</span>
                 </div>
-                <h1 className="text-headline-lg tracking-tight">Set up your DeskNu password</h1>
+                <h1 className="text-headline-lg tracking-tight">Set up your DeskZeal password</h1>
                 <p className="text-body-md text-on-surface-variant">
                   Create your credentials to begin using the enterprise workspace.
                 </p>
@@ -141,7 +141,7 @@ export function SetPasswordPage() {
                   onChange={(e) => setAgreedToTerms(e.target.checked)}
                   description={
                     <span className="leading-relaxed">
-                      I agree to DeskNu&rsquo;s Acceptable Use Policy and Enterprise Security Guidelines, including mandatory
+                      I agree to DeskZeal&rsquo;s Acceptable Use Policy and Enterprise Security Guidelines, including mandatory
                       multi-factor authentication enrollment.
                     </span>
                   }

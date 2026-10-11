@@ -56,7 +56,7 @@ if [ "$healthy" -ne 1 ]; then
 fi
 
 echo "==> Checking the configuration"
-if ! compose exec -T app php artisan desknu:preflight --production; then
+if ! compose exec -T app php artisan deskzeal:preflight --production; then
     echo "!! The configuration check reported problems (above)." >&2
     [ "${STRICT_PREFLIGHT:-0}" = "1" ] && exit 1
 fi

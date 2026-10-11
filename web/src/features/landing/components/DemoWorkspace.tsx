@@ -142,7 +142,7 @@ export function DemoWorkspace({ compact = false }: { compact?: boolean }) {
           <i />
           <i />
         </span>
-        <span>DeskNu / Sample workspace</span>
+        <span>DeskZeal / Sample workspace</span>
         <span className="demo-sample-tag">SAMPLE DATA</span>
       </div>
       <div className="demo-app">

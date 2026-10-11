@@ -206,14 +206,14 @@ endpoints:
         name: id
         description: 'The ID of the status.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -266,14 +266,14 @@ endpoints:
         name: id
         description: 'The ID of the status.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -315,7 +315,7 @@ endpoints:
         name: is_default
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -347,7 +347,7 @@ endpoints:
       name: 'On Hold'
       slug: 'n'
       color: '#F59E0B'
-      is_default: false
+      is_default: true
       is_closed: false
       sort_order: 37
     fileParameters: []
@@ -397,14 +397,14 @@ endpoints:
         name: id
         description: 'The ID of the status.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

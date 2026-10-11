@@ -1,6 +1,6 @@
-# DeskNu web
+# DeskZeal web
 
-React, TypeScript and Vite frontend for the DeskNu Laravel API. Includes the
+React, TypeScript and Vite frontend for the DeskZeal Laravel API. Includes the
 public SaaS website, workspace signup and onboarding, customer and staff ticket
 workflows, administration, reports, integrations and billing.
 

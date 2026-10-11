@@ -15,7 +15,7 @@ for (const path of pages) {
   assert.match(html, /<script id="seo-jsonld" type="application\/ld\+json">/)
   assert.doesNotMatch(html, /SupportHub|Support24/)
   assert.match(html, /type="image\/png" href="\/favicon.png"/)
-  assert.match(html, /\/branding\/deskNu-logo.png/)
+  assert.match(html, /\/branding\/deskzeal-logo.png/)
   const title = html.match(/<title>(.*?)<\/title>/)?.[1]
   const description = html.match(/<meta name="description" content="(.*?)"/)?.[1]
   assert.ok(title && description, `${path}: search metadata`)
@@ -31,7 +31,7 @@ assert.match(app, /noindex, follow/)
 assert.doesNotMatch(app, /rel="canonical"|seo-jsonld/)
 assert.doesNotMatch(sitemap, /\/login|\/register|\/dashboard|\/tickets|\/platform/)
 assert.equal(await readFile(resolve(dist, 'tenant-robots.txt'), 'utf8'), 'User-agent: *\nDisallow: /\n')
-for (const file of ['social-card.png', 'brand-mark.png', 'apple-touch-icon.png', 'favicon.png', 'branding/deskNu-logo.png', 'branding/light-mode-desknu-logo.png']) {
+for (const file of ['social-card.png', 'brand-mark.png', 'apple-touch-icon.png', 'favicon.png', 'branding/deskzeal-logo.png', 'branding/deskzeal-dark.png']) {
   const png = await readFile(resolve(dist, file))
   assert.equal(png.subarray(1, 4).toString(), 'PNG', `${file}: valid image export`)
 }

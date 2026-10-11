@@ -10,7 +10,7 @@ beforeEach(function () {
 const GOOD_PASSWORD = 'Str0ng!Passw0rd#1';
 
 it('creates a platform administrator who can then sign in', function () {
-    $this->artisan('desknu:create-platform-admin', ['email' => 'Boss@Example.com', '--name' => 'The Boss'])
+    $this->artisan('deskzeal:create-platform-admin', ['email' => 'Boss@Example.com', '--name' => 'The Boss'])
         ->expectsQuestion('Password (min 10 characters, upper and lower case, a number and a symbol)', GOOD_PASSWORD)
         ->expectsQuestion('Repeat the password', GOOD_PASSWORD)
         ->expectsOutputToContain('boss@example.com created')
@@ -28,7 +28,7 @@ it('creates a platform administrator who can then sign in', function () {
 });
 
 it('refuses a weak password and creates nothing', function () {
-    $this->artisan('desknu:create-platform-admin', ['email' => 'boss@example.com'])
+    $this->artisan('deskzeal:create-platform-admin', ['email' => 'boss@example.com'])
         ->expectsQuestion('Password (min 10 characters, upper and lower case, a number and a symbol)', 'password')
         ->assertFailed();
 
@@ -36,7 +36,7 @@ it('refuses a weak password and creates nothing', function () {
 });
 
 it('refuses when the two passwords differ', function () {
-    $this->artisan('desknu:create-platform-admin', ['email' => 'boss@example.com'])
+    $this->artisan('deskzeal:create-platform-admin', ['email' => 'boss@example.com'])
         ->expectsQuestion('Password (min 10 characters, upper and lower case, a number and a symbol)', GOOD_PASSWORD)
         ->expectsQuestion('Repeat the password', 'Different!Passw0rd#2')
         ->expectsOutputToContain('do not match')
@@ -46,14 +46,14 @@ it('refuses when the two passwords differ', function () {
 });
 
 it('refuses an invalid email and a duplicate', function () {
-    $this->artisan('desknu:create-platform-admin', ['email' => 'not-an-email'])->assertFailed();
+    $this->artisan('deskzeal:create-platform-admin', ['email' => 'not-an-email'])->assertFailed();
 
-    $this->artisan('desknu:create-platform-admin', ['email' => 'boss@example.com'])
+    $this->artisan('deskzeal:create-platform-admin', ['email' => 'boss@example.com'])
         ->expectsQuestion('Password (min 10 characters, upper and lower case, a number and a symbol)', GOOD_PASSWORD)
         ->expectsQuestion('Repeat the password', GOOD_PASSWORD)
         ->assertSuccessful();
 
-    $this->artisan('desknu:create-platform-admin', ['email' => 'boss@example.com'])
+    $this->artisan('deskzeal:create-platform-admin', ['email' => 'boss@example.com'])
         ->expectsOutputToContain('already exists')
         ->assertFailed();
 });

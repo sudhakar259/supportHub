@@ -1,4 +1,4 @@
-# Root-level ignores for the DeskNu monorepo.
+# Root-level ignores for the DeskZeal monorepo.
 # Each sub-project (api/, web/) also maintains its own .gitignore.
 
 .DS_Store

@@ -106,7 +106,7 @@ endpoints:
         name: url
         description: 'Must not point to a local/private address.'
         required: true
-        example: 'https://example.com/webhooks/desknu'
+        example: 'https://example.com/webhooks/deskzeal'
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -138,7 +138,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: 'Ticket sync'
-      url: 'https://example.com/webhooks/desknu'
+      url: 'https://example.com/webhooks/deskzeal'
       events:
         - ticket.created
         - ticket.status_changed
@@ -151,7 +151,7 @@ endpoints:
         content: |-
           {
             "success": true, "message": "Webhook created successfully.",
-            "data": {"id": 1, "name": "Ticket sync", "url": "https://example.com/webhooks/desknu", "secret": "whsec_..."}
+            "data": {"id": 1, "name": "Ticket sync", "url": "https://example.com/webhooks/deskzeal", "secret": "whsec_..."}
           }
         headers: []
         description: ''

@@ -14,7 +14,7 @@ use App\Models\Tenant;
  */
 final class TenantEmailBranding
 {
-    private const PLATFORM_SENDER = 'DeskNu';
+    private const PLATFORM_SENDER = 'DeskZeal';
 
     /** Plans that only ever send from the platform address. */
     private const PLATFORM_ADDRESS_PLANS = ['starter'];

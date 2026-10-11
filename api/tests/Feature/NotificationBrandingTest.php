@@ -35,7 +35,7 @@ it('brands a ticket email with the tenant name, its own contact address and a pe
     expect($mail->replyTo[0])->toBe(['desk@help.test', null]);
     expect($mail->greeting)->toBe('Hello Jamie Rivera,');
     expect($mail->salutation)->toBe("Regards,\n{$tenant->name}");
-    expect(implode(' ', $mail->outroLines))->toContain("sent by {$tenant->name}")->toContain('through DeskNu');
+    expect(implode(' ', $mail->outroLines))->toContain("sent by {$tenant->name}")->toContain('through DeskZeal');
 });
 
 it('never falls back to the platform sender or contact address for a tenant', function () {
@@ -44,9 +44,9 @@ it('never falls back to the platform sender or contact address for a tenant', fu
 
     $mail = (new TicketEventNotification('ticket_created', 'Subject', 'Body', null, null, $tenant->id))->toMail($recipient);
 
-    expect($mail->from[1])->not->toBe('DeskNu Team');
+    expect($mail->from[1])->not->toBe('DeskZeal Team');
     expect($mail->replyTo)->toBe([]);
-    expect($mail->salutation)->not->toContain('DeskNu');
+    expect($mail->salutation)->not->toContain('DeskZeal');
 });
 
 it('uses the tenant\'s own sender name, reply-to and signature when it sets them', function () {
@@ -171,12 +171,12 @@ it('lets a platform admin verify a tenant\'s sending domain', function () {
     expect(SystemSetting::withoutTenantScope()->where('tenant_id', $tenant->id)->where('key', 'email.domain_verified')->value('value'))->toBe('1');
 });
 
-it('uses DeskNu for platform mail without a tenant', function () {
+it('uses DeskZeal for platform mail without a tenant', function () {
     app(TenantContext::class)->clear();
     $mail = (new TicketEventNotification('ticket_created', 'Subject', 'Body'))
         ->toMail(new User(['name' => 'Sam']));
 
-    expect($mail->from[1])->toBe('DeskNu');
-    expect($mail->salutation)->toBe("Regards,\nDeskNu");
-    expect(implode(' ', array_merge($mail->introLines, $mail->outroLines)))->toContain('through DeskNu');
+    expect($mail->from[1])->toBe('DeskZeal');
+    expect($mail->salutation)->toBe("Regards,\nDeskZeal");
+    expect(implode(' ', array_merge($mail->introLines, $mail->outroLines)))->toContain('through DeskZeal');
 });

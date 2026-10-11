@@ -55,7 +55,7 @@ describe('public workspace signup', () => {
     fireEvent.blur(screen.getByLabelText(/Workspace ID/))
     expect(await screen.findByRole('status')).toHaveTextContent(/couldn’t check this id/i)
     expect(screen.getByRole('button', { name: 'Create workspace' })).toBeEnabled()
-    expect(screen.queryByText(/desknu.io/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/deskzeal.io/i)).not.toBeInTheDocument()
   })
 
   it('ignores a stale slug response after the organization name changes', async () => {

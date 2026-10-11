@@ -1,4 +1,4 @@
-# DeskNu interface font
+# DeskZeal interface font
 
 DM Sans is served locally for the public website and authenticated workspace.
 The normal variable WOFF2 subsets support weights 400–800; body text uses 500,

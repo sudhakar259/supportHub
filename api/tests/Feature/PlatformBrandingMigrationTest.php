@@ -13,8 +13,8 @@ it('refreshes only old platform branding and preserves tenant overrides and cust
     $migration->up();
     $migration->up();
 
-    expect(DB::table('system_settings')->whereNull('tenant_id')->where('key', 'email.sender_name')->value('value'))->toBe('DeskNu Team');
-    expect(DB::table('system_settings')->whereNull('tenant_id')->where('key', 'email.branding_signature')->value('value'))->toBe("Regards,\nDeskNu Team");
+    expect(DB::table('system_settings')->whereNull('tenant_id')->where('key', 'email.sender_name')->value('value'))->toBe('DeskZeal Team');
+    expect(DB::table('system_settings')->whereNull('tenant_id')->where('key', 'email.branding_signature')->value('value'))->toBe("Regards,\nDeskZeal Team");
     expect(DB::table('system_settings')->where('tenant_id', $tenant->id)->where('key', 'email.sender_name')->value('value'))->toBe('Support24 Team');
 
     DB::table('system_settings')->whereNull('tenant_id')->where('key', 'email.sender_name')->update(['value' => 'Custom Operator']);

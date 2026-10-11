@@ -591,28 +591,37 @@
   border-bottom: 1px solid var(--marketing-line);
 }
 .marketing-capabilities > div {
-  padding-block: 25px;
+  padding-block: 34px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 22px;
+  text-align: center;
 }
 .marketing-capabilities > div > span {
-  max-width: 185px;
-  color: var(--marketing-muted);
-  font-size: 14px;
+  color: var(--color-on-surface);
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 .marketing-capabilities > div > div {
   display: flex;
-  gap: 35px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 16px;
 }
 .marketing-capabilities > div > div > span {
   display: flex;
   align-items: center;
-  gap: 9px;
-  color: var(--color-primary);
+  gap: 11px;
+  padding: 9px 20px 9px 10px;
+  border: 1px solid var(--marketing-line);
+  border-radius: 999px;
+  background: var(--color-surface-container-lowest);
+  color: var(--color-on-surface);
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 }
 .marketing-section {
@@ -2339,12 +2348,6 @@
   .demo-compact .demo-inbox-grid {
     grid-template-columns: 120px minmax(0, 1fr);
   }
-  .marketing-capabilities > div > div {
-    gap: 18px;
-  }
-  .marketing-capabilities > div > div > span {
-    font-size: 13px;
-  }
   .marketing-split {
     gap: 48px;
   }
@@ -2406,19 +2409,6 @@
   }
   .demo-compact .demo-inbox-grid {
     grid-template-columns: 165px minmax(0, 1fr);
-  }
-  .marketing-capabilities > div {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  .marketing-capabilities > div > span {
-    max-width: none;
-    font-size: 14px;
-  }
-  .marketing-capabilities > div > div {
-    width: 100%;
-    justify-content: space-between;
   }
   .marketing-section {
     padding-block: 65px;
@@ -2616,13 +2606,18 @@
   .demo-compact .demo-queue-summary > span:nth-child(2) {
     display: none;
   }
+  .marketing-capabilities > div > span {
+    font-size: 17px;
+  }
   .marketing-capabilities > div > div {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 17px;
+    gap: 10px;
+    width: 100%;
   }
   .marketing-capabilities > div > div > span {
-    font-size: 13px;
+    font-size: 14px;
+    padding-right: 12px;
   }
   .marketing-section {
     padding-block: 49px;

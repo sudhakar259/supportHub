@@ -10,11 +10,11 @@ const server = await createServer({ mode: 'production', cacheDir: 'node_modules/
 try {
   const { renderPublicPage, PUBLIC_PAGES, SITE } = await server.ssrLoadModule('/src/seo/render.ts')
   const site = new URL(SITE.url)
-  if (site.protocol !== 'https:' || site.pathname !== '/' || site.search || site.hash || site.username || site.password) throw new Error('VITE_SITE_URL must be a bare https origin, e.g. https://desknu.com')
+  if (site.protocol !== 'https:' || site.pathname !== '/' || site.search || site.hash || site.username || site.password) throw new Error('VITE_SITE_URL must be a bare https origin, e.g. https://deskzeal.com')
   const paths = Object.keys(PUBLIC_PAGES)
   for (const path of paths) {
     const { html, head } = renderPublicPage(path)
-    const page = template.replace(/<!--desknu:seo:start-->[\s\S]*?<!--desknu:seo:end-->/, `<!--desknu:seo:start-->\n    ${head}\n    <!--desknu:seo:end-->`).replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+    const page = template.replace(/<!--deskzeal:seo:start-->[\s\S]*?<!--deskzeal:seo:end-->/, `<!--deskzeal:seo:start-->\n    ${head}\n    <!--deskzeal:seo:end-->`).replace('<div id="root"></div>', `<div id="root">${html}</div>`)
     const target = resolve(dist, path === '/' ? 'index.html' : `${path.slice(1)}/index.html`)
     await mkdir(dirname(target), { recursive: true })
     await writeFile(target, page)
@@ -26,7 +26,7 @@ try {
   // Copy this generated function to a CloudFront viewer-request function. See docs/branding-seo.md.
   await mkdir(resolve(dist, 'hosting'), { recursive: true })
   await writeFile(resolve(dist, 'hosting/cloudfront-routing.js'), `function handler(event) {\n  var request = event.request;\n  var host = request.headers.host.value.toLowerCase();\n  var root = ${JSON.stringify(site.hostname)};\n  var publicHost = host === root || host === 'www.' + root;\n  var path = request.uri.replace(/\\/+$/, '') || '/';\n  if (path === '/robots.txt') { request.uri = publicHost ? '/robots.txt' : '/tenant-robots.txt'; return request; }\n  if (path === '/sitemap.xml' && !publicHost) return { statusCode: 404, statusDescription: 'Not Found' };\n  if (path.indexOf('/assets/') === 0 || /\\.(png|svg|ico|woff2?|txt|xml)$/.test(path)) return request;\n  var pages = ${JSON.stringify(paths)};\n  request.uri = publicHost && pages.indexOf(path) !== -1 ? (path === '/' ? '/index.html' : path + '/index.html') : '/app.html';\n  return request;\n}\n`)
-  console.log(`Rendered ${paths.length} DeskNu public pages, sitemap, robots policies and a CloudFront routing function.`)
+  console.log(`Rendered ${paths.length} DeskZeal public pages, sitemap, robots policies and a CloudFront routing function.`)
 } finally {
   await server.close()
 }

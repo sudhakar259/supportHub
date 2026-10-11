@@ -24,7 +24,7 @@ export function Seo() {
     }
     setMeta('og:type', metadata.type, true)
     setMeta('og:image:width', '1200', true); setMeta('og:image:height', '630', true)
-    setMeta('og:image:alt', 'DeskNu helpdesk and customer support software', true)
+    setMeta('og:image:alt', 'DeskZeal helpdesk and customer support software', true)
     setMeta('twitter:card', 'summary_large_image')
     document.head.querySelector('link[rel="canonical"]')?.remove()
     document.head.querySelector('meta[property="og:url"]')?.remove()

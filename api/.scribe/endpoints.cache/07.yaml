@@ -247,14 +247,14 @@ endpoints:
         name: department_id
         description: 'The ID of the department.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      department_id: 1
+      department_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -309,14 +309,14 @@ endpoints:
         name: department_id
         description: 'The ID of the department.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      department_id: 1
+      department_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -427,14 +427,14 @@ endpoints:
         name: department_id
         description: 'The ID of the department.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      department_id: 1
+      department_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -483,14 +483,14 @@ endpoints:
         name: department_id
         description: 'The ID of the department.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      department_id: 1
+      department_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -563,7 +563,7 @@ endpoints:
         name: department_id
         description: 'The ID of the department.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -574,7 +574,7 @@ endpoints:
         name: user_id
         description: 'The ID of the user.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -592,8 +592,8 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      department_id: 1
-      user_id: 1
+      department_id: 16
+      user_id: 16
       user: 5
     queryParameters: []
     cleanQueryParameters: []

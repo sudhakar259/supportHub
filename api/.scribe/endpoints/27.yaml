@@ -167,14 +167,14 @@ endpoints:
         name: credential_id
         description: 'The ID of the credential.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      credential_id: 1
+      credential_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -226,14 +226,14 @@ endpoints:
         name: credential_id
         description: 'The ID of the credential.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      credential_id: 1
+      credential_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -315,14 +315,14 @@ endpoints:
         name: credential_id
         description: 'The ID of the credential.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      credential_id: 1
+      credential_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -377,14 +377,14 @@ endpoints:
         name: credential_id
         description: 'The ID of the credential.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      credential_id: 1
+      credential_id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

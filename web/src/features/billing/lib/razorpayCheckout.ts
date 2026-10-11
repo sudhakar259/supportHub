@@ -87,7 +87,7 @@ export async function openRazorpayCheckout({ checkout, description, onSuccess, o
     amount: checkout.amountCents,
     currency: checkout.currency,
     order_id: checkout.orderId,
-    name: 'DeskNu',
+    name: 'DeskZeal',
     image: new URL('/favicon.png', window.location.origin).href,
     description,
     handler: onSuccess,

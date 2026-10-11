@@ -16,7 +16,7 @@ done
 read -r -p "Email address for the platform administrator: " ADMIN_EMAIL
 read -r -p "Display name: " ADMIN_NAME
 # Not -T: the command asks for the password on the terminal and hides what you type.
-compose exec app php artisan desknu:create-platform-admin "$ADMIN_EMAIL" --name="$ADMIN_NAME"
+compose exec app php artisan deskzeal:create-platform-admin "$ADMIN_EMAIL" --name="$ADMIN_NAME"
 
 echo "==> Checking the configuration"
-compose exec -T app php artisan desknu:preflight --production || true
+compose exec -T app php artisan deskzeal:preflight --production || true

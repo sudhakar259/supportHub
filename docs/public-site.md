@@ -1,4 +1,4 @@
-# DeskNu public website
+# DeskZeal public website
 
 The React application provides a public SaaS website alongside the authenticated
 help desk. Visitors can understand the implemented features, explore a sample
@@ -23,6 +23,15 @@ workspace, compare current plans and create an organization.
 Signed-in users can still browse the public website. The header links to their
 tenant dashboard or platform dashboard as appropriate. Existing application
 routes retain their authentication and permission guards.
+
+Developer integration documentation is available only inside the authenticated
+tenant workspace at **Integrations → Developer Docs** (`/integrations/developer-docs`).
+The guide, endpoint reference, OpenAPI export and Postman export require the
+existing Bearer session and workspace context on the API. Generated files are
+stored outside the public directory; the old `/docs` URLs are blocked. The
+public API and webhooks feature page remains a product overview. Documentation
+contents are fetched after sign-in, excluded from public bundles and the sitemap,
+and returned with private, no-store caching headers.
 
 ## Product tour
 
@@ -104,7 +113,7 @@ Set the existing public environment variables for the deployment:
 - `VITE_SITE_URL`: bare HTTPS public origin for canonical URLs and sitemap.
 - `VITE_WORKSPACE_DOMAIN`: matching API parent domain for tenant subdomains.
 - `VITE_SUPPORT_EMAIL`: published contact email address.
-- `VITE_LEGAL_ENTITY`: the business operating DeskNu.
+- `VITE_LEGAL_ENTITY`: the business operating DeskZeal.
 
 Vite reads these at build time. Rebuild after changing production values. The
 contact page displays the configured email; it has no lead-submission backend.

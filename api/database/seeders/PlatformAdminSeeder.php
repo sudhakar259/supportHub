@@ -23,7 +23,7 @@ class PlatformAdminSeeder extends Seeder
         // here, so BelongsToTenant's creating() hook stamps nothing,
         // leaving the column at its true NULL: a platform administrator.
         $admin = User::updateOrCreate(
-            ['email' => 'platform-admin@desknu.test'],
+            ['email' => 'platform-admin@deskzeal.test'],
             [
                 'name' => 'Platform Administrator',
                 'password' => Hash::make('password'),

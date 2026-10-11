@@ -88,7 +88,7 @@ mechanism `support_email`/`support_hours_message` already use (see
 
 | Key | Effect | Falls back to |
 |---|---|---|
-| `email.sender_name` | Mail "From" display name | Platform default ("DeskNu Team") |
+| `email.sender_name` | Mail "From" display name | Platform default ("DeskZeal Team") |
 | `email.reply_to` | Reply-To header | `support_email`, then nothing |
 | `email.branding_signature` | Closing signature line | Platform default |
 

@@ -11,7 +11,7 @@ import { ONBOARDING_STEPS } from '@/features/onboarding/types'
 import type { OnboardingStep } from '@/features/onboarding/types'
 import { cn } from '@/utils/cn'
 
-const STORAGE_KEY = 'desknu.onboarding.step'
+const STORAGE_KEY = 'deskzeal.onboarding.step'
 const LEGACY_STORAGE_KEY = 'supporthub.onboarding.step'
 
 function readStoredStep(): OnboardingStep {

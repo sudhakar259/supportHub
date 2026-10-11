@@ -2,7 +2,7 @@
 # Keep the Laravel API on its own existing reverse proxy configuration.
 server {
     listen 80;
-    server_name desknu.com www.desknu.com;
+    server_name deskzeal.com www.deskzeal.com;
     root /srv/supporthub/web/dist;
     index index.html;
 
@@ -18,7 +18,7 @@ server {
 
 server {
     listen 80;
-    server_name *.desknu.com;
+    server_name *.deskzeal.com;
     root /srv/supporthub/web/dist;
     add_header X-Robots-Tag "noindex, nofollow" always;
 

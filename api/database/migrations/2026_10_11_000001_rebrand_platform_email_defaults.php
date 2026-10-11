@@ -13,13 +13,13 @@ return new class extends Migration
             ->whereNull('tenant_id')
             ->where('key', 'email.sender_name')
             ->whereIn('value', ['Support24 Team', 'SupportHub Team', 'SupportHub'])
-            ->update(['value' => 'DeskNu Team']);
+            ->update(['value' => 'DeskZeal Team']);
 
         DB::table('system_settings')
             ->whereNull('tenant_id')
             ->where('key', 'email.branding_signature')
             ->whereIn('value', ["Regards,\nSupport24 Team", "Regards,\nSupportHub Team", "Regards,\nSupportHub"])
-            ->update(['value' => "Regards,\nDeskNu Team"]);
+            ->update(['value' => "Regards,\nDeskZeal Team"]);
     }
 
     public function down(): void

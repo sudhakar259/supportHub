@@ -110,13 +110,13 @@ export const SOLUTIONS = [
       'Use the integration API to offer ticket creation and replies from your own product, then listen for ticket events through signed webhooks.',
     features: ['Integration API', 'Scoped credentials', 'Signed webhooks'],
     example:
-      'A user submits an issue inside your app. Your server opens a DeskNu ticket, and a webhook tells your app when an agent replies.',
+      'A user submits an issue inside your app. Your server opens a DeskZeal ticket, and a webhook tells your app when an agent replies.',
   },
 ] as const
 
 export const HOME_FAQ = [
   {
-    question: 'Can I try DeskNu before creating a workspace?',
+    question: 'Can I try DeskZeal before creating a workspace?',
     answer:
       'Yes. The interactive product tour uses sample tickets to show conversations, private notes, routing and reports. You can explore it without signing in.',
   },

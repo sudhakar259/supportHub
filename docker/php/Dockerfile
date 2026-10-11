@@ -78,8 +78,8 @@ ENTRYPOINT ["entrypoint"]
 CMD ["php-fpm"]
 
 # ---------------------------------------------------------------------------
-# API web server: nginx with the application's public files (index.php, the generated API
-# reference under /docs) copied in from the production image, so the two always match.
+# API web server: nginx with public assets copied from the production image.
+# Developer documentation remains in the PHP image, outside the public directory.
 # ---------------------------------------------------------------------------
 FROM nginx:1.27-alpine AS api-nginx
 

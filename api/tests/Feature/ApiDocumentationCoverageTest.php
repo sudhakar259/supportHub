@@ -19,8 +19,8 @@ function documentedMethod(string $method): string
 }
 
 it('documents every public API route in the generated Scribe collection', function () {
-    $path = public_path('docs/collection.json');
-    expect(file_exists($path))->toBeTrue('Run php artisan scribe:generate to create public/docs/collection.json.');
+    $path = resource_path('developer-docs/reference/collection.json');
+    expect(file_exists($path))->toBeTrue('Run php artisan scribe:generate to create the private endpoint reference.');
 
     $documented = [];
     $walk = function (array $items) use (&$walk, &$documented): void {

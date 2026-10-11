@@ -1,0 +1,186 @@
+name: 'Email to ticket'
+description: |-
+
+  Lets a workspace turn emails sent to its support address into tickets. The
+  workspace forwards its mailbox (for example support@example.com) to the address
+  shown here; see docs/email-to-ticket.md.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/inbound-email
+    metadata:
+      custom: []
+      groupName: 'Email to ticket'
+      groupDescription: |-
+
+        Lets a workspace turn emails sent to its support address into tickets. The
+        workspace forwards its mailbox (for example support@example.com) to the address
+        shown here; see docs/email-to-ticket.md.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Show email-to-ticket settings'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": {"available": true, "address": "help@inbound.example.com", "enabled": true, "create_customers": true}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: api/v1/inbound-email
+    metadata:
+      custom: []
+      groupName: 'Email to ticket'
+      groupDescription: |-
+
+        Lets a workspace turn emails sent to its support address into tickets. The
+        workspace forwards its mailbox (for example support@example.com) to the address
+        shown here; see docs/email-to-ticket.md.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update email-to-ticket settings'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      enabled:
+        custom: []
+        name: enabled
+        description: 'Turn email-to-ticket on or off.'
+        required: true
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      create_customers:
+        custom: []
+        name: create_customers
+        description: 'Create a customer when an unknown address emails in. If false, mail from unknown senders is rejected.'
+        required: true
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      enabled: true
+      create_customers: true
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Email-to-ticket settings updated.", "data": {"enabled": true}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: '{"success": false, "message": "Email-to-ticket is not available on this platform yet."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/inbound-email/log
+    metadata:
+      custom: []
+      groupName: 'Email to ticket'
+      groupDescription: |-
+
+        Lets a workspace turn emails sent to its support address into tickets. The
+        workspace forwards its mailbox (for example support@example.com) to the address
+        shown here; see docs/email-to-ticket.md.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List received emails'
+      description: |-
+        What happened to each email sent to the workspace address, newest first,
+        including the ones that were ignored or rejected and why.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Items per page (max 100).'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      per_page: 25
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "from_email": "jamie@example.com", "subject": "Cannot log in", "status": "ticket_created", "ticket_id": "01HXYZ..."}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

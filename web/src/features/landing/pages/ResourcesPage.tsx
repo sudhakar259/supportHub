@@ -16,7 +16,7 @@ export function ResourcesPage() {
           <div className="marketing-page-hero-copy">
             <span className="marketing-eyebrow">PRACTICAL SUPPORT GUIDES</span>
             <h1>Build a helpdesk workflow<br /><span>your team can follow.</span></h1>
-            <p>Learn how to organize support emails, set SLA targets and route tickets using the capabilities available in DeskNu.</p>
+            <p>Learn how to organize support emails, set SLA targets and route tickets using the capabilities available in DeskZeal.</p>
             <a href="#setup-guides" className="marketing-button">Find your next step <Icon name="arrow_downward" size={18} /></a>
           </div>
           <WorkflowIllustration topic="resources" />

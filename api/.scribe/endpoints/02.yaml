@@ -203,7 +203,7 @@ endpoints:
         name: email
         description: ''
         required: true
-        example: admin@desknu.test
+        example: admin@deskzeal.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -243,7 +243,7 @@ endpoints:
         nullable: true
         deprecated: false
     cleanBodyParameters:
-      email: admin@desknu.test
+      email: admin@deskzeal.test
       password: password
       tenant: help-support
       device_name: web-browser
@@ -257,7 +257,7 @@ endpoints:
             "success": true,
             "message": "Login successful.",
             "data": {
-              "user": {"id": 1, "name": "System Administrator", "email": "admin@desknu.test", "roles": ["Administrator"]},
+              "user": {"id": 1, "name": "System Administrator", "email": "admin@deskzeal.test", "roles": ["Administrator"]},
               "token": "1|abcdef123456...",
               "token_type": "Bearer"
             }
@@ -432,7 +432,7 @@ endpoints:
         name: email
         description: ''
         required: true
-        example: admin@desknu.test
+        example: admin@deskzeal.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -450,7 +450,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      email: admin@desknu.test
+      email: admin@deskzeal.test
       tenant: help-support
     fileParameters: []
     responses:
@@ -516,7 +516,7 @@ endpoints:
         name: email
         description: ''
         required: true
-        example: admin@desknu.test
+        example: admin@deskzeal.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -557,7 +557,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       token: 9f8e7d6c5b4a
-      email: admin@desknu.test
+      email: admin@deskzeal.test
       tenant: help-support
       password: NewSecret123!word$9
       password_confirmation: NewSecret123!
@@ -642,22 +642,7 @@ endpoints:
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 500
-        content: '{"success":false,"message":"An unexpected error occurred. Please try again later."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '6'
-          x-ratelimit-remaining: '5'
-          x-content-type-options: nosniff
-          x-frame-options: DENY
-          referrer-policy: no-referrer
-          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
-          vary: Origin
-        description: null
+    responses: []
     responseFields: []
     auth:
       - headers
@@ -755,7 +740,7 @@ endpoints:
           {
             "success": true,
             "message": "Request successful.",
-            "data": {"id": 1, "name": "System Administrator", "email": "admin@desknu.test", "roles": ["Administrator"], "permissions": ["tickets.view", "..."]}
+            "data": {"id": 1, "name": "System Administrator", "email": "admin@deskzeal.test", "roles": ["Administrator"], "permissions": ["tickets.view", "..."]}
           }
         headers: []
         description: ''

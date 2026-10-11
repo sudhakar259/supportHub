@@ -180,14 +180,14 @@ endpoints:
         name: id
         description: 'The ID of the priority.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -237,14 +237,14 @@ endpoints:
         name: id
         description: 'The ID of the priority.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -297,7 +297,7 @@ endpoints:
         name: is_default
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -308,7 +308,7 @@ endpoints:
       slug: 'n'
       level: 5
       color: zmiyvdl
-      is_default: true
+      is_default: false
     fileParameters: []
     responses:
       -
@@ -353,14 +353,14 @@ endpoints:
         name: id
         description: 'The ID of the priority.'
         required: true
-        example: 1
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

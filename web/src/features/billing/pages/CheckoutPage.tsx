@@ -123,7 +123,7 @@ export function CheckoutPage() {
           <div className="flex flex-col gap-space-sm rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
             <h2 className="text-headline-sm text-on-surface">How payment works</h2>
             <p className="text-body-sm text-on-surface-variant">
-              Payment is completed in Razorpay&rsquo;s secure checkout window. DeskNu never receives or stores your
+              Payment is completed in Razorpay&rsquo;s secure checkout window. DeskZeal never receives or stores your
               card details.
             </p>
           </div>

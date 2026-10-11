@@ -14,7 +14,7 @@ const VISUALS: Record<string, VisualContent> = {
   },
   'email-ticketing': {
     kind: 'email', title: 'From mailbox to shared queue.', caption: 'Illustrative email workflow',
-    steps: [{ icon: 'mail', label: 'Support email', topic: 'email-ticketing' }, { icon: 'confirmation_number', label: 'DeskNu ticket', topic: 'ticketing' }, { icon: 'reply', label: 'Threaded reply', topic: 'team-collaboration' }],
+    steps: [{ icon: 'mail', label: 'Support email', topic: 'email-ticketing' }, { icon: 'confirmation_number', label: 'DeskZeal ticket', topic: 'ticketing' }, { icon: 'reply', label: 'Threaded reply', topic: 'team-collaboration' }],
   },
   'helpdesk-automation': {
     kind: 'routing', title: 'The right request. The right team.', caption: 'Illustrative routing workflow',
@@ -34,7 +34,7 @@ const VISUALS: Record<string, VisualContent> = {
   },
   'api-webhooks': {
     kind: 'api', title: 'Your product, connected.', caption: 'Illustrative server integration',
-    steps: [{ icon: 'code', label: 'Your server', topic: 'api-webhooks' }, { icon: 'support_agent', label: 'DeskNu API', topic: 'ticketing' }, { icon: 'webhook', label: 'Signed events', topic: 'helpdesk-automation' }],
+    steps: [{ icon: 'code', label: 'Your server', topic: 'api-webhooks' }, { icon: 'support_agent', label: 'DeskZeal API', topic: 'ticketing' }, { icon: 'webhook', label: 'Signed events', topic: 'helpdesk-automation' }],
   },
   features: {
     kind: 'workspace', title: 'Your support tools, together.', caption: 'Illustrative support workspace',
@@ -45,7 +45,7 @@ const VISUALS: Record<string, VisualContent> = {
     steps: [{ icon: 'support_agent', label: 'Customer support', topic: 'ticketing' }, { icon: 'dns', label: 'IT & service', topic: 'helpdesk-automation' }],
   },
   resources: {
-    kind: 'guides', title: 'Small steps. Clearer support.', caption: 'Practical DeskNu setup guides',
+    kind: 'guides', title: 'Small steps. Clearer support.', caption: 'Practical DeskZeal setup guides',
     steps: [{ icon: 'mail', label: 'Connect email', topic: 'email-ticketing' }, { icon: 'timer', label: 'Set SLA targets', topic: 'ticketing' }, { icon: 'alt_route', label: 'Route tickets', topic: 'helpdesk-automation' }],
   },
   security: {
@@ -82,7 +82,7 @@ export function WorkflowIllustration({ topic }: { topic: string }) {
       <div className="marketing-visual-heading"><span className="marketing-visual-indicator" aria-hidden="true" />{visual.title}</div>
       <div className={`marketing-visual-scene marketing-visual-scene-${visual.kind}`}>
         {visual.kind === 'workspace' && <>
-          <div className="marketing-visual-hub"><Icon name="support_agent" size={44} /><strong>DeskNu</strong><span>Shared workspace</span></div>
+          <div className="marketing-visual-hub"><Icon name="support_agent" size={44} /><strong>DeskZeal</strong><span>Shared workspace</span></div>
           <div className="marketing-visual-nodes">{visual.steps.map((step) => <TopicTile key={step.label} step={step} />)}</div>
         </>}
         {(visual.kind === 'email' || visual.kind === 'api') && <>
@@ -108,7 +108,7 @@ export function WorkflowIllustration({ topic }: { topic: string }) {
           <div className="marketing-visual-report-labels">{visual.steps.map((step) => <span key={step.label}><Icon name={step.icon} size={18} />{step.label}</span>)}</div>
         </>}
         {visual.kind === 'guides' && <>
-          <div className="marketing-visual-book" aria-hidden="true"><Icon name="menu_book" size={65} /><span>DeskNu / Field guides</span></div>
+          <div className="marketing-visual-book" aria-hidden="true"><Icon name="menu_book" size={65} /><span>DeskZeal / Field guides</span></div>
           <div className="marketing-visual-checklist">{visual.steps.map((step, index) => <div key={step.label} className={`marketing-tone-${marketingTone(step.topic)}`}><span className="marketing-topic-icon"><Icon name={step.icon} size={21} /></span><strong>{step.label}</strong><span className="marketing-visual-step-number">0{index + 1}</span></div>)}</div>
         </>}
         {visual.kind === 'security' && <>

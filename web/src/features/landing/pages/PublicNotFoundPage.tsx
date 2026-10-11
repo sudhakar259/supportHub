@@ -10,7 +10,7 @@ export function PublicNotFoundPage() {
         <div className="marketing-container">
           <span className="marketing-eyebrow">404</span>
           <h1>Page not found.</h1>
-          <p>Explore DeskNu’s helpdesk features or return to the homepage.</p>
+          <p>Explore DeskZeal’s helpdesk features or return to the homepage.</p>
           <div className="marketing-actions">
             <Link to={ROUTES.home} className="marketing-button">Go to homepage</Link>
             <Link to={ROUTES.features} className="marketing-text-link">Explore features</Link>

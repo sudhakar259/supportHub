@@ -80,7 +80,7 @@ export function PublicLayout({
       </a>
       <header className="marketing-header">
         <div className="marketing-container marketing-header-inner">
-          <Link to={publicSiteUrl(ROUTES.home)} className="marketing-brand" aria-label="DeskNu home">
+          <Link to={publicSiteUrl(ROUTES.home)} className="marketing-brand" aria-label="DeskZeal home">
             <BrandLogo />
           </Link>
           <PublicNavigation />
@@ -137,7 +137,7 @@ export function PublicLayout({
       <footer className="marketing-footer">
         <div className="marketing-container marketing-footer-grid">
           <div>
-            <Link to={publicSiteUrl(ROUTES.home)} className="marketing-brand" aria-label="DeskNu home">
+            <Link to={publicSiteUrl(ROUTES.home)} className="marketing-brand" aria-label="DeskZeal home">
               <BrandLogo tone="dark" size={28} />
             </Link>
             <p>

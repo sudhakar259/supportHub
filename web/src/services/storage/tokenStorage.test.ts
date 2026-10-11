@@ -1,16 +1,23 @@
 import { describe, expect, it, vi } from 'vitest'
 import { impersonatorStorage, tokenStorage } from '@/services/storage/tokenStorage'
 
-describe('DeskNu storage migration', () => {
+describe('DeskZeal storage migration', () => {
   it('preserves an existing session and moves it to the new key', () => {
     localStorage.setItem('supporthub.token', 'existing-session')
     expect(tokenStorage.get()).toBe('existing-session')
-    expect(localStorage.getItem('desknu.token')).toBe('existing-session')
+    expect(localStorage.getItem('deskzeal.token')).toBe('existing-session')
     expect(localStorage.getItem('supporthub.token')).toBeNull()
   })
 
+  it('carries a session from the DeskNu-era key across the rename', () => {
+    localStorage.setItem('desknu.token', 'earlier-session')
+    expect(tokenStorage.get()).toBe('earlier-session')
+    expect(localStorage.getItem('deskzeal.token')).toBe('earlier-session')
+    expect(localStorage.getItem('desknu.token')).toBeNull()
+  })
+
   it('prefers the current session and clears both keys on logout', () => {
-    localStorage.setItem('desknu.token', 'current')
+    localStorage.setItem('deskzeal.token', 'current')
     localStorage.setItem('supporthub.token', 'old')
     expect(tokenStorage.get()).toBe('current')
     tokenStorage.clear()

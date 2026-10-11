@@ -38,7 +38,7 @@ endpoints:
         name: ticket_id
         description: 'The ID of the ticket.'
         required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -56,7 +56,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+      ticket_id: architecto
       ticket: 01hxyz0123456789abcdefghj
     queryParameters: []
     cleanQueryParameters: []
