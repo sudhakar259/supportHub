@@ -54,7 +54,7 @@ export function TextField({
           id={inputId}
           required={required}
           className={cn(
-            'h-11 w-full rounded bg-surface-container-low px-space-md text-body-md text-on-surface shadow-inner transition-all placeholder:text-on-surface-variant/60',
+            'h-11 w-full rounded bg-surface-container-low px-space-md text-body-md text-on-surface shadow-inner transition-all placeholder:text-secondary',
             'focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary',
             leadingIcon ? 'pl-10' : undefined,
             trailingSlot ? 'pr-10' : undefined,

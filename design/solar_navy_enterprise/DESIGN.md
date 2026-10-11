@@ -48,81 +48,103 @@ colors:
   background: '#f8f9ff'
   on-background: '#0b1c30'
   surface-variant: '#d3e4fe'
+  # Product additions: semantic states and a few inverse roles the components rely on.
+  inverse-on-surface-variant: '#cbd5e1'
+  inverse-outline: '#475569'
+  brand-accent: '#a33900'
+  on-brand-accent: '#ffffff'
+  brand-accent-hover: '#7f2b00'
+  brand-accent-container: '#fff1e8'
+  on-brand-accent-container: '#7f2b00'
+  inverse-brand-accent: '#ffb599'
+  success: '#15803d'
+  on-success: '#ffffff'
+  inverse-success: '#4ade80'
+  success-container: '#dcfce7'
+  on-success-container: '#14532d'
+  warning: '#92400e'
+  on-warning: '#ffffff'
+  warning-container: '#fffbeb'
+  on-warning-container: '#78350f'
+  info: '#1d4ed8'
+  on-info: '#ffffff'
+  info-container: '#eff6ff'
+  on-info-container: '#1e40af'
 typography:
   display-lg:
-    fontFamily: Hanken Grotesk
+    fontFamily: DM Sans
     fontSize: 36px
     fontWeight: '700'
     lineHeight: 44px
     letterSpacing: -0.025em
   headline-lg:
-    fontFamily: Hanken Grotesk
+    fontFamily: DM Sans
     fontSize: 28px
-    fontWeight: '600'
+    fontWeight: '700'
     lineHeight: 36px
     letterSpacing: -0.02em
   headline-lg-mobile:
-    fontFamily: Hanken Grotesk
+    fontFamily: DM Sans
     fontSize: 24px
-    fontWeight: '600'
+    fontWeight: '700'
     lineHeight: 32px
     letterSpacing: -0.015em
   headline-md:
-    fontFamily: Hanken Grotesk
+    fontFamily: DM Sans
     fontSize: 22px
-    fontWeight: '600'
+    fontWeight: '700'
     lineHeight: 28px
     letterSpacing: -0.015em
   headline-sm:
-    fontFamily: Hanken Grotesk
+    fontFamily: DM Sans
     fontSize: 18px
-    fontWeight: '600'
+    fontWeight: '700'
     lineHeight: 24px
     letterSpacing: -0.01em
   title-md:
-    fontFamily: Inter
-    fontSize: 16px
+    fontFamily: DM Sans
+    fontSize: 17px
     fontWeight: '600'
-    lineHeight: 24px
+    lineHeight: 26px
     letterSpacing: -0.01em
   title-sm:
-    fontFamily: Inter
-    fontSize: 14px
+    fontFamily: DM Sans
+    fontSize: 15px
     fontWeight: '600'
-    lineHeight: 20px
+    lineHeight: 22px
     letterSpacing: -0.005em
   body-lg:
-    fontFamily: Inter
-    fontSize: 16px
-    fontWeight: '400'
-    lineHeight: 24px
+    fontFamily: DM Sans
+    fontSize: 17px
+    fontWeight: '500'
+    lineHeight: 28px
   body-md:
-    fontFamily: Inter
-    fontSize: 14px
-    fontWeight: '400'
-    lineHeight: 20px
+    fontFamily: DM Sans
+    fontSize: 16px
+    fontWeight: '500'
+    lineHeight: 26px
   body-sm:
-    fontFamily: Inter
-    fontSize: 12px
-    fontWeight: '400'
-    lineHeight: 16px
+    fontFamily: DM Sans
+    fontSize: 14px
+    fontWeight: '500'
+    lineHeight: 22px
   label-md:
-    fontFamily: Inter
-    fontSize: 12px
+    fontFamily: DM Sans
+    fontSize: 14px
     fontWeight: '600'
-    lineHeight: 16px
+    lineHeight: 20px
     letterSpacing: 0.02em
   label-sm:
-    fontFamily: Inter
-    fontSize: 11px
+    fontFamily: DM Sans
+    fontSize: 13px
     fontWeight: '600'
-    lineHeight: 14px
-    letterSpacing: 0.04em
+    lineHeight: 18px
+    letterSpacing: 0.025em
   code-sm:
     fontFamily: JetBrains Mono
-    fontSize: 12px
+    fontSize: 13px
     fontWeight: '500'
-    lineHeight: 18px
+    lineHeight: 20px
 rounded:
   sm: 0.125rem
   DEFAULT: 0.25rem
@@ -144,36 +166,35 @@ spacing:
 
 ## Brand & Style
 
-This design system targets high-velocity enterprise support, incident management, and customer operations teams. It balances operational precision with energetic momentum. The emotional tone is decisive, calm under pressure, and unmistakably modern—eschewing generic utilitarian corporate grey in favor of an authoritative midnight petrol architecture punctuated by high-potency solar accents.
-
-The aesthetic fuses **Modern Corporate** reliability with the surgical sharpness of modern developer-first platforms. Dark, structural foundation surfaces establish gravity and focus during critical incident workflows, while clean porcelain and warm-sand surfaces maintain high legibility across dense data tables, ticket threads, and analytics panels. High-contrast typography, strict micro-radii, and purposeful chromatic hierarchy ensure that priority tickets, SLA countdowns, and escalation vectors surface instantly without inducing cognitive fatigue.
+DeskNu uses a warm, orange-led interface on cool blue-tinted surfaces, with a navy
+shell for dark areas and teal reserved for positive states. The public website,
+registration screens, workspace and platform console share the same color roles.
+DM Sans and the existing layouts are retained.
 
 ## Colors
 
-The chromatic structure relies on a rigorous balance between dark framing surfaces, vivid primary energy, and crisp work surfaces:
+The YAML roles above and `web/src/index.css` define the application palette.
+See [the palette guide](../../docs/color-palette.md) for usage and contrast pairs.
 
-- **Primary (`#EA580C` / Solar Orange)**: Drives primary ticket resolutions, global creation actions, active navigation indicators, and primary focus states. Hover states step down to `#C2410C`, with pressed states settling at `#9A3412`.
-- **Secondary (`#0B132B` / Midnight Petrol Navy)**: Serves as the structural anchor. Deployed across left-hand shell navigation, persistent app bars, global search inputs, and modal backdrops. Mid-tone variants (`#1C2541` and `#3A506B`) handle nested sidebar groupings and active list selection frames.
-- **Tertiary (`#0D9488` / Deep Petrol Teal)**: Delivers complementary contrast against the warm primary, specifically reserved for telemetry indicators, customer-tier badges (e.g., Enterprise VIP), and live inbound queue telemetry.
-- **Surfaces & Neutrals**:
-  - Global canvas background: `#F8FAFC`
-  - Elevated card & drawer surfaces: `#FFFFFF`
-  - Subtle inset containers: `#F1F5F9`
-  - Structural hairline borders: `#E2E8F0`
-  - Primary text: `#0F172A`
-  - Secondary/metadata text: `#64748B`
-  - Disabled/placeholder text: `#94A3B8`
-- **Semantic Incident Architecture**:
-  - **Resolved / Stable**: `#10B981` (Emerald) with `#ECFDF5` container
-  - **Warning / Pending Customer**: `#F59E0B` (Amber) with `#FFFBEB` container
-  - **Breached / Escalated / Critical**: `#EF4444` (Vivid Crimson) with `#FEF2F2` container
-  - **Internal Collaboration Container**: `#FEF9C3` with `#CA8A04` boundary border to prevent accidental external leakages during agent triage
+- **Primary orange `#A33900`**: primary actions, links, active controls and the D mark.
+- **Hover orange `#CC4900`** (`primary-container`): hover and pressed states; the light tint is `#FFDBCE` (`primary-fixed`).
+- **Navy `#213145`** (`inverse-surface`): the sidebar, footer and other dark areas, with `#EAF1FF` text.
+- **Blue-tinted surfaces**: `#F8F9FF` canvas, `#FFFFFF` cards, `#EFF4FF` inset areas, `#E5EEFF` dividers.
+- **Text**: `#0B1C30` primary and `#5A4138` secondary; `#8E7166` for muted text and input borders.
+- **Secondary slate-violet `#565D79`**: quiet controls and neutral chips.
+- **Tertiary teal `#00685F`**: positive and "enabled" accents.
+- **Error `#BA1A1A`**: validation errors, failures, breaches and destructive actions.
+- **Success `#15803D`, Warning `#92400E`, Info `#1D4ED8`**: semantic states, each with a light container.
+
+Pair each semantic foreground with its named light container. Status labels and
+icons accompany color. Tenant-configured ticket status and priority colors remain
+data-driven; their labels use readable dark text.
 
 ## Typography
 
-The typographic strategy balances the sharp, forward posture of **Hanken Grotesk** across displays, modal titles, and board metrics with the systematic utility of **Inter** for dense tabular records and ticket timelines.
+**DM Sans** unifies the public website and workspace with open, readable letterforms. Body text uses medium weight (`500`), labels and controls use semibold (`600`), and headings use bold (`700`). Locally hosted variable WOFF2 subsets keep the interface font available without a third-party font service.
 
-All labels and badges utilize strict optical tracking (`0.02em` to `0.04em`) to ensure instant character differentiation at `11px` and `12px` sizes under high-stress triage situations. Monospaced tokens powered by **JetBrains Mono** are embedded for SLA countdown clocks, ticket hashes (`#TICK-8902`), API error traces, and regex search fields.
+Body text is `16px` with a `26px` line height; dense table text is `14px` with a `22px` line height. Labels use `13px`–`14px` sizes with modest tracking (`0.02em`–`0.025em`). Public descriptions use `16px`–`18px` sizes and darker secondary text. Nothing in the interface is set below `13px`, so the workspace reads as comfortably as the public website. **JetBrains Mono** remains the font for SLA countdowns, ticket hashes (`#TICK-8902`), API error traces, and regex search fields.
 
 ## Layout & Spacing
 
@@ -237,4 +258,4 @@ To project precision, high utility, and modern engineering authority, this desig
 
 ### Customer Triage Drawers & Conversation Threads
 - **Public Customer Message**: Card container with white background and `#E2E8F0` border.
-- **Internal Private Note**: Card container with `#FEF9C3` background, border 1px solid `#FDE047`, header containing a lock icon and "Internal Note — Hidden from Requester" banner in `#854D0E`.
+- **Internal Private Note**: Card container with `#FFFBEB` background, border 1px solid `#92400E`, header containing a lock icon and "Internal Note — Hidden from Requester" banner in `#78350F`.

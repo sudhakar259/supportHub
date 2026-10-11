@@ -72,7 +72,7 @@ export function TenantsListPage() {
     {
       key: 'created',
       header: 'Created',
-      className: 'text-[12px] text-secondary whitespace-nowrap',
+      className: 'text-body-sm text-secondary whitespace-nowrap',
       render: (t) => new Date(t.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
     },
     {

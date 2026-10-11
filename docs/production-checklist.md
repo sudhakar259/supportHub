@@ -9,7 +9,7 @@ Work through this top to bottom before the first real customer signs up. Items m
 ## 0. Check the configuration automatically
 
 ```bash
-php artisan supporthub:preflight --production
+php artisan desknu:preflight --production
 ```
 
 It exits non-zero and says what is wrong: debug mode, placeholder mail, a synchronous
@@ -41,8 +41,8 @@ Start from `api/.env.production.example`.
 - [ ] Do **not** run the demo seeders. Seed only what production needs
       (`RolesAndPermissionsSeeder`, `MembershipPlanSeeder`, `NotificationTemplateSeeder`,
       `SystemSettingSeeder`) and create your platform administrator with
-      `php artisan supporthub:create-platform-admin you@yourcompany.com` (it asks for a strong
-      password). `deploy/aws/first-run.sh` does both. The demo accounts (`…@supporthub.test`, password `password`) must not exist.
+      `php artisan desknu:create-platform-admin you@yourcompany.com` (it asks for a strong
+      password). `deploy/aws/first-run.sh` does both. The demo accounts (`…@desknu.test`, password `password`) must not exist.
 
 ## 3. Background work
 
@@ -92,7 +92,7 @@ Start from `api/.env.production.example`.
 
 ## 8. Monitoring
 
-- [ ] **(you)** Error tracking (Sentry, Bugsnag, Flare…), an uptime check on the API and the
+- [ ] Error tracking keys set and a test error received (see [error-tracking.md](error-tracking.md)); **(you)** an uptime check on the API and the
       web app, and an alert if the queue backs up or the worker stops.
 - [ ] Log rotation (`LOG_STACK=daily` keeps 14 days by default).
 - [ ] `php artisan queue:failed` reviewed regularly.

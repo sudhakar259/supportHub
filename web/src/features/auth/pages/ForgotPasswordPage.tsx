@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 import { ROUTES } from '@/app/router/routes'
 import { AuthLayout } from '@/components/layout/AuthLayout'
@@ -19,7 +19,9 @@ const TIPS = [
 ]
 
 export function ForgotPasswordPage() {
-  const [email, setEmail] = useState('')
+  const [searchParams] = useSearchParams()
+  // Arrives from an expired reset link with the address already known.
+  const [email, setEmail] = useState(searchParams.get('email') ?? '')
   const activeWorkspace = workspaceSlug()
   const [tenant, setTenant] = useState(activeWorkspace ?? '')
   const [showTenantField, setShowTenantField] = useState(false)

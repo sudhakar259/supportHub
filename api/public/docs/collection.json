@@ -9,9 +9,9 @@
         }
     ],
     "info": {
-        "name": "SupportHub API Documentation",
-        "_postman_id": "8ce73055-5830-4da9-a56b-6a91d8183059",
-        "description": "REST API for SupportHub \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
+        "name": "DeskNu API Documentation",
+        "_postman_id": "e6426657-1334-437c-9e7d-512c20b9e71d",
+        "description": "REST API for DeskNu \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
     "item": [
@@ -85,7 +85,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"admin@supporthub.test\",\"password\":\"password\",\"tenant\":\"acme-support\",\"device_name\":\"web-browser\"}"
+                            "raw": "{\"email\":\"admin@desknu.test\",\"password\":\"password\",\"tenant\":\"acme-support\",\"device_name\":\"web-browser\"}"
                         },
                         "description": "Exchanges email\/password credentials for a Sanctum Bearer token.\nPass a `device_name` so multiple tokens (web, iOS, Android) can be\nmanaged and revoked independently per device.",
                         "auth": {
@@ -96,7 +96,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n  \"success\": true,\n  \"message\": \"Login successful.\",\n  \"data\": {\n    \"user\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@supporthub.test\", \"roles\": [\"Administrator\"]},\n    \"token\": \"1|abcdef123456...\",\n    \"token_type\": \"Bearer\"\n  }\n}",
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Login successful.\",\n  \"data\": {\n    \"user\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@desknu.test\", \"roles\": [\"Administrator\"]},\n    \"token\": \"1|abcdef123456...\",\n    \"token_type\": \"Bearer\"\n  }\n}",
                             "name": ""
                         },
                         {
@@ -191,7 +191,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"admin@supporthub.test\",\"tenant\":\"acme-support\"}"
+                            "raw": "{\"email\":\"admin@desknu.test\",\"tenant\":\"acme-support\"}"
                         },
                         "description": "Sends a password reset link to the given email if an account\nexists for it. Always returns the same generic success message\nregardless of whether the email is registered, to avoid leaking\nwhich addresses have accounts.",
                         "auth": {
@@ -229,7 +229,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"token\":\"9f8e7d6c5b4a\",\"email\":\"admin@supporthub.test\",\"tenant\":\"acme-support\",\"password\":\"NewSecret123!word$9\",\"password_confirmation\":\"NewSecret123!\"}"
+                            "raw": "{\"token\":\"9f8e7d6c5b4a\",\"email\":\"admin@desknu.test\",\"tenant\":\"acme-support\",\"password\":\"NewSecret123!word$9\",\"password_confirmation\":\"NewSecret123!\"}"
                         },
                         "description": "Completes a password reset using the token emailed by\n\/auth\/forgot-password.",
                         "auth": {
@@ -365,7 +365,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n  \"success\": true,\n  \"message\": \"Request successful.\",\n  \"data\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@supporthub.test\", \"roles\": [\"Administrator\"], \"permissions\": [\"tickets.view\", \"...\"]}\n}",
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Request successful.\",\n  \"data\": {\"id\": 1, \"name\": \"System Administrator\", \"email\": \"admin@desknu.test\", \"roles\": [\"Administrator\"], \"permissions\": [\"tickets.view\", \"...\"]}\n}",
                             "name": ""
                         }
                     ]
@@ -505,7 +505,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@supporthub.test\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"role\":\"Agent\",\"department_ids\":[1,2],\"password_confirmation\":\"Secret123!\"}"
+                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@desknu.test\",\"password\":\"Secret123!\",\"phone\":\"+1-555-0100\",\"role\":\"Agent\",\"department_ids\":[1,2],\"password_confirmation\":\"Secret123!\"}"
                         },
                         "description": "Creates an internal account (agent, senior agent, department\nmanager or administrator) with a single role and optional\ndepartment memberships."
                     },
@@ -588,7 +588,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@supporthub.test\",\"phone\":\"+1-555-0199\",\"timezone\":\"Europe\\\/Dublin\",\"is_active\":true}"
+                            "raw": "{\"name\":\"Alex Agent\",\"email\":\"alex@desknu.test\",\"phone\":\"+1-555-0199\",\"timezone\":\"Europe\\\/Dublin\",\"is_active\":true}"
                         },
                         "description": "Users may update their own name\/phone\/timezone; only holders of\n`users.update` may change another user's record or flip\n`is_active`."
                     },
@@ -2407,9 +2407,10 @@
                                     "description": "Staff only."
                                 },
                                 {
-                                    "key": "attachments[]",
-                                    "src": [],
-                                    "type": "file"
+                                    "key": "attachments[0]",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 }
                             ]
                         },
@@ -3033,7 +3034,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"On Hold\",\"slug\":\"on-hold\",\"color\":\"#6B7280\",\"is_default\":false,\"is_closed\":false,\"sort_order\":37}"
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"on-hold\",\"color\":\"#6B7280\",\"is_default\":true,\"is_closed\":false,\"sort_order\":37}"
                         },
                         "description": ""
                     },
@@ -3116,7 +3117,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":true,\"is_closed\":true,\"sort_order\":37}"
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":false,\"is_closed\":true,\"sort_order\":37}"
                         },
                         "description": ""
                     },
@@ -3318,7 +3319,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":true}"
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":false}"
                         },
                         "description": ""
                     },
@@ -3520,7 +3521,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":false,\"conditions\":[{\"field\":\"category_id\",\"operator\":\"in\"}],\"actions\":[{\"type\":\"escalate\"}]}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":false,\"conditions\":[{\"field\":\"keyword\",\"operator\":\"in\"}],\"actions\":[{\"type\":\"set_priority\"}]}"
                         },
                         "description": ""
                     },
@@ -3633,7 +3634,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":true,\"is_active\":false}"
+                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":false,\"is_active\":true}"
                         },
                         "description": ""
                     },
@@ -3716,7 +3717,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":false,\"is_default\":false,\"is_active\":false}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":true,\"is_default\":false,\"is_active\":false}"
                         },
                         "description": ""
                     },
@@ -5078,7 +5079,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from\":\"2026-10-11T07:06:06\",\"to\":\"2026-10-11T07:06:06\"}"
+                            "raw": "{\"from\":\"2026-10-11T09:13:53\",\"to\":\"2026-10-11T09:13:53\"}"
                         },
                         "description": "One row per ticket you are allowed to see. Requires `reports.view`."
                     },
@@ -5787,6 +5788,12 @@
                                     "description": ""
                                 },
                                 {
+                                    "key": "attachments[0]",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
                                     "key": "priority_id",
                                     "value": "3",
                                     "type": "text",
@@ -5815,11 +5822,6 @@
                                     "value": "CRM-001",
                                     "type": "text",
                                     "description": "This tenant's own identifier for the customer."
-                                },
-                                {
-                                    "key": "attachments[]",
-                                    "src": [],
-                                    "type": "file"
                                 }
                             ]
                         },
@@ -5943,9 +5945,10 @@
                                     "description": ""
                                 },
                                 {
-                                    "key": "attachments[]",
-                                    "src": [],
-                                    "type": "file"
+                                    "key": "attachments[0]",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 }
                             ]
                         },
@@ -7003,7 +7006,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Scan the code, then confirm with a code from your app.\", \"data\": {\"secret\": \"JBSWY3DPEHPK3PXP\", \"otpauth_url\": \"otpauth:\/\/totp\/SupportHub:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=SupportHub\"}}",
+                            "body": "{\"success\": true, \"message\": \"Scan the code, then confirm with a code from your app.\", \"data\": {\"secret\": \"JBSWY3DPEHPK3PXP\", \"otpauth_url\": \"otpauth:\/\/totp\/DeskNu:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=DeskNu\"}}",
                             "name": ""
                         },
                         {
@@ -7185,7 +7188,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Ticket sync\",\"url\":\"https:\\\/\\\/example.com\\\/webhooks\\\/supporthub\",\"events\":[\"ticket.created\",\"ticket.status_changed\"],\"is_active\":true}"
+                            "raw": "{\"name\":\"Ticket sync\",\"url\":\"https:\\\/\\\/example.com\\\/webhooks\\\/desknu\",\"events\":[\"ticket.created\",\"ticket.status_changed\"],\"is_active\":true}"
                         },
                         "description": "The secret is returned exactly once, here \u2014 it is encrypted at\nrest and this is the only response that ever includes it in\nplain text. Use it to verify the X-Webhook-Signature header on\neach delivery."
                     },
@@ -7193,7 +7196,7 @@
                         {
                             "header": [],
                             "code": 201,
-                            "body": "{\n  \"success\": true, \"message\": \"Webhook created successfully.\",\n  \"data\": {\"id\": 1, \"name\": \"Ticket sync\", \"url\": \"https:\/\/example.com\/webhooks\/supporthub\", \"secret\": \"whsec_...\"}\n}",
+                            "body": "{\n  \"success\": true, \"message\": \"Webhook created successfully.\",\n  \"data\": {\"id\": 1, \"name\": \"Ticket sync\", \"url\": \"https:\/\/example.com\/webhooks\/desknu\", \"secret\": \"whsec_...\"}\n}",
                             "name": ""
                         }
                     ]

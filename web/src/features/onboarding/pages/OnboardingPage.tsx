@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Icon } from '@/components/ui/Icon'
+import { BrandLogo } from '@/components/ui/BrandLogo'
 import { CompleteStep } from '@/features/onboarding/components/CompleteStep'
 import { DepartmentsStep } from '@/features/onboarding/components/DepartmentsStep'
 import { IntegrationStep } from '@/features/onboarding/components/IntegrationStep'
@@ -10,11 +11,12 @@ import { ONBOARDING_STEPS } from '@/features/onboarding/types'
 import type { OnboardingStep } from '@/features/onboarding/types'
 import { cn } from '@/utils/cn'
 
-const STORAGE_KEY = 'supporthub.onboarding.step'
+const STORAGE_KEY = 'desknu.onboarding.step'
+const LEGACY_STORAGE_KEY = 'supporthub.onboarding.step'
 
 function readStoredStep(): OnboardingStep {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY) as OnboardingStep | null
+    const stored = (localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY)) as OnboardingStep | null
     return stored && ONBOARDING_STEPS.some((s) => s.key === stored) ? stored : 'departments'
   } catch {
     return 'departments'
@@ -27,6 +29,7 @@ export function OnboardingPage() {
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, step)
+      localStorage.removeItem(LEGACY_STORAGE_KEY)
     } catch {
       // Private browsing / storage disabled — onboarding just won't resume on reload, not fatal.
     }
@@ -42,10 +45,8 @@ export function OnboardingPage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="flex h-16 items-center gap-space-sm border-b border-surface-container-high px-gutter-lg">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-on-primary">
-          <Icon name="support_agent" size={20} />
-        </div>
-        <span className="text-headline-sm tracking-tight text-on-surface">SupportHub Setup</span>
+        <BrandLogo size={22} />
+        <span className="text-title-sm text-on-surface-variant">Setup</span>
       </header>
 
       <main className="mx-auto flex w-full max-w-3xl flex-col gap-space-xl px-gutter-lg py-space-xl">

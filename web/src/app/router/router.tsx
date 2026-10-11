@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { Navigate, createBrowserRouter } from 'react-router-dom'
+import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom'
 
 import { ProtectedRoute } from '@/app/router/ProtectedRoute'
 import { RequirePermission } from '@/app/router/RequirePermission'
@@ -8,9 +8,16 @@ import { RequireTenantUser } from '@/app/router/RequireTenantUser'
 import { ROUTES } from '@/app/router/routes'
 import { AppShell } from '@/components/layout/AppShell'
 import { PlatformShell } from '@/components/layout/PlatformShell'
-import { ComingSoonPage } from '@/components/feedback/ComingSoonPage'
+import { RouteErrorPage } from '@/components/feedback/RouteErrorPage'
+import { UnknownRoute } from '@/app/router/UnknownRoute'
 
 import { WorkspaceEntry } from '@/features/workspaces/WorkspaceEntry'
+import { Seo } from '@/seo/Seo'
+
+const FeatureDetailPage = lazy(() => import('@/features/landing/pages/FeatureDetailPage').then((module) => ({ default: module.FeatureDetailPage })))
+const ResourcesPage = lazy(() => import('@/features/landing/pages/ResourcesPage').then((module) => ({ default: module.ResourcesPage })))
+const GuidePage = lazy(() => import('@/features/landing/pages/GuidePage').then((module) => ({ default: module.GuidePage })))
+const SecurityPage = lazy(() => import('@/features/landing/pages/SecurityPage').then((module) => ({ default: module.SecurityPage })))
 
 const AccountLockedPage = lazy(() =>
   import('@/features/auth/pages/AccountLockedPage').then((module) => ({ default: module.AccountLockedPage })),
@@ -171,224 +178,240 @@ const UsersListPage = lazy(() =>
 )
 
 export const router = createBrowserRouter([
-  { path: '/', element: <WorkspaceEntry /> },
-  { path: ROUTES.features, element: <FeaturesPage /> },
-  { path: ROUTES.solutions, element: <SolutionsPage /> },
-  { path: ROUTES.demo, element: <DemoPage /> },
-
-  { path: ROUTES.register, element: <RegistrationPage /> },
-  { path: ROUTES.pricing, element: <PricingPage /> },
-  { path: ROUTES.contact, element: <ContactPage /> },
-  { path: ROUTES.terms, element: <TermsPage /> },
-  { path: ROUTES.privacy, element: <PrivacyPage /> },
-  { path: ROUTES.cookies, element: <CookiesPage /> },
-  { path: ROUTES.login, element: <LoginPage /> },
-  { path: ROUTES.forgotPassword, element: <ForgotPasswordPage /> },
-  { path: ROUTES.resetPassword, element: <ResetPasswordPage /> },
-  { path: ROUTES.setPassword, element: <SetPasswordPage /> },
-  { path: ROUTES.emailVerification, element: <EmailVerificationPage /> },
-  { path: ROUTES.twoFactor, element: <TwoFactorAuthPage /> },
-  { path: ROUTES.accountLocked, element: <AccountLockedPage /> },
-  { path: ROUTES.sessionExpired, element: <SessionExpiredPage /> },
-
   {
-    element: <ProtectedRoute />,
+    // A page that throws shows a calm error screen (with a reference) instead of React Router's developer page.
+    errorElement: <RouteErrorPage />,
+    element: (
+      <>
+        <Seo />
+        <Outlet />
+      </>
+    ),
     children: [
+      { path: '/', element: <WorkspaceEntry /> },
+      { path: ROUTES.features, element: <FeaturesPage /> },
+      { path: ROUTES.solutions, element: <SolutionsPage /> },
+      { path: ROUTES.demo, element: <DemoPage /> },
+      { path: '/features/:slug', element: <FeatureDetailPage /> },
+      { path: ROUTES.resources, element: <ResourcesPage /> },
+      { path: '/resources/:slug', element: <GuidePage /> },
+      { path: ROUTES.security, element: <SecurityPage /> },
+
+      { path: ROUTES.register, element: <RegistrationPage /> },
+      { path: ROUTES.pricing, element: <PricingPage /> },
+      { path: ROUTES.contact, element: <ContactPage /> },
+      { path: ROUTES.terms, element: <TermsPage /> },
+      { path: ROUTES.privacy, element: <PrivacyPage /> },
+      { path: ROUTES.cookies, element: <CookiesPage /> },
+      { path: ROUTES.login, element: <LoginPage /> },
+      { path: ROUTES.forgotPassword, element: <ForgotPasswordPage /> },
+      { path: ROUTES.resetPassword, element: <ResetPasswordPage /> },
+      { path: ROUTES.setPassword, element: <SetPasswordPage /> },
+      { path: ROUTES.emailVerification, element: <EmailVerificationPage /> },
+      { path: ROUTES.twoFactor, element: <TwoFactorAuthPage /> },
+      { path: ROUTES.accountLocked, element: <AccountLockedPage /> },
+      { path: ROUTES.sessionExpired, element: <SessionExpiredPage /> },
+
       {
-        element: <RequireTenantUser />,
+        element: <ProtectedRoute />,
         children: [
-          { path: ROUTES.onboarding, element: <OnboardingPage /> },
           {
-            element: <AppShell />,
+            element: <RequireTenantUser />,
             children: [
-              { path: ROUTES.dashboard, element: <TicketsDashboardPage /> },
-              { path: ROUTES.createTicket, element: <CreateTicketPage /> },
-              { path: ROUTES.tickets, element: <TicketsListPage /> },
-              { path: '/tickets/:ticketId', element: <TicketDetailsPage /> },
-              { path: ROUTES.myTickets, element: <TicketsListPage scope="mine" /> },
+              { path: ROUTES.onboarding, element: <OnboardingPage /> },
               {
-                path: ROUTES.customers,
-                element: (
-                  <RequirePermission permission="customers.view">
-                    <CustomersListPage />
-                  </RequirePermission>
-                ),
+                element: <AppShell />,
+                children: [
+                  { path: ROUTES.dashboard, element: <TicketsDashboardPage /> },
+                  { path: ROUTES.createTicket, element: <CreateTicketPage /> },
+                  { path: ROUTES.tickets, element: <TicketsListPage /> },
+                  { path: '/tickets/:ticketId', element: <TicketDetailsPage /> },
+                  { path: ROUTES.myTickets, element: <TicketsListPage scope="mine" /> },
+                  {
+                    path: ROUTES.customers,
+                    element: (
+                      <RequirePermission permission="customers.view">
+                        <CustomersListPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: '/customers/:customerId',
+                    element: (
+                      <RequirePermission permission="customers.view">
+                        <CustomerDetailsPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.departments,
+                    element: (
+                      <RequirePermission permission="departments.view">
+                        <DepartmentsListPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: '/departments/:departmentId',
+                    element: (
+                      <RequirePermission permission="departments.view">
+                        <DepartmentDetailsPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.users,
+                    element: (
+                      <RequirePermission permission="users.view">
+                        <UsersListPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.rolesAndPermissions,
+                    element: (
+                      <RequirePermission permission="roles.view">
+                        <RolesListPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: '/roles-and-permissions/:roleId',
+                    element: (
+                      <RequirePermission permission="roles.view">
+                        <RoleDetailsPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.categories,
+                    element: (
+                      <RequirePermission permission="categories.view">
+                        <CategoriesListPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.ticketConfig,
+                    element: (
+                      <RequirePermission permission={['statuses.view', 'priorities.view']}>
+                        <TicketConfigPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.reports,
+                    element: (
+                      <RequirePermission permission="reports.view">
+                        <ReportsPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.auditLogs,
+                    element: (
+                      <RequirePermission permission="audit-logs.view">
+                        <AuditLogsPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.automation,
+                    element: (
+                      <RequirePermission permission={['routing.view', 'sla.view', 'notifications.view']}>
+                        <AutomationPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  { path: ROUTES.accountSecurity, element: <AccountSecurityPage /> },
+                  {
+                    path: ROUTES.settings,
+                    element: (
+                      <RequirePermission permission="settings.view">
+                        <SystemSettingsPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.apiCredentials,
+                    element: (
+                      <RequirePermission permission="api-credentials.view">
+                        <ApiCredentialsListPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.apiCredentialsCreate,
+                    element: (
+                      <RequirePermission permission="api-credentials.create">
+                        <CreateApiCredentialPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: '/integrations/api-credentials/:credentialId',
+                    element: (
+                      <RequirePermission permission="api-credentials.view">
+                        <ApiCredentialDetailsPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.webhooks,
+                    element: (
+                      <RequirePermission permission="webhooks.view">
+                        <WebhooksListPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.billing,
+                    element: (
+                      <RequirePermission permission="billing.view">
+                        <BillingPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: ROUTES.billingCheckout,
+                    element: (
+                      <RequirePermission permission="billing.manage">
+                        <CheckoutPage />
+                      </RequirePermission>
+                    ),
+                  },
+                  {
+                    path: '/integrations/webhooks/:webhookId/deliveries',
+                    element: (
+                      <RequirePermission permission="webhooks.view">
+                        <WebhookDeliveriesPage />
+                      </RequirePermission>
+                    ),
+                  },
+                ],
               },
+            ],
+          },
+          {
+            element: <RequirePlatformAdmin />,
+            children: [
               {
-                path: '/customers/:customerId',
-                element: (
-                  <RequirePermission permission="customers.view">
-                    <CustomerDetailsPage />
-                  </RequirePermission>
-                ),
+                element: <PlatformShell />,
+                children: [
+                  { path: ROUTES.platform, element: <Navigate to={ROUTES.platformDashboard} replace /> },
+                  { path: ROUTES.platformDashboard, element: <PlatformDashboardPage /> },
+                  { path: ROUTES.platformTenants, element: <TenantsListPage /> },
+                  { path: '/platform/tenants/:tenantId', element: <TenantDetailsPage /> },
+                  { path: ROUTES.platformPlans, element: <MembershipPlansListPage /> },
+                  { path: ROUTES.platformAccountSecurity, element: <AccountSecurityPage /> },
+                ],
               },
-              {
-                path: ROUTES.departments,
-                element: (
-                  <RequirePermission permission="departments.view">
-                    <DepartmentsListPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: '/departments/:departmentId',
-                element: (
-                  <RequirePermission permission="departments.view">
-                    <DepartmentDetailsPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.users,
-                element: (
-                  <RequirePermission permission="users.view">
-                    <UsersListPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.rolesAndPermissions,
-                element: (
-                  <RequirePermission permission="roles.view">
-                    <RolesListPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: '/roles-and-permissions/:roleId',
-                element: (
-                  <RequirePermission permission="roles.view">
-                    <RoleDetailsPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.categories,
-                element: (
-                  <RequirePermission permission="categories.view">
-                    <CategoriesListPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.ticketConfig,
-                element: (
-                  <RequirePermission permission={['statuses.view', 'priorities.view']}>
-                    <TicketConfigPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.reports,
-                element: (
-                  <RequirePermission permission="reports.view">
-                    <ReportsPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.auditLogs,
-                element: (
-                  <RequirePermission permission="audit-logs.view">
-                    <AuditLogsPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.automation,
-                element: (
-                  <RequirePermission permission={['routing.view', 'sla.view', 'notifications.view']}>
-                    <AutomationPage />
-                  </RequirePermission>
-                ),
-              },
-              { path: ROUTES.accountSecurity, element: <AccountSecurityPage /> },
-              {
-                path: ROUTES.settings,
-                element: (
-                  <RequirePermission permission="settings.view">
-                    <SystemSettingsPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.apiCredentials,
-                element: (
-                  <RequirePermission permission="api-credentials.view">
-                    <ApiCredentialsListPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.apiCredentialsCreate,
-                element: (
-                  <RequirePermission permission="api-credentials.create">
-                    <CreateApiCredentialPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: '/integrations/api-credentials/:credentialId',
-                element: (
-                  <RequirePermission permission="api-credentials.view">
-                    <ApiCredentialDetailsPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.webhooks,
-                element: (
-                  <RequirePermission permission="webhooks.view">
-                    <WebhooksListPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.billing,
-                element: (
-                  <RequirePermission permission="billing.view">
-                    <BillingPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: ROUTES.billingCheckout,
-                element: (
-                  <RequirePermission permission="billing.manage">
-                    <CheckoutPage />
-                  </RequirePermission>
-                ),
-              },
-              {
-                path: '/integrations/webhooks/:webhookId/deliveries',
-                element: (
-                  <RequirePermission permission="webhooks.view">
-                    <WebhookDeliveriesPage />
-                  </RequirePermission>
-                ),
-              },
-              { path: '*', element: <ComingSoonPage title="Not Found" /> },
             ],
           },
         ],
       },
-      {
-        element: <RequirePlatformAdmin />,
-        children: [
-          {
-            element: <PlatformShell />,
-            children: [
-              { path: ROUTES.platform, element: <Navigate to={ROUTES.platformDashboard} replace /> },
-              { path: ROUTES.platformDashboard, element: <PlatformDashboardPage /> },
-              { path: ROUTES.platformTenants, element: <TenantsListPage /> },
-              { path: '/platform/tenants/:tenantId', element: <TenantDetailsPage /> },
-              { path: ROUTES.platformPlans, element: <MembershipPlansListPage /> },
-              { path: ROUTES.platformAccountSecurity, element: <AccountSecurityPage /> },
-              { path: '/platform/*', element: <ComingSoonPage title="Platform Admin Console" /> },
-            ],
-          },
-        ],
-      },
+      // Anything nothing above matches: a 404 page that fits whoever is looking (signed in or not).
+      { path: '*', element: <UnknownRoute /> },
     ],
   },
 ])

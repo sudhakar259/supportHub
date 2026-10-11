@@ -1,6 +1,9 @@
 <?php
 
 use App\Exceptions\ApiExceptionRenderer;
+use App\Exceptions\InvalidTicketStatusTransitionException;
+use App\Exceptions\PlanLimitExceededException;
+use App\Exceptions\WebhookDeliveryFailedException;
 use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Middleware\IdempotentRequest;
 use App\Http\Middleware\RequireApiScope;
@@ -15,6 +18,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
+use Sentry\Laravel\Integration;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
@@ -96,6 +100,18 @@ return Application::configure(basePath: dirname(__DIR__))
         );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Reports unexpected errors to Sentry when SENTRY_LARAVEL_DSN is set; does nothing otherwise.
+        Integration::handles($exceptions);
+
+        // These are expected outcomes that the API answers with a clear message (plan limit reached, a status
+        // change the workflow forbids, a customer's webhook endpoint being down). They are not bugs, so they
+        // are neither logged as errors nor sent to Sentry; webhook failures are recorded in webhook_deliveries.
+        $exceptions->dontReport([
+            PlanLimitExceededException::class,
+            InvalidTicketStatusTransitionException::class,
+            WebhookDeliveryFailedException::class,
+        ]);
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );

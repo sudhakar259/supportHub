@@ -149,12 +149,14 @@ export function CreateTicketPage() {
                     key={priority.id}
                     className={cn(
                       'relative flex cursor-pointer flex-col gap-1 rounded-lg p-space-md transition-all',
-                      selected ? 'shadow-md' : 'bg-surface-container-low hover:bg-surface-container',
+                      selected ? 'bg-primary-fixed text-on-primary-fixed ring-2 ring-primary shadow-md' : 'bg-surface-container-low hover:bg-surface-container',
                     )}
-                    style={selected ? { backgroundColor: priority.color, color: '#fff' } : undefined}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-title-sm font-bold">{priority.name}</span>
+                      <span className="flex items-center gap-2 text-title-sm font-bold">
+                        <span aria-hidden="true" className="h-2 w-2 rounded-full" style={{ backgroundColor: priority.color }} />
+                        {priority.name}
+                      </span>
                       <input
                         type="radio"
                         name="priority"

@@ -56,7 +56,7 @@ export function PrivacyPage() {
             <>
               <p>We do not sell personal information. We share it only with:</p>
               <ul>
-                <li><strong>Service providers</strong> that help us run the service: cloud hosting, email delivery, payment processing (Razorpay) and the font provider described in the Cookie Policy. They may use the data only to provide their service to us.</li>
+                <li><strong>Service providers</strong> that help us run the service: cloud hosting, email delivery, payment processing (Razorpay), error monitoring (which receives the page address without its query string, the technical error and a short reference, but no names, emails or ticket content) and the font provider described in the Cookie Policy. They may use the data only to provide their service to us.</li>
                 <li><strong>The workspace you deal with:</strong> administrators of a workspace can see the accounts and content in it, and can sign in as users of that workspace (this is logged).</li>
                 <li><strong>Authorities</strong> when the law requires it.</li>
               </ul>

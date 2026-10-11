@@ -58,7 +58,7 @@ export function CustomersListPage() {
             <Avatar name={name} src={c.user?.avatarPath} size={32} />
             <div className="flex min-w-0 flex-col">
               <span className="truncate text-title-sm font-semibold">{name}</span>
-              {c.user?.email && <span className="truncate text-[11px] text-secondary">{c.user.email}</span>}
+              {c.user?.email && <span className="truncate text-body-sm text-secondary">{c.user.email}</span>}
             </div>
           </Link>
         )

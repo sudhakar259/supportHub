@@ -9,8 +9,8 @@ const toneClasses: Record<BadgeTone, string> = {
   primary: 'bg-primary-fixed text-on-primary-fixed',
   secondary: 'bg-secondary-fixed text-on-secondary-fixed',
   tertiary: 'bg-tertiary-fixed text-on-tertiary-fixed-variant',
-  success: 'bg-tertiary-fixed text-on-tertiary-fixed-variant',
-  warning: 'bg-primary-fixed text-on-primary-fixed-variant',
+  success: 'bg-success-container text-on-success-container',
+  warning: 'bg-warning-container text-on-warning-container',
   danger: 'bg-error-container text-on-error-container',
 }
 

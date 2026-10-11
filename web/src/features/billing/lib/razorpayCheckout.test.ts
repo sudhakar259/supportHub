@@ -9,6 +9,23 @@ afterEach(() => {
 })
 
 describe('openRazorpayCheckout', () => {
+  it('themes the payment window with the app\'s primary orange', async () => {
+    let captured: { theme: { color: string } } | null = null
+    window.Razorpay = vi.fn(function (options) {
+      captured = options as unknown as typeof captured
+      return { open: vi.fn(), on: vi.fn() }
+    }) as unknown as typeof window.Razorpay
+
+    await openRazorpayCheckout({ checkout, description: 'Plan', onSuccess: vi.fn(), onDismiss: vi.fn(), onFailure: vi.fn() })
+    expect(captured!.theme.color).toBe('#a33900')
+
+    // And follows the stylesheet token when it is available.
+    document.documentElement.style.setProperty('--color-primary', '#cc4900')
+    await openRazorpayCheckout({ checkout, description: 'Plan', onSuccess: vi.fn(), onDismiss: vi.fn(), onFailure: vi.fn() })
+    expect(captured!.theme.color).toBe('#cc4900')
+    document.documentElement.style.removeProperty('--color-primary')
+  })
+
   it('opens checkout for the invoice order and reports a successful payment', async () => {
     const open = vi.fn()
     let captured: { key: string; order_id: string; amount: number; handler: (r: unknown) => void } | null = null

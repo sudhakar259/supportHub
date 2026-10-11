@@ -2,6 +2,7 @@ import { Avatar } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { PriorityBadge } from '@/components/ui/PriorityBadge'
+import { StatusBadge } from '@/components/ui/StatusBadge'
 import { SlaCountdown } from '@/features/tickets/components/SlaCountdown'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import { hasPermission } from '@/types/user'
@@ -52,14 +53,7 @@ export function TicketHeader({ ticket, onAssign, onEscalate, onResolve, onClose,
         <div className="flex flex-wrap items-center gap-space-md">
           <h1 className="text-headline-md tracking-tight text-on-surface">{ticket.subject}</h1>
           <div className="flex flex-wrap items-center gap-2">
-            {ticket.status && (
-              <span
-                className="inline-flex items-center rounded-full px-2 py-0.5 text-label-sm font-bold tracking-wider uppercase"
-                style={{ backgroundColor: ticket.status.color, color: '#fff' }}
-              >
-                {ticket.status.name}
-              </span>
-            )}
+            <StatusBadge status={ticket.status} />
             <PriorityBadge priority={ticket.priority} />
             {ticket.department && (
               <span className="rounded-full bg-surface-container-high px-2.5 py-0.5 text-label-sm font-semibold text-on-surface">

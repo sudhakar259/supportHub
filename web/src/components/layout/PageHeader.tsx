@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Icon } from '@/components/ui/Icon'
@@ -19,10 +18,10 @@ export interface PageHeaderProps {
 export function PageHeader({ breadcrumbs, title, meta, actions }: PageHeaderProps) {
   return (
     <div className="flex flex-col gap-space-md px-gutter-lg pt-space-lg pb-space-md md:flex-row md:items-center md:justify-between">
-      <div className="flex flex-col gap-1">
-        <nav className="flex items-center gap-2 text-label-sm uppercase tracking-wider text-secondary">
+      <div className="flex min-w-0 flex-col gap-1">
+        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-label-sm uppercase tracking-wider text-secondary">
           {breadcrumbs.map((crumb, index) => (
-            <Fragment key={crumb.label}>
+            <span key={crumb.label} className="inline-flex min-w-0 items-center gap-2">
               {index > 0 && <Icon name="chevron_right" size={14} />}
               {crumb.to ? (
                 <Link to={crumb.to} className="transition-colors hover:text-on-surface">
@@ -31,11 +30,11 @@ export function PageHeader({ breadcrumbs, title, meta, actions }: PageHeaderProp
               ) : (
                 <span className="font-semibold text-on-surface">{crumb.label}</span>
               )}
-            </Fragment>
+            </span>
           ))}
         </nav>
-        <div className="flex items-baseline gap-space-md">
-          <h1 className="text-headline-lg tracking-tight text-on-surface">{title}</h1>
+        <div className="flex flex-wrap items-baseline gap-space-md">
+          <h1 className="break-words text-headline-lg tracking-tight text-on-surface">{title}</h1>
           {meta}
         </div>
       </div>

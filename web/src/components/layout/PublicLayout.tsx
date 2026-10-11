@@ -1,21 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { ROUTES } from '@/app/router/routes'
 import { Icon } from '@/components/ui/Icon'
+import { BrandLogo } from '@/components/ui/BrandLogo'
+import { PublicNavigation } from '@/components/navigation/PublicNavigation'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import { SITE } from '@/config/site'
 import { isPlatformAdmin } from '@/types/user'
 import { publicSiteUrl } from '@/features/workspaces/workspace'
 import '@/features/landing/marketing.css'
-
-const NAV = [
-  { label: 'Product', to: ROUTES.features },
-  { label: 'Solutions', to: ROUTES.solutions },
-  { label: 'Pricing', to: ROUTES.pricing },
-  { label: 'Product tour', to: ROUTES.demo },
-]
 
 const FOOTER_COLUMNS = [
   {
@@ -24,6 +19,7 @@ const FOOTER_COLUMNS = [
       { label: 'Features', to: ROUTES.features },
       { label: 'Product tour', to: ROUTES.demo },
       { label: 'Pricing', to: ROUTES.pricing },
+      { label: 'Security & workspace controls', to: ROUTES.security },
       { label: 'Create a workspace', to: ROUTES.register },
     ],
   },
@@ -31,6 +27,7 @@ const FOOTER_COLUMNS = [
     title: 'Explore',
     links: [
       { label: 'Solutions', to: ROUTES.solutions },
+      { label: 'Helpdesk guides', to: ROUTES.resources },
       { label: 'How it works', to: `${ROUTES.home}#how-it-works` },
       { label: 'Contact', to: ROUTES.contact },
       { label: 'Sign in', to: ROUTES.login },
@@ -46,50 +43,35 @@ const FOOTER_COLUMNS = [
   },
 ]
 
-const PAGE_TITLES: Record<string, string> = {
-  '/': 'Customer support, all together',
-  '/features': 'Help desk features',
-  '/solutions': 'Support for your team',
-  '/demo': 'Interactive product tour',
-  '/pricing': 'Plans & pricing',
-  '/register': 'Create your workspace',
-  '/login': 'Sign in',
-  '/contact': 'Contact us',
-  '/terms': 'Terms of Service',
-  '/privacy': 'Privacy Policy',
-  '/cookies': 'Cookie Policy',
-  '/forgot-password': 'Reset your password',
-}
-
 export function PublicLayout({
   children,
-  description = 'Manage customer tickets, email conversations, team collaboration, SLA targets and integrations in one SupportHub workspace.',
 }: {
   children: ReactNode
-  description?: string
 }) {
   const { user } = useAuth()
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const menuToggle = useRef<HTMLButtonElement>(null)
   const appHome = user ? (isPlatformAdmin(user) ? ROUTES.platformDashboard : ROUTES.dashboard) : null
 
   useEffect(() => {
-    document.title = `${PAGE_TITLES[location.pathname] || 'Your support workspace'} | ${SITE.name}`
-    document.querySelector('meta[name="description"]')?.setAttribute('content', description)
     const frame = window.requestAnimationFrame(() => {
       if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView({ block: 'start' })
       else window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     })
     return () => window.cancelAnimationFrame(frame)
-  }, [location.pathname, location.hash, description])
+  }, [location.pathname, location.hash])
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
-      if (event.key === 'Escape') setIsMenuOpen(false)
+      if (event.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false)
+        menuToggle.current?.focus()
+      }
     }
     document.addEventListener('keydown', closeOnEscape)
     return () => document.removeEventListener('keydown', closeOnEscape)
-  }, [])
+  }, [isMenuOpen])
 
   return (
     <div className="public-site">
@@ -98,20 +80,10 @@ export function PublicLayout({
       </a>
       <header className="marketing-header">
         <div className="marketing-container marketing-header-inner">
-          <Link to={publicSiteUrl(ROUTES.home)} className="marketing-brand" aria-label="SupportHub home">
-            <span className="marketing-brand-mark">
-              <Icon name="support_agent" size={23} />
-            </span>
-            {SITE.name}
-            <span className="marketing-brand-dot">.</span>
+          <Link to={publicSiteUrl(ROUTES.home)} className="marketing-brand" aria-label="DeskNu home">
+            <BrandLogo />
           </Link>
-          <nav aria-label="Main" className="marketing-nav">
-            {NAV.map((item) => (
-              <NavLink key={item.to} to={publicSiteUrl(item.to)} className={({ isActive }) => (isActive ? 'is-active' : '')}>
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
+          <PublicNavigation />
           <div className="marketing-header-actions">
             {appHome ? (
               <Link to={appHome} className="marketing-button marketing-button-small">
@@ -129,6 +101,7 @@ export function PublicLayout({
             )}
           </div>
           <button
+            ref={menuToggle}
             type="button"
             className="marketing-menu-toggle"
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
@@ -140,12 +113,7 @@ export function PublicLayout({
           </button>
         </div>
         {isMenuOpen && (
-          <nav id="public-mobile-nav" aria-label="Mobile main" className="marketing-mobile-nav">
-            {NAV.map((item) => (
-              <Link key={item.to} to={publicSiteUrl(item.to)} onClick={() => setIsMenuOpen(false)}>
-                {item.label}
-              </Link>
-            ))}
+          <PublicNavigation mobile onNavigate={() => setIsMenuOpen(false)}>
             {appHome ? (
               <Link to={appHome} onClick={() => setIsMenuOpen(false)}>
                 Open dashboard
@@ -160,7 +128,7 @@ export function PublicLayout({
                 </Link>
               </>
             )}
-          </nav>
+          </PublicNavigation>
         )}
       </header>
       <main id="main-content" className="marketing-main" tabIndex={-1}>
@@ -169,12 +137,8 @@ export function PublicLayout({
       <footer className="marketing-footer">
         <div className="marketing-container marketing-footer-grid">
           <div>
-            <Link to={publicSiteUrl(ROUTES.home)} className="marketing-brand">
-              <span className="marketing-brand-mark">
-                <Icon name="support_agent" size={23} />
-              </span>
-              {SITE.name}
-              <span className="marketing-brand-dot">.</span>
+            <Link to={publicSiteUrl(ROUTES.home)} className="marketing-brand" aria-label="DeskNu home">
+              <BrandLogo tone="dark" size={28} />
             </Link>
             <p>
               Good support starts with a team
@@ -182,7 +146,7 @@ export function PublicLayout({
               that has everything it needs.
             </p>
             <span className="marketing-footer-tag">
-              <span /> Built around your customers
+              <span aria-hidden="true" /> Built around your customers
             </span>
           </div>
           {FOOTER_COLUMNS.map((column) => (

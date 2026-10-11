@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { AuthProvider } from '@/features/auth/hooks/useAuth'
 import { tenantsApi } from '@/features/tenants/api/tenantsApi'
@@ -36,6 +36,15 @@ function fillForm() {
 beforeEach(() => {
   vi.mocked(tenantsApi.register).mockReset()
   vi.mocked(tenantsApi.lookupSlug).mockReset()
+  // After signing up, the page asks the real API to hand the session to the new workspace's address. Only the
+  // tenant API is mocked here, so without this that call goes to whatever API address is configured: a developer's
+  // running server answers it (and the session is cleared), a clean machine has none. Pin it to "offline" so the
+  // test behaves the same everywhere and exercises the page's fallback.
+  vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('offline')))
+})
+
+afterEach(() => {
+  vi.unstubAllGlobals()
 })
 
 describe('public workspace signup', () => {
@@ -46,7 +55,7 @@ describe('public workspace signup', () => {
     fireEvent.blur(screen.getByLabelText(/Workspace ID/))
     expect(await screen.findByRole('status')).toHaveTextContent(/couldn’t check this id/i)
     expect(screen.getByRole('button', { name: 'Create workspace' })).toBeEnabled()
-    expect(screen.queryByText(/supporthub.io/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/desknu.io/i)).not.toBeInTheDocument()
   })
 
   it('ignores a stale slug response after the organization name changes', async () => {

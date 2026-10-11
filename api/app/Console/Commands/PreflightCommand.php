@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\Schema;
  * unsafe settings are found before launch instead of after. Run it on the server (or in
  * the image) with the production environment loaded:
  *
- *     php artisan supporthub:preflight               # fails (exit 1) only in production
- *     php artisan supporthub:preflight --production  # judge as if this were production
+ *     php artisan desknu:preflight               # fails (exit 1) only in production
+ *     php artisan desknu:preflight --production  # judge as if this were production
  */
 class PreflightCommand extends Command
 {
-    protected $signature = 'supporthub:preflight {--production : Treat every production-only warning as a failure}';
+    protected $signature = 'desknu:preflight {--production : Treat every production-only warning as a failure}';
+
+    protected $aliases = ['supporthub:preflight'];
 
     protected $description = 'Check the configuration for production readiness';
 
@@ -25,6 +27,9 @@ class PreflightCommand extends Command
     private array $results = [];
 
     private bool $strict = false;
+
+    /** False when the database cannot be reached: the checks that need it are skipped, the rest still run. */
+    private bool $databaseReachable = false;
 
     public function handle(): int
     {
@@ -84,9 +89,12 @@ class PreflightCommand extends Command
 
         try {
             DB::select('select 1');
+            $this->databaseReachable = true;
             $this->result('PASS', 'Database is reachable', config('database.default'));
         } catch (\Throwable $e) {
-            $this->result('FAIL', 'Database is reachable', $e->getMessage());
+            // The first line is enough to tell what is wrong (wrong host, wrong password, no such file); the rest is a stack of detail.
+            $this->result('FAIL', 'Database is reachable', strtok($e->getMessage(), "\n") ?: 'The connection failed.');
+            $this->result('FAIL', 'Migrations are up to date', 'Could not check: the database is not reachable.');
 
             return;
         }
@@ -123,24 +131,33 @@ class PreflightCommand extends Command
         $this->expect($paymentsConfigured, 'Razorpay keys are set', 'Paid plans cannot be charged without them.');
         $this->expect(! $paymentsConfigured || filled(config('services.razorpay.webhook_secret')), 'Razorpay webhook secret is set', 'Without it payment confirmations from Razorpay are rejected.', always: true);
 
+        $this->expect(filled(config('sentry.dsn')), 'Errors are reported to a tracking service', 'SENTRY_LARAVEL_DSN is not set, so errors only reach the container log and you will hear about bugs from customers. Create a Sentry project and set it (docs/error-tracking.md).', warnOnly: true);
+
         $inbound = filled(config('inbound_email.domain'));
         $this->expect(! $inbound || filled(config('inbound_email.mailgun_signing_key')), 'Inbound email has its Mailgun signing key', 'INBOUND_EMAIL_DOMAIN is set but MAILGUN_SIGNING_KEY is not, so every forwarded email is refused.', always: true);
     }
 
     private function checkData(): void
     {
-        if (! Schema::hasTable('users')) {
+        if (! $this->databaseReachable || ! Schema::hasTable('users')) {
             return;
         }
 
-        $demo = User::withoutGlobalScopes()->where(fn ($q) => $q->where('email', 'like', '%@supporthub.test')->orWhere('email', 'like', '%@%-helpdesk.test'))->count();
-        $this->expect($demo === 0, 'No demo accounts', "{$demo} seeded demo account(s) exist (…@supporthub.test). They have well-known passwords: delete them or run on a fresh database without the demo seeders.");
+        $demo = User::withoutGlobalScopes()
+            ->where(fn ($q) => $q->where('email', 'like', '%@desknu.test')
+                ->orWhere('email', 'like', '%@supporthub.test')
+                ->orWhere('email', 'like', '%@%-helpdesk.test'))
+            ->count();
+        $this->expect($demo === 0, 'No demo accounts', "{$demo} seeded demo account(s) exist (…@desknu.test). They have well-known passwords: delete them or run on a fresh database without the demo seeders.");
     }
 
-    /** Records PASS, or FAIL/WARN depending on how strict this run is. */
-    private function expect(bool $ok, string $check, string $detail = '', bool $always = false): void
+    /**
+     * Records PASS, or FAIL/WARN depending on how strict this run is. `$warnOnly` is for things that are strongly
+     * advised but are a business choice, not a defect: they never fail a deploy, however strict the run.
+     */
+    private function expect(bool $ok, string $check, string $detail = '', bool $always = false, bool $warnOnly = false): void
     {
-        $this->result($ok ? 'PASS' : ($always || $this->strict ? 'FAIL' : 'WARN'), $check, $ok ? '' : $detail);
+        $this->result($ok ? 'PASS' : ($warnOnly ? 'WARN' : ($always || $this->strict ? 'FAIL' : 'WARN')), $check, $ok ? '' : $detail);
     }
 
     private function result(string $status, string $check, string $detail): void

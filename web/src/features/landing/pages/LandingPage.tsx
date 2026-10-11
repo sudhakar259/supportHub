@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { ROUTES } from '@/app/router/routes'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { Icon } from '@/components/ui/Icon'
-import { DemoWorkspace } from '@/features/landing/components/DemoWorkspace'
 import { FaqList } from '@/features/landing/components/FaqList'
 import { PublicCta } from '@/features/landing/components/PublicCta'
 import { HOME_FAQ, PRODUCT_FEATURES, SOLUTIONS } from '@/features/landing/content'
@@ -15,16 +14,16 @@ export function LandingPage() {
         <div className="marketing-container marketing-hero-grid">
           <div className="marketing-hero-copy">
             <span className="marketing-eyebrow">
-              <span className="marketing-live-dot" /> YOUR TEAM’S NEXT CHAPTER IN SUPPORT
+              <span className="marketing-live-dot" /> HELPDESK & CUSTOMER SUPPORT SOFTWARE
             </span>
             <h1>
-              Great support.
+              Customer support.
               <br />
-              Less <span>chasing.</span>
+              One <span>shared desk.</span>
             </h1>
             <p>
-              Bring every ticket, conversation and teammate together. SupportHub helps you stay on top of requests and
-              give your customers the attention they deserve.
+              Turn support emails into tickets, route requests to your team and track SLA deadlines. DeskNu brings
+              customer conversations, collaboration and reporting into one helpdesk workspace.
             </p>
             <div className="marketing-actions">
               <Link to={ROUTES.register} className="marketing-button">
@@ -50,15 +49,23 @@ export function LandingPage() {
             <div className="marketing-visual-caption">
               <span /> A PLACE FOR EVERY CONVERSATION
             </div>
-            <DemoWorkspace compact />
-            <div className="marketing-sla-note">
-              <span>
-                <Icon name="check_circle" size={24} />
-              </span>
-              <div>
-                A clear next step.<small>Assigned. Prioritized. Ready to help.</small>
-              </div>
-            </div>
+            <figure className="marketing-product-preview">
+              <Link to={ROUTES.demo} aria-label="Explore the DeskNu sample workspace">
+                <img
+                  src="/images/workspace-preview.jpg"
+                  width={1200}
+                  height={840}
+                  alt="DeskNu sample workspace showing the ticket inbox, customer conversation, assignment and reply controls."
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                />
+              </Link>
+              <figcaption>
+                <span>Built for your team’s daily work.</span>
+                <Link to={ROUTES.demo}>Explore the product tour <Icon name="arrow_forward" size={16} /></Link>
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>
@@ -86,9 +93,9 @@ export function LandingPage() {
             <div>
               <span className="marketing-eyebrow">A HELP DESK THAT KEEPS UP</span>
               <h2>
-                Everything a support team needs.
+                Your daily support tools.
                 <br />
-                <span>Exactly where it belongs.</span>
+                <span>Exactly where you need them.</span>
               </h2>
             </div>
             <Link to={ROUTES.features} className="marketing-text-link">
@@ -97,7 +104,7 @@ export function LandingPage() {
           </div>
           <div className="marketing-feature-grid">
             {PRODUCT_FEATURES.map((feature, index) => (
-              <Link key={feature.id} to={`${ROUTES.features}#${feature.id}`} className="marketing-feature-card">
+              <Link key={feature.id} to={`${ROUTES.features}/${feature.slug}`} className="marketing-feature-card">
                 <span className={`marketing-feature-icon marketing-color-${index % 3}`}>
                   <Icon name={feature.icon} size={25} />
                 </span>
@@ -165,10 +172,10 @@ export function LandingPage() {
               <span>One connected conversation.</span>
             </h2>
             <p>
-              Keep your customers on your website while your team works in SupportHub. Create tickets and send replies
+              Keep your customers on your website while your team works in DeskNu. Create tickets and send replies
               through the API, then keep your app updated with signed webhooks.
             </p>
-            <Link to={`${ROUTES.features}#integrations`} className="marketing-text-link">
+            <Link to={`${ROUTES.features}/api-webhooks`} className="marketing-text-link">
               See how it connects <Icon name="arrow_forward" size={18} />
             </Link>
           </div>
@@ -187,7 +194,7 @@ export function LandingPage() {
             <div className="marketing-integration-node marketing-integration-hub">
               <Icon name="support_agent" size={28} />
               <span>
-                SupportHub<small>Your team picks up the conversation</small>
+                DeskNu<small>Your team picks up the conversation</small>
               </span>
               <span className="marketing-hub-badge">Ticket created</span>
             </div>
@@ -249,7 +256,7 @@ export function LandingPage() {
             Organization-level data separation, role-based permissions, private notes and an audit trail help keep
             customer information in the right hands.
           </p>
-          <Link to={`${ROUTES.features}#workspace`} className="marketing-text-link">
+          <Link to={ROUTES.security} className="marketing-text-link">
             Built-in controls <Icon name="arrow_forward" size={18} />
           </Link>
         </div>
@@ -262,7 +269,7 @@ export function LandingPage() {
               Frequently
               <br /> asked questions.
             </h2>
-            <p>Get to know SupportHub before you get started.</p>
+            <p>Get to know DeskNu before you get started.</p>
             <Link to={ROUTES.pricing} className="marketing-text-link">
               Compare plans <Icon name="arrow_forward" size={18} />
             </Link>

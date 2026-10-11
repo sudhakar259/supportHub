@@ -8,7 +8,7 @@ import { PublicCta } from '@/features/landing/components/PublicCta'
 
 export function DemoPage() {
   return (
-    <PublicLayout description="Try SupportHub with an interactive sample workspace. Explore ticket replies, private notes, resolution, routing rules and reports without signing up.">
+    <PublicLayout>
       <section className="marketing-page-hero marketing-demo-hero">
         <div className="marketing-container">
           <span className="marketing-eyebrow">TAKE A LOOK AROUND</span>
@@ -42,7 +42,7 @@ export function DemoPage() {
           </div>
           <DemoWorkspace />
           <p className="marketing-demo-footnote">
-            This tour illustrates existing SupportHub features.{' '}
+            This tour illustrates existing DeskNu features.{' '}
             <Link to={ROUTES.register}>Create your own workspace</Link> to configure your team, SLA policies and
             integrations.
           </p>

@@ -55,7 +55,7 @@ class WebhookDispatcher
     public function test(Webhook $webhook): WebhookDelivery
     {
         $payload = [
-            'message' => 'This is a test event from Support24.',
+            'message' => 'This is a test event from DeskNu.',
             'webhook_id' => $webhook->id,
         ];
 

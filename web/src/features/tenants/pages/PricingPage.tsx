@@ -131,18 +131,18 @@ export function PricingPage() {
       : plans
 
   return (
-    <PublicLayout description="Compare current SupportHub plans, workspace prices and usage limits. Start with a free plan or a 14-day paid-plan trial.">
+    <PublicLayout>
       <section className="marketing-page-hero marketing-pricing-hero">
         <div className="marketing-container">
           <span className="marketing-eyebrow">ROOM TO START. ROOM TO GROW.</span>
           <h1>
-            Good support for your customers.
+            Helpdesk plans & pricing.
             <br />
-            <span>A clear plan for your team.</span>
+            <span>Room for your team to grow.</span>
           </h1>
           <p>
-            Start small. Grow when you’re ready. Every plan includes the full SupportHub feature set, with usage limits
-            that fit your operation.
+            Start small. Grow when you’re ready. Compare workspace usage limits and plan options. Custom email sending domains
+            require an eligible paid plan and domain verification.
           </p>
           <div className="marketing-pricing-notes">
             <span>

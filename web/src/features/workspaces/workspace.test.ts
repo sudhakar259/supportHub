@@ -9,9 +9,9 @@ afterEach(() => {
 
 describe('tenant workspace addresses', () => {
   it('recognizes only one valid tenant label under the configured domain', () => {
-    expect(workspaceSlug('crevol.supporthub.com', 'supporthub.com')).toBe('crevol')
-    for (const host of ['supporthub.com', 'api.supporthub.com', 'www.supporthub.com', 'a.crevol.supporthub.com', 'crevol.supporthub.com.attacker.test']) {
-      expect(workspaceSlug(host, 'supporthub.com')).toBeNull()
+    expect(workspaceSlug('crevol.desknu.com', 'desknu.com')).toBe('crevol')
+    for (const host of ['desknu.com', 'api.desknu.com', 'www.desknu.com', 'a.crevol.desknu.com', 'crevol.desknu.com.attacker.test']) {
+      expect(workspaceSlug(host, 'desknu.com')).toBeNull()
     }
   })
 
@@ -21,9 +21,9 @@ describe('tenant workspace addresses', () => {
   })
 
   it('uses HTTPS and the configured parent domain in production', () => {
-    vi.stubEnv('VITE_WORKSPACE_DOMAIN', 'supporthub.com')
-    vi.stubGlobal('window', { location: { hostname: 'supporthub.com', protocol: 'https:', port: '' } })
-    expect(workspaceUrl('crevol')).toBe('https://crevol.supporthub.com/login')
+    vi.stubEnv('VITE_WORKSPACE_DOMAIN', 'desknu.com')
+    vi.stubGlobal('window', { location: { hostname: 'desknu.com', protocol: 'https:', port: '' } })
+    expect(workspaceUrl('crevol')).toBe('https://crevol.desknu.com/login')
     expect(workspaceUrl('api')).toBeNull()
     expect(workspaceHeaders()).toEqual({})
   })
@@ -36,10 +36,10 @@ describe('tenant workspace addresses', () => {
   })
 
   it('sends the workspace header only from a tenant host and links marketing back to the root', () => {
-    vi.stubEnv('VITE_WORKSPACE_DOMAIN', 'supporthub.com')
-    vi.stubGlobal('window', { location: { hostname: 'crevol.supporthub.com', protocol: 'https:', port: '' } })
+    vi.stubEnv('VITE_WORKSPACE_DOMAIN', 'desknu.com')
+    vi.stubGlobal('window', { location: { hostname: 'crevol.desknu.com', protocol: 'https:', port: '' } })
     expect(workspaceHeaders()).toEqual({ 'X-Workspace': 'crevol' })
-    expect(publicSiteUrl('/register')).toBe('https://supporthub.com/register')
+    expect(publicSiteUrl('/register')).toBe('https://desknu.com/register')
   })
 
   it('preserves a deployment on a single domain when workspace domains are not enabled', () => {

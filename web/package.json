@@ -1,16 +1,19 @@
 {
-  "name": "web",
+  "name": "desknu-web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "brand:sync": "node scripts/sync-brand-assets.mjs",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/prerender.mjs",
     "lint": "oxlint",
     "test": "vitest run",
+    "test:seo": "node scripts/verify-public-build.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@sentry/react": "^11.6.0",
     "qrcode": "^1.5.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

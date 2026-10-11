@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| SupportHub's API is stateless and has no Blade frontend. This route
+| DeskNu's API is stateless and has no Blade frontend. This route
 | exists only as a friendly landing point; everything else is served
 | under /api/v1 (see routes/api.php) and /docs (Scribe documentation).
 |

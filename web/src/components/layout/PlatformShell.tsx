@@ -1,9 +1,11 @@
+import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 
 import { ROUTES } from '@/app/router/routes'
 import { Avatar } from '@/components/ui/Avatar'
 import { Icon } from '@/components/ui/Icon'
+import { BrandLogo } from '@/components/ui/BrandLogo'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import { cn } from '@/utils/cn'
 
@@ -19,7 +21,7 @@ const PLATFORM_NAV_ITEMS = [
  * for tenant-domain permissions the Platform Admin role deliberately holds
  * none of, so reusing it as-is would render an empty sidebar).
  */
-export function PlatformShell() {
+export function PlatformShell({ children }: { children?: ReactNode }) {
   const { user, logout } = useAuth()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -28,12 +30,9 @@ export function PlatformShell() {
     <div className="min-h-screen bg-background">
       <header className="flex h-16 items-center justify-between gap-gutter border-b border-surface-container-high bg-inverse-surface px-gutter-lg text-inverse-on-surface">
         <div className="flex items-center gap-space-sm">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-container text-on-primary-container">
-            <Icon name="admin_panel_settings" size={20} />
-          </div>
           <div className="flex flex-col">
-            <span className="text-title-sm leading-tight">SupportHub</span>
-            <span className="text-label-sm uppercase tracking-wider text-secondary-fixed">Platform Admin</span>
+            <BrandLogo tone="dark" size={22} />
+            <span className="pl-10 text-label-sm uppercase tracking-wider text-secondary-fixed">Platform Admin</span>
           </div>
         </div>
 
@@ -94,7 +93,7 @@ export function PlatformShell() {
         </aside>
 
         <main className="min-h-[calc(100vh-4rem)] w-full bg-background">
-          <Outlet />
+          {children ?? <Outlet />}
         </main>
       </div>
     </div>

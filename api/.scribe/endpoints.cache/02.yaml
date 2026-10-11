@@ -205,7 +205,7 @@ endpoints:
         name: email
         description: ''
         required: true
-        example: admin@supporthub.test
+        example: admin@desknu.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -245,7 +245,7 @@ endpoints:
         nullable: true
         deprecated: false
     cleanBodyParameters:
-      email: admin@supporthub.test
+      email: admin@desknu.test
       password: password
       tenant: acme-support
       device_name: web-browser
@@ -259,7 +259,7 @@ endpoints:
             "success": true,
             "message": "Login successful.",
             "data": {
-              "user": {"id": 1, "name": "System Administrator", "email": "admin@supporthub.test", "roles": ["Administrator"]},
+              "user": {"id": 1, "name": "System Administrator", "email": "admin@desknu.test", "roles": ["Administrator"]},
               "token": "1|abcdef123456...",
               "token_type": "Bearer"
             }
@@ -434,7 +434,7 @@ endpoints:
         name: email
         description: ''
         required: true
-        example: admin@supporthub.test
+        example: admin@desknu.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -452,7 +452,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      email: admin@supporthub.test
+      email: admin@desknu.test
       tenant: acme-support
     fileParameters: []
     responses:
@@ -518,7 +518,7 @@ endpoints:
         name: email
         description: ''
         required: true
-        example: admin@supporthub.test
+        example: admin@desknu.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -559,7 +559,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       token: 9f8e7d6c5b4a
-      email: admin@supporthub.test
+      email: admin@desknu.test
       tenant: acme-support
       password: NewSecret123!word$9
       password_confirmation: NewSecret123!
@@ -751,7 +751,7 @@ endpoints:
           {
             "success": true,
             "message": "Request successful.",
-            "data": {"id": 1, "name": "System Administrator", "email": "admin@supporthub.test", "roles": ["Administrator"], "permissions": ["tickets.view", "..."]}
+            "data": {"id": 1, "name": "System Administrator", "email": "admin@desknu.test", "roles": ["Administrator"], "permissions": ["tickets.view", "..."]}
           }
         headers: []
         description: ''

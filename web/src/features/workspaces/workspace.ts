@@ -4,13 +4,13 @@ export function isWorkspaceSlug(slug: string): boolean {
   return /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(slug) && !RESERVED_SLUGS.has(slug)
 }
 
-export function workspaceDomain(hostname = window.location.hostname): string | null {
+export function workspaceDomain(hostname = typeof window === 'undefined' ? '' : window.location.hostname): string | null {
   const configured = (import.meta.env.VITE_WORKSPACE_DOMAIN as string | undefined)?.trim().toLowerCase().replace(/^\.+|\.+$/g, '')
   if (configured) return configured
   return hostname === 'localhost' || hostname.endsWith('.localhost') ? 'localhost' : null
 }
 
-export function workspaceSlug(hostname = window.location.hostname, domain = workspaceDomain(hostname)): string | null {
+export function workspaceSlug(hostname = typeof window === 'undefined' ? '' : window.location.hostname, domain = workspaceDomain(hostname)): string | null {
   if (!domain || !hostname.toLowerCase().endsWith(`.${domain}`)) return null
   const slug = hostname.toLowerCase().slice(0, -(domain.length + 1))
   return isWorkspaceSlug(slug) ? slug : null

@@ -1,6 +1,6 @@
-# SupportHub API
+# DeskNu API
 
-Laravel 13 REST API for SupportHub — see the [project root README](../README.md)
+Laravel 13 REST API for DeskNu — see the [project root README](../README.md)
 for the overall picture and [`docs/`](../docs/) for architecture, auth,
 authorization, ticket workflow, routing, notifications, development, and
 deployment documentation.
@@ -15,7 +15,7 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-Demo login: `admin@supporthub.test` / `password` (see
+Demo login: `admin@desknu.test` / `password` (see
 [`docs/development.md`](../docs/development.md) for the full account list).
 
 ## Tests

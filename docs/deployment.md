@@ -1,7 +1,7 @@
 # Deployment
 
 Before going live, work through [production-checklist.md](production-checklist.md) and run
-`php artisan supporthub:preflight --production`, which checks the configuration for you.
+`php artisan desknu:preflight --production`, which checks the configuration for you.
 
 ## Container images
 
@@ -52,7 +52,7 @@ confirmation, which a deploy script can't answer. Run seeders (`--seed` or
 manually) **once**, for initial reference data (roles, statuses, priorities,
 etc.) — `UsersSeeder` and `DemoTicketSeeder` are development/demo
 conveniences and should not run against production (they create a
-well-known `admin@supporthub.test` / `password` account).
+well-known `admin@desknu.test` / `password` account).
 
 ## Queue worker
 
@@ -77,9 +77,8 @@ was queued.
 ```
 
 (or the `scheduler` container's loop) is required for any time-based
-behavior — e.g. a future SLA-breach-escalation check — to run at all.
-Nothing is currently scheduled by default, but the mechanism should be
-running before anything is added to `routes/console.php`'s schedule.
+behavior to run: SLA breach checks every five minutes, hourly billing renewal
+and lapse checks, and daily idempotency-key cleanup in `routes/console.php`.
 
 ## Health check
 

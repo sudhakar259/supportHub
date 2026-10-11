@@ -14,8 +14,11 @@ interface RazorpayOptions {
   currency: string
   order_id: string
   name: string
+  image: string
   description: string
   handler: (response: RazorpaySuccess) => void
+  /** Accent color of Razorpay's payment window (buttons, highlights). */
+  theme: { color: string }
   modal: { ondismiss: () => void }
 }
 
@@ -28,6 +31,15 @@ declare global {
   interface Window {
     Razorpay?: new (options: RazorpayOptions) => RazorpayInstance
   }
+}
+
+/** Falls back to the Solar Navy primary if the stylesheet token cannot be read (tests, very old browsers). */
+const FALLBACK_PRIMARY = '#a33900'
+
+/** Razorpay's window is theme-able by one color: use the app's primary so payment matches the rest of the product. */
+function brandColor(): string {
+  const value = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim()
+  return /^#[0-9a-f]{6}$/i.test(value) ? value : FALLBACK_PRIMARY
 }
 
 let scriptPromise: Promise<void> | null = null
@@ -75,9 +87,11 @@ export async function openRazorpayCheckout({ checkout, description, onSuccess, o
     amount: checkout.amountCents,
     currency: checkout.currency,
     order_id: checkout.orderId,
-    name: 'SupportHub',
+    name: 'DeskNu',
+    image: new URL('/favicon.png', window.location.origin).href,
     description,
     handler: onSuccess,
+    theme: { color: brandColor() },
     modal: { ondismiss: onDismiss },
   })
 

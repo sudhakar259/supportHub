@@ -4,12 +4,73 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>SupportHub API Documentation</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <title>DeskNu API Documentation</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
 
     <link rel="stylesheet" href="../docs/css/theme-default.style.css" media="screen">
     <link rel="stylesheet" href="../docs/css/theme-default.print.css" media="print">
+
+    <style>
+    :root {
+        --primary: #a33900;
+        --primary-hover: #cc4900;
+        --inverse-surface: #213145;
+        --on-surface: #0b1c30;
+        --on-surface-variant: #5a4138;
+        --surface: #f8f9ff;
+        --surface-container-low: #eff4ff;
+        --surface-container: #e5eeff;
+        --outline: #8e7166;
+        --success: #15803d;
+        --warning: #92400e;
+        --info: #1d4ed8;
+        --error: #ba1a1a;
+    }
+
+    /* Page, text and links */
+    body, .page-wrapper { background-color: var(--surface); }
+    body, .content, .content p, .content li, .content td { color: var(--on-surface); font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 { color: var(--on-surface); }
+    .content h1 { border-bottom-color: var(--surface-container); }
+    .content a, .content a:visited { color: var(--primary); text-decoration: underline; }
+    .content a:hover, .content a:focus { color: var(--primary-hover); }
+    .content hr { border-top-color: var(--primary); border-bottom-color: var(--surface-container); }
+    .content table th { color: var(--on-surface-variant); }
+    .content table tr:nth-child(odd) > td { background-color: var(--surface-container-low); }
+    .content table tr:nth-child(even) > td { background-color: var(--surface); }
+    .content code { color: var(--on-surface); }
+
+    /* Sidebar */
+    .tocify-wrapper { background-color: var(--inverse-surface); }
+    .tocify-wrapper > .logo { display: block; width: 174px; height: 48px; margin: 12px auto; padding: 0 !important; }
+    .tocify-wrapper > .search input { background: var(--on-surface); border-color: var(--outline); color: #eaf1ff; }
+    .tocify-wrapper .tocify-subheader { background-color: var(--on-surface); }
+    .tocify-wrapper .tocify-focus { background-color: var(--on-surface); box-shadow: inset 3px 0 0 var(--primary-hover); color: #fff; }
+
+    /* Right-hand example panel and code */
+    .page-wrapper .dark-box { background-color: var(--inverse-surface); }
+    .content pre, .content blockquote, .content .annotation, .highlight, .highlight .w { background-color: var(--on-surface); }
+    .page-wrapper .lang-selector { border-bottom-color: var(--inverse-surface); }
+    .lang-selector button.active { background-color: var(--inverse-surface); }
+
+    /* Notices: the semantic containers, each with its own readable text color */
+    .content aside, .content aside.notice { background: var(--on-surface); }
+    .content aside.info { background: #eff6ff; color: #1e40af; text-shadow: none; }
+    .content aside.warning { background-color: #fffbeb; color: #78350f; text-shadow: none; }
+    .content aside.success { background-color: #dcfce7; color: #14532d; text-shadow: none; }
+
+    /* HTTP method and requirement badges (Scribe: GET=green, POST=black, PUT=darkblue, PATCH=purple, DELETE=red) */
+    .badge.badge-green { background-color: var(--success); }
+    .badge.badge-black { background-color: var(--inverse-surface); }
+    .badge.badge-darkblue { background-color: var(--info); }
+    .badge.badge-purple { background-color: var(--warning); }
+    .badge.badge-red { background-color: var(--error); }
+    .badge.badge-darkred { background-color: var(--primary); }
+    .badge.badge-blue { background-color: var(--info); }
+    .badge.badge-darkgreen { background-color: var(--success); }
+    .badge.badge-darkgoldenrod { background-color: var(--warning); }
+    .badge.badge-grey { background-color: var(--outline); }
+</style>
 
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 
@@ -45,6 +106,7 @@
     </span>
 </a>
 <div class="tocify-wrapper">
+            <img src="../branding/wordmark-dark.svg" alt="logo" class="logo" style="padding-top: 10px;" width="100%"/>
     
             <div class="lang-selector">
                                             <button type="button" class="lang-button" data-language-name="bash">bash</button>
@@ -786,7 +848,7 @@
     <div class="dark-box"></div>
     <div class="content">
         <h1 id="introduction">Introduction</h1>
-<p>REST API for SupportHub — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.</p>
+<p>REST API for DeskNu — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.</p>
 <aside>
     <strong>Base URL</strong>: <code>http://localhost:8082</code>
 </aside>
@@ -1095,7 +1157,7 @@ managed and revoked independently per device.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"email\": \"admin@supporthub.test\",
+    \"email\": \"admin@desknu.test\",
     \"password\": \"password\",
     \"tenant\": \"acme-support\",
     \"device_name\": \"web-browser\"
@@ -1114,7 +1176,7 @@ const headers = {
 };
 
 let body = {
-    "email": "admin@supporthub.test",
+    "email": "admin@desknu.test",
     "password": "password",
     "tenant": "acme-support",
     "device_name": "web-browser"
@@ -1141,7 +1203,7 @@ fetch(url, {
         &quot;user&quot;: {
             &quot;id&quot;: 1,
             &quot;name&quot;: &quot;System Administrator&quot;,
-            &quot;email&quot;: &quot;admin@supporthub.test&quot;,
+            &quot;email&quot;: &quot;admin@desknu.test&quot;,
             &quot;roles&quot;: [
                 &quot;Administrator&quot;
             ]
@@ -1267,10 +1329,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-auth-login"
-               value="admin@supporthub.test"
+               value="admin@desknu.test"
                data-component="body">
     <br>
-<p>Example: <code>admin@supporthub.test</code></p>
+<p>Example: <code>admin@desknu.test</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -1535,7 +1597,7 @@ which addresses have accounts.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"email\": \"admin@supporthub.test\",
+    \"email\": \"admin@desknu.test\",
     \"tenant\": \"acme-support\"
 }"
 </code></pre></div>
@@ -1552,7 +1614,7 @@ const headers = {
 };
 
 let body = {
-    "email": "admin@supporthub.test",
+    "email": "admin@desknu.test",
     "tenant": "acme-support"
 };
 
@@ -1656,10 +1718,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-auth-forgot-password"
-               value="admin@supporthub.test"
+               value="admin@desknu.test"
                data-component="body">
     <br>
-<p>Example: <code>admin@supporthub.test</code></p>
+<p>Example: <code>admin@desknu.test</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>tenant</code></b>&nbsp;&nbsp;
@@ -1694,7 +1756,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"token\": \"9f8e7d6c5b4a\",
-    \"email\": \"admin@supporthub.test\",
+    \"email\": \"admin@desknu.test\",
     \"tenant\": \"acme-support\",
     \"password\": \"NewSecret123!word$9\",
     \"password_confirmation\": \"NewSecret123!\"
@@ -1714,7 +1776,7 @@ const headers = {
 
 let body = {
     "token": "9f8e7d6c5b4a",
-    "email": "admin@supporthub.test",
+    "email": "admin@desknu.test",
     "tenant": "acme-support",
     "password": "NewSecret123!word$9",
     "password_confirmation": "NewSecret123!"
@@ -1847,10 +1909,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-auth-reset-password"
-               value="admin@supporthub.test"
+               value="admin@desknu.test"
                data-component="body">
     <br>
-<p>Example: <code>admin@supporthub.test</code></p>
+<p>Example: <code>admin@desknu.test</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>tenant</code></b>&nbsp;&nbsp;
@@ -2239,7 +2301,7 @@ fetch(url, {
     &quot;data&quot;: {
         &quot;id&quot;: 1,
         &quot;name&quot;: &quot;System Administrator&quot;,
-        &quot;email&quot;: &quot;admin@supporthub.test&quot;,
+        &quot;email&quot;: &quot;admin@desknu.test&quot;,
         &quot;roles&quot;: [
             &quot;Administrator&quot;
         ],
@@ -2739,7 +2801,7 @@ department memberships.</p>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Alex Agent\",
-    \"email\": \"alex@supporthub.test\",
+    \"email\": \"alex@desknu.test\",
     \"password\": \"Secret123!\",
     \"phone\": \"+1-555-0100\",
     \"role\": \"Agent\",
@@ -2765,7 +2827,7 @@ const headers = {
 
 let body = {
     "name": "Alex Agent",
-    "email": "alex@supporthub.test",
+    "email": "alex@desknu.test",
     "password": "Secret123!",
     "phone": "+1-555-0100",
     "role": "Agent",
@@ -2906,10 +2968,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-users"
-               value="alex@supporthub.test"
+               value="alex@desknu.test"
                data-component="body">
     <br>
-<p>Example: <code>alex@supporthub.test</code></p>
+<p>Example: <code>alex@desknu.test</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -3150,7 +3212,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Alex Agent\",
-    \"email\": \"alex@supporthub.test\",
+    \"email\": \"alex@desknu.test\",
     \"phone\": \"+1-555-0199\",
     \"timezone\": \"Europe\\/Dublin\",
     \"is_active\": true
@@ -3171,7 +3233,7 @@ const headers = {
 
 let body = {
     "name": "Alex Agent",
-    "email": "alex@supporthub.test",
+    "email": "alex@desknu.test",
     "phone": "+1-555-0199",
     "timezone": "Europe\/Dublin",
     "is_active": true
@@ -3317,10 +3379,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="PUTapi-v1-users--user_id-"
-               value="alex@supporthub.test"
+               value="alex@desknu.test"
                data-component="body">
     <br>
-<p>Example: <code>alex@supporthub.test</code></p>
+<p>Example: <code>alex@desknu.test</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
@@ -10568,7 +10630,7 @@ sending <code>is_internal</code> has it silently ignored, never honored.</p>
     --header "Accept: application/json" \
     --form "body=Thanks for reaching out — can you share a screenshot of the error?"\
     --form "is_internal="\
-    --form "attachments[]=@/tmp/phpjcoBhf" </code></pre></div>
+    --form "attachments[]="</code></pre></div>
 
 
 <div class="javascript-example">
@@ -10585,7 +10647,7 @@ const headers = {
 const body = new FormData();
 body.append('body', 'Thanks for reaching out — can you share a screenshot of the error?');
 body.append('is_internal', '');
-body.append('attachments[]', document.querySelector('input[name="attachments[]"]').files[0]);
+body.append('attachments[]', '');
 
 fetch(url, {
     method: "POST",
@@ -10639,7 +10701,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-POSTapi-v1-tickets--ticket_id--messages" data-method="POST"
       data-path="api/v1/tickets/{ticket_id}/messages"
       data-authed="1"
-      data-hasfiles="1"
+      data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-tickets--ticket_id--messages', this);">
@@ -11174,7 +11236,7 @@ field on POST /tickets/{ticket}/messages instead.</p>
     --header "Authorization: Bearer {YOUR_AUTH_TOKEN}" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
-    --form "file=@/tmp/phpPgfECg" </code></pre></div>
+    --form "file=@/private/var/folders/54/v6rmsk9d54v2fs7zpyskkhyc0000gn/T/php9h6ns1bdohhv29cSimv" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -11334,7 +11396,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Max 2 MB. One of jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx. Example: <code>/tmp/phpPgfECg</code></p>
+<p>Max 2 MB. One of jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx. Example: <code>/private/var/folders/54/v6rmsk9d54v2fs7zpyskkhyc0000gn/T/php9h6ns1bdohhv29cSimv</code></p>
         </div>
         </form>
 
@@ -12939,7 +13001,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"On Hold\",
     \"slug\": \"on-hold\",
     \"color\": \"#6B7280\",
-    \"is_default\": false,
+    \"is_default\": true,
     \"is_closed\": false,
     \"sort_order\": 37
 }"
@@ -12961,7 +13023,7 @@ let body = {
     "name": "On Hold",
     "slug": "on-hold",
     "color": "#6B7280",
-    "is_default": false,
+    "is_default": true,
     "is_closed": false,
     "sort_order": 37
 };
@@ -13130,7 +13192,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>false</code></p>
+<p>Example: <code>true</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>is_closed</code></b>&nbsp;&nbsp;
@@ -13343,7 +13405,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"On Hold\",
     \"slug\": \"n\",
     \"color\": \"#F59E0B\",
-    \"is_default\": true,
+    \"is_default\": false,
     \"is_closed\": true,
     \"sort_order\": 37
 }"
@@ -13365,7 +13427,7 @@ let body = {
     "name": "On Hold",
     "slug": "n",
     "color": "#F59E0B",
-    "is_default": true,
+    "is_default": false,
     "is_closed": true,
     "sort_order": 37
 };
@@ -13551,7 +13613,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>true</code></p>
+<p>Example: <code>false</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>is_closed</code></b>&nbsp;&nbsp;
@@ -14300,7 +14362,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"slug\": \"n\",
     \"level\": 5,
     \"color\": \"zmiyvdl\",
-    \"is_default\": true
+    \"is_default\": false
 }"
 </code></pre></div>
 
@@ -14321,7 +14383,7 @@ let body = {
     "slug": "n",
     "level": 5,
     "color": "zmiyvdl",
-    "is_default": true
+    "is_default": false
 };
 
 fetch(url, {
@@ -14517,7 +14579,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>true</code></p>
+<p>Example: <code>false</code></p>
         </div>
         </form>
 
@@ -15107,10 +15169,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="conditions.0.field"                data-endpoint="POSTapi-v1-routing-rules"
-               value="customer_type"
+               value="category_id"
                data-component="body">
     <br>
-<p>Example: <code>customer_type</code></p>
+<p>Example: <code>category_id</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>category_id</code></li> <li><code>priority_id</code></li> <li><code>customer_type</code></li> <li><code>keyword</code></li></ul>
                     </div>
@@ -15121,10 +15183,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="conditions.0.operator"                data-endpoint="POSTapi-v1-routing-rules"
-               value="in"
+               value="!="
                data-component="body">
     <br>
-<p>Example: <code>in</code></p>
+<p>Example: <code>!=</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>=</code></li> <li><code>!=</code></li> <li><code>in</code></li></ul>
                     </div>
@@ -15159,10 +15221,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="actions.0.type"                data-endpoint="POSTapi-v1-routing-rules"
-               value="assign_agent"
+               value="send_notification"
                data-component="body">
     <br>
-<p>Example: <code>assign_agent</code></p>
+<p>Example: <code>send_notification</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>assign_department</code></li> <li><code>assign_agent</code></li> <li><code>set_priority</code></li> <li><code>escalate</code></li> <li><code>send_notification</code></li></ul>
                     </div>
@@ -15361,13 +15423,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"stop_processing\": false,
     \"conditions\": [
         {
-            \"field\": \"category_id\",
+            \"field\": \"keyword\",
             \"operator\": \"in\"
         }
     ],
     \"actions\": [
         {
-            \"type\": \"escalate\"
+            \"type\": \"set_priority\"
         }
     ]
 }"
@@ -15393,13 +15455,13 @@ let body = {
     "stop_processing": false,
     "conditions": [
         {
-            "field": "category_id",
+            "field": "keyword",
             "operator": "in"
         }
     ],
     "actions": [
         {
-            "type": "escalate"
+            "type": "set_priority"
         }
     ]
 };
@@ -15626,10 +15688,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="conditions.0.field"                data-endpoint="PUTapi-v1-routing-rules--rule_id-"
-               value="category_id"
+               value="keyword"
                data-component="body">
     <br>
-<p>This field is required when <code>conditions</code> is present. Example: <code>category_id</code></p>
+<p>This field is required when <code>conditions</code> is present. Example: <code>keyword</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>category_id</code></li> <li><code>priority_id</code></li> <li><code>customer_type</code></li> <li><code>keyword</code></li></ul>
                     </div>
@@ -15678,10 +15740,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="actions.0.type"                data-endpoint="PUTapi-v1-routing-rules--rule_id-"
-               value="escalate"
+               value="set_priority"
                data-component="body">
     <br>
-<p>This field is required when <code>actions</code> is present. Example: <code>escalate</code></p>
+<p>This field is required when <code>actions</code> is present. Example: <code>set_priority</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>assign_department</code></li> <li><code>assign_agent</code></li> <li><code>set_priority</code></li> <li><code>escalate</code></li> <li><code>send_notification</code></li></ul>
                     </div>
@@ -16029,8 +16091,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"first_response_minutes\": 15,
     \"resolution_minutes\": 120,
     \"business_hours_only\": false,
-    \"is_default\": true,
-    \"is_active\": false
+    \"is_default\": false,
+    \"is_active\": true
 }"
 </code></pre></div>
 
@@ -16055,8 +16117,8 @@ let body = {
     "first_response_minutes": 15,
     "resolution_minutes": 120,
     "business_hours_only": false,
-    "is_default": true,
-    "is_active": false
+    "is_default": false,
+    "is_active": true
 };
 
 fetch(url, {
@@ -16293,7 +16355,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>true</code></p>
+<p>Example: <code>false</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
@@ -16315,7 +16377,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>false</code></p>
+<p>Example: <code>true</code></p>
         </div>
         </form>
 
@@ -16498,7 +16560,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"business_hours_id\": 16,
     \"first_response_minutes\": 10,
     \"resolution_minutes\": 67,
-    \"business_hours_only\": false,
+    \"business_hours_only\": true,
     \"is_default\": false,
     \"is_active\": false
 }"
@@ -16524,7 +16586,7 @@ let body = {
     "business_hours_id": 16,
     "first_response_minutes": 10,
     "resolution_minutes": 67,
-    "business_hours_only": false,
+    "business_hours_only": true,
     "is_default": false,
     "is_active": false
 };
@@ -16758,7 +16820,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>false</code></p>
+<p>Example: <code>true</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>is_default</code></b>&nbsp;&nbsp;
@@ -22284,8 +22346,8 @@ Both stream row by row, so a large workspace does not run out of memory.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"from\": \"2026-10-11T07:06:06\",
-    \"to\": \"2026-10-11T07:06:06\"
+    \"from\": \"2026-10-11T09:13:53\",
+    \"to\": \"2026-10-11T09:13:53\"
 }"
 </code></pre></div>
 
@@ -22309,8 +22371,8 @@ const headers = {
 };
 
 let body = {
-    "from": "2026-10-11T07:06:06",
-    "to": "2026-10-11T07:06:06"
+    "from": "2026-10-11T09:13:53",
+    "to": "2026-10-11T09:13:53"
 };
 
 fetch(url, {
@@ -22446,10 +22508,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-exports-tickets"
-               value="2026-10-11T07:06:06"
+               value="2026-10-11T09:13:53"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-10-11T07:06:06</code></p>
+<p>Must be a valid date. Example: <code>2026-10-11T09:13:53</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -22458,10 +22520,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-exports-tickets"
-               value="2026-10-11T07:06:06"
+               value="2026-10-11T09:13:53"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-10-11T07:06:06</code></p>
+<p>Must be a valid date. Example: <code>2026-10-11T09:13:53</code></p>
         </div>
         </form>
 
@@ -24884,12 +24946,12 @@ own system already has on hand.</p>
     --form "subject=Cannot access my account"\
     --form "description=Getting a 500 error at login."\
     --form "category_id=2"\
+    --form "attachments[]="\
     --form "priority_id=3"\
     --form "department_id=1"\
     --form "customer_id=4"\
     --form "customer_email=jamie@example.com"\
-    --form "customer_external_id=CRM-001"\
-    --form "attachments[]=@/tmp/phpOHhFcn" </code></pre></div>
+    --form "customer_external_id=CRM-001"</code></pre></div>
 
 
 <div class="javascript-example">
@@ -24908,12 +24970,12 @@ const body = new FormData();
 body.append('subject', 'Cannot access my account');
 body.append('description', 'Getting a 500 error at login.');
 body.append('category_id', '2');
+body.append('attachments[]', '');
 body.append('priority_id', '3');
 body.append('department_id', '1');
 body.append('customer_id', '4');
 body.append('customer_email', 'jamie@example.com');
 body.append('customer_external_id', 'CRM-001');
-body.append('attachments[]', document.querySelector('input[name="attachments[]"]').files[0]);
 
 fetch(url, {
     method: "POST",
@@ -24967,7 +25029,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-POSTapi-v1-integration-tickets" data-method="POST"
       data-path="api/v1/integration/tickets"
       data-authed="0"
-      data-hasfiles="1"
+      data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-integration-tickets', this);">
@@ -25405,7 +25467,7 @@ into the ticket thread, attributed to the ticket's own customer.</p>
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "body=Any update on this?"\
-    --form "attachments[]=@/tmp/phpJmMihn" </code></pre></div>
+    --form "attachments[]="</code></pre></div>
 
 
 <div class="javascript-example">
@@ -25422,7 +25484,7 @@ const headers = {
 
 const body = new FormData();
 body.append('body', 'Any update on this?');
-body.append('attachments[]', document.querySelector('input[name="attachments[]"]').files[0]);
+body.append('attachments[]', '');
 
 fetch(url, {
     method: "POST",
@@ -25466,7 +25528,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-POSTapi-v1-integration-tickets--ticket_id--messages" data-method="POST"
       data-path="api/v1/integration/tickets/{ticket_id}/messages"
       data-authed="0"
-      data-hasfiles="1"
+      data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-integration-tickets--ticket_id--messages', this);">
@@ -26383,7 +26445,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
-    --form "file=@/tmp/phpGmGigo" </code></pre></div>
+    --form "file=@/private/var/folders/54/v6rmsk9d54v2fs7zpyskkhyc0000gn/T/phpil2kkbd67css2Sh2qK9" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -26544,7 +26606,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Max 2 MB. One of jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx. Example: <code>/tmp/phpGmGigo</code></p>
+<p>Max 2 MB. One of jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx. Example: <code>/private/var/folders/54/v6rmsk9d54v2fs7zpyskkhyc0000gn/T/phpil2kkbd67css2Sh2qK9</code></p>
         </div>
         </form>
 
@@ -29757,7 +29819,7 @@ fetch(url, {
     &quot;message&quot;: &quot;Scan the code, then confirm with a code from your app.&quot;,
     &quot;data&quot;: {
         &quot;secret&quot;: &quot;JBSWY3DPEHPK3PXP&quot;,
-        &quot;otpauth_url&quot;: &quot;otpauth://totp/SupportHub:me%40example.com?secret=JBSWY3DPEHPK3PXP&amp;issuer=SupportHub&quot;
+        &quot;otpauth_url&quot;: &quot;otpauth://totp/DeskNu:me%40example.com?secret=JBSWY3DPEHPK3PXP&amp;issuer=DeskNu&quot;
     }
 }</code>
  </pre>
@@ -30588,7 +30650,7 @@ each delivery.</p>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"Ticket sync\",
-    \"url\": \"https:\\/\\/example.com\\/webhooks\\/supporthub\",
+    \"url\": \"https:\\/\\/example.com\\/webhooks\\/desknu\",
     \"events\": [
         \"ticket.created\",
         \"ticket.status_changed\"
@@ -30611,7 +30673,7 @@ const headers = {
 
 let body = {
     "name": "Ticket sync",
-    "url": "https:\/\/example.com\/webhooks\/supporthub",
+    "url": "https:\/\/example.com\/webhooks\/desknu",
     "events": [
         "ticket.created",
         "ticket.status_changed"
@@ -30639,7 +30701,7 @@ fetch(url, {
     &quot;data&quot;: {
         &quot;id&quot;: 1,
         &quot;name&quot;: &quot;Ticket sync&quot;,
-        &quot;url&quot;: &quot;https://example.com/webhooks/supporthub&quot;,
+        &quot;url&quot;: &quot;https://example.com/webhooks/desknu&quot;,
         &quot;secret&quot;: &quot;whsec_...&quot;
     }
 }</code>
@@ -30748,10 +30810,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="url"                data-endpoint="POSTapi-v1-webhooks"
-               value="https://example.com/webhooks/supporthub"
+               value="https://example.com/webhooks/desknu"
                data-component="body">
     <br>
-<p>Must not point to a local/private address. Example: <code>https://example.com/webhooks/supporthub</code></p>
+<p>Must not point to a local/private address. Example: <code>https://example.com/webhooks/desknu</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>events</code></b>&nbsp;&nbsp;

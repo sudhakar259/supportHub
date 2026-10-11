@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'DeskNu'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    // Base URL of the (not-yet-built) React frontend, used only to
+    // Base URL of the React frontend, used to
     // build human-facing links in notification emails.
     'frontend_url' => env('FRONTEND_URL', env('APP_URL', 'http://localhost')),
 

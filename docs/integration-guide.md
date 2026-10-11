@@ -1,8 +1,8 @@
-# Integration Guide: Using SupportHub from Your Own Site
+# Integration Guide: Using DeskNu from Your Own Site
 
 This guide is for a tenant that wants its own website, CRM or backend (for
 example a WordPress theme or plugin) to create and read support tickets in
-SupportHub. It covers getting an API key and secret, making requests,
+DeskNu. It covers getting an API key and secret, making requests,
 handling errors, and receiving webhooks.
 
 Related reference: `docs/authentication.md` (how credentials are checked) and
@@ -11,12 +11,12 @@ Related reference: `docs/authentication.md` (how credentials are checked) and
 ## How it works
 
 ```
-Visitor's browser → your site's server (PHP/Node/...) → SupportHub /api/v1/integration/*
+Visitor's browser → your site's server (PHP/Node/...) → DeskNu /api/v1/integration/*
                                   ▲
                       API key + secret live only here
 ```
 
-Your server calls SupportHub with an **API key + secret pair**. There is no
+Your server calls DeskNu with an **API key + secret pair**. There is no
 login and no token. The pair identifies your organisation (tenant), so every
 request only ever sees your own customers and tickets.
 
@@ -24,7 +24,7 @@ request only ever sees your own customers and tickets.
 > mobile app.** Anyone who has it can act as your integration. All calls must
 > be made from your server.
 
-Base URL: `https://<your-supporthub-host>/api/v1/integration`
+Base URL: `https://<your-desknu-host>/api/v1/integration`
 (local development: `http://localhost:8082/api/v1/integration`).
 
 ## 1. Get an API key and secret
@@ -125,11 +125,11 @@ Create a customer:
 `name` and `email` are required; the email must be unique within your tenant.
 `customer_type` is `individual`, `business` or `vip`. `send_invite` (optional,
 default `false`) emails the customer a link to choose their own password, so they
-can sign in to SupportHub and follow their tickets; without it the customer can
+can sign in to DeskNu and follow their tickets; without it the customer can
 only be reached through your integration, because they have no password. Opening
 the link also confirms their email address. `external_id` is your own
 identifier for this person (for example the WordPress user ID). It lets you
-find the customer later without storing SupportHub's numeric ID.
+find the customer later without storing DeskNu's numeric ID.
 
 ### Lookups (ids for your "new ticket" form)
 
@@ -182,7 +182,7 @@ Create a ticket:
 - `department_id`, `category_id` and `priority_id` are optional and must
   belong to your tenant (a department must also be active). Get the ids from
   the lookup endpoints above. Without `priority_id` the tenant's default
-  priority is used. A routing rule configured in SupportHub may still change
+  priority is used. A routing rule configured in DeskNu may still change
   the department or priority after creation.
 - Don't pass a number straight from the browser: check on your server that the
   submitted department and priority are ones you offer (otherwise any visitor
@@ -251,7 +251,7 @@ In WordPress, send it with `wp_remote_post` and a multipart body (or cURL via
 
 **Creating a ticket with files.** `POST /tickets` accepts the same `attachments[]`
 (multipart, up to 5 files, 2 MB each, needs `tickets.attachments` as well as
-`tickets.create`). The files belong to the ticket itself, show in SupportHub as
+`tickets.create`). The files belong to the ticket itself, show in DeskNu as
 part of the ticket's "Original request", and come back in the `attachments` list
 of the create response and of `GET /tickets/{id}`.
 
@@ -259,7 +259,7 @@ Files uploaded separately with `POST /tickets/{id}/attachments` are also ticket
 files (shown with the original request), not tied to a specific reply.
 
 **Replies and attachments sent through this API are attributed to the ticket's
-customer.** This API cannot post as an agent. Agents reply from the SupportHub
+customer.** This API cannot post as an agent. Agents reply from the DeskNu
 app.
 
 ### Typical flow for a logged-in site user
@@ -332,9 +332,9 @@ Store the credentials in `wp-config.php` (not in a theme file under version
 control):
 
 ```php
-define('SUPPORTHUB_URL',    'https://support.example.com/api/v1/integration');
-define('SUPPORTHUB_KEY',    'ak_...');
-define('SUPPORTHUB_SECRET', 'as_...');
+define('DESKNU_URL',    'https://support.example.com/api/v1/integration');
+define('DESKNU_KEY',    'ak_...');
+define('DESKNU_SECRET', 'as_...');
 ```
 
 Helper (put in `functions.php` or a plugin):
@@ -342,8 +342,8 @@ Helper (put in `functions.php` or a plugin):
 ```php
 function sh_request($method, $path, $body = null, $idempotency_key = null) {
     $headers = [
-        'X-Api-Key'    => SUPPORTHUB_KEY,
-        'X-Api-Secret' => SUPPORTHUB_SECRET,
+        'X-Api-Key'    => DESKNU_KEY,
+        'X-Api-Secret' => DESKNU_SECRET,
         'Accept'       => 'application/json',
         'Content-Type' => 'application/json',
     ];
@@ -355,7 +355,7 @@ function sh_request($method, $path, $body = null, $idempotency_key = null) {
         $args['body'] = wp_json_encode($body);
     }
 
-    $res = wp_remote_request(SUPPORTHUB_URL . $path, $args);
+    $res = wp_remote_request(DESKNU_URL . $path, $args);
     if (is_wp_error($res)) {
         return $res;
     }
@@ -364,7 +364,7 @@ function sh_request($method, $path, $body = null, $idempotency_key = null) {
     return $data;
 }
 
-// Find or create the SupportHub customer for the current WP user.
+// Find or create the DeskNu customer for the current WP user.
 function sh_customer_for_user(WP_User $u) {
     $ext = 'wp-user-' . $u->ID;
     $res = sh_request('GET', '/customers/lookup?external_id=' . rawurlencode($ext));
@@ -433,12 +433,12 @@ with headers `X-Webhook-Event` and `X-Webhook-Signature`. The signature is an
 
 ```php
 add_action('rest_api_init', function () {
-    register_rest_route('supporthub/v1', '/webhook', [
+    register_rest_route('desknu/v1', '/webhook', [
         'methods'             => 'POST',
         'permission_callback' => '__return_true',
         'callback'            => function (WP_REST_Request $req) {
             $raw      = $req->get_body();
-            $expected = hash_hmac('sha256', $raw, SUPPORTHUB_WEBHOOK_SECRET);
+            $expected = hash_hmac('sha256', $raw, DESKNU_WEBHOOK_SECRET);
             $given    = $req->get_header('x-webhook-signature');
             if (!$given || !hash_equals($expected, $given)) {
                 return new WP_REST_Response(['error' => 'bad signature'], 401);
@@ -461,7 +461,7 @@ same event can arrive more than once.
 - One credential per integration, with minimum scopes.
 - Rotate the secret if it may have leaked (`POST /api-credentials/{id}/rotate`),
   and revoke credentials you no longer use.
-- Use HTTPS in production for both SupportHub and your webhook endpoint.
+- Use HTTPS in production for both DeskNu and your webhook endpoint.
 - Check on your server that a visitor owns the ticket before showing or
   replying to it.
 - Always verify the webhook signature, using a constant-time comparison.

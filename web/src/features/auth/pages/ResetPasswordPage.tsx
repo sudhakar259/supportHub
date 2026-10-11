@@ -11,7 +11,7 @@ import { PasswordField } from '@/components/ui/PasswordField'
 import { TextField } from '@/components/ui/TextField'
 import { authApi } from '@/features/auth/api/authApi'
 import { DEFAULT_PASSWORD_REQUIREMENTS, PasswordStrengthMeter, passwordScore } from '@/features/auth/components/PasswordStrengthMeter'
-import { ApiError } from '@/types/api'
+import { describeResetError } from '@/features/auth/resetErrors'
 
 export function ResetPasswordPage() {
   const [searchParams] = useSearchParams()
@@ -27,6 +27,12 @@ export function ResetPasswordPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [needsNewLink, setNeedsNewLink] = useState(false)
+
+  // Without both parts there is nothing to reset: the link was cut off when it was copied, or the page was opened by hand.
+  const linkIncomplete = token === '' || email === ''
+  // Hand the address over so the next screen is already filled in.
+  const requestNewLinkPath = email ? `${ROUTES.forgotPassword}?email=${encodeURIComponent(email)}` : ROUTES.forgotPassword
 
   const allRequirementsMet = passwordScore(password, DEFAULT_PASSWORD_REQUIREMENTS) === DEFAULT_PASSWORD_REQUIREMENTS.length
   const passwordsMatch = confirmPassword.length > 0 && password === confirmPassword
@@ -42,13 +48,16 @@ export function ResetPasswordPage() {
     if (!canSubmit) return
     setIsSubmitting(true)
     setError(null)
+    setNeedsNewLink(false)
 
     try {
       await authApi.resetPassword({ token, email, tenant, password, passwordConfirmation: confirmPassword })
       setSucceeded(true)
       setTimeout(() => navigate(ROUTES.login), 1800)
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Unable to reach the server. Please try again.')
+      const description = describeResetError(err)
+      setError(description.message)
+      setNeedsNewLink(description.needsNewLink)
     } finally {
       setIsSubmitting(false)
     }
@@ -66,7 +75,7 @@ export function ResetPasswordPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-label-sm uppercase tracking-wider text-secondary-fixed">Zero-Trust Credential Sync</span>
-                  <span className="text-title-sm">SupportHub Identity Guardian</span>
+                  <span className="text-title-sm">DeskNu Identity Guardian</span>
                 </div>
               </div>
               <div className="flex flex-col gap-space-xs">
@@ -112,7 +121,14 @@ export function ResetPasswordPage() {
               {error && (
                 <div className="flex items-start gap-space-md rounded-lg bg-error-container p-space-md text-on-error-container">
                   <Icon name="error" size={20} className="mt-0.5 text-error" />
-                  <div className="flex-1 text-body-sm">{error}</div>
+                  <div className="flex flex-1 flex-col gap-space-xs text-body-sm">
+                    <span>{error}</span>
+                    {needsNewLink && (
+                      <Link to={requestNewLinkPath} className="self-start font-semibold underline">
+                        Request a new link
+                      </Link>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -125,6 +141,22 @@ export function ResetPasswordPage() {
                       <p className="text-body-sm text-on-surface-variant">Redirecting to sign in…</p>
                     </div>
                   </div>
+                </div>
+              ) : linkIncomplete ? (
+                <div className="flex flex-col items-start gap-space-md rounded-lg bg-surface-container p-space-lg">
+                  <div className="flex items-center gap-space-sm text-title-md text-on-surface">
+                    <Icon name="link_off" size={24} className="text-error" />
+                    This reset link is incomplete
+                  </div>
+                  <p className="text-body-md text-on-surface-variant">
+                    The link may have been cut off when it was copied. Open it again straight from the email, or request a new one.
+                  </p>
+                  <Link
+                    to={requestNewLinkPath}
+                    className="inline-flex h-11 items-center rounded-lg bg-primary px-space-lg text-title-sm font-semibold text-on-primary shadow-sm transition-colors hover:bg-primary-container"
+                  >
+                    Request a new link
+                  </Link>
                 </div>
               ) : (
                 <form className="flex flex-col gap-space-lg" onSubmit={handleSubmit}>
@@ -182,7 +214,7 @@ export function ResetPasswordPage() {
                       Cancel and return to login
                     </Link>
                     <Button type="submit" className="order-1 w-full sm:order-2 sm:w-auto" size="lg" disabled={!canSubmit} isLoading={isSubmitting} leadingIcon="check_circle">
-                      Update Password &amp; Sign In
+                      Update password
                     </Button>
                   </div>
                 </form>

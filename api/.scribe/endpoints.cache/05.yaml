@@ -171,7 +171,7 @@ endpoints:
         name: email
         description: ''
         required: true
-        example: alex@supporthub.test
+        example: alex@desknu.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -236,7 +236,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: 'Alex Agent'
-      email: alex@supporthub.test
+      email: alex@desknu.test
       password: Secret123!
       phone: +1-555-0100
       role: Agent
@@ -376,7 +376,7 @@ endpoints:
         name: email
         description: ''
         required: false
-        example: alex@supporthub.test
+        example: alex@desknu.test
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -417,7 +417,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: 'Alex Agent'
-      email: alex@supporthub.test
+      email: alex@desknu.test
       phone: +1-555-0199
       timezone: Europe/Dublin
       is_active: true

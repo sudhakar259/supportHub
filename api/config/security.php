@@ -8,7 +8,7 @@ return [
     'lockout_minutes' => (int) env('LOCKOUT_MINUTES', 15),
 
     // Shown as the account name in authenticator apps.
-    'two_factor_issuer' => env('TWO_FACTOR_ISSUER', env('APP_NAME', 'SupportHub')),
+    'two_factor_issuer' => env('TWO_FACTOR_ISSUER', env('APP_NAME', 'DeskNu')),
 
     // How long a password-verified sign-in may wait for its two-factor code.
     'two_factor_challenge_minutes' => 5,

@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 
 import { Icon } from '@/components/ui/Icon'
+import { BrandLogo } from '@/components/ui/BrandLogo'
 import type { NavItem } from '@/components/navigation/nav-items'
 import { NAV_SECTIONS } from '@/components/navigation/nav-items'
 import { useAuth } from '@/features/auth/hooks/useAuth'
@@ -33,13 +34,10 @@ export function Sidebar({ variant = 'desktop', onNavigate }: SidebarProps) {
       )}
     >
       <div className="flex h-full flex-col overflow-hidden">
-        <div className="flex h-16 items-center gap-space-sm px-gutter">
-          <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-primary text-on-primary">
-            <Icon name="support_agent" size={18} />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-headline-sm leading-tight tracking-tight text-inverse-on-surface">SupportHub</span>
-            <span className="text-label-sm uppercase tracking-wider text-inverse-primary">Enterprise Core</span>
+        <div className="flex h-16 items-center px-gutter">
+          <div className="flex flex-col gap-1">
+            <BrandLogo tone="dark" size={22} />
+            <span className="pl-10 text-label-sm uppercase tracking-wider text-inverse-primary">Support workspace</span>
           </div>
         </div>
 
@@ -63,9 +61,9 @@ export function Sidebar({ variant = 'desktop', onNavigate }: SidebarProps) {
                         onClick={onNavigate}
                         aria-current={isActive ? 'page' : undefined}
                         className={cn(
-                          'flex items-center justify-between gap-space-sm rounded-lg px-space-md py-space-sm text-title-sm transition-colors',
+                          'flex items-center justify-between gap-space-sm rounded-lg px-space-md py-space-sm text-title-sm transition-colors focus-visible:outline-2 focus-visible:outline-inverse-on-surface focus-visible:outline-offset-2',
                           isActive
-                            ? 'bg-primary-container font-semibold text-on-primary-container shadow-sm'
+                            ? 'bg-primary-fixed font-semibold text-on-primary-fixed shadow-sm'
                             : 'text-secondary-fixed hover:bg-surface-variant hover:text-on-surface',
                         )}
                       >

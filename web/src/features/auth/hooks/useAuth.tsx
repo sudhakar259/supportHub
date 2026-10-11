@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isBootstrapping, setIsBootstrapping] = useState(true)
   const [sessionError, setSessionError] = useState<string | null>(null)
-  const [hasWorkspaceHandoff] = useState(() => Boolean(workspaceSlug() && new URLSearchParams(window.location.hash.slice(1)).get('workspace-session')))
+  const [hasWorkspaceHandoff] = useState(() => Boolean(typeof window !== 'undefined' && workspaceSlug() && new URLSearchParams(window.location.hash.slice(1)).get('workspace-session')))
   const [impersonator] = useState(() => {
     const session = impersonatorStorage.get()
     return session ? { name: session.name } : null

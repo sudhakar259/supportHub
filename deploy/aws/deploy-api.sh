@@ -21,7 +21,8 @@ else
     git pull --quiet --ff-only
 fi
 
-export IMAGE_TAG="$(git rev-parse --short HEAD)"
+IMAGE_TAG="$(git rev-parse --short HEAD)"
+export IMAGE_TAG
 echo "==> Deploying $IMAGE_TAG"
 
 "$REPO/deploy/aws/fetch-env.sh"
@@ -55,7 +56,7 @@ if [ "$healthy" -ne 1 ]; then
 fi
 
 echo "==> Checking the configuration"
-if ! compose exec -T app php artisan supporthub:preflight --production; then
+if ! compose exec -T app php artisan desknu:preflight --production; then
     echo "!! The configuration check reported problems (above)." >&2
     [ "${STRICT_PREFLIGHT:-0}" = "1" ] && exit 1
 fi

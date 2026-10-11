@@ -61,7 +61,7 @@ export function UsersListPage() {
           <Avatar name={u.name} src={u.avatarPath} size={32} />
           <div className="flex min-w-0 flex-col">
             <span className="truncate text-title-sm font-semibold">{u.name}</span>
-            <span className="truncate text-[11px] text-secondary">{u.email}</span>
+            <span className="truncate text-body-sm text-secondary">{u.email}</span>
           </div>
         </div>
       ),
@@ -90,7 +90,7 @@ export function UsersListPage() {
     {
       key: 'lastLogin',
       header: 'Last Login',
-      className: 'text-[12px] text-secondary whitespace-nowrap',
+      className: 'text-body-sm text-secondary whitespace-nowrap',
       render: (u) => (u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Never'),
     },
     {

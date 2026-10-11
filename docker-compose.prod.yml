@@ -25,6 +25,8 @@ x-php: &php
   environment:
     # The cache and queue live in the redis container below, whatever the env file says.
     REDIS_HOST: redis
+    # Tags every error report with the deploy it came from (the git commit the image was built from).
+    SENTRY_RELEASE: ${IMAGE_TAG:-unknown}
   restart: unless-stopped
   networks:
     - supporthub

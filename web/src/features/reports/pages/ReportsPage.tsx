@@ -12,8 +12,8 @@ import { fetchOrDefault } from '@/utils/fetchOrDefault'
 import type { AgentPerformanceEntry, SlaComplianceReport, TicketSummaryReport } from '@/types/report'
 import type { TicketPriority, TicketStatus } from '@/types/ticket'
 
-const DEPARTMENT_PALETTE = ['#a33900', '#565d79', '#00685f', '#94a3b8', '#cc4900', '#8e7166']
-const AGENT_BAR_COLOR = '#a33900'
+const DEPARTMENT_PALETTE = ['var(--color-primary)', 'var(--color-brand-accent)', 'var(--color-info)', 'var(--color-success)', 'var(--color-secondary)', 'var(--color-warning)']
+const AGENT_BAR_COLOR = 'var(--color-primary)'
 
 export function ReportsPage() {
   const [summary, setSummary] = useState<TicketSummaryReport | null>(null)
@@ -50,7 +50,7 @@ export function ReportsPage() {
       (summary?.byStatus ?? []).map((row) => ({
         label: row.status,
         count: row.count,
-        color: statuses.find((s) => s.name === row.status)?.color ?? '#94a3b8',
+        color: statuses.find((s) => s.name === row.status)?.color ?? 'var(--color-secondary)',
       })),
     [summary, statuses],
   )
@@ -60,7 +60,7 @@ export function ReportsPage() {
       (summary?.byPriority ?? []).map((row) => ({
         label: row.priority,
         count: row.count,
-        color: priorities.find((p) => p.name === row.priority)?.color ?? '#94a3b8',
+        color: priorities.find((p) => p.name === row.priority)?.color ?? 'var(--color-secondary)',
       })),
     [summary, priorities],
   )

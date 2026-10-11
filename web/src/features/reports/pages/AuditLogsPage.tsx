@@ -45,7 +45,7 @@ export function AuditLogsPage() {
     {
       key: 'created',
       header: 'Timestamp',
-      className: 'whitespace-nowrap text-secondary text-[12px]',
+      className: 'whitespace-nowrap text-secondary text-body-sm',
       render: (l) => (l.createdAt ? formatDateTime(l.createdAt) : '—'),
     },
   ]

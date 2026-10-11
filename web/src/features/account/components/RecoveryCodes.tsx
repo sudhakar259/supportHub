@@ -17,10 +17,10 @@ export function RecoveryCodes({ codes, onDone }: { codes: string[]; onDone: () =
   }
 
   function download() {
-    const url = URL.createObjectURL(new Blob([`SupportHub recovery codes\n\n${codes.join('\n')}\n`], { type: 'text/plain' }))
+    const url = URL.createObjectURL(new Blob([`DeskNu recovery codes\n\n${codes.join('\n')}\n`], { type: 'text/plain' }))
     const link = document.createElement('a')
     link.href = url
-    link.download = 'supporthub-recovery-codes.txt'
+    link.download = 'desknu-recovery-codes.txt'
     document.body.appendChild(link)
     link.click()
     link.remove()

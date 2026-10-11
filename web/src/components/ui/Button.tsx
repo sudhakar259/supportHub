@@ -9,7 +9,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg'
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: 'bg-primary text-on-primary hover:bg-primary-container shadow-sm',
-  secondary: 'bg-inverse-surface text-inverse-on-surface hover:bg-on-surface',
+  secondary: 'bg-surface-container-lowest text-primary border border-outline hover:bg-surface-container-low',
   ghost: 'bg-transparent text-on-surface border border-outline-variant/60 hover:bg-surface-container-low',
   danger: 'bg-error text-on-error hover:bg-on-error-container',
 }

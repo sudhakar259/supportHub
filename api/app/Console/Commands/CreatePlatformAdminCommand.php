@@ -14,13 +14,15 @@ use Illuminate\Validation\Rules\Password;
  * Creates the first platform administrator on a fresh production install, where the demo
  * seeders (which create one with a well-known password) must not be run.
  *
- *     php artisan supporthub:create-platform-admin you@yourcompany.com --name="Your Name"
+ *     php artisan desknu:create-platform-admin you@yourcompany.com --name="Your Name"
  *
  * The password is asked for interactively and never appears in shell history or process lists.
  */
 class CreatePlatformAdminCommand extends Command
 {
-    protected $signature = 'supporthub:create-platform-admin {email : Sign-in email address} {--name= : Display name}';
+    protected $signature = 'desknu:create-platform-admin {email : Sign-in email address} {--name= : Display name}';
+
+    protected $aliases = ['supporthub:create-platform-admin'];
 
     protected $description = 'Create a platform administrator (asks for the password)';
 

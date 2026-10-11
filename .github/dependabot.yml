@@ -1,0 +1,18 @@
+# Opens a pull request when a dependency has an update or a security fix, so they do not pile up unnoticed.
+# CI (ci.yml) runs on each one; merge when it is green.
+version: 2
+updates:
+  - package-ecosystem: composer
+    directory: /api
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5
+  - package-ecosystem: npm
+    directory: /web
+    schedule: { interval: weekly }
+    open-pull-requests-limit: 5
+  - package-ecosystem: docker
+    directory: /docker/php
+    schedule: { interval: monthly }
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: monthly }

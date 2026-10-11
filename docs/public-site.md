@@ -1,4 +1,4 @@
-# SupportHub public website
+# DeskNu public website
 
 The React application provides a public SaaS website alongside the authenticated
 help desk. Visitors can understand the implemented features, explore a sample
@@ -9,6 +9,9 @@ workspace, compare current plans and create an organization.
 | Route | Purpose |
 | --- | --- |
 | `/` | Product overview, workflow, feature highlights, FAQs and signup links |
+| `/features/:slug` | Dedicated ticketing, email, routing, SLA, collaboration, reporting and API explainers |
+| `/resources`, `/resources/:slug` | Helpdesk guide hub and practical setup articles |
+| `/security` | Implemented workspace security and access controls |
 | `/features` | Ticketing, inbound email, routing, SLAs, team collaboration, reports, APIs and workspace controls |
 | `/solutions` | Example workflows for customer support, IT and software teams |
 | `/demo` | Interactive sample inbox, replies, private notes, resolution, routing and reports |
@@ -29,8 +32,16 @@ email or modify real customer data. Switching to the customer view hides private
 notes. Resolving a sample ticket changes the report counts. Reset restores the
 initial data; leaving the page also discards changes.
 
-The home page uses a compact version of the same workspace illustration. The
-full tour at `/demo` includes the reply composer and visibility controls.
+The home page uses an optimized screenshot of the sample workspace in
+`web/public/images/workspace-preview.jpg`. It includes descriptive alternative
+text and fixed image dimensions, and links to the interactive tour at `/demo`,
+which includes the reply composer and visibility controls.
+
+The header groups the implemented features under Product, workflow sections
+under Solutions, and guides, security and contact links under Resources.
+Desktop dropdowns support keyboard navigation, Escape and outside-click
+dismissal. Mobile navigation uses one expanded group at a time and scrolls on
+short screens without shifting links during a tap.
 
 ## Pricing and signup
 
@@ -65,8 +76,10 @@ npm run dev
 Set the existing public environment variables for the deployment:
 
 - `VITE_API_URL`: Laravel API base URL, including `/api/v1`.
+- `VITE_SITE_URL`: bare HTTPS public origin for canonical URLs and sitemap.
+- `VITE_WORKSPACE_DOMAIN`: matching API parent domain for tenant subdomains.
 - `VITE_SUPPORT_EMAIL`: published contact email address.
-- `VITE_LEGAL_ENTITY`: the business operating SupportHub.
+- `VITE_LEGAL_ENTITY`: the business operating DeskNu.
 
 Vite reads these at build time. Rebuild after changing production values. The
 contact page displays the configured email; it has no lead-submission backend.
@@ -85,9 +98,10 @@ npm test
 npm run build
 ```
 
-Serve `web/dist` using the existing frontend hosting setup. Configure history
-fallback to `index.html` for public routes and authenticated application routes,
-so direct visits such as `/features` and `/demo` work. Deploy the Laravel API,
+Serve the generated HTML in `web/dist` for public routes, and `app.html` for
+private paths and tenant hosts. The build also generates sitemap, robots policies
+and a CloudFront routing function. See [branding-seo.md](branding-seo.md) for
+hosting setup and the remaining launch inputs. Deploy the Laravel API,
 queue worker and scheduler using [deployment.md](deployment.md); inbound email
 and payments use the existing service configuration.
 

@@ -42,13 +42,13 @@ function SettingValueEditor({
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto">
       <input
         type={setting.type === 'integer' ? 'number' : 'text'}
         value={String(value ?? '')}
         disabled={readOnly}
         onChange={(e) => setValue(setting.type === 'integer' ? Number(e.target.value) : e.target.value)}
-        className="h-9 w-64 rounded-lg bg-surface-container-low px-space-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-60"
+        className="h-9 w-full min-w-0 rounded-lg bg-surface-container-low px-space-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-60 sm:w-64"
       />
       {!readOnly && dirty && (
         <IconButton icon={isSaving ? 'progress_activity' : 'check'} label="Save setting" onClick={handleSave} />
@@ -132,9 +132,9 @@ export function SystemSettingsPage() {
               <h2 className="mb-space-sm text-title-md font-bold text-on-surface capitalize">{group}</h2>
               <div className="flex flex-col divide-y divide-surface-container-low">
                 {groupSettings.map((setting) => (
-                  <div key={setting.key} className="flex items-center justify-between gap-space-md py-space-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="font-code-sm text-code-sm text-on-surface">{setting.key}</span>
+                  <div key={setting.key} className="flex flex-col items-start justify-between gap-space-sm py-space-sm sm:flex-row sm:items-center sm:gap-space-md">
+                    <div className="flex min-w-0 flex-wrap items-center gap-2">
+                      <span className="text-code-sm break-all text-on-surface">{setting.key}</span>
                       {setting.isPublic && <Badge tone="secondary">Public</Badge>}
                     </div>
                     <SettingValueEditor setting={setting} onSave={(value) => saveSetting(setting, value)} readOnly={!canManage} />

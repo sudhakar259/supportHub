@@ -82,8 +82,8 @@ describe('public pages', () => {
   it('shows the home page with its sections and calls to action to a visitor', async () => {
     renderPage(<LandingPage />)
 
-    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(/great support/i)
-    expect(screen.getByRole('heading', { name: /everything a support team needs/i })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(/customer support/i)
+    expect(screen.getByRole('heading', { name: /your daily support tools/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /frequently asked questions/i })).toBeInTheDocument()
     expect(screen.getAllByRole('link', { name: /start free trial/i }).length).toBeGreaterThan(0)
   })
@@ -108,7 +108,7 @@ describe('public pages', () => {
     tokenStorage.set('sample-session')
     renderPage(<LandingPage />)
     expect(await screen.findByRole('link', { name: /open dashboard/i })).toHaveAttribute('href', '/dashboard')
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/great support/i)
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/customer support/i)
     restore.mockRestore()
   })
 

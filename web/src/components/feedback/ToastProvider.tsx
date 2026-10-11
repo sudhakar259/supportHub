@@ -75,7 +75,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      {createPortal(
+      {typeof document !== 'undefined' && createPortal(
         <div
           className="pointer-events-none fixed top-gutter right-gutter z-[100] flex w-full max-w-sm flex-col gap-space-sm"
           aria-live="polite"

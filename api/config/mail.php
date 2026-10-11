@@ -115,4 +115,23 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Markdown Mail Settings
+    |--------------------------------------------------------------------------
+    |
+    | Every notification email is rendered with this theme. "supporthub" is the
+    | Solar Navy Enterprise palette (resources/views/vendor/mail/html/themes/
+    | supporthub.css, documented in docs/color-palette.md); the structure still
+    | comes from the framework's own mail views.
+    |
+    */
+
+    'markdown' => [
+        'theme' => env('MAIL_MARKDOWN_THEME', 'supporthub'),
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
+    ],
+
 ];

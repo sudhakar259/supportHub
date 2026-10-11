@@ -169,7 +169,7 @@ endpoints:
         name: 'conditions[].field'
         description: ''
         required: true
-        example: customer_type
+        example: category_id
         type: string
         enumValues:
           - category_id
@@ -184,7 +184,7 @@ endpoints:
         name: 'conditions[].operator'
         description: ''
         required: false
-        example: in
+        example: '!='
         type: string
         enumValues:
           - '='
@@ -209,7 +209,7 @@ endpoints:
         name: 'actions[].type'
         description: ''
         required: true
-        example: assign_agent
+        example: send_notification
         type: string
         enumValues:
           - assign_department
@@ -442,7 +442,7 @@ endpoints:
         name: 'conditions[].field'
         description: 'This field is required when <code>conditions</code> is present.'
         required: false
-        example: category_id
+        example: keyword
         type: string
         enumValues:
           - category_id
@@ -482,7 +482,7 @@ endpoints:
         name: 'actions[].type'
         description: 'This field is required when <code>actions</code> is present.'
         required: false
-        example: escalate
+        example: set_priority
         type: string
         enumValues:
           - assign_department
@@ -512,11 +512,11 @@ endpoints:
       stop_processing: false
       conditions:
         -
-          field: category_id
+          field: keyword
           operator: in
       actions:
         -
-          type: escalate
+          type: set_priority
     fileParameters: []
     responses:
       -

@@ -8,14 +8,14 @@ import { SOLUTIONS } from '@/features/landing/content'
 
 export function SolutionsPage() {
   return (
-    <PublicLayout description="Use SupportHub for customer support, internal IT requests and support connected to your own software product.">
+    <PublicLayout>
       <section className="marketing-page-hero">
         <div className="marketing-container">
           <span className="marketing-eyebrow">SUPPORT YOUR WAY</span>
           <h1>
-            Different requests.
+            Customer support & IT helpdesk.
             <br />
-            <span>The same thoughtful support.</span>
+            <span>Workflows that fit your team.</span>
           </h1>
           <p>Adapt your departments, priorities and workflows to the way your team helps people.</p>
           <Link to={ROUTES.register} className="marketing-button">

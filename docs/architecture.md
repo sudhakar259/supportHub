@@ -1,6 +1,6 @@
 # Architecture
 
-SupportHub's backend is a standalone Laravel 13 REST API (`api/`). It has no
+DeskNu's backend is a standalone Laravel 13 REST API (`api/`). It has no
 Blade frontend and no session-based web UI — every endpoint lives under
 `/api/v1` and returns JSON. The `web/` directory is reserved for a future
 React application that will be built as a separate phase, against the API
@@ -12,7 +12,7 @@ Mobile App ─┼─▶  REST API (/api/v1)  ─▶  Laravel  ─▶  MySQL / Re
 3rd party  ─┘
 ```
 
-SupportHub is **multi-tenant**: one deployment and database serve many
+DeskNu is **multi-tenant**: one deployment and database serve many
 independent organizations, each with completely isolated data. This
 document covers the application's general shape; see `docs/multi-tenancy.md`
 for the tenant layer specifically — how tenant context is resolved and
@@ -20,7 +20,7 @@ enforced, platform vs. tenant administration, API credentials/scopes,
 webhooks, and plan limits.
 
 ```
-Support24 Platform
+DeskNu Platform
       │
       ├── Platform Admin(s)
       │

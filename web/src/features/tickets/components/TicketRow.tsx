@@ -41,7 +41,7 @@ export function TicketRow({ ticket }: TicketRowProps) {
       <div className="truncate text-title-sm font-medium text-on-surface">{ticket.subject}</div>
       {ticket.status && (
         <div className="flex items-center gap-2 text-label-sm text-secondary">
-          <span className="flex items-center gap-1" style={{ color: ticket.status.color }}>
+          <span className="flex items-center gap-1 text-on-surface">
             <Icon name={icon} size={14} />
             {ticket.status.name}
           </span>

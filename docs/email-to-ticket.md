@@ -2,19 +2,19 @@
 
 A workspace can turn emails sent to its support address into tickets. A customer
 who writes to `support@acme.com` gets a ticket without using any form, and when
-they answer an email from SupportHub their reply lands back in the same ticket.
+they answer an email from DeskNu their reply lands back in the same ticket.
 
 It uses **Mailgun inbound routing**. Mailgun receives the mail and posts it to
-SupportHub, which creates or updates the ticket.
+DeskNu, which creates or updates the ticket.
 
 ```
 customer → support@acme.com ──(forward)──▶ acme@inbound.example.com ──▶ Mailgun
                                                                           │ POST (signed)
                                                                           ▼
-                                    SupportHub  /api/v1/inbound-email/mailgun  → ticket
+                                    DeskNu  /api/v1/inbound-email/mailgun  → ticket
 ```
 
-## 1. Platform setup (once, by whoever runs SupportHub)
+## 1. Platform setup (once, by whoever runs DeskNu)
 
 1. **Pick an inbound domain**, for example `inbound.example.com`. Use a
    subdomain you don't use for normal mail.
@@ -42,7 +42,7 @@ use a tunnel (for example ngrok) and point the Route at it.
 
 ## 2. Workspace setup (each organization)
 
-1. In SupportHub open **Settings → Email to ticket**. It shows the workspace's
+1. In DeskNu open **Settings → Email to ticket**. It shows the workspace's
    address, which is the workspace slug at your inbound domain, for example
    `acme@inbound.example.com`.
 2. **Turn it on.** Choose whether an email from an *unknown* address may create a
@@ -53,7 +53,7 @@ use a tunnel (for example ngrok) and point the Route at it.
    provider: a forwarder for `support@acme.com`.
 
    Google and Microsoft send a **confirmation email** to the new forwarding
-   address. That email arrives in SupportHub as a ticket, so open it there to read
+   address. That email arrives in DeskNu as a ticket, so open it there to read
    the confirmation code or link. (Turn the feature on first, otherwise the
    message is recorded but ignored.)
 4. Send a test email to the support address and check **Recent emails** on the
@@ -78,7 +78,7 @@ Attachments follow the usual limits: JPG, PNG, WebP, TXT, PDF, DOCX, PPT, PPTX,
 
 ## Replies going the other way
 
-- Email from SupportHub to a **customer** sets *Reply-To* to the workspace's inbound
+- Email from DeskNu to a **customer** sets *Reply-To* to the workspace's inbound
   address (when the feature is on), so pressing Reply sends the answer straight
   into the ticket.
 - The "agent replied" email now includes the agent's message text, so the customer
@@ -89,7 +89,7 @@ Attachments follow the usual limits: JPG, PNG, WebP, TXT, PDF, DOCX, PPT, PPTX,
 ## Troubleshooting
 
 - **Nothing arrives.** In Mailgun's *Logs*, check the message was received and the
-  Route forwarded it. In SupportHub check **Recent emails**; if the message isn't
+  Route forwarded it. In DeskNu check **Recent emails**; if the message isn't
   there, the Route or the webhook URL is wrong.
 - **Mailgun shows the forward failed with 401.** `MAILGUN_SIGNING_KEY` is missing or
   differs from the key in Mailgun. Also check the server clock: requests more than 5
@@ -97,7 +97,7 @@ Attachments follow the usual limits: JPG, PNG, WebP, TXT, PDF, DOCX, PPT, PPTX,
 - **Mailgun shows 406.** The recipient isn't a workspace address (wrong slug or domain).
 - **A message shows `rejected_disabled`.** The workspace has the feature turned off.
 - **Mail from one customer keeps becoming new tickets.** The reply lost its thread:
-  ask them to reply to the SupportHub email, or keep the ticket number in the subject.
+  ask them to reply to the DeskNu email, or keep the ticket number in the subject.
 
 ## API
 

@@ -55,15 +55,15 @@ other.
 
 | Email | Role |
 |---|---|
-| admin@supporthub.test | Administrator |
-| manager@supporthub.test | Department Manager (Technical Support) |
-| senior.agent@supporthub.test | Senior Agent (Technical Support) |
-| agent1@supporthub.test | Agent (Technical Support) |
-| agent2@supporthub.test | Agent (Billing) |
-| agent3@supporthub.test | Agent (General Support) |
-| customer1@supporthub.test | Customer (business) |
-| customer2@supporthub.test | Customer (individual) |
-| customer3@supporthub.test | Customer (vip) |
+| admin@desknu.test | Administrator |
+| manager@desknu.test | Department Manager (Technical Support) |
+| senior.agent@desknu.test | Senior Agent (Technical Support) |
+| agent1@desknu.test | Agent (Technical Support) |
+| agent2@desknu.test | Agent (Billing) |
+| agent3@desknu.test | Agent (General Support) |
+| customer1@desknu.test | Customer (business) |
+| customer2@desknu.test | Customer (individual) |
+| customer3@desknu.test | Customer (vip) |
 
 `DemoTicketSeeder` creates 5 sample tickets (one resolved, one with an
 agent reply already posted) so the API isn't empty on first run.
@@ -149,3 +149,23 @@ demonstrates end-to-end:
   are variadic** in the version pinned here (`^7.3`), not
   array-accepting — pass `AllowedFilter::exact('x'), AllowedFilter::exact('y')`,
   not `[AllowedFilter::exact('x'), AllowedFilter::exact('y')]`.
+
+## Continuous integration
+
+`.github/workflows/ci.yml` runs on every pull request and every push to `main`. A red build means do not deploy.
+
+| Job | What it runs | Run the same thing yourself |
+|---|---|---|
+| API | `composer audit` (known vulnerabilities), then the whole test suite | `cd api && composer audit && php artisan test` |
+| Web | type check, lint, tests, production build (which pre-renders the public pages), the public-site checks, `npm audit` | `cd web && npx tsc -b && npm run lint && npm test && npm run build && npm run test:seo && npm audit --omit=dev` |
+| Images | builds the production API and web-server images, and validates `docker-compose.prod.yml` | `docker build --target production -f docker/php/Dockerfile .` |
+| Scripts | `bash -n` and `shellcheck` on `deploy/aws/*.sh` and the container entrypoint | `shellcheck -S warning deploy/aws/*.sh docker/php/entrypoint.sh` |
+
+Things worth knowing:
+
+- The API tests include checks that read `design/` and `web/` (the colour palette stays identical in the design file, web app, emails and API
+  reference), so run them from a full checkout, not a copy of `api/` alone.
+- The API job creates an empty `api/.env` and sets a throwaway `APP_KEY`; every other setting comes from `phpunit.xml`.
+- A test must not depend on a running server. If `web/.env.local` points `VITE_API_URL` at your dev API, a test that forgets to mock the
+  network will talk to it and behave differently on your machine than in CI. Mock or stub `fetch`.
+- `.github/dependabot.yml` opens weekly pull requests for PHP and JavaScript updates and monthly ones for Docker and the workflow itself.

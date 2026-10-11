@@ -122,7 +122,7 @@ endpoints:
         name: is_default
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -154,7 +154,7 @@ endpoints:
       name: 'On Hold'
       slug: on-hold
       color: '#6B7280'
-      is_default: false
+      is_default: true
       is_closed: false
       sort_order: 37
     fileParameters: []
@@ -313,7 +313,7 @@ endpoints:
         name: is_default
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -345,7 +345,7 @@ endpoints:
       name: 'On Hold'
       slug: 'n'
       color: '#F59E0B'
-      is_default: true
+      is_default: false
       is_closed: true
       sort_order: 37
     fileParameters: []

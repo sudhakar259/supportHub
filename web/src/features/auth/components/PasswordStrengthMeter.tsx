@@ -20,7 +20,7 @@ export function passwordScore(value: string, requirements: PasswordRequirement[]
 }
 
 const STRENGTH_LABELS = ['None', 'Weak', 'Fair', 'Strong', 'Enterprise Compliant']
-const STRENGTH_BAR_COLOR = ['bg-surface-container', 'bg-error', 'bg-primary-container', 'bg-tertiary-container', 'bg-tertiary']
+const STRENGTH_BAR_COLOR = ['bg-surface-container', 'bg-error', 'bg-warning', 'bg-success', 'bg-success']
 
 export interface PasswordStrengthMeterProps {
   value: string

@@ -8,7 +8,7 @@ return new class extends Migration
 {
     /**
      * Both tables are platform-level (membership_plans has no tenant_id
-     * at all — it's Support24's own catalog; subscriptions.tenant_id
+     * at all — it's DeskNu's own catalog; subscriptions.tenant_id
      * identifies WHICH tenant it belongs to but subscriptions isn't
      * tenant-owned in the BelongsToTenant sense — a tenant can read its
      * own subscription but never create/modify one directly, only a

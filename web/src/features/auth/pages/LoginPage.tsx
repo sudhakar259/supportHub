@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-do
 import { ROUTES } from '@/app/router/routes'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
+import { BrandMark } from '@/components/ui/BrandMark'
 import { PasswordField } from '@/components/ui/PasswordField'
 import { TextField } from '@/components/ui/TextField'
 import { AuthCard } from '@/features/auth/components/AuthCard'
@@ -88,15 +89,15 @@ function WorkspaceLoginPage() {
             className="border border-outline-variant/60 shadow-sm"
           >
             <div className="mb-space-md flex items-center gap-space-sm">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-inverse-surface shadow-md">
-                <Icon name="support_agent" size={24} className="text-inverse-on-surface" />
+              <div className="flex h-10 w-10 items-center justify-center">
+                <BrandMark size={40} variant="icon" />
               </div>
               <div>
                 <span className="text-label-sm font-bold uppercase tracking-widest text-primary">Secure Access</span>
                 <div className="text-code-sm text-secondary">Your team’s support workspace</div>
               </div>
             </div>
-            <h1 className="mb-space-xs text-headline-lg tracking-tight">{activeWorkspace ? `Sign in to ${activeWorkspace}` : 'Welcome back to SupportHub'}</h1>
+            <h1 className="mb-space-xs text-headline-lg tracking-tight">{activeWorkspace ? `Sign in to ${activeWorkspace}` : 'Welcome back to DeskNu'}</h1>
             <p className="mb-space-lg text-body-md text-on-surface-variant">
               Sign in to manage your tickets, customers and team in one place.
             </p>

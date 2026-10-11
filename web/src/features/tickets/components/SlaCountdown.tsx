@@ -53,7 +53,7 @@ export function SlaCountdown({ sla }: SlaCountdownProps) {
       className={cn(
         'inline-flex items-center gap-1 rounded px-2 py-1 text-code-sm font-bold',
         tone === 'danger' && 'bg-error-container text-error',
-        tone === 'warning' && 'bg-primary-fixed/60 text-primary-container',
+        tone === 'warning' && 'bg-warning-container text-on-warning-container',
         tone === 'healthy' && 'bg-surface-container-high text-on-surface',
       )}
     >

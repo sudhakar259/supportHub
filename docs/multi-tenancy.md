@@ -1,9 +1,9 @@
 # Multi-Tenancy
 
-SupportHub is a multi-tenant SaaS platform: one deployment, one database,
+DeskNu is a multi-tenant SaaS platform: one deployment, one database,
 many independent organizations ("tenants"), each with its own users,
 customers, tickets, departments, roles, API credentials and webhooks.
-Tenants can use their own subdomains, such as `crevol.supporthub.com`; see
+Tenants can use their own subdomains, such as `crevol.desknu.com`; see
 [workspace domains](workspace-domains.md) for configuration and sign-in behavior.
 The hostname narrows access while authenticated identity still owns tenant context.
 Tenant A can never see, modify, or even detect the existence of Tenant B's
@@ -11,7 +11,7 @@ data — not through a careless query, not through a guessed id, not through
 a fresh/cold request with no prior state.
 
 ```
-Support24 Platform
+DeskNu Platform
       │
       ├── Platform Admin(s)        (tenant_id = NULL, manage the platform itself)
       │

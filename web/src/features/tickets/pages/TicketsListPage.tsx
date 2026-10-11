@@ -123,7 +123,7 @@ export function TicketsListPage({ scope = 'all' }: TicketsListPageProps) {
       className: 'whitespace-nowrap font-code-sm text-code-sm font-semibold text-primary',
       render: (t) => (
         <div className="flex items-center gap-1.5">
-          <span className="inline-block h-6 w-1.5 rounded-full" style={{ backgroundColor: t.priority?.color ?? '#94A3B8' }} />
+          <span className="inline-block h-6 w-1.5 rounded-full" style={{ backgroundColor: t.priority?.color ?? 'var(--color-secondary)' }} />
           <span>{t.ticketNumber}</span>
         </div>
       ),
@@ -138,7 +138,7 @@ export function TicketsListPage({ scope = 'all' }: TicketsListPageProps) {
             <Avatar name={name} src={t.customer?.user?.avatarPath} size={28} />
             <div className="flex min-w-0 flex-col">
               <span className="truncate text-title-sm leading-tight font-semibold">{name}</span>
-              {t.customer?.companyName && <span className="truncate text-[11px] text-secondary">{t.customer.companyName}</span>}
+              {t.customer?.companyName && <span className="truncate text-body-sm text-secondary">{t.customer.companyName}</span>}
             </div>
           </div>
         )
@@ -152,7 +152,7 @@ export function TicketsListPage({ scope = 'all' }: TicketsListPageProps) {
         <div className="flex max-w-sm flex-col gap-1">
           <span className="truncate text-title-sm font-bold text-on-surface">{t.subject}</span>
           {t.category && (
-            <span className="w-fit rounded bg-surface-container px-1.5 py-0.5 text-[10px] text-secondary uppercase tracking-wider">
+            <span className="w-fit rounded bg-surface-container px-1.5 py-0.5 text-label-sm text-secondary uppercase tracking-wider">
               {t.category.name}
             </span>
           )}
@@ -163,7 +163,7 @@ export function TicketsListPage({ scope = 'all' }: TicketsListPageProps) {
       key: 'department',
       header: 'Dept',
       className: 'whitespace-nowrap',
-      render: (t) => (t.department ? <span className="rounded-full bg-surface-container-high px-2 py-0.5 text-[11px] font-bold">{t.department.name}</span> : '—'),
+      render: (t) => (t.department ? <span className="rounded-full bg-surface-container-high px-2 py-0.5 text-body-sm font-bold">{t.department.name}</span> : '—'),
     },
     ...(scope === 'mine'
       ? []
@@ -185,8 +185,8 @@ export function TicketsListPage({ scope = 'all' }: TicketsListPageProps) {
     { key: 'priority', header: 'Priority', className: 'whitespace-nowrap', render: (t) => <PriorityBadge priority={t.priority} /> },
     { key: 'status', header: 'Status', className: 'whitespace-nowrap', render: (t) => <StatusBadge status={t.status} /> },
     { key: 'sla', header: 'SLA Target', className: 'whitespace-nowrap', render: (t) => <SlaCountdown sla={t.sla} /> },
-    { key: 'created', header: 'Created', className: 'text-[12px] whitespace-nowrap text-secondary', render: (t) => formatDateTime(t.createdAt) },
-    { key: 'updated', header: 'Updated', className: 'text-[12px] whitespace-nowrap text-secondary', render: (t) => formatRelativeTime(t.updatedAt) },
+    { key: 'created', header: 'Created', className: 'text-body-sm whitespace-nowrap text-secondary', render: (t) => formatDateTime(t.createdAt) },
+    { key: 'updated', header: 'Updated', className: 'text-body-sm whitespace-nowrap text-secondary', render: (t) => formatRelativeTime(t.updatedAt) },
     {
       key: 'actions',
       header: 'Actions',

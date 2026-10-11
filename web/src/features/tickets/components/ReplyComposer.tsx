@@ -50,7 +50,7 @@ export function ReplyComposer({
   }
 
   return (
-    <section className={cn('overflow-hidden rounded shadow-md', isInternal ? 'bg-primary-fixed/10' : 'bg-surface-container-lowest')}>
+    <section className={cn('overflow-hidden rounded shadow-md', isInternal ? 'bg-warning-container' : 'bg-surface-container-lowest')}>
       <div className="flex items-center justify-between bg-surface-container-low px-space-md py-1.5">
         <div className="flex items-center gap-2">
           <button
@@ -70,7 +70,7 @@ export function ReplyComposer({
               onClick={() => setMode('internal')}
               className={cn(
                 'flex items-center gap-1.5 rounded px-space-md py-1.5 text-title-sm font-bold transition-all',
-                mode === 'internal' ? 'bg-primary-container text-on-primary shadow-sm' : 'text-secondary hover:text-on-surface',
+                mode === 'internal' ? 'bg-warning text-on-warning shadow-sm' : 'text-secondary hover:text-on-surface',
               )}
             >
               <Icon name="lock" size={16} />

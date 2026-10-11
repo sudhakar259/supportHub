@@ -1,4 +1,4 @@
-# SupportHub
+# DeskNu
 
 A multi-tenant customer support platform with a Laravel REST API and React
 frontend. Includes a public SaaS website, organization signup, ticket workflows,
@@ -50,7 +50,7 @@ docker compose up -d
 docker compose exec app php artisan migrate --seed
 ```
 
-Demo login: `admin@supporthub.test` / `password`.
+Demo login: `admin@desknu.test` / `password`.
 
 To run the frontend, follow [`web/README.md`](web/README.md).
 
@@ -73,3 +73,6 @@ The full endpoint-by-endpoint reference (every parameter, every validation
 rule, example requests/responses, an OpenAPI 3.0 spec, and a Postman
 collection) is generated from the actual code via Scribe, not
 hand-maintained — see [docs/development.md](docs/development.md#regenerating-api-documentation).
+
+Branding, public SEO, hosting configuration and remaining launch inputs: see
+[docs/branding-seo.md](docs/branding-seo.md).

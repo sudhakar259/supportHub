@@ -1,0 +1,38 @@
+# Frontend only. Set the real dist directory and configure HTTPS here or at the load balancer.
+# Keep the Laravel API on its own existing reverse proxy configuration.
+server {
+    listen 80;
+    server_name desknu.com www.desknu.com;
+    root /srv/supporthub/web/dist;
+    index index.html;
+
+    location /assets/ {
+        try_files $uri =404;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    location ~* \.(png|svg|ico|woff2?|txt|xml)$ { try_files $uri =404; }
+    location ~ \.html$ { add_header Cache-Control "no-cache"; }
+    location / { try_files $uri $uri/ /app.html; }
+}
+
+server {
+    listen 80;
+    server_name *.desknu.com;
+    root /srv/supporthub/web/dist;
+    add_header X-Robots-Tag "noindex, nofollow" always;
+
+    location = /robots.txt { try_files /tenant-robots.txt =404; }
+    location = /sitemap.xml { return 404; }
+    location = /app.html {
+        add_header Cache-Control "no-cache";
+        add_header X-Robots-Tag "noindex, nofollow" always;
+    }
+    location /assets/ {
+        try_files $uri =404;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    location ~* \.(png|svg|ico|woff2?|txt)$ { try_files $uri =404; }
+    location / { rewrite ^ /app.html last; }
+}

@@ -1,6 +1,6 @@
 # Introduction
 
-REST API for SupportHub — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.
+REST API for DeskNu — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.
 
 <aside>
     <strong>Base URL</strong>: <code>http://localhost:8082</code>

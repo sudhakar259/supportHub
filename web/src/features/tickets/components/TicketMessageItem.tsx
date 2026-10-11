@@ -17,15 +17,15 @@ export function TicketMessageItem({ message }: TicketMessageItemProps) {
     <article
       className={
         isInternal
-          ? 'relative flex flex-col gap-space-sm overflow-hidden rounded bg-surface-container-high/40 p-space-md shadow-sm'
+          ? 'relative flex flex-col gap-space-sm overflow-hidden rounded bg-warning-container p-space-md shadow-sm'
           : 'flex flex-col gap-space-sm rounded bg-surface-container-lowest p-space-md shadow-sm'
       }
     >
       {isInternal && (
         <>
-          <div className="absolute top-0 bottom-0 left-0 w-1.5 bg-primary-container" />
-          <div className="flex items-center justify-between rounded bg-primary-fixed/60 px-space-sm py-1">
-            <div className="flex items-center gap-1.5 text-label-sm font-bold tracking-wider text-on-primary-fixed uppercase">
+          <div className="absolute top-0 bottom-0 left-0 w-1.5 bg-warning" />
+          <div className="flex items-center justify-between rounded bg-warning-container px-space-sm py-1">
+            <div className="flex items-center gap-1.5 text-label-sm font-bold tracking-wider text-on-warning-container uppercase">
               <Icon name="lock" size={16} />
               <span>Internal Note — Hidden from Requester</span>
             </div>

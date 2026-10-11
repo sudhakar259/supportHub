@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 /** Runs the command and returns [exit code, ['Check name' => 'PASS'|'WARN'|'FAIL']]. */
 function preflight(array $options = []): array
 {
-    $code = Artisan::call('supporthub:preflight', $options);
+    $code = Artisan::call('desknu:preflight', $options);
     $statuses = [];
 
     foreach (explode("\n", Artisan::output()) as $line) {
@@ -105,7 +105,7 @@ it('fails when payments are configured without a webhook secret', function () {
 it('flags seeded demo accounts', function () {
     healthyConfig();
     testTenant();
-    User::factory()->create(['email' => 'admin@supporthub.test', 'tenant_id' => testTenant()->id]);
+    User::factory()->create(['email' => 'admin@desknu.test', 'tenant_id' => testTenant()->id]);
 
     [, $r] = preflight();
     expect($r['No demo accounts'])->toBe('WARN');
@@ -143,4 +143,55 @@ it('flags missing trusted proxies and sign-ins that never expire', function () {
     healthyConfig();
     [, $ok] = preflight(['--production' => true]);
     expect($ok['Visitor IPs are read from the load balancer'])->toBe('PASS')->and($ok['Sign-ins expire'])->toBe('PASS');
+});
+
+it('keeps the previous preflight command name available', function () {
+    healthyConfig();
+    expect(Artisan::call('supporthub:preflight'))->toBe(0);
+});
+
+it('continues detecting legacy demo accounts after the rebrand', function () {
+    healthyConfig();
+    User::factory()->create(['email' => 'admin@supporthub.test', 'tenant_id' => testTenant()->id]);
+    expect(preflight(['--production' => true])[1]['No demo accounts'])->toBe('FAIL');
+});
+
+it('still prints the whole report when the database cannot be reached, instead of crashing', function () {
+    healthyConfig();
+    $original = config('database.default');
+    config([
+        'database.default' => 'unreachable',
+        'database.connections.unreachable' => ['driver' => 'sqlite', 'database' => '/nonexistent/path/db.sqlite', 'prefix' => '', 'foreign_key_constraints' => false],
+    ]);
+    app('db')->purge('unreachable');
+
+    try {
+        [$code, $r] = preflight();
+    } finally {
+        // The test runner's own clean-up uses the default connection, so put the real one back first.
+        config(['database.default' => $original]);
+        app('db')->purge('unreachable');
+    }
+
+    expect($code)->toBe(1)
+        ->and($r['Database is reachable'])->toBe('FAIL')
+        ->and($r['Migrations are up to date'])->toBe('FAIL')
+        // …and the checks that do not need the database still ran.
+        ->and($r['APP_DEBUG is off'])->toBe('PASS')
+        ->and($r['Queue runs in the background'])->toBe('PASS')
+        ->and($r)->toHaveKey('Errors are reported to a tracking service');
+});
+
+it('only warns, never fails, when error tracking is not set up, even in production mode', function () {
+    healthyConfig();
+    config(['sentry.dsn' => null]);
+
+    [, $local] = preflight();
+    [, $strict] = preflight(['--production' => true]);
+
+    expect($local['Errors are reported to a tracking service'])->toBe('WARN')
+        ->and($strict['Errors are reported to a tracking service'])->toBe('WARN');
+
+    config(['sentry.dsn' => 'https://abc123@o1.ingest.sentry.io/1']);
+    expect(preflight()[1]['Errors are reported to a tracking service'])->toBe('PASS');
 });

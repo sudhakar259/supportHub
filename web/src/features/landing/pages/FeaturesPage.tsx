@@ -8,16 +8,16 @@ import { PRODUCT_FEATURES } from '@/features/landing/content'
 
 export function FeaturesPage() {
   return (
-    <PublicLayout description="Explore SupportHub ticketing, inbound email, routing, SLAs, team permissions, reports, integration APIs and signed webhooks.">
+    <PublicLayout>
       <section className="marketing-page-hero">
         <div className="marketing-container">
-          <span className="marketing-eyebrow">THE SUPPORTHUB TOOLKIT</span>
+          <span className="marketing-eyebrow">THE DESKNU TOOLKIT</span>
           <h1>
-            Every request has a story.
+            Helpdesk features.
             <br />
-            <span>Keep it all together.</span>
+            <span>Connected in one workspace.</span>
           </h1>
-          <p>A connected workspace for the people, conversations and workflows behind good customer support.</p>
+          <p>Manage support tickets, email intake, routing rules, SLA targets, team access and reporting with DeskNu.</p>
           <div className="marketing-actions">
             <Link to={ROUTES.demo} className="marketing-button">
               Try the product tour <Icon name="arrow_forward" size={19} />
@@ -64,6 +64,14 @@ export function FeaturesPage() {
                   </li>
                 ))}
               </ul>
+              <Link to={`${ROUTES.features}/${feature.slug}`} className="marketing-text-link">
+                Explore {feature.label.toLowerCase()} <Icon name="arrow_forward" size={18} />
+              </Link>
+              {feature.id === 'automation' && (
+                <Link to={`${ROUTES.features}/sla-management`} className="marketing-text-link">
+                  Explore SLA management <Icon name="arrow_forward" size={18} />
+                </Link>
+              )}
             </article>
           ))}
         </div>

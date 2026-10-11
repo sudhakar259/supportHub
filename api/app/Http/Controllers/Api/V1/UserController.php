@@ -70,7 +70,7 @@ class UserController extends Controller
      * department memberships.
      *
      * @bodyParam name string required Example: Alex Agent
-     * @bodyParam email string required Example: alex@supporthub.test
+     * @bodyParam email string required Example: alex@desknu.test
      * @bodyParam password string required Example: Secret123!
      * @bodyParam password_confirmation string required Example: Secret123!
      * @bodyParam phone string Example: +1-555-0100
@@ -138,7 +138,7 @@ class UserController extends Controller
      * `is_active`.
      *
      * @bodyParam name string Example: Alex Agent
-     * @bodyParam email string Example: alex@supporthub.test
+     * @bodyParam email string Example: alex@desknu.test
      * @bodyParam phone string Example: +1-555-0199
      * @bodyParam is_active boolean Requires users.update. Example: true
      *

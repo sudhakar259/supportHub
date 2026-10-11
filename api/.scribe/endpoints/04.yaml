@@ -57,7 +57,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Scan the code, then confirm with a code from your app.", "data": {"secret": "JBSWY3DPEHPK3PXP", "otpauth_url": "otpauth://totp/SupportHub:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=SupportHub"}}'
+        content: '{"success": true, "message": "Scan the code, then confirm with a code from your app.", "data": {"secret": "JBSWY3DPEHPK3PXP", "otpauth_url": "otpauth://totp/DeskNu:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=DeskNu"}}'
         headers: []
         description: ''
       -

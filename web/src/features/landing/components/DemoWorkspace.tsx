@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { Icon } from '@/components/ui/Icon'
+import { BrandMark } from '@/components/ui/BrandMark'
 
 interface DemoMessage {
   author: string
@@ -21,7 +22,7 @@ interface DemoTicket {
 
 const SAMPLE_TICKETS: DemoTicket[] = [
   {
-    id: 'SH-1042',
+    id: 'DN-1042',
     subject: 'Help with my latest invoice',
     name: 'Jamie Rivera',
     initials: 'JR',
@@ -37,7 +38,7 @@ const SAMPLE_TICKETS: DemoTicket[] = [
     ],
   },
   {
-    id: 'SH-1041',
+    id: 'DN-1041',
     subject: 'I can’t reset my password',
     name: 'Sam Chen',
     initials: 'SC',
@@ -48,7 +49,7 @@ const SAMPLE_TICKETS: DemoTicket[] = [
     messages: [],
   },
   {
-    id: 'SH-1039',
+    id: 'DN-1039',
     subject: 'Adding a teammate to our workspace',
     name: 'Taylor Brooks',
     initials: 'TB',
@@ -141,13 +142,13 @@ export function DemoWorkspace({ compact = false }: { compact?: boolean }) {
           <i />
           <i />
         </span>
-        <span>SupportHub / Sample workspace</span>
+        <span>DeskNu / Sample workspace</span>
         <span className="demo-sample-tag">SAMPLE DATA</span>
       </div>
       <div className="demo-app">
         <aside className="demo-sidebar">
           <span className="demo-workspace-brand">
-            <Icon name="support_agent" size={21} />
+            <BrandMark size={25} />
             <span>Acme support</span>
           </span>
           <span className="demo-sidebar-label">WORKSPACE</span>

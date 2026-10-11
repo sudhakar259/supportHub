@@ -1,6 +1,7 @@
 export const PRODUCT_FEATURES = [
   {
     id: 'tickets',
+    slug: 'ticketing',
     icon: 'confirmation_number',
     label: 'Ticketing',
     title: 'One conversation. The whole story.',
@@ -14,6 +15,7 @@ export const PRODUCT_FEATURES = [
   },
   {
     id: 'email',
+    slug: 'email-ticketing',
     icon: 'forward_to_inbox',
     label: 'Email intake',
     title: 'Your support inbox, organized.',
@@ -27,6 +29,7 @@ export const PRODUCT_FEATURES = [
   },
   {
     id: 'automation',
+    slug: 'helpdesk-automation',
     icon: 'alt_route',
     label: 'Routing & SLAs',
     title: 'Give every request a next step.',
@@ -40,6 +43,7 @@ export const PRODUCT_FEATURES = [
   },
   {
     id: 'team',
+    slug: 'team-collaboration',
     icon: 'groups',
     label: 'Team collaboration',
     title: 'The right people, working together.',
@@ -53,6 +57,7 @@ export const PRODUCT_FEATURES = [
   },
   {
     id: 'reports',
+    slug: 'reports',
     icon: 'monitoring',
     label: 'Reporting',
     title: 'See where your support needs attention.',
@@ -62,6 +67,7 @@ export const PRODUCT_FEATURES = [
   },
   {
     id: 'integrations',
+    slug: 'api-webhooks',
     icon: 'data_object',
     label: 'API & webhooks',
     title: 'Make support part of your product.',
@@ -104,13 +110,13 @@ export const SOLUTIONS = [
       'Use the integration API to offer ticket creation and replies from your own product, then listen for ticket events through signed webhooks.',
     features: ['Integration API', 'Scoped credentials', 'Signed webhooks'],
     example:
-      'A user submits an issue inside your app. Your server opens a SupportHub ticket, and a webhook tells your app when an agent replies.',
+      'A user submits an issue inside your app. Your server opens a DeskNu ticket, and a webhook tells your app when an agent replies.',
   },
 ] as const
 
 export const HOME_FAQ = [
   {
-    question: 'Can I try SupportHub before creating a workspace?',
+    question: 'Can I try DeskNu before creating a workspace?',
     answer:
       'Yes. The interactive product tour uses sample tickets to show conversations, private notes, routing and reports. You can explore it without signing in.',
   },
@@ -122,7 +128,7 @@ export const HOME_FAQ = [
   {
     question: 'Can customers send requests by email?',
     answer:
-      'Yes. Administrators can configure Mailgun inbound email so new emails create tickets and replies join the existing thread. Your team can also customize outgoing email notifications.',
+      'Yes. After the service operator configures Mailgun inbound routing, workspace administrators can enable email intake and connect their mailbox. New emails create tickets and replies join the conversation. Your team can also customize outgoing notifications.',
   },
   {
     question: 'Can I connect my own website?',

@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: 'SupportHub API Documentation'
-  description: 'REST API for SupportHub — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.'
+  title: 'DeskNu API Documentation'
+  description: 'REST API for DeskNu — ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.'
   version: 1.0.0
 servers:
   -
@@ -268,7 +268,7 @@ paths:
                     user:
                       id: 1
                       name: 'System Administrator'
-                      email: admin@supporthub.test
+                      email: admin@desknu.test
                       roles:
                         - Administrator
                     token: 1|abcdef123456...
@@ -294,7 +294,7 @@ paths:
                             example: 'System Administrator'
                           email:
                             type: string
-                            example: admin@supporthub.test
+                            example: admin@desknu.test
                           roles:
                             type: array
                             example:
@@ -383,7 +383,7 @@ paths:
                 email:
                   type: string
                   description: ''
-                  example: admin@supporthub.test
+                  example: admin@desknu.test
                 password:
                   type: string
                   description: ''
@@ -554,7 +554,7 @@ paths:
                 email:
                   type: string
                   description: ''
-                  example: admin@supporthub.test
+                  example: admin@desknu.test
                 tenant:
                   type: string
                   description: 'Disambiguates if this email has accounts with more than one tenant — strongly recommended whenever it might, since omitting it resolves to whichever account matches first.'
@@ -634,7 +634,7 @@ paths:
                 email:
                   type: string
                   description: ''
-                  example: admin@supporthub.test
+                  example: admin@desknu.test
                 tenant:
                   type: string
                   description: 'Same disambiguator as /auth/forgot-password — pass it if it was used there.'
@@ -766,7 +766,7 @@ paths:
                   data:
                     id: 1
                     name: 'System Administrator'
-                    email: admin@supporthub.test
+                    email: admin@desknu.test
                     roles:
                       - Administrator
                     permissions:
@@ -790,7 +790,7 @@ paths:
                         example: 'System Administrator'
                       email:
                         type: string
-                        example: admin@supporthub.test
+                        example: admin@desknu.test
                       roles:
                         type: array
                         example:
@@ -1019,7 +1019,7 @@ paths:
                 email:
                   type: string
                   description: ''
-                  example: alex@supporthub.test
+                  example: alex@desknu.test
                 password:
                   type: string
                   description: ''
@@ -1138,7 +1138,7 @@ paths:
                 email:
                   type: string
                   description: ''
-                  example: alex@supporthub.test
+                  example: alex@desknu.test
                 phone:
                   type: string
                   description: ''
@@ -4455,7 +4455,7 @@ paths:
                 is_default:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                 is_closed:
                   type: boolean
                   description: 'Whether this status counts as a terminal/closed state.'
@@ -4562,7 +4562,7 @@ paths:
                 is_default:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 is_closed:
                   type: boolean
                   description: ''
@@ -4840,7 +4840,7 @@ paths:
                 is_default:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
     delete:
       summary: 'Delete a priority'
       operationId: deleteAPriority
@@ -5017,7 +5017,7 @@ paths:
                       field:
                         type: string
                         description: ''
-                        example: customer_type
+                        example: category_id
                         enum:
                           - category_id
                           - priority_id
@@ -5026,7 +5026,7 @@ paths:
                       operator:
                         type: string
                         description: ''
-                        example: in
+                        example: '!='
                         enum:
                           - '='
                           - '!='
@@ -5051,7 +5051,7 @@ paths:
                       type:
                         type: string
                         description: ''
-                        example: assign_agent
+                        example: send_notification
                         enum:
                           - assign_department
                           - assign_agent
@@ -5179,7 +5179,7 @@ paths:
                       field:
                         type: string
                         description: 'This field is required when <code>conditions</code> is present.'
-                        example: category_id
+                        example: keyword
                         enum:
                           - category_id
                           - priority_id
@@ -5207,7 +5207,7 @@ paths:
                       type:
                         type: string
                         description: 'This field is required when <code>actions</code> is present.'
-                        example: escalate
+                        example: set_priority
                         enum:
                           - assign_department
                           - assign_agent
@@ -5382,11 +5382,11 @@ paths:
                 is_default:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 is_active:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
               required:
                 - name
                 - first_response_minutes
@@ -5506,7 +5506,7 @@ paths:
                 business_hours_only:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                 is_default:
                   type: boolean
                   description: ''
@@ -7338,12 +7338,12 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-10-11T07:06:06'
+                  example: '2026-10-11T09:13:53'
                   nullable: true
                 to:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-10-11T07:06:06'
+                  example: '2026-10-11T09:13:53'
                   nullable: true
   /api/v1/exports/customers:
     get:
@@ -10134,7 +10134,7 @@ paths:
                   message: 'Scan the code, then confirm with a code from your app.'
                   data:
                     secret: JBSWY3DPEHPK3PXP
-                    otpauth_url: 'otpauth://totp/SupportHub:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=SupportHub'
+                    otpauth_url: 'otpauth://totp/DeskNu:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=DeskNu'
                 properties:
                   success:
                     type: boolean
@@ -10150,7 +10150,7 @@ paths:
                         example: JBSWY3DPEHPK3PXP
                       otpauth_url:
                         type: string
-                        example: 'otpauth://totp/SupportHub:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=SupportHub'
+                        example: 'otpauth://totp/DeskNu:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=DeskNu'
         422:
           description: ''
           content:
@@ -10445,7 +10445,7 @@ paths:
                   data:
                     id: 1
                     name: 'Ticket sync'
-                    url: 'https://example.com/webhooks/supporthub'
+                    url: 'https://example.com/webhooks/desknu'
                     secret: whsec_...
                 properties:
                   success:
@@ -10465,7 +10465,7 @@ paths:
                         example: 'Ticket sync'
                       url:
                         type: string
-                        example: 'https://example.com/webhooks/supporthub'
+                        example: 'https://example.com/webhooks/desknu'
                       secret:
                         type: string
                         example: whsec_...
@@ -10485,7 +10485,7 @@ paths:
                 url:
                   type: string
                   description: 'Must not point to a local/private address.'
-                  example: 'https://example.com/webhooks/supporthub'
+                  example: 'https://example.com/webhooks/desknu'
                 events:
                   type: array
                   description: 'One or more of ticket.created, ticket.updated, ticket.assigned, ticket.replied, ticket.status_changed, ticket.resolved, ticket.closed, ticket.reopened.'

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Password;
 use Spatie\Permission\Models\Role;
 
 beforeEach(function () {
-    config(['workspaces.domain' => 'supporthub.com', 'workspaces.scheme' => 'https', 'workspaces.port' => null]);
+    config(['workspaces.domain' => 'desknu.com', 'workspaces.scheme' => 'https', 'workspaces.port' => null]);
     $this->tenant = testTenant();
 });
 
@@ -40,10 +40,10 @@ it('uses the tenant hostname to choose an account when two tenants share credent
     $user = workspaceDomainUser($this->tenant, ['email' => 'shared@example.test']);
     workspaceDomainColdRequest();
 
-    $this->postJson('https://'.$this->tenant->slug.'.supporthub.com/api/v1/auth/login', [
+    $this->postJson('https://'.$this->tenant->slug.'.desknu.com/api/v1/auth/login', [
         'email' => $user->email, 'password' => 'Correct!Horse9',
     ])->assertOk()->assertJsonPath('data.user.id', $user->id)
-        ->assertJsonPath('data.user.tenant.workspace_url', 'https://'.$this->tenant->slug.'.supporthub.com');
+        ->assertJsonPath('data.user.tenant.workspace_url', 'https://'.$this->tenant->slug.'.desknu.com');
 });
 
 it('scopes central API login using the workspace header and rejects an override', function () {
@@ -59,7 +59,7 @@ it('scopes central API login using the workspace header and rejects an override'
 
 it('refuses a hostname and header that name different workspaces', function () {
     $this->withHeader('X-Workspace', 'other-workspace')
-        ->getJson('https://'.$this->tenant->slug.'.supporthub.com/api/v1/membership-plans')->assertForbidden();
+        ->getJson('https://'.$this->tenant->slug.'.desknu.com/api/v1/membership-plans')->assertForbidden();
 });
 
 it('cannot restore a tenant session through another workspace', function () {
@@ -113,7 +113,7 @@ it('scopes emailed password recovery to the workspace account', function () {
 
     $this->withHeader('X-Workspace', $this->tenant->slug)->postJson('/api/v1/auth/forgot-password', ['email' => $user->email])->assertOk();
     Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
-        expect($notification->toMail($user)->actionUrl)->toStartWith('https://'.$this->tenant->slug.'.supporthub.com/reset-password?');
+        expect($notification->toMail($user)->actionUrl)->toStartWith('https://'.$this->tenant->slug.'.desknu.com/reset-password?');
 
         return true;
     });
@@ -227,7 +227,7 @@ it('moves a newly registered owner into its workspace while preserving verificat
     $registration = $this->postJson('/api/v1/tenants/register', [
         'tenant_name' => 'Crevol', 'tenant_slug' => 'crevol', 'owner_name' => 'Owner', 'owner_email' => 'owner@crevol.test',
         'owner_password' => 'Secret123!', 'owner_password_confirmation' => 'Secret123!',
-    ])->assertCreated()->assertJsonPath('data.tenant.workspace_url', 'https://crevol.supporthub.com');
+    ])->assertCreated()->assertJsonPath('data.tenant.workspace_url', 'https://crevol.desknu.com');
     workspaceDomainColdRequest();
     $code = $this->withHeader('Authorization', 'Bearer '.$registration->json('data.token'))->postJson('/api/v1/auth/workspace-handoff')->assertOk()->json('data.code');
     workspaceDomainColdRequest();
@@ -253,24 +253,24 @@ it('reserves infrastructure subdomains and DNS-invalid signup IDs', function (st
 })->with(['api', 'www', 'under_score', '-team', 'team-', 'Uppercase']);
 
 it('only resolves a single tenant label beneath the configured root domain', function () {
-    expect(WorkspaceDomains::slugFromHost('crevol.supporthub.com'))->toBe('crevol')
-        ->and(WorkspaceDomains::slugFromHost('crevol.supporthub.com.attacker.test'))->toBeNull()
-        ->and(WorkspaceDomains::slugFromHost('nested.crevol.supporthub.com'))->toBeNull()
-        ->and(WorkspaceDomains::slugFromHost('api.supporthub.com'))->toBeNull();
+    expect(WorkspaceDomains::slugFromHost('crevol.desknu.com'))->toBe('crevol')
+        ->and(WorkspaceDomains::slugFromHost('crevol.desknu.com.attacker.test'))->toBeNull()
+        ->and(WorkspaceDomains::slugFromHost('nested.crevol.desknu.com'))->toBeNull()
+        ->and(WorkspaceDomains::slugFromHost('api.desknu.com'))->toBeNull();
 });
 
 it('allows CORS only for valid workspace origins under the configured parent domain', function () {
     $repository = Env::getRepository();
     $previous = [];
-    foreach (['WORKSPACE_DOMAIN' => 'supporthub.com', 'WORKSPACE_SCHEME' => 'https', 'WORKSPACE_PORT' => ''] as $key => $value) {
+    foreach (['WORKSPACE_DOMAIN' => 'desknu.com', 'WORKSPACE_SCHEME' => 'https', 'WORKSPACE_PORT' => ''] as $key => $value) {
         $previous[$key] = $repository->get($key);
         $repository->set($key, $value);
     }
     try {
         $cors = require config_path('cors.php');
         $pattern = $cors['allowed_origins_patterns'][0];
-        expect(preg_match($pattern, 'https://crevol.supporthub.com'))->toBe(1);
-        foreach (['https://crevol.supporthub.com.attacker.test', 'https://a.crevol.supporthub.com', 'http://crevol.supporthub.com', 'https://crevol.supporthub.com:8443', 'https://under_score.supporthub.com'] as $origin) {
+        expect(preg_match($pattern, 'https://crevol.desknu.com'))->toBe(1);
+        foreach (['https://crevol.desknu.com.attacker.test', 'https://a.crevol.desknu.com', 'http://crevol.desknu.com', 'https://crevol.desknu.com:8443', 'https://under_score.desknu.com'] as $origin) {
             expect(preg_match($pattern, $origin))->toBe(0);
         }
     } finally {

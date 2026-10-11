@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
@@ -7,7 +8,7 @@ import { TopNavigation } from '@/components/navigation/TopNavigation'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 
 /** Authenticated application shell: persistent sidebar + top bar, collapsing to a drawer on mobile. */
-export function AppShell() {
+export function AppShell({ children }: { children?: ReactNode }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const { user } = useAuth()
 
@@ -37,7 +38,7 @@ export function AppShell() {
               <span className="min-w-0 break-all text-on-surface-variant">{window.location.host}</span>
             </div>
           )}
-          <Outlet />
+          {children ?? <Outlet />}
         </main>
       </div>
     </div>

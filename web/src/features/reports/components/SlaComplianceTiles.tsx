@@ -10,7 +10,7 @@ function toneFor(rate: number): 'healthy' | 'warning' | 'danger' {
 
 const TONE_CLASSES: Record<string, { text: string; bar: string; icon: string }> = {
   healthy: { text: 'text-tertiary', bar: 'bg-tertiary', icon: 'check_circle' },
-  warning: { text: 'text-primary', bar: 'bg-primary', icon: 'warning' },
+  warning: { text: 'text-warning', bar: 'bg-warning', icon: 'warning' },
   danger: { text: 'text-error', bar: 'bg-error', icon: 'crisis_alert' },
 }
 

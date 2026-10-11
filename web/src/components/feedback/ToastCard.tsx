@@ -6,10 +6,10 @@ import type { ToastRecord, ToastVariant } from '@/components/feedback/ToastProvi
 import { cn } from '@/utils/cn'
 
 const VARIANT_STYLES: Record<ToastVariant, { icon: string; border: string; iconColor: string }> = {
-  success: { icon: 'check_circle', border: 'border-l-tertiary', iconColor: 'text-tertiary' },
+  success: { icon: 'check_circle', border: 'border-l-success', iconColor: 'text-success' },
   error: { icon: 'error', border: 'border-l-error', iconColor: 'text-error' },
-  warning: { icon: 'warning', border: 'border-l-primary', iconColor: 'text-primary' },
-  info: { icon: 'info', border: 'border-l-secondary', iconColor: 'text-secondary' },
+  warning: { icon: 'warning', border: 'border-l-warning', iconColor: 'text-warning' },
+  info: { icon: 'info', border: 'border-l-info', iconColor: 'text-info' },
 }
 
 export interface ToastCardProps {

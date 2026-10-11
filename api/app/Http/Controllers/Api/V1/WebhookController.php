@@ -46,13 +46,13 @@ class WebhookController extends Controller
      * each delivery.
      *
      * @bodyParam name string required Example: Ticket sync
-     * @bodyParam url string required Must not point to a local/private address. Example: https://example.com/webhooks/supporthub
+     * @bodyParam url string required Must not point to a local/private address. Example: https://example.com/webhooks/desknu
      * @bodyParam events string[] required One or more of ticket.created, ticket.updated, ticket.assigned, ticket.replied, ticket.status_changed, ticket.resolved, ticket.closed, ticket.reopened. Example: ["ticket.created", "ticket.status_changed"]
      * @bodyParam is_active boolean Defaults to true. Example: true
      *
      * @response 201 {
      *   "success": true, "message": "Webhook created successfully.",
-     *   "data": {"id": 1, "name": "Ticket sync", "url": "https://example.com/webhooks/supporthub", "secret": "whsec_..."}
+     *   "data": {"id": 1, "name": "Ticket sync", "url": "https://example.com/webhooks/desknu", "secret": "whsec_..."}
      * }
      */
     public function store(StoreWebhookRequest $request): JsonResponse

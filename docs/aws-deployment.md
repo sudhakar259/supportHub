@@ -1,6 +1,6 @@
 # First Release on AWS
 
-What you need, and exactly how to put SupportHub on AWS for the first release.
+What you need, and exactly how to put DeskNu on AWS for the first release.
 
 This is a **single-server** setup: simple enough to run and understand on day one, sturdy
 enough for the first customers, with a clear path to grow (see [What this does not give
@@ -52,7 +52,7 @@ you](#what-this-does-not-give-you)).
 - [x] Reads real visitor IPs behind the load balancer (without this, one visitor's failed
       sign-ins would lock everyone out; it is tested)
 - [x] Sign-ins expire (`SANCTUM_TOKEN_EXPIRATION_MINUTES`), account lockout, two-step verification
-- [x] `supporthub:preflight --production` checks the configuration, `supporthub:create-platform-admin`
+- [x] `desknu:preflight --production` checks the configuration, `desknu:create-platform-admin`
       creates the first admin without the demo accounts
 - [x] Deploy, rollback and first-run scripts in `deploy/aws/`
 
@@ -202,6 +202,7 @@ openssl rand -base64 32 | tr -d '/+=' | cut -c1-32
 | `AWS_DEFAULT_REGION`, `AWS_BUCKET`, `FILESYSTEM_DISK` | your region, the attachments bucket, `s3` |
 | `RAZORPAY_*` | live keys + webhook secret (4.11) |
 | `SANCTUM_TOKEN_EXPIRATION_MINUTES` | `43200` |
+| `SENTRY_LARAVEL_DSN`, `SENTRY_ENVIRONMENT` | From your error-tracking project; see [error-tracking.md](error-tracking.md). Optional, strongly advised |
 | `LOG_CHANNEL` | `stderr` |
 
 Rules: **no single quote (`'`) inside a value** (the script refuses it); leave `AWS_ACCESS_KEY_ID`
@@ -259,10 +260,16 @@ This installs Docker, the AWS CLI and git, and puts the code in `/opt/supporthub
    (let CloudFront update the bucket policy). Default root object: `index.html`.
 2. **Alternate domain names (CNAMEs):** `example.com` **and** `*.example.com`. Custom SSL certificate:
    the `us-east-1` one. Redirect HTTP to HTTPS. Compress objects on.
-3. **Error pages** (this is what makes `/login`, `/dashboard`, `/tickets/123` work on refresh):
-   for HTTP **403** and **404**, respond with `/index.html`, HTTP response code **200**, TTL 0.
+3. **Page routing:** publish and attach the generated
+   `web/dist/hosting/cloudfront-routing.js` as a viewer-request CloudFront
+   Function. This serves rendered public pages on root/www and `app.html` for
+   tenant/private paths. Remove the old 403/404 → `index.html` rule; if a fallback
+   is needed, use `/app.html` with TTL 0 (never `index.html`: that is now the marketing home
+   page). Name the function `supporthub-routing` (runtime `cloudfront-js-2.0`). **It embeds the
+   list of public pages**, so it must be republished whenever they change: `deploy-web.sh` does
+   this when `CLOUDFRONT_FUNCTION_NAME=supporthub-routing` is set. See [branding-seo.md](branding-seo.md).
 4. Response headers policy: *SecurityHeadersPolicy* (adds HSTS and friends).
-5. Route 53: records `example.com` and `*.example.com` → **A (alias)** (and AAAA) → the distribution.
+5. Route 53: records `example.com`, `www.example.com` and `*.example.com` → **A (alias)** (and AAAA) → the distribution.
 
 ### 4.11 Payments, and email-to-ticket
 
@@ -294,12 +301,17 @@ From your laptop (or CI), publish the website:
 ```bash
 WEB_BUCKET=supporthub-web-prod \
 CLOUDFRONT_DISTRIBUTION_ID=E123ABC456 \
+CLOUDFRONT_FUNCTION_NAME=supporthub-routing \
 VITE_API_URL=https://api.example.com/api/v1 \
+VITE_SITE_URL=https://example.com \
 VITE_WORKSPACE_DOMAIN=example.com \
 VITE_SUPPORT_EMAIL=support@example.com \
 VITE_LEGAL_ENTITY="Example Ltd." \
 deploy/aws/deploy-web.sh
 ```
+
+`VITE_SITE_URL` (the website's address) defaults to `https://$VITE_WORKSPACE_DOMAIN`. The script builds, runs the public-site checks
+(`npm run test:seo`), uploads in a safe order (assets, files, pages last), republishes the routing function and clears the cache.
 
 ---
 
@@ -311,12 +323,12 @@ On the server:
 curl -s localhost/up                                    # 200
 sudo docker compose --env-file /opt/supporthub/.env.production -f /opt/supporthub/app/docker-compose.prod.yml ps
 sudo docker compose --env-file /opt/supporthub/.env.production -f /opt/supporthub/app/docker-compose.prod.yml \
-     exec -T app php artisan supporthub:preflight --production      # everything PASS
+     exec -T app php artisan desknu:preflight --production      # everything PASS
 ```
 
 From a browser and your phone:
 
-1. `https://example.com` shows the home page; `https://example.com/pricing` shows plans (so the API is reachable and CORS is right).
+1. `https://example.com` shows the home page; `https://example.com/pricing` shows plans (so the API is reachable and CORS is right). `https://example.com/robots.txt` allows crawling and lists the sitemap; `https://<your-workspace>.example.com/robots.txt` disallows everything; `https://example.com/login` and `/dashboard` load the app, not the marketing page.
 2. **Create a test workspace** from the sign-up page. You get the verification email (so SES works), you can sign in, and `https://<your-workspace>.example.com` loads.
 3. Create a ticket, reply, attach a PDF (so S3 and the IAM role work), download it again.
 4. Create a customer through the integration API with an API key ([integration-guide.md](integration-guide.md)).
@@ -358,9 +370,9 @@ At minimum: ALB **UnHealthyHostCount > 0**, ALB **HTTPCode_Target_5XX_Count** hi
 RDS **CPUUtilization**, **FreeStorageSpace** low, **FreeableMemory** low, **DatabaseConnections** high.
 Add an external uptime check on `https://api.example.com/up` and `https://example.com`.
 
-**Not included:** application error tracking (Sentry/Bugsnag/Flare). Errors go to the container log
-only. Add one before you have many customers; it is the difference between hearing about a bug from your
-logs and hearing about it from a customer.
+**Error tracking** is built in and switched on by a key: create the Sentry projects and set the keys as described in
+[error-tracking.md](error-tracking.md). Without them, errors only go to the container log. Set them up before the first customer:
+it is the difference between hearing about a bug from an alert and hearing about it from a customer.
 
 ---
 
@@ -370,7 +382,8 @@ logs and hearing about it from a customer.
 |---|---|
 | `TRUSTED_PROXIES` wrong | Everyone shares one IP: the sign-in rate limit (10/min) locks all users out together |
 | Instance **hop limit 1** | Attachment uploads fail with an AWS credentials error |
-| CloudFront **403/404 → index.html** missing | Refreshing `/login` or any page shows an XML error |
+| CloudFront viewer-request page routing missing | Public deep links or tenant workspace refreshes serve the wrong HTML |
+| Routing function out of date (it lists the public pages) | A new marketing page is served as the empty app shell, so search engines see nothing: republish it, which `deploy-web.sh` does when `CLOUDFRONT_FUNCTION_NAME` is set |
 | `*.example.com` missing on CloudFront or the certificate | Workspace subdomains show a certificate error |
 | `CORS_ALLOWED_ORIGINS` / `WORKSPACE_DOMAIN` differ between API and web build | Pages load but every API call fails |
 | Web built with the wrong `VITE_API_URL` | Same; rebuild with `deploy-web.sh` |
@@ -408,7 +421,7 @@ Be clear-eyed about these before you promise anyone an uptime figure.
 - **No autoscaling.** A `t3.medium` handles a small customer base comfortably; watch CPU and RDS
   connections as you grow.
 - **Images are built on the server** (slower and uses its CPU). Pushing images from CI to ECR is the next improvement.
-- **No error tracking, no centralized log search** (see section 7).
+- **No centralized log search** (logs are on the server; error tracking is covered in [error-tracking.md](error-tracking.md)).
 - **The scripts have not been run on real AWS yet** (note at the top).
 
 When you outgrow it, the sensible next steps are: Multi-AZ RDS, ElastiCache for Redis, an Auto Scaling
@@ -443,12 +456,12 @@ EC2/RDS lines once you are sure of the sizes.
 **Launch**
 - [ ] Manual RDS snapshot
 - [ ] `deploy-api.sh`, `first-run.sh`, `deploy-web.sh`
-- [ ] `supporthub:preflight --production` all PASS
+- [ ] `desknu:preflight --production` all PASS
 - [ ] Section 6 walked through on the live addresses (including a real paid subscription)
 - [ ] Platform administrator has two-step verification on; recovery codes stored in a password manager
-- [ ] Demo accounts do not exist: `exec app php artisan tinker --execute='echo App\Models\User::withoutGlobalScopes()->where("email","like","%@supporthub.test")->count();'` prints `0`
+- [ ] Demo accounts do not exist: `exec app php artisan tinker --execute='echo App\Models\User::withoutGlobalScopes()->where("email","like","%@desknu.test")->count();'` prints `0`
 
 **After**
 - [ ] Watch the logs and alarms closely for the first days
 - [ ] Put the weekly chores in a calendar: review `queue:failed`, apply OS updates, check backups ran
-- [ ] Decide when you will add error tracking and Multi-AZ
+- [ ] Error tracking keys set and a test error received ([error-tracking.md](error-tracking.md)); decide when to add Multi-AZ
