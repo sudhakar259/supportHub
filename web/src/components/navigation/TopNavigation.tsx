@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import { ROUTES } from '@/app/router/routes'
 
 import { Avatar } from '@/components/ui/Avatar'
 import { Icon } from '@/components/ui/Icon'
@@ -53,6 +56,14 @@ export function TopNavigation({ onOpenMenu }: TopNavigationProps) {
             </button>
             {menuOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-lg bg-surface-container-lowest py-1 shadow-lg ring-1 ring-outline-variant/40">
+                <Link
+                  to={ROUTES.accountSecurity}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex w-full items-center gap-space-sm px-space-md py-space-sm text-left text-body-sm text-on-surface hover:bg-surface-container-low"
+                >
+                  <Icon name="shield" size={18} />
+                  Account security
+                </Link>
                 <button
                   type="button"
                   onClick={() => logout()}

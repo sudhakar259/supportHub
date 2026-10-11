@@ -132,7 +132,7 @@ class TenantController extends Controller
 
         return $this->created([
             'tenant' => new TenantResource($tenant),
-            'user' => new UserResource($owner->load('roles')),
+            'user' => new UserResource($owner->load(['roles', 'tenant'])),
             'token' => $token,
             'token_type' => 'Bearer',
         ], 'Organization registered successfully.');
@@ -157,7 +157,7 @@ class TenantController extends Controller
         // Availability only. Returning the name or status would let anyone list
         // customer organizations by slug.
         return $this->success([
-            'available' => ! Tenant::where('slug', $slug)->exists(),
+            'available' => \App\Support\WorkspaceDomains::validSlug($slug) && ! Tenant::where('slug', $slug)->exists(),
         ]);
     }
 }

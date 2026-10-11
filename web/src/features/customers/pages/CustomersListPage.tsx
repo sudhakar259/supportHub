@@ -11,6 +11,7 @@ import { Avatar } from '@/components/ui/Avatar'
 import { Badge } from '@/components/ui/Badge'
 import { Icon } from '@/components/ui/Icon'
 import { IconButton } from '@/components/ui/IconButton'
+import { useToast } from '@/components/feedback/ToastProvider'
 import { customersApi } from '@/features/customers/api/customersApi'
 import { CreateCustomerModal } from '@/features/customers/components/CreateCustomerModal'
 import { EditCustomerModal } from '@/features/customers/components/EditCustomerModal'
@@ -30,6 +31,8 @@ const CUSTOMER_TYPE_TONE: Record<string, 'secondary' | 'primary' | 'neutral'> = 
 export function CustomersListPage() {
   const { user } = useAuth()
   const canCreate = hasPermission(user, 'customers.create')
+  const canExportCsv = hasPermission(user, 'customers.view')
+  const toast = useToast()
   const canUpdate = hasPermission(user, 'customers.update')
   const canDelete = hasPermission(user, 'customers.delete')
   const [filters, setFilters] = useState<CustomerFilters>({ page: 1, perPage: 20, sort: '-created_at' })
@@ -94,7 +97,18 @@ export function CustomersListPage() {
         title="Customers"
         meta={meta && <span className="rounded bg-surface-container px-2 py-0.5 text-code-sm text-secondary">{meta.total} total</span>}
         actions={
-          canCreate && (
+          <div className="flex flex-wrap items-center gap-space-xs">
+            {canExportCsv && (
+              <button
+                type="button"
+                onClick={() => customersApi.exportCsv().catch((err: Error) => toast.error('Export Failed', err.message))}
+                className="inline-flex h-9 items-center gap-space-sm rounded bg-surface-container px-space-md text-title-sm font-semibold text-on-surface transition-colors hover:bg-surface-container-high"
+              >
+                <Icon name="download" size={18} />
+                Export CSV
+              </button>
+            )}
+            {canCreate && (
             <button
               type="button"
               onClick={() => setIsCreateOpen(true)}
@@ -103,7 +117,8 @@ export function CustomersListPage() {
               <Icon name="person_add" size={18} />
               Create Customer
             </button>
-          )
+            )}
+          </div>
         }
       />
 

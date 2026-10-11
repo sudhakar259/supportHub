@@ -285,6 +285,111 @@ endpoints:
           }
         headers: []
         description: ''
+      -
+        custom: []
+        status: 423
+        content: |-
+          {
+            "success": false,
+            "message": "Too many failed sign-in attempts. This account is locked for another 15 minutes.",
+            "retry_after_seconds": 900
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/auth/two-factor/challenge
+    metadata:
+      custom: []
+      groupName: Authentication
+      groupDescription: |-
+
+        Token-based authentication shared by the web, mobile and third-party
+        clients. All endpoints here are unauthenticated except /auth/logout,
+        /auth/me and the email verification resend endpoint, which require a
+        Bearer token obtained from /auth/login or /auth/register.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Complete a two-factor sign-in'
+      description: |-
+        Second step of `/auth/login` for an account that has two-factor authentication
+        on. Send the `challenge_token` from the login response plus either the 6-digit
+        code from the authenticator app (`code`) or one unused recovery code
+        (`recovery_code`). Wrong codes count toward the same lockout as wrong passwords.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      challenge_token:
+        custom: []
+        name: challenge_token
+        description: 'From the login response.'
+        required: true
+        example: Zk3...
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      code:
+        custom: []
+        name: code
+        description: 'The 6-digit code.'
+        required: false
+        example: '123456'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      recovery_code:
+        custom: []
+        name: recovery_code
+        description: 'One of the recovery codes, instead of `code`.'
+        required: false
+        example: ab12c-d34ef
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      challenge_token: Zk3...
+      code: '123456'
+      recovery_code: ab12c-d34ef
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Login successful.", "data": {"user": {"id": 1}, "token": "1|abc...", "token_type": "Bearer"}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: '{"success": false, "message": "Validation failed.", "errors": {"code": ["The code is incorrect or has expired."]}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 423
+        content: '{"success": false, "message": "Too many failed sign-in attempts. This account is locked for another 15 minutes."}'
+        headers: []
+        description: ''
     responseFields: []
     auth: []
     controller: null

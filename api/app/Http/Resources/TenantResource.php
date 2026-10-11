@@ -15,6 +15,7 @@ class TenantResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
+            'workspace_url' => \App\Support\WorkspaceDomains::url($this->resource),
             'status' => $this->status,
             'email' => $this->email,
             'phone' => $this->phone,

@@ -4,10 +4,12 @@ import { Outlet } from 'react-router-dom'
 import { ImpersonationBanner } from '@/components/layout/ImpersonationBanner'
 import { Sidebar } from '@/components/navigation/Sidebar'
 import { TopNavigation } from '@/components/navigation/TopNavigation'
+import { useAuth } from '@/features/auth/hooks/useAuth'
 
 /** Authenticated application shell: persistent sidebar + top bar, collapsing to a drawer on mobile. */
 export function AppShell() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const { user } = useAuth()
 
   return (
     <div className="min-h-screen bg-background">
@@ -29,6 +31,12 @@ export function AppShell() {
       <div className="lg:pl-64">
         <TopNavigation onOpenMenu={() => setIsDrawerOpen(true)} />
         <main className="min-h-screen w-full bg-background pt-16">
+          {user?.tenant && (
+            <div className="flex flex-wrap items-center gap-x-space-sm border-b border-outline-variant/50 bg-surface-container-low px-margin-mobile py-space-xs text-label-md sm:px-margin" aria-label="Current workspace">
+              <span className="min-w-0 break-words font-semibold text-on-surface">{user.tenant.name}</span>
+              <span className="min-w-0 break-all text-on-surface-variant">{window.location.host}</span>
+            </div>
+          )}
           <Outlet />
         </main>
       </div>

@@ -1,31 +1,33 @@
-name: 'Roles & Permissions'
+name: 'Two-factor authentication'
 description: |-
 
-  The 5 built-in roles (Administrator, Department Manager, Senior Agent,
-  Agent, Customer) cover the standard workforce shape; additional
-  custom roles can be created here and assigned any subset of the
-  permissions listed by GET /permissions. The Administrator and
-  Customer roles cannot be deleted.
+  Lets a signed-in person protect their own account with an authenticator app
+  (Google Authenticator, Microsoft Authenticator, 1Password, Authy…). Every step
+  asks for the current password again, so a stolen session token alone can't
+  switch protection on or off. Wrong passwords and wrong codes here count toward
+  the same lockout as at sign-in.
 endpoints:
   -
     custom: []
     httpMethods:
-      - GET
-    uri: api/v1/roles
+      - POST
+    uri: api/v1/auth/two-factor/setup
     metadata:
       custom: []
-      groupName: 'Roles & Permissions'
+      groupName: 'Two-factor authentication'
       groupDescription: |-
 
-        The 5 built-in roles (Administrator, Department Manager, Senior Agent,
-        Agent, Customer) cover the standard workforce shape; additional
-        custom roles can be created here and assigned any subset of the
-        permissions listed by GET /permissions. The Administrator and
-        Customer roles cannot be deleted.
+        Lets a signed-in person protect their own account with an authenticator app
+        (Google Authenticator, Microsoft Authenticator, 1Password, Authy…). Every step
+        asks for the current password again, so a stolen session token alone can't
+        switch protection on or off. Wrong passwords and wrong codes here count toward
+        the same lockout as at sign-in.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List roles'
-      description: ''
+      title: 'Start two-factor setup'
+      description: |-
+        Returns a new secret and the `otpauth://` link to show as a QR code. Two-factor is
+        not active yet: call `/auth/two-factor/confirm` with a code from the app first.
       authenticated: true
       deprecated: false
     headers:
@@ -36,14 +38,32 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      password:
+        custom: []
+        name: password
+        description: 'The current password.'
+        required: true
+        example: Secret123!word
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      password: Secret123!word
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Administrator", "permissions": ["tickets.view", "..."]}]}'
+        content: '{"success": true, "message": "Scan the code, then confirm with a code from your app.", "data": {"secret": "JBSWY3DPEHPK3PXP", "otpauth_url": "otpauth://totp/SupportHub:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=SupportHub"}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: '{"success": false, "message": "Two-factor authentication is already on. Turn it off first to set it up again."}'
         headers: []
         description: ''
     responseFields: []
@@ -58,20 +78,87 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/v1/roles
+    uri: api/v1/auth/two-factor/confirm
     metadata:
       custom: []
-      groupName: 'Roles & Permissions'
+      groupName: 'Two-factor authentication'
       groupDescription: |-
 
-        The 5 built-in roles (Administrator, Department Manager, Senior Agent,
-        Agent, Customer) cover the standard workforce shape; additional
-        custom roles can be created here and assigned any subset of the
-        permissions listed by GET /permissions. The Administrator and
-        Customer roles cannot be deleted.
+        Lets a signed-in person protect their own account with an authenticator app
+        (Google Authenticator, Microsoft Authenticator, 1Password, Authy…). Every step
+        asks for the current password again, so a stolen session token alone can't
+        switch protection on or off. Wrong passwords and wrong codes here count toward
+        the same lockout as at sign-in.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create a role'
+      title: 'Turn two-factor on'
+      description: |-
+        Confirms setup with the first 6-digit code from the app. Returns the recovery
+        codes **once**; each works a single time if the phone is lost.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      code:
+        custom: []
+        name: code
+        description: ''
+        required: true
+        example: '123456'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      code: '123456'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Two-factor authentication is on.", "data": {"recovery_codes": ["ab12c-d34ef", "gh56i-j78kl"]}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: '{"success": false, "message": "Validation failed.", "errors": {"code": ["The code is incorrect or has expired."]}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/auth/two-factor/disable
+    metadata:
+      custom: []
+      groupName: 'Two-factor authentication'
+      groupDescription: |-
+
+        Lets a signed-in person protect their own account with an authenticator app
+        (Google Authenticator, Microsoft Authenticator, 1Password, Authy…). Every step
+        asks for the current password again, so a stolen session token alone can't
+        switch protection on or off. Wrong passwords and wrong codes here count toward
+        the same lockout as at sign-in.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Turn two-factor off'
       description: ''
       authenticated: true
       deprecated: false
@@ -84,186 +171,49 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      name:
+      password:
         custom: []
-        name: name
-        description: ''
+        name: password
+        description: 'The current password.'
         required: true
-        example: 'Billing Specialist'
+        example: Secret123!word
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      permissions:
+      code:
         custom: []
-        name: permissions
-        description: 'Permission names to grant.'
+        name: code
+        description: 'A current 6-digit code.'
         required: false
-        example:
-          - tickets.view
-          - tickets.update
-        type: 'string[]'
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      name: 'Billing Specialist'
-      permissions:
-        - tickets.view
-        - tickets.update
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 201
-        content: '{"success": true, "message": "Role created successfully.", "data": {"id": 6, "name": "Billing Specialist"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/roles/{id}'
-    metadata:
-      custom: []
-      groupName: 'Roles & Permissions'
-      groupDescription: |-
-
-        The 5 built-in roles (Administrator, Department Manager, Senior Agent,
-        Agent, Customer) cover the standard workforce shape; additional
-        custom roles can be created here and assigned any subset of the
-        permissions listed by GET /permissions. The Administrator and
-        Customer roles cannot be deleted.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get a role'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        custom: []
-        name: id
-        description: 'The ID of the role.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Administrator"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'api/v1/roles/{id}'
-    metadata:
-      custom: []
-      groupName: 'Roles & Permissions'
-      groupDescription: |-
-
-        The 5 built-in roles (Administrator, Department Manager, Senior Agent,
-        Agent, Customer) cover the standard workforce shape; additional
-        custom roles can be created here and assigned any subset of the
-        permissions listed by GET /permissions. The Administrator and
-        Customer roles cannot be deleted.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update a role'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        custom: []
-        name: id
-        description: 'The ID of the role.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        custom: []
-        name: name
-        description: ''
-        required: false
-        example: 'Billing Specialist'
+        example: '123456'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      permissions:
+      recovery_code:
         custom: []
-        name: permissions
-        description: "Replaces the role's permission set entirely."
+        name: recovery_code
+        description: 'A recovery code, instead of `code`.'
         required: false
-        example:
-          - tickets.view
-        type: 'string[]'
+        example: ab12c-d34ef
+        type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: 'Billing Specialist'
-      permissions:
-        - tickets.view
+      password: Secret123!word
+      code: '123456'
+      recovery_code: ab12c-d34ef
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Role updated successfully.", "data": {"id": 6, "name": "Billing Specialist"}}'
+        content: '{"success": true, "message": "Two-factor authentication is off.", "data": null}'
         headers: []
         description: ''
     responseFields: []
@@ -277,87 +227,22 @@ endpoints:
   -
     custom: []
     httpMethods:
-      - DELETE
-    uri: 'api/v1/roles/{id}'
+      - POST
+    uri: api/v1/auth/two-factor/recovery-codes
     metadata:
       custom: []
-      groupName: 'Roles & Permissions'
+      groupName: 'Two-factor authentication'
       groupDescription: |-
 
-        The 5 built-in roles (Administrator, Department Manager, Senior Agent,
-        Agent, Customer) cover the standard workforce shape; additional
-        custom roles can be created here and assigned any subset of the
-        permissions listed by GET /permissions. The Administrator and
-        Customer roles cannot be deleted.
+        Lets a signed-in person protect their own account with an authenticator app
+        (Google Authenticator, Microsoft Authenticator, 1Password, Authy…). Every step
+        asks for the current password again, so a stolen session token alone can't
+        switch protection on or off. Wrong passwords and wrong codes here count toward
+        the same lockout as at sign-in.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a role'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        custom: []
-        name: id
-        description: 'The ID of the role.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Role deleted successfully.", "data": null}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 403
-        content: '{"success": false, "message": "You do not have permission to perform this action."}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: api/v1/permissions
-    metadata:
-      custom: []
-      groupName: 'Roles & Permissions'
-      groupDescription: |-
-
-        Permissions are fixed at the code level (defined in
-        RolesAndPermissionsSeeder) rather than creatable via the API, since
-        an ad-hoc permission with no matching Gate check anywhere would be
-        meaningless. This endpoint lists what exists so role management can
-        reference them.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'List permissions'
-      description: ''
+      title: 'Get new recovery codes'
+      description: 'Replaces all recovery codes. The old ones stop working.'
       authenticated: true
       deprecated: false
     headers:
@@ -368,14 +253,38 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      code:
+        custom: []
+        name: code
+        description: 'A current 6-digit code.'
+        required: true
+        example: '123456'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      password:
+        custom: []
+        name: password
+        description: 'The current password.'
+        required: true
+        example: Secret123!word
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      code: '123456'
+      password: Secret123!word
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "tickets.view"}]}'
+        content: '{"success": true, "message": "New recovery codes created. The old ones no longer work.", "data": {"recovery_codes": ["ab12c-d34ef"]}}'
         headers: []
         description: ''
     responseFields: []

@@ -1,39 +1,41 @@
-name: Billing
+name: 'Integration API — Tickets'
 description: |-
 
-  A tenant's own view of its subscription — distinct from
-  Platform\TenantController, which lets a platform administrator see
-  every tenant's subscription. Moving to a paid plan issues an invoice
-  with a Razorpay order; the subscription is activated when that invoice
-  is paid (see InvoiceController and MarkInvoicePaidAction).
+  Same credential-based auth as the Customers integration endpoints.
+  "Reply" and "attachment" actions here are posted on behalf of the
+  ticket's customer — there is no staff Sanctum session backing this
+  credential, so there is no agent identity to attribute them to; use
+  the regular Sanctum-authenticated ticket endpoints for agent-side
+  actions.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/subscription
+    uri: api/v1/integration/ticket-options
     metadata:
       custom: []
-      groupName: Billing
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        A tenant's own view of its subscription — distinct from
-        Platform\TenantController, which lets a platform administrator see
-        every tenant's subscription. Moving to a paid plan issues an invoice
-        with a Razorpay order; the subscription is activated when that invoice
-        is paid (see InvoiceController and MarkInvoicePaidAction).
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get the current subscription'
+      title: 'List ticket options'
       description: |-
-        Includes a `usage` block (one entry per plan-limited feature)
-        computed live via PlanLimitService — the same service every
-        resource-creating controller already uses to enforce limits, so
-        this can never drift from what creation actually allows.
-      authenticated: true
+        The priorities and (active) departments a customer-facing "new
+        ticket" form can offer. Both are optional on ticket creation; omitted
+        values fall back to the tenant default priority and routing rules.
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -47,18 +49,364 @@ endpoints:
       -
         custom: []
         status: 200
-        content: |-
-          {
-            "success": true, "message": "Request successful.",
-            "data": {"id": 1, "status": "trial", "plan": {"name": "Starter"}, "usage": {"users": {"used": 2, "limit": 3}}}
-          }
+        content: '{"success": true, "message": "Request successful.", "data": {"priorities": [{"id": 2, "name": "Medium", "slug": "medium", "level": 2, "is_default": true}], "departments": [{"id": 1, "name": "Technical Support"}]}}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/integration/tickets
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List tickets'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      customer_id:
+        custom: []
+        name: customer_id
+        description: 'Filter by customer.'
+        required: false
+        example: 4
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Items per page (max 100).'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      customer_id: 4
+      per_page: 25
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 12, "ticket_number": "TKT-2026-000012"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/integration/tickets/{ticket_id}'
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get a ticket'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4grbvc2v68162hmf9xr8fgh
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 12, "ticket_number": "TKT-2026-000012"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/integration/tickets/{ticket_id}/messages'
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "List a ticket's customer-visible messages"
+      description: |-
+        Customer messages and agent replies only — internal notes are never
+        returned. Authors are reduced to a display name (no email or roles).
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4grbvc2v68162hmf9xr8fgh
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "type": "agent_reply", "body": "We are looking into it.", "author_name": "Sam", "created_at": "2026-10-09T10:00:00+00:00"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/integration/tickets
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create a ticket'
+      description: |-
+        The customer is identified by exactly one of customer_id,
+        customer_email or customer_external_id — whichever the caller's
+        own system already has on hand.
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      subject:
+        custom: []
+        name: subject
+        description: ''
+        required: true
+        example: 'Cannot access my account'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      description:
+        custom: []
+        name: description
+        description: ''
+        required: true
+        example: 'Getting a 500 error at login.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: ''
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      attachments:
+        custom: []
+        name: attachments
+        description: 'Optional, sent as multipart/form-data. Up to 5 files, 2 MB each. Needs the tickets.attachments scope as well as tickets.create.'
+        required: false
+        example:
+          - null
+        type: 'file[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      priority_id:
+        custom: []
+        name: priority_id
+        description: ''
+        required: false
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      department_id:
+        custom: []
+        name: department_id
+        description: 'An active department; see GET /ticket-options.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      customer_id:
+        custom: []
+        name: customer_id
+        description: 'The internal customer id, if already known.'
+        required: false
+        example: 4
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      customer_email:
+        custom: []
+        name: customer_email
+        description: "The customer's email, looked up within this tenant."
+        required: false
+        example: jamie@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      customer_external_id:
+        custom: []
+        name: customer_external_id
+        description: "This tenant's own identifier for the customer."
+        required: false
+        example: CRM-001
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      subject: 'Cannot access my account'
+      description: 'Getting a 500 error at login.'
+      category_id: 2
+      priority_id: 3
+      department_id: 1
+      customer_id: 4
+      customer_email: jamie@example.com
+      customer_external_id: CRM-001
+    fileParameters:
+      attachments:
+        - null
+    responses:
+      -
+        custom: []
+        status: 201
+        content: '{"success": true, "message": "Ticket created successfully.", "data": {"id": 12, "ticket_number": "TKT-2026-000012"}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 404
+        content: '{"success": false, "message": "No matching customer found for the given identifier."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
     controller: null
     method: null
     route: null
@@ -66,65 +414,105 @@ endpoints:
     custom: []
     httpMethods:
       - PUT
-    uri: api/v1/subscription
+    uri: 'api/v1/integration/tickets/{ticket_id}'
     metadata:
       custom: []
-      groupName: Billing
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        A tenant's own view of its subscription — distinct from
-        Platform\TenantController, which lets a platform administrator see
-        every tenant's subscription. Moving to a paid plan issues an invoice
-        with a Razorpay order; the subscription is activated when that invoice
-        is paid (see InvoiceController and MarkInvoicePaidAction).
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Change plan'
-      description: |-
-        A free plan activates immediately. A paid plan starts a 14-day
-        trial and issues an invoice for the plan price, with a Razorpay
-        order to pay it; the subscription is activated once the invoice is
-        paid. A lapsed subscription (past_due, suspended or expired) gets no
-        new trial and keeps its lapsed status until that invoice is paid.
-        Earlier unpaid invoices are voided. If the payment provider
-        cannot create the order, nothing changes and the request returns 503.
-      authenticated: true
+      title: 'Update a ticket'
+      description: ''
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4grbvc2v68162hmf9xr8fgh
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      plan:
+      subject:
         custom: []
-        name: plan
-        description: 'The membership plan slug to switch to.'
-        required: true
-        example: professional
+        name: subject
+        description: ''
+        required: false
+        example: 'Cannot access my account (updated)'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
+      description:
+        custom: []
+        name: description
+        description: ''
+        required: false
+        example: 'Still happening after clearing cache.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: ''
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      priority_id:
+        custom: []
+        name: priority_id
+        description: ''
+        required: false
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
     cleanBodyParameters:
-      plan: professional
+      subject: 'Cannot access my account (updated)'
+      description: 'Still happening after clearing cache.'
+      category_id: 2
+      priority_id: 3
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Plan updated successfully.", "data": {"status": "trial", "plan": {"slug": "professional"}, "invoice": {"status": "pending"}}}'
+        content: '{"success": true, "message": "Ticket updated successfully.", "data": {"id": 12}}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null
@@ -132,46 +520,254 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/v1/subscription/cancel
+    uri: 'api/v1/integration/tickets/{ticket_id}/messages'
     metadata:
       custom: []
-      groupName: Billing
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        A tenant's own view of its subscription — distinct from
-        Platform\TenantController, which lets a platform administrator see
-        every tenant's subscription. Moving to a paid plan issues an invoice
-        with a Razorpay order; the subscription is activated when that invoice
-        is paid (see InvoiceController and MarkInvoicePaidAction).
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Cancel the subscription'
-      description: ''
-      authenticated: true
+      title: 'Reply to a ticket as the customer'
+      description: |-
+        Syncs a message from another channel (chat widget, email, CRM)
+        into the ticket thread, attributed to the ticket's own customer.
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: multipart/form-data
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4grbvc2v68162hmf9xr8fgh
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      body:
+        custom: []
+        name: body
+        description: ''
+        required: true
+        example: 'Any update on this?'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      attachments:
+        custom: []
+        name: attachments
+        description: 'Optional, sent as multipart/form-data. Up to 5 files, 2 MB each (jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx). Needs the tickets.attachments scope as well as tickets.reply.'
+        required: false
+        example:
+          - null
+        type: 'file[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      body: 'Any update on this?'
+    fileParameters:
+      attachments:
+        - null
+    responses:
+      -
+        custom: []
+        status: 201
+        content: '{"success": true, "message": "Reply added successfully.", "data": {"id": 9, "body": "Any update on this?"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/integration/tickets/{ticket_id}/status'
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Update a ticket's status"
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4grbvc2v68162hmf9xr8fgh
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      status:
+        custom: []
+        name: status
+        description: 'One of open, in-progress, pending, escalated, resolved, closed, reopened.'
+        required: true
+        example: resolved
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      reason:
+        custom: []
+        name: reason
+        description: ''
+        required: false
+        example: 'Customer confirmed the fix worked.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      status: resolved
+      reason: 'Customer confirmed the fix worked.'
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Subscription cancelled.", "data": {"status": "cancelled"}}'
+        content: '{"success": true, "message": "Ticket status updated successfully.", "data": {"id": 12, "status": {"slug": "resolved"}}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: '{"success": false, "message": "Cannot transition from closed to open."}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/integration/tickets/{ticket_id}/reopen'
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Reopen a ticket as the customer'
+      description: |-
+        For when a ticket was resolved or closed but the problem is not
+        actually fixed. Unlike the general status endpoint this can only move
+        a ticket to "reopened", so a customer-facing site can expose it
+        without being able to resolve or close tickets. Only Resolved and
+        Closed tickets can be reopened.
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4grbvc2v68162hmf9xr8fgh
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      reason:
+        custom: []
+        name: reason
+        description: 'Why the ticket is being reopened.'
+        required: false
+        example: 'The issue came back after the fix.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      reason: 'The issue came back after the fix.'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Ticket reopened successfully.", "data": {"id": 12, "status": {"slug": "reopened"}}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: '{"success": false, "message": "Cannot transition from open to reopened."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
     controller: null
     method: null
     route: null
@@ -179,26 +775,43 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/subscription/invoices
+    uri: 'api/v1/integration/tickets/{ticket_id}/attachments'
     metadata:
       custom: []
-      groupName: Billing
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        Invoices issued when a tenant moves to a paid plan, and the browser
-        callback that confirms a Razorpay payment for one of them.
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List invoices'
+      title: "List a ticket's attachments"
       description: ''
-      authenticated: true
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4grbvc2v68162hmf9xr8fgh
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -208,14 +821,96 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "number": "INV-000001", "status": "pending", "amount_cents": 4900, "currency": "USD"}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "original_filename": "screenshot.png"}]}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/integration/tickets/{ticket_id}/attachments/{attachment_id}/download'
+    metadata:
+      custom: []
+      groupName: 'Integration API — Tickets'
+      groupDescription: |-
+
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Download a ticket attachment'
+      description: |-
+        Streams the file. Attachments that belong to another ticket, or to an
+        internal note, are reported as not found.
+      authenticated: false
+      deprecated: false
+    headers:
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      ticket_id:
+        custom: []
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        required: true
+        example: 01m4grbvc2v68162hmf9xr8fgh
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      attachment_id:
+        custom: []
+        name: attachment_id
+        description: 'The ID of the attachment.'
+        required: true
+        example: 01m4gxn2jt2tc1sb0nk66rwj08
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+      attachment_id: 01m4gxn2jt2tc1sb0nk66rwj08
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"success":false,"message":"Invalid API credentials."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-content-type-options: nosniff
+          x-frame-options: DENY
+          referrer-policy: no-referrer
+          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
+          vary: Origin
+        description: null
+      -
+        custom: []
+        status: 404
+        content: '{"success": false, "message": "The requested resource was not found."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
     controller: null
     method: null
     route: null
@@ -223,82 +918,69 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/v1/subscription/payments/verify
+    uri: 'api/v1/integration/tickets/{ticket_id}/attachments'
     metadata:
       custom: []
-      groupName: Billing
+      groupName: 'Integration API — Tickets'
       groupDescription: |-
 
-        Invoices issued when a tenant moves to a paid plan, and the browser
-        callback that confirms a Razorpay payment for one of them.
+        Same credential-based auth as the Customers integration endpoints.
+        "Reply" and "attachment" actions here are posted on behalf of the
+        ticket's customer — there is no staff Sanctum session backing this
+        credential, so there is no agent identity to attribute them to; use
+        the regular Sanctum-authenticated ticket endpoints for agent-side
+        actions.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Confirm a payment'
-      description: |-
-        Called by the browser after Razorpay Checkout succeeds. The signature
-        is checked with the key secret; an unsigned or mismatched payment is
-        rejected and the invoice stays pending.
-      authenticated: true
+      title: 'Upload a ticket attachment as the customer'
+      description: ''
+      authenticated: false
       deprecated: false
     headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
+      X-Api-Key: ak_abcdef1234567890abcdef1234567890
+      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Content-Type: multipart/form-data
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      razorpay_order_id:
+    urlParameters:
+      ticket_id:
         custom: []
-        name: razorpay_order_id
-        description: 'The order id the invoice was issued with.'
+        name: ticket_id
+        description: 'The ID of the ticket.'
         required: true
-        example: order_Lx1234abcd
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      razorpay_payment_id:
-        custom: []
-        name: razorpay_payment_id
-        description: 'The payment id returned by Razorpay Checkout.'
-        required: true
-        example: pay_Lx1234abcd
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      razorpay_signature:
-        custom: []
-        name: razorpay_signature
-        description: 'The signature returned by Razorpay Checkout.'
-        required: true
-        example: architecto
+        example: 01m4grbvc2v68162hmf9xr8fgh
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-    cleanBodyParameters:
-      razorpay_order_id: order_Lx1234abcd
-      razorpay_payment_id: pay_Lx1234abcd
-      razorpay_signature: architecto
-    fileParameters: []
+    cleanUrlParameters:
+      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      file:
+        custom: []
+        name: file
+        description: 'Max 2 MB. One of jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx.'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters: []
+    fileParameters:
+      file: null
     responses:
       -
         custom: []
-        status: 200
-        content: '{"success": true, "message": "Payment confirmed.", "data": {"status": "paid"}}'
+        status: 201
+        content: '{"success": true, "message": "Attachment uploaded successfully.", "data": {"id": "01HXYZ...", "original_filename": "invoice.pdf"}}'
         headers: []
         description: ''
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    auth: []
     controller: null
     method: null
     route: null

@@ -12,6 +12,8 @@ use App\Models\Customer;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Services\AuditLogger;
+use App\Services\LoginSecurity;
+use App\Services\TwoFactorService;
 use App\Support\TenantContext;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
@@ -93,7 +95,7 @@ class AuthController extends Controller
         $token = $user->createToken($request->string('device_name')->toString() ?: 'api')->plainTextToken;
 
         return $this->created([
-            'user' => new UserResource($user->load(['customer'])),
+            'user' => new UserResource($user->load(['customer', 'tenant'])),
             'token' => $token,
             'token_type' => 'Bearer',
         ], 'Registration successful.');
@@ -131,8 +133,13 @@ class AuthController extends Controller
      *   "success": false,
      *   "message": "This account has been deactivated."
      * }
+     * @response 423 {
+     *   "success": false,
+     *   "message": "Too many failed sign-in attempts. This account is locked for another 15 minutes.",
+     *   "retry_after_seconds": 900
+     * }
      */
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request, LoginSecurity $security, TwoFactorService $twoFactor): JsonResponse
     {
         $candidates = User::withoutTenantScope()->where('email', $request->string('email'));
 
@@ -141,20 +148,35 @@ class AuthController extends Controller
             $candidates->where('tenant_id', $tenant?->id);
         }
 
+        $candidates = $candidates->get();
+
+        // A locked account is refused before the password is even looked at, so a
+        // correct guess made during the lock tells an attacker nothing.
+        if ($candidates->count() === 1 && $candidates->first()->isLocked()) {
+            return $this->locked($candidates->first(), $security);
+        }
+
         // Plural on purpose: the same email may have an account with
         // several tenants (and/or a platform-admin account) — password
         // hashes differ per account, so the one that actually matches
         // this password is unambiguous even without a `tenant` hint,
         // except in the vanishingly unlikely case two of them happen to
         // share the exact same password too, which `tenant` resolves.
-        $user = $candidates->get()->first(
+        $user = $candidates->first(
             fn (User $candidate) => Hash::check($request->string('password'), $candidate->password)
         );
 
         if (! $user) {
+            // Count the miss against every account that could have been meant.
+            $candidates->reject(fn (User $candidate) => $candidate->isLocked())->each(fn (User $candidate) => $security->recordFailure($candidate));
+
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
+        }
+
+        if ($user->isLocked()) {
+            return $this->locked($user, $security);
         }
 
         if (! $user->is_active) {
@@ -164,6 +186,92 @@ class AuthController extends Controller
         if ($user->tenant && ! $user->tenant->isActive()) {
             return $this->error('This tenant account is suspended or no longer active.', 403);
         }
+
+        // Password is right, but this account also needs its authenticator code: no
+        // token yet, just a short-lived proof that the first step passed.
+        if ($user->hasTwoFactorEnabled()) {
+            return $this->success([
+                'two_factor_required' => true,
+                'challenge_token' => $twoFactor->issueChallenge($user, $request->string('device_name')->toString() ?: null),
+            ], 'Two-factor authentication required.');
+        }
+
+        return $this->completeLogin($user, $request->string('device_name')->toString() ?: 'api', $security);
+    }
+
+    /**
+     * Complete a two-factor sign-in
+     *
+     * Second step of `/auth/login` for an account that has two-factor authentication
+     * on. Send the `challenge_token` from the login response plus either the 6-digit
+     * code from the authenticator app (`code`) or one unused recovery code
+     * (`recovery_code`). Wrong codes count toward the same lockout as wrong passwords.
+     *
+     * @unauthenticated
+     *
+     * @bodyParam challenge_token string required From the login response. Example: Zk3...
+     * @bodyParam code string The 6-digit code. Example: 123456
+     * @bodyParam recovery_code string One of the recovery codes, instead of `code`. Example: ab12c-d34ef
+     *
+     * @response 200 {"success": true, "message": "Login successful.", "data": {"user": {"id": 1}, "token": "1|abc...", "token_type": "Bearer"}}
+     * @response 422 {"success": false, "message": "Validation failed.", "errors": {"code": ["The code is incorrect or has expired."]}}
+     * @response 423 {"success": false, "message": "Too many failed sign-in attempts. This account is locked for another 15 minutes."}
+     */
+    public function twoFactorChallenge(Request $request, LoginSecurity $security, TwoFactorService $twoFactor): JsonResponse
+    {
+        $data = $request->validate([
+            'challenge_token' => ['required', 'string'],
+            'code' => ['nullable', 'string', 'max:20', 'required_without:recovery_code'],
+            'recovery_code' => ['nullable', 'string', 'max:30', 'required_without:code'],
+        ]);
+
+        $challenge = $twoFactor->peekChallenge($data['challenge_token']);
+        $user = $challenge ? User::withoutTenantScope()->find($challenge['user_id']) : null;
+
+        if (! $user || ! $user->hasTwoFactorEnabled()) {
+            throw ValidationException::withMessages(['code' => ['This sign-in has expired. Please sign in again.']]);
+        }
+
+        \App\Support\WorkspaceDomains::assertUserMatches($request, $user);
+
+        if ($user->isLocked()) {
+            return $this->locked($user, $security);
+        }
+
+        $ok = filled($data['code'] ?? null)
+            ? $twoFactor->verifyCode($user, $data['code'])
+            : $twoFactor->useRecoveryCode($user, (string) $data['recovery_code']);
+
+        if (! $ok) {
+            if ($security->recordFailure($user)) {
+                $twoFactor->consumeChallenge($data['challenge_token']);
+
+                return $this->locked($user->refresh(), $security);
+            }
+
+            throw ValidationException::withMessages([
+                filled($data['code'] ?? null) ? 'code' : 'recovery_code' => ['The code is incorrect or has expired.'],
+            ]);
+        }
+
+        $twoFactor->consumeChallenge($data['challenge_token']);
+
+        return $this->completeLogin($user, $challenge['device_name'] ?: 'api', $security);
+    }
+
+    private function locked(User $user, LoginSecurity $security): JsonResponse
+    {
+        return response()->json([
+            'success' => false,
+            'message' => $security->lockedMessage($user),
+            'retry_after_seconds' => max(0, (int) now()->diffInSeconds($user->locked_until, false)),
+        ], 423);
+    }
+
+    /** Everything that happens once someone has fully proved who they are. */
+    private function completeLogin(User $user, string $deviceName, LoginSecurity $security): JsonResponse
+    {
+        $security->clear($user);
 
         $user->forceFill(['last_login_at' => now()])->save();
 
@@ -182,7 +290,7 @@ class AuthController extends Controller
 
         app(AuditLogger::class)->log('auth.login', $user, null, null, $user);
 
-        $token = $user->createToken($request->string('device_name')->toString() ?: 'api')->plainTextToken;
+        $token = $user->createToken($deviceName)->plainTextToken;
 
         return $this->success([
             'user' => new UserResource($user->load(['roles', 'customer', 'departments'])),
@@ -299,6 +407,8 @@ class AuthController extends Controller
                 $user->forceFill([
                     'password' => Hash::make($password),
                     'email_verified_at' => $user->email_verified_at ?? now(),
+                    'failed_login_attempts' => 0,
+                    'locked_until' => null,
                 ])->save();
                 $user->tokens()->delete();
             }

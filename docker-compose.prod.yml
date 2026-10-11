@@ -1,0 +1,114 @@
+# Production stack for ONE server (see docs/aws-deployment.md).
+#
+#   load balancer :443 ──▶ nginx :80 ──▶ app (php-fpm)        ┐
+#                                        queue  (worker)       ├─▶ RDS MySQL  (outside this file)
+#                                        scheduler             ┤   S3         (attachments)
+#                                        redis  (cache/queue) ─┘
+#
+# The database is NOT part of this file: use a managed one (RDS) so backups, patching and
+# failover are not your job. Secrets come from an env file that is never committed:
+#
+#   docker compose --env-file /opt/supporthub/.env.production -f docker-compose.prod.yml up -d
+#
+# deploy/aws/deploy-api.sh does that for you.
+
+name: supporthub
+
+x-php: &php
+  image: supporthub-api:${IMAGE_TAG:-latest}
+  build:
+    context: .
+    dockerfile: docker/php/Dockerfile
+    target: production
+  env_file:
+    - ${ENV_FILE:-.env.production}
+  environment:
+    # The cache and queue live in the redis container below, whatever the env file says.
+    REDIS_HOST: redis
+  restart: unless-stopped
+  networks:
+    - supporthub
+  logging: &logging
+    driver: json-file
+    options:
+      max-size: "20m"
+      max-file: "5"
+
+services:
+  app:
+    <<: *php
+    healthcheck:
+      test: ["CMD-SHELL", "php -r 'exit(@fsockopen(\"127.0.0.1\", 9000) ? 0 : 1);'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  nginx:
+    image: supporthub-nginx:${IMAGE_TAG:-latest}
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: api-nginx
+    ports:
+      # Only the load balancer may reach this port (security group); it is not for the internet.
+      - "80:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/up >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - supporthub
+    logging: *logging
+
+  queue:
+    <<: *php
+    # Not root: files it creates must be writable by php-fpm too.
+    user: www-data
+    command: php artisan queue:work redis --queue=default,notifications,reports --tries=3 --backoff=5 --sleep=3 --max-time=3600
+    stop_grace_period: 60s
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  scheduler:
+    <<: *php
+    user: www-data
+    entrypoint: ["entrypoint"]
+    command: ["sh", "-c", "while true; do php artisan schedule:run --no-interaction; sleep 60; done"]
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:7-alpine
+    # Reachable only on the private compose network. The password is defence in depth.
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?set REDIS_PASSWORD in the env file}"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" --no-auth-warning ping | grep -q PONG"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    restart: unless-stopped
+    networks:
+      - supporthub
+    logging: *logging
+
+networks:
+  supporthub:
+
+volumes:
+  redis-data:

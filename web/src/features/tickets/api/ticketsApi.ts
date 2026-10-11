@@ -98,6 +98,17 @@ export const ticketsApi = {
     return mapTicketMessage(raw)
   },
 
+  /** Replaces the ticket's tags with exactly this list (staff only). Returns the normalized tag names. */
+  async setTags(ticketId: string, tags: string[]): Promise<string[]> {
+    return apiFetch<string[]>(`/tickets/${ticketId}/tags`, { method: 'PUT', body: { tags } })
+  },
+
+  /** Every tag used in the workspace, for suggestions. */
+  async listTags(): Promise<string[]> {
+    const raw = await apiFetch<{ name: string }[]>('/ticket-tags')
+    return raw.map((tag) => tag.name)
+  },
+
   /** Attaches a file to the ticket itself (shown with the original request). */
   async uploadAttachment(ticketId: string, file: File): Promise<TicketAttachment> {
     const form = new FormData()

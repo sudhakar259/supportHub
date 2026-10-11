@@ -1,34 +1,31 @@
-name: 'Integration API — Lookups'
+name: Reports
 description: |-
 
-  The ids a client site needs to fill its "new ticket" form (priority,
-  department, category dropdowns). Read-only, scoped to the credential's own
-  tenant, and only active departments/categories are returned. Requires the
-  tickets.create scope — these exist to build create-ticket requests.
+  Aggregate reporting. These run live queries rather than against a
+  pre-aggregated table — acceptable at the data volumes a support
+  desk accumulates, but the first thing to revisit if that changes.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/integration/priorities
+    uri: api/v1/reports/tickets-summary
     metadata:
       custom: []
-      groupName: 'Integration API — Lookups'
+      groupName: Reports
       groupDescription: |-
 
-        The ids a client site needs to fill its "new ticket" form (priority,
-        department, category dropdowns). Read-only, scoped to the credential's own
-        tenant, and only active departments/categories are returned. Requires the
-        tickets.create scope — these exist to build create-ticket requests.
+        Aggregate reporting. These run live queries rather than against a
+        pre-aggregated table — acceptable at the data volumes a support
+        desk accumulates, but the first thing to revisit if that changes.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List priorities'
-      description: ''
-      authenticated: false
+      title: 'Ticket volume summary'
+      description: 'Open ticket counts grouped by status, priority and department.'
+      authenticated: true
       deprecated: false
     headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -42,11 +39,23 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 11, "name": "High", "slug": "high", "level": 3, "color": "#F59E0B", "is_default": false}]}'
+        content: |-
+          {
+            "success": true, "message": "Request successful.",
+            "data": {
+              "total_tickets": 142,
+              "by_status": [{"status": "Open", "count": 12}],
+              "by_priority": [{"priority": "High", "count": 8}],
+              "by_department": [{"department": "Billing", "count": 20}]
+            }
+          }
         headers: []
         description: ''
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
@@ -54,27 +63,25 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/integration/departments
+    uri: api/v1/reports/sla-compliance
     metadata:
       custom: []
-      groupName: 'Integration API — Lookups'
+      groupName: Reports
       groupDescription: |-
 
-        The ids a client site needs to fill its "new ticket" form (priority,
-        department, category dropdowns). Read-only, scoped to the credential's own
-        tenant, and only active departments/categories are returned. Requires the
-        tickets.create scope — these exist to build create-ticket requests.
+        Aggregate reporting. These run live queries rather than against a
+        pre-aggregated table — acceptable at the data volumes a support
+        desk accumulates, but the first thing to revisit if that changes.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List departments'
+      title: 'SLA compliance report'
       description: |-
-        Active departments only. Pass the chosen `id` as `department_id` when
-        creating a ticket. A routing rule on the tenant may still re-route the ticket.
-      authenticated: false
+        Breach rates for first response and resolution across all
+        tickets with a calculated SLA.
+      authenticated: true
       deprecated: false
     headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -88,11 +95,24 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 2, "name": "Billing", "code": "BILL", "description": "Invoices and payments", "is_active": true}]}'
+        content: |-
+          {
+            "success": true, "message": "Request successful.",
+            "data": {
+              "total_with_sla": 100,
+              "first_response_breached": 6,
+              "resolution_breached": 11,
+              "first_response_breach_rate": 6.0,
+              "resolution_breach_rate": 11.0
+            }
+          }
         headers: []
         description: ''
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
@@ -100,27 +120,23 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/integration/categories
+    uri: api/v1/reports/agent-performance
     metadata:
       custom: []
-      groupName: 'Integration API — Lookups'
+      groupName: Reports
       groupDescription: |-
 
-        The ids a client site needs to fill its "new ticket" form (priority,
-        department, category dropdowns). Read-only, scoped to the credential's own
-        tenant, and only active departments/categories are returned. Requires the
-        tickets.create scope — these exist to build create-ticket requests.
+        Aggregate reporting. These run live queries rather than against a
+        pre-aggregated table — acceptable at the data volumes a support
+        desk accumulates, but the first thing to revisit if that changes.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List categories'
-      description: |-
-        Active categories only. Pass the chosen `id` as `category_id` when
-        creating a ticket.
-      authenticated: false
+      title: 'Agent performance report'
+      description: 'Resolved-ticket counts per agent, most active first.'
+      authenticated: true
       deprecated: false
     headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -134,11 +150,18 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 3, "name": "Technical Issue", "slug": "technical-issue"}]}'
+        content: |-
+          {
+            "success": true, "message": "Request successful.",
+            "data": [{"agent_id": 5, "agent_name": "Alex Agent", "resolved_count": 34}]
+          }
         headers: []
         description: ''
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null

@@ -1,4 +1,4 @@
-import { apiFetch } from '@/services/api/client'
+import { apiDownloadFile, apiFetch } from '@/services/api/client'
 import type { AgentPerformanceEntry, SlaComplianceReport, TicketSummaryReport } from '@/types/report'
 
 interface RawTicketSummaryReport {
@@ -43,5 +43,10 @@ export const reportsApi = {
   async agentPerformance(): Promise<AgentPerformanceEntry[]> {
     const raw = await apiFetch<RawAgentPerformanceEntry[]>('/reports/agent-performance')
     return raw.map((r) => ({ agentId: r.agent_id, agentName: r.agent_name, resolvedCount: r.resolved_count }))
+  },
+
+  /** CSV of the tickets you can see, optionally limited by creation date (YYYY-MM-DD). Needs reports.view. */
+  async exportTicketsCsv(range: { from?: string; to?: string } = {}): Promise<void> {
+    await apiDownloadFile('/exports/tickets', 'tickets.csv', { from: range.from || undefined, to: range.to || undefined })
   },
 }

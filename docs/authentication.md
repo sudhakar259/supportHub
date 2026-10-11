@@ -153,3 +153,73 @@ entire flow is:
 3. On `401`, discard the token and send the user back to login.
 4. `POST /auth/logout` when the user signs out, to revoke that device's
    token server-side.
+
+
+## Account lockout
+
+After `LOCKOUT_MAX_ATTEMPTS` (default 5) wrong passwords, or wrong two-factor codes, in a
+row, an account is locked for `LOCKOUT_MINUTES` (default 15). While it is locked, `/auth/login`
+answers `423 Locked` with `retry_after_seconds` **before** looking at the password, so a
+correct guess made during the lock reveals nothing. The count is per account (an email in two
+workspaces is two accounts) and resets on a successful sign-in. These also clear it:
+
+- an administrator unlocking the user (`POST /users/{user}/unlock`, `users.update`), shown as a
+  "Locked" badge on the Users page;
+- completing a password reset from the emailed link.
+
+Locking is recorded in the audit log as `auth.account_locked`. The per-IP limiter on the
+sign-in routes (`throttle:auth`) still applies on top.
+
+## Two-factor authentication
+
+Anyone can protect their own account with an authenticator app (TOTP, RFC 6238: Google
+Authenticator, Microsoft Authenticator, 1Password, Authy). In the web app: **Account menu →
+Account security**.
+
+| Step | Endpoint |
+|---|---|
+| Start: returns the secret and the `otpauth://` link for the QR code | `POST /auth/two-factor/setup` `{password}` |
+| Turn on with a first code; returns 8 recovery codes **once** | `POST /auth/two-factor/confirm` `{code}` |
+| Turn off | `POST /auth/two-factor/disable` `{password, code \| recovery_code}` |
+| Replace the recovery codes | `POST /auth/two-factor/recovery-codes` `{password, code}` |
+
+Each of these asks for the current password again. Two-factor only counts as on after the
+confirm step, so a half-finished setup can't lock anyone out.
+
+**Signing in** with it on is two requests:
+
+1. `POST /auth/login` returns `{"two_factor_required": true, "challenge_token": "…"}` and **no
+   token**. The challenge token lives for 5 minutes and works once.
+2. `POST /auth/two-factor/challenge` with `challenge_token` and either `code` (6 digits) or
+   `recovery_code` returns the token, exactly like a normal login.
+
+Details that matter: a code is accepted for the current 30-second step and one either side (clock
+drift), and **each step only once**, so a code that was used (or sniffed) cannot be replayed; a
+recovery code works once and is then gone; the secret is encrypted at rest and never returned
+after setup; recovery codes are stored as keyed hashes. Wrong codes count toward the lockout.
+
+Lost phone and lost recovery codes: an administrator can switch it off
+(`DELETE /users/{user}/two-factor`), which also signs that person out everywhere. Administrators
+cannot reset their own that way.
+
+API tokens and integration credentials (`X-Api-Key` / `X-Api-Secret`) are not affected: two-factor
+protects interactive sign-in only. Changing `APP_KEY` makes stored two-factor secrets unreadable.
+
+## Customer data requests
+
+For a person's right to see or have erased what you hold about them (Administrators, via the
+customer's page or the API):
+
+- `GET /customers/{customer}/export` (`customers.export`): a JSON file with their profile, tickets,
+  messages, attachment names and the notifications and emails on record. Internal staff notes are
+  left out and staff are not named.
+- `POST /customers/{customer}/erase` (`customers.erase`): body `{confirm_email, redact_content}`.
+  **Irreversible.** Their name, email, phone, company and sign-in are replaced; their tokens are
+  deleted; the audit trail and the inbound-email log are scrubbed. With `redact_content` (the
+  default) the text of their tickets, every message and the attachments are removed as well, but
+  ticket numbers, dates and statuses stay so reports are unchanged. Backups are not touched.
+- `GET /exports/tickets` (`reports.view`, optional `from` / `to`) and `GET /exports/customers`
+  (`customers.view`): CSV downloads. Cells that start with `= + - @` are neutralized so a hostile
+  ticket subject can't run as a spreadsheet formula.
+
+Plain "delete customer" only hides them (a soft delete); use erase for a real removal.

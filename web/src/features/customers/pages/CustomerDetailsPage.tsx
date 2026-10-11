@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { ROUTES } from '@/app/router/routes'
 import { ErrorState } from '@/components/feedback/ErrorState'
@@ -10,9 +10,13 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { customersApi } from '@/features/customers/api/customersApi'
+import { EraseCustomerDialog } from '@/features/customers/components/EraseCustomerDialog'
 import { EditCustomerModal } from '@/features/customers/components/EditCustomerModal'
 import { TicketRow } from '@/features/tickets/components/TicketRow'
 import { useTickets } from '@/features/tickets/hooks/useTickets'
+import { useAuth } from '@/features/auth/hooks/useAuth'
+import { useToast } from '@/components/feedback/ToastProvider'
+import { hasPermission } from '@/types/user'
 import type { Customer } from '@/types/customer'
 
 export function CustomerDetailsPage() {
@@ -23,6 +27,24 @@ export function CustomerDetailsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
   const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isEraseOpen, setIsEraseOpen] = useState(false)
+  const [isExporting, setIsExporting] = useState(false)
+  const navigate = useNavigate()
+  const toast = useToast()
+  const { user: currentUser } = useAuth()
+  const canExport = hasPermission(currentUser, 'customers.export')
+  const canErase = hasPermission(currentUser, 'customers.erase')
+
+  async function handleExport() {
+    setIsExporting(true)
+    try {
+      await customersApi.exportData(id)
+    } catch (err) {
+      toast.error('Export Failed', err instanceof Error ? err.message : undefined)
+    } finally {
+      setIsExporting(false)
+    }
+  }
 
   const { tickets, meta: ticketsMeta, isLoading: ticketsLoading } = useTickets({ customerId: id, perPage: 10, sort: '-created_at' })
 
@@ -55,9 +77,21 @@ export function CustomerDetailsPage() {
           </div>
         }
         actions={
-          <Button variant="ghost" leadingIcon="edit" onClick={() => setIsEditOpen(true)}>
-            Edit Customer
-          </Button>
+          <div className="flex flex-wrap items-center gap-space-xs">
+            {canExport && (
+              <Button variant="ghost" leadingIcon="download" isLoading={isExporting} onClick={handleExport}>
+                Export data
+              </Button>
+            )}
+            {canErase && customer.user?.email && (
+              <Button variant="ghost" leadingIcon="delete_forever" onClick={() => setIsEraseOpen(true)}>
+                Erase data
+              </Button>
+            )}
+            <Button variant="ghost" leadingIcon="edit" onClick={() => setIsEditOpen(true)}>
+              Edit Customer
+            </Button>
+          </div>
         }
       />
 
@@ -109,6 +143,16 @@ export function CustomerDetailsPage() {
         </div>
       </div>
 
+      {canErase && customer.user?.email && (
+        <EraseCustomerDialog
+          isOpen={isEraseOpen}
+          onClose={() => setIsEraseOpen(false)}
+          customerId={customer.id}
+          customerEmail={customer.user.email}
+          customerName={name}
+          onErased={() => navigate(ROUTES.customers)}
+        />
+      )}
       <EditCustomerModal
         customer={isEditOpen ? customer : null}
         onClose={() => setIsEditOpen(false)}

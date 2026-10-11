@@ -2,12 +2,13 @@ import type { ReactNode } from 'react'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 import { authApi } from '@/features/auth/api/authApi'
-import type { LoginCredentials } from '@/features/auth/types'
+import type { LoginCredentials, LoginResult, TwoFactorChallengePayload } from '@/features/auth/types'
 import { impersonatorStorage, tokenStorage } from '@/services/storage/tokenStorage'
 import { usersApi } from '@/features/users/api/usersApi'
 import { ApiError } from '@/types/api'
 import type { User } from '@/types/user'
 import { isPlatformAdmin as checkIsPlatformAdmin } from '@/types/user'
+import { workspaceSlug } from '@/features/workspaces/workspace'
 
 interface AuthContextValue {
   user: User | null
@@ -19,7 +20,9 @@ interface AuthContextValue {
   isAuthenticated: boolean
   /** True for the tenant-less Platform Admin population — see types/user.ts. */
   isPlatformAdmin: boolean
-  login: (credentials: LoginCredentials) => Promise<User>
+  login: (credentials: LoginCredentials) => Promise<LoginResult>
+  /** Second step for accounts with two-factor on: trade the code for a session. */
+  completeTwoFactor: (payload: TwoFactorChallengePayload) => Promise<User>
   logout: () => Promise<void>
   /** Set while an administrator is "logged in as" someone else; null otherwise. */
   impersonator: { name: string } | null
@@ -37,12 +40,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isBootstrapping, setIsBootstrapping] = useState(true)
   const [sessionError, setSessionError] = useState<string | null>(null)
+  const [hasWorkspaceHandoff] = useState(() => Boolean(workspaceSlug() && new URLSearchParams(window.location.hash.slice(1)).get('workspace-session')))
   const [impersonator] = useState(() => {
     const session = impersonatorStorage.get()
     return session ? { name: session.name } : null
   })
 
   const restoreSession = useCallback(() => {
+    if (hasWorkspaceHandoff) {
+      tokenStorage.clear()
+      setIsBootstrapping(false)
+      return
+    }
     if (!tokenStorage.get()) {
       setIsBootstrapping(false)
       return
@@ -55,21 +64,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .me()
       .then(setUser)
       .catch((error: unknown) => {
-        if (error instanceof ApiError && error.status === 401) {
+        if (error instanceof ApiError && (error.status === 401 || (error.status === 403 && workspaceSlug()))) {
           tokenStorage.clear()
           return
         }
         setSessionError(error instanceof ApiError ? error.message : 'We could not reach the server. Please try again.')
       })
       .finally(() => setIsBootstrapping(false))
-  }, [])
+  }, [hasWorkspaceHandoff])
 
   useEffect(() => {
     restoreSession()
   }, [restoreSession])
 
-  const login = useCallback(async (credentials: LoginCredentials) => {
-    const { user: loggedInUser, token } = await authApi.login(credentials)
+  const login = useCallback(async (credentials: LoginCredentials): Promise<LoginResult> => {
+    const result = await authApi.login(credentials)
+    if ('challengeToken' in result) return { status: 'two_factor', challengeToken: result.challengeToken }
+
+    tokenStorage.set(result.token)
+    setUser(result.user)
+    return { status: 'authenticated', user: result.user }
+  }, [])
+
+  const completeTwoFactor = useCallback(async (payload: TwoFactorChallengePayload) => {
+    const { user: loggedInUser, token } = await authApi.twoFactorChallenge(payload)
     tokenStorage.set(token)
     setUser(loggedInUser)
     return loggedInUser
@@ -124,13 +142,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthenticated: user !== null,
       isPlatformAdmin: checkIsPlatformAdmin(user),
       login,
+      completeTwoFactor,
       logout,
       impersonator,
       startImpersonation,
       stopImpersonation,
       setUser,
     }),
-    [user, isBootstrapping, sessionError, restoreSession, login, logout, impersonator, startImpersonation, stopImpersonation],
+    [user, isBootstrapping, sessionError, restoreSession, login, completeTwoFactor, logout, impersonator, startImpersonation, stopImpersonation],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

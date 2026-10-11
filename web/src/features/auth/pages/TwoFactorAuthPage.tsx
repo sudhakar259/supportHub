@@ -1,134 +1,128 @@
 import type { FormEvent } from 'react'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 import { ROUTES } from '@/app/router/routes'
 import { AuthLayout } from '@/components/layout/AuthLayout'
 import { Button } from '@/components/ui/Button'
-import { Checkbox } from '@/components/ui/Checkbox'
 import { Icon } from '@/components/ui/Icon'
+import { TextField } from '@/components/ui/TextField'
 import { AuthCard } from '@/features/auth/components/AuthCard'
 import { OtpInput } from '@/features/auth/components/OtpInput'
+import { useAuth } from '@/features/auth/hooks/useAuth'
+import { ApiError } from '@/types/api'
+import { isPlatformAdmin } from '@/types/user'
 
-const ALTERNATIVE_METHODS = [
-  { icon: 'key', title: 'Use Hardware Security Key', subtitle: 'FIDO2 / WebAuthn / YubiKey 5C NFC' },
-  { icon: 'sms', title: 'Send SMS Code to Secure Phone', subtitle: '+1 (•••) •••-8921' },
-  { icon: 'pin', title: 'Enter Emergency Backup Recovery Code', subtitle: '16-character offline one-time use tokens' },
-]
-
-function formatCountdown(totalSeconds: number): string {
-  const mins = String(Math.floor(totalSeconds / 60)).padStart(2, '0')
-  const secs = String(totalSeconds % 60).padStart(2, '0')
-  return `${mins}:${secs}`
+interface LocationState {
+  challengeToken?: string
+  from?: string
 }
 
 /**
- * MFA challenge screen. No `/auth/mfa` endpoint exists in the API yet (see
- * routes/api/auth.php) — this is a UI-only placeholder wired for local demo
- * until the backend ships a verification endpoint for the hooks to call.
+ * Second step of signing in for accounts that have two-factor authentication on. The
+ * password step hands us a short-lived challenge token; a correct code (or an unused
+ * recovery code) from the person turns it into a session.
  */
 export function TwoFactorAuthPage() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const { completeTwoFactor } = useAuth()
+  const state = location.state as LocationState | null
+  const challengeToken = state?.challengeToken
+
   const [code, setCode] = useState('')
-  const [trustDevice, setTrustDevice] = useState(false)
-  const [secondsLeft, setSecondsLeft] = useState(282)
+  const [recoveryCode, setRecoveryCode] = useState('')
+  const [useRecovery, setUseRecovery] = useState(false)
   const [isVerifying, setIsVerifying] = useState(false)
-  const [invalid, setInvalid] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (secondsLeft <= 0) return
-    const timer = setInterval(() => setSecondsLeft((s) => s - 1), 1000)
-    return () => clearInterval(timer)
-  }, [secondsLeft])
+  // Reached without signing in first (or after a refresh, which drops the token): start over.
+  if (!challengeToken) return <Navigate to={ROUTES.login} replace />
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    if (code.length !== 6) {
-      setInvalid(true)
+    const entered = useRecovery ? recoveryCode.trim() : code
+    if (!entered || (!useRecovery && entered.length !== 6)) {
+      setError(useRecovery ? 'Enter one of your recovery codes.' : 'Enter the 6-digit code from your authenticator app.')
       return
     }
-    setInvalid(false)
+
     setIsVerifying(true)
-    setTimeout(() => navigate(ROUTES.dashboard), 900)
+    setError(null)
+    try {
+      const user = await completeTwoFactor({
+        challengeToken: challengeToken as string,
+        code: useRecovery ? undefined : code,
+        recoveryCode: useRecovery ? entered : undefined,
+      })
+      navigate(
+        state?.from ??
+          (!user.emailVerifiedAt ? ROUTES.emailVerification : isPlatformAdmin(user) ? ROUTES.platformDashboard : ROUTES.dashboard),
+        { replace: true },
+      )
+    } catch (err) {
+      setCode('')
+      setRecoveryCode('')
+      setError(err instanceof ApiError ? (err.fieldError('code') ?? err.fieldError('recovery_code') ?? err.message) : 'Unable to reach the server. Please try again.')
+    } finally {
+      setIsVerifying(false)
+    }
   }
 
   return (
     <AuthLayout>
       <AuthCard maxWidthClassName="w-full max-w-xl">
         <div className="flex flex-col items-center text-center">
-          <div className="mb-space-lg inline-flex items-center gap-space-xs rounded-full bg-inverse-surface px-space-md py-space-xs text-code-sm uppercase tracking-wider text-inverse-on-surface shadow-sm">
-            <Icon name="verified_user" size={16} className="text-primary-fixed" />
-            <span>SECURE_AUTH // MANDATORY ENFORCED MFA</span>
-          </div>
           <div className="mb-space-md flex h-12 w-12 items-center justify-center rounded-lg bg-surface-container text-primary shadow-sm">
             <Icon name="phonelink_lock" size={28} filled />
           </div>
-          <h2 className="text-headline-md font-bold tracking-tight">Two-Step Verification</h2>
+          <h1 className="text-headline-md font-bold tracking-tight">Two-step verification</h1>
           <p className="mt-space-xs max-w-md text-body-md text-secondary">
-            Enter the 6-digit verification code generated by your enterprise authenticator app.
+            {useRecovery
+              ? 'Enter one of the recovery codes you saved when you turned on two-step verification. Each code works once.'
+              : 'Enter the 6-digit code from your authenticator app.'}
           </p>
         </div>
 
         <form className="mt-space-xl space-y-space-lg" onSubmit={handleSubmit}>
-          <OtpInput value={code} onChange={setCode} error={invalid} />
+          {error && (
+            <p role="alert" className="rounded-lg bg-error-container p-space-md text-body-sm text-on-error-container">
+              {error}
+            </p>
+          )}
 
-          <div className="flex items-center justify-between text-secondary">
-            <div className="flex items-center gap-space-xs text-code-sm">
-              <Icon name="schedule" size={16} className="text-tertiary" />
-              <span>
-                Code expires in <span className="font-bold text-on-surface">{formatCountdown(secondsLeft)}</span>
-              </span>
-            </div>
-            <button
-              type="button"
-              className="flex items-center gap-space-xs text-title-sm text-primary transition-colors hover:text-primary-container"
-              onClick={() => setSecondsLeft(300)}
-            >
-              <Icon name="refresh" size={14} />
-              <span>Resend code</span>
-            </button>
-          </div>
-
-          <div className="flex items-start gap-space-md rounded-lg bg-surface-container-low p-space-md">
-            <Checkbox
-              checked={trustDevice}
-              onChange={(e) => setTrustDevice(e.target.checked)}
-              label="Don't ask again on this device for 30 days"
-              description={<span className="text-secondary">Enterprise Managed Machine</span>}
+          {useRecovery ? (
+            <TextField
+              label="Recovery code"
+              value={recoveryCode}
+              onChange={(e) => setRecoveryCode(e.target.value)}
+              placeholder="xxxxx-xxxxx"
+              autoComplete="off"
+              autoFocus
             />
-          </div>
+          ) : (
+            <OtpInput value={code} onChange={setCode} error={error !== null} />
+          )}
 
           <Button type="submit" className="w-full" size="lg" isLoading={isVerifying} leadingIcon="security">
-            Verify Identity
+            Verify and sign in
           </Button>
         </form>
 
-        <div className="mt-space-xl pt-space-lg">
-          <div className="mb-space-md flex items-center gap-space-md">
-            <span className="h-px flex-1 bg-surface-container-high" />
-            <span className="text-label-sm font-semibold uppercase tracking-wider text-secondary">Alternative methods</span>
-            <span className="h-px flex-1 bg-surface-container-high" />
-          </div>
-          <div className="space-y-space-xs">
-            {ALTERNATIVE_METHODS.map((method) => (
-              <button
-                key={method.title}
-                type="button"
-                className="flex w-full items-center justify-between rounded-lg bg-surface-container-low p-space-md text-left transition-colors hover:bg-surface-container"
-              >
-                <div className="flex items-center gap-space-md">
-                  <div className="flex h-9 w-9 items-center justify-center rounded bg-surface-container-lowest text-primary shadow-sm">
-                    <Icon name={method.icon} size={20} />
-                  </div>
-                  <div>
-                    <span className="block text-title-sm text-on-surface">{method.title}</span>
-                    <span className="text-body-sm text-secondary">{method.subtitle}</span>
-                  </div>
-                </div>
-                <Icon name="chevron_right" size={18} className="text-secondary" />
-              </button>
-            ))}
-          </div>
+        <div className="mt-space-lg flex flex-col items-center gap-space-xs text-body-sm">
+          <button
+            type="button"
+            className="font-semibold text-primary hover:underline"
+            onClick={() => {
+              setUseRecovery((v) => !v)
+              setError(null)
+            }}
+          >
+            {useRecovery ? 'Use my authenticator app instead' : 'I can’t use my authenticator app'}
+          </button>
+          <Link to={ROUTES.login} className="text-secondary hover:text-on-surface">
+            Back to sign in
+          </Link>
         </div>
       </AuthCard>
     </AuthLayout>

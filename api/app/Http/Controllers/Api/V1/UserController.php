@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use App\Services\LoginSecurity;
+use App\Services\TwoFactorService;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -180,6 +182,49 @@ class UserController extends Controller
         });
 
         return $this->deleted('User deleted successfully.');
+    }
+
+    /**
+     * Unlock a user
+     *
+     * Clears the lockout from too many failed sign-in attempts, so the person can try
+     * again straight away. Requires `users.update`.
+     *
+     * @urlParam user integer required Example: 5
+     *
+     * @response 200 {"success": true, "message": "User unlocked.", "data": {"id": 5}}
+     */
+    public function unlock(User $user, LoginSecurity $security, AuditLogger $audit): JsonResponse
+    {
+        $this->authorize('update', $user);
+
+        $security->clear($user);
+        $audit->log('user.unlocked', $user, null, null, request()->user());
+
+        return $this->success(new UserResource($user->load(['roles', 'departments'])), 'User unlocked.');
+    }
+
+    /**
+     * Reset a user's two-factor authentication
+     *
+     * For someone who lost their phone and their recovery codes: switches two-factor off
+     * and signs them out everywhere, so they sign in with their password and can set it
+     * up again. Requires `users.update`; you cannot reset your own.
+     *
+     * @urlParam user integer required Example: 5
+     *
+     * @response 200 {"success": true, "message": "Two-factor authentication reset.", "data": {"id": 5}}
+     */
+    public function resetTwoFactor(User $user, TwoFactorService $twoFactor, AuditLogger $audit): JsonResponse
+    {
+        $this->authorize('update', $user);
+        abort_if($user->id === request()->user()->id, 403, 'Use your own security settings to change your two-factor authentication.');
+
+        $twoFactor->disable($user);
+        $user->tokens()->delete();
+        $audit->log('user.two_factor_reset', $user, null, null, request()->user());
+
+        return $this->success(new UserResource($user->load(['roles', 'departments'])), 'Two-factor authentication reset.');
     }
 
     /**

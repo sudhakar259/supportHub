@@ -36,7 +36,11 @@ export function SessionExpiredPage() {
     setIsSubmitting(true)
     setError(null)
     try {
-      await login({ email: user.email, password })
+      const result = await login({ email: user.email, password })
+      if (result.status === 'two_factor') {
+        navigate(ROUTES.twoFactor, { state: { challengeToken: result.challengeToken, from: redirectTo } })
+        return
+      }
       navigate(redirectTo)
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Unable to reach the server. Please try again.')

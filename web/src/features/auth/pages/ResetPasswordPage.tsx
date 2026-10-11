@@ -1,3 +1,4 @@
+import { workspaceSlug } from '@/features/workspaces/workspace'
 import type { FormEvent } from 'react'
 import { useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
@@ -20,7 +21,8 @@ export function ResetPasswordPage() {
 
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [tenant, setTenant] = useState(searchParams.get('tenant') ?? '')
+  const activeWorkspace = workspaceSlug()
+  const [tenant, setTenant] = useState(activeWorkspace ?? searchParams.get('tenant') ?? '')
   const [showTenantField, setShowTenantField] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [succeeded, setSucceeded] = useState(false)
@@ -151,7 +153,7 @@ export function ResetPasswordPage() {
                     autoComplete="new-password"
                   />
 
-                  {showTenantField ? (
+                  {activeWorkspace ? <p className="text-body-sm text-secondary">Password reset for {activeWorkspace}.</p> : showTenantField ? (
                     <TextField
                       label="Organization"
                       placeholder="acme-corp"

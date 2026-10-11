@@ -1,173 +1,35 @@
-name: 'Integration API — Tickets'
+name: Settings
 description: |-
 
-  Same credential-based auth as the Customers integration endpoints.
-  "Reply" and "attachment" actions here are posted on behalf of the
-  ticket's customer — there is no staff Sanctum session backing this
-  credential, so there is no agent identity to attribute them to; use
-  the regular Sanctum-authenticated ticket endpoints for agent-side
-  actions.
+  System-wide configuration key/value pairs. Anyone authenticated can
+  read the subset marked is_public (e.g. a "support hours" display
+  string); the full set, and all writes, require settings.manage.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/integration/ticket-options
+    uri: api/v1/settings
     metadata:
       custom: []
-      groupName: 'Integration API — Tickets'
+      groupName: Settings
       groupDescription: |-
 
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
+        System-wide configuration key/value pairs. Anyone authenticated can
+        read the subset marked is_public (e.g. a "support hours" display
+        string); the full set, and all writes, require settings.manage.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List ticket options'
-      description: |-
-        The priorities and (active) departments a customer-facing "new
-        ticket" form can offer. Both are optional on ticket creation; omitted
-        values fall back to the tenant default priority and routing rules.
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"priorities": [{"id": 2, "name": "Medium", "slug": "medium", "level": 2, "is_default": true}], "departments": [{"id": 1, "name": "Technical Support"}]}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: api/v1/integration/tickets
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'List tickets'
+      title: 'List settings'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters:
-      customer_id:
-        custom: []
-        name: customer_id
-        description: 'Filter by customer.'
-        required: false
-        example: 4
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      per_page:
-        custom: []
-        name: per_page
-        description: 'Items per page (max 100).'
-        required: false
-        example: 25
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanQueryParameters:
-      customer_id: 4
-      per_page: 25
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 12, "ticket_number": "TKT-2026-000012"}]}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/integration/tickets/{ticket_id}'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get a ticket'
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -177,236 +39,14 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 12, "ticket_number": "TKT-2026-000012"}}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"key": "support_hours_message", "value": "Mon-Fri 9am-5pm"}]}'
         headers: []
         description: ''
     responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/integration/tickets/{ticket_id}/messages'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: "List a ticket's customer-visible messages"
-      description: |-
-        Customer messages and agent replies only — internal notes are never
-        returned. Authors are reduced to a display name (no email or roles).
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "type": "agent_reply", "body": "We are looking into it.", "author_name": "Sam", "created_at": "2026-10-09T10:00:00+00:00"}]}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: api/v1/integration/tickets
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Create a ticket'
-      description: |-
-        The customer is identified by exactly one of customer_id,
-        customer_email or customer_external_id — whichever the caller's
-        own system already has on hand.
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: multipart/form-data
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      subject:
-        custom: []
-        name: subject
-        description: ''
-        required: true
-        example: 'Cannot access my account'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      description:
-        custom: []
-        name: description
-        description: ''
-        required: true
-        example: 'Getting a 500 error at login.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      category_id:
-        custom: []
-        name: category_id
-        description: ''
-        required: false
-        example: 2
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      attachments:
-        custom: []
-        name: attachments
-        description: 'Optional, sent as multipart/form-data. Up to 5 files, 2 MB each. Needs the tickets.attachments scope as well as tickets.create.'
-        required: false
-        example:
-          - null
-        type: 'file[]'
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      priority_id:
-        custom: []
-        name: priority_id
-        description: ''
-        required: false
-        example: 3
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      department_id:
-        custom: []
-        name: department_id
-        description: 'An active department; see GET /ticket-options.'
-        required: false
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      customer_id:
-        custom: []
-        name: customer_id
-        description: 'The internal customer id, if already known.'
-        required: false
-        example: 4
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      customer_email:
-        custom: []
-        name: customer_email
-        description: "The customer's email, looked up within this tenant."
-        required: false
-        example: jamie@example.com
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      customer_external_id:
-        custom: []
-        name: customer_external_id
-        description: "This tenant's own identifier for the customer."
-        required: false
-        example: CRM-001
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      subject: 'Cannot access my account'
-      description: 'Getting a 500 error at login.'
-      category_id: 2
-      priority_id: 3
-      department_id: 1
-      customer_id: 4
-      customer_email: jamie@example.com
-      customer_external_id: CRM-001
-    fileParameters:
-      attachments:
-        - null
-    responses:
-      -
-        custom: []
-        status: 201
-        content: '{"success": true, "message": "Ticket created successfully.", "data": {"id": 12, "ticket_number": "TKT-2026-000012"}}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 404
-        content: '{"success": false, "message": "No matching customer found for the given identifier."}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null
@@ -414,573 +54,358 @@ endpoints:
     custom: []
     httpMethods:
       - PUT
-    uri: 'api/v1/integration/tickets/{ticket_id}'
+    uri: api/v1/settings
     metadata:
       custom: []
-      groupName: 'Integration API — Tickets'
+      groupName: Settings
       groupDescription: |-
 
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
+        System-wide configuration key/value pairs. Anyone authenticated can
+        read the subset marked is_public (e.g. a "support hours" display
+        string); the full set, and all writes, require settings.manage.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update a ticket'
+      title: 'Upsert settings'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      subject:
+      settings:
         custom: []
-        name: subject
-        description: ''
-        required: false
-        example: 'Cannot access my account (updated)'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      description:
-        custom: []
-        name: description
-        description: ''
-        required: false
-        example: 'Still happening after clearing cache.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      category_id:
-        custom: []
-        name: category_id
-        description: ''
-        required: false
-        example: 2
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      priority_id:
-        custom: []
-        name: priority_id
-        description: ''
-        required: false
-        example: 3
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      subject: 'Cannot access my account (updated)'
-      description: 'Still happening after clearing cache.'
-      category_id: 2
-      priority_id: 3
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Ticket updated successfully.", "data": {"id": 12}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: 'api/v1/integration/tickets/{ticket_id}/messages'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Reply to a ticket as the customer'
-      description: |-
-        Syncs a message from another channel (chat widget, email, CRM)
-        into the ticket thread, attributed to the ticket's own customer.
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: multipart/form-data
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      body:
-        custom: []
-        name: body
+        name: settings
         description: ''
         required: true
-        example: 'Any update on this?'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      attachments:
-        custom: []
-        name: attachments
-        description: 'Optional, sent as multipart/form-data. Up to 5 files, 2 MB each (jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx). Needs the tickets.attachments scope as well as tickets.reply.'
-        required: false
         example:
-          - null
-        type: 'file[]'
+          - []
+        type: 'object[]'
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-    cleanBodyParameters:
-      body: 'Any update on this?'
-    fileParameters:
-      attachments:
-        - null
-    responses:
-      -
+      'settings[].key':
         custom: []
-        status: 201
-        content: '{"success": true, "message": "Reply added successfully.", "data": {"id": 9, "body": "Any update on this?"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: 'api/v1/integration/tickets/{ticket_id}/status'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: "Update a ticket's status"
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
+        name: 'settings[].key'
+        description: 'Must not be greater than 255 characters.'
         required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
+        example: b
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      status:
+      'settings[].value':
         custom: []
-        name: status
-        description: 'One of open, in-progress, pending, escalated, resolved, closed, reopened.'
-        required: true
-        example: resolved
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      reason:
-        custom: []
-        name: reason
+        name: 'settings[].value'
         description: ''
         required: false
-        example: 'Customer confirmed the fix worked.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-    cleanBodyParameters:
-      status: resolved
-      reason: 'Customer confirmed the fix worked.'
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Ticket status updated successfully.", "data": {"id": 12, "status": {"slug": "resolved"}}}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 422
-        content: '{"success": false, "message": "Cannot transition from closed to open."}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: 'api/v1/integration/tickets/{ticket_id}/reopen'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Reopen a ticket as the customer'
-      description: |-
-        For when a ticket was resolved or closed but the problem is not
-        actually fixed. Unlike the general status endpoint this can only move
-        a ticket to "reopened", so a customer-facing site can expose it
-        without being able to resolve or close tickets. Only Resolved and
-        Closed tickets can be reopened.
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      reason:
-        custom: []
-        name: reason
-        description: 'Why the ticket is being reopened.'
-        required: false
-        example: 'The issue came back after the fix.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-    cleanBodyParameters:
-      reason: 'The issue came back after the fix.'
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Ticket reopened successfully.", "data": {"id": 12, "status": {"slug": "reopened"}}}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 422
-        content: '{"success": false, "message": "Cannot transition from open to reopened."}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/integration/tickets/{ticket_id}/attachments'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: "List a ticket's attachments"
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": "01HXYZ...", "original_filename": "screenshot.png"}]}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/integration/tickets/{ticket_id}/attachments/{attachment_id}/download'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Download a ticket attachment'
-      description: |-
-        Streams the file. Attachments that belong to another ticket, or to an
-        internal note, are reported as not found.
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      attachment_id:
-        custom: []
-        name: attachment_id
-        description: 'The ID of the attachment.'
-        required: true
-        example: 01m4gxn2jt2tc1sb0nk66rwj08
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
-      attachment_id: 01m4gxn2jt2tc1sb0nk66rwj08
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 401
-        content: '{"success":false,"message":"Invalid API credentials."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-content-type-options: nosniff
-          x-frame-options: DENY
-          referrer-policy: no-referrer
-          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
-          vary: Origin
-        description: null
-      -
-        custom: []
-        status: 404
-        content: '{"success": false, "message": "The requested resource was not found."}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: 'api/v1/integration/tickets/{ticket_id}/attachments'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Tickets'
-      groupDescription: |-
-
-        Same credential-based auth as the Customers integration endpoints.
-        "Reply" and "attachment" actions here are posted on behalf of the
-        ticket's customer — there is no staff Sanctum session backing this
-        credential, so there is no agent identity to attribute them to; use
-        the regular Sanctum-authenticated ticket endpoints for agent-side
-        actions.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Upload a ticket attachment as the customer'
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: multipart/form-data
-      Accept: application/json
-    urlParameters:
-      ticket_id:
-        custom: []
-        name: ticket_id
-        description: 'The ID of the ticket.'
-        required: true
-        example: 01m4grbvc2v68162hmf9xr8fgh
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      ticket_id: 01m4grbvc2v68162hmf9xr8fgh
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      file:
-        custom: []
-        name: file
-        description: 'Max 2 MB. One of jpg, jpeg, png, webp, txt, pdf, docx, ppt, pptx.'
-        required: true
         example: null
-        type: file
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      'settings[].type':
+        custom: []
+        name: 'settings[].type'
+        description: ''
+        required: false
+        example: boolean
+        type: string
+        enumValues:
+          - string
+          - integer
+          - boolean
+          - json
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'settings[].group':
+        custom: []
+        name: 'settings[].group'
+        description: 'Must not be greater than 40 characters.'
+        required: false
+        example: 'n'
+        type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
+      'settings[].is_public':
+        custom: []
+        name: 'settings[].is_public'
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      'settings.*.key':
+        custom: []
+        name: 'settings.*.key'
+        description: ''
+        required: true
+        example: support_hours_message
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'settings.*.value':
+        custom: []
+        name: 'settings.*.value'
+        description: ''
+        required: true
+        example: 'Mon-Fri 9am-5pm UTC'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'settings.*.type':
+        custom: []
+        name: 'settings.*.type'
+        description: 'string, integer, boolean or json. Defaults to string.'
+        required: false
+        example: string
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'settings.*.group':
+        custom: []
+        name: 'settings.*.group'
+        description: 'Defaults to general.'
+        required: false
+        example: general
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'settings.*.is_public':
+        custom: []
+        name: 'settings.*.is_public'
+        description: 'Defaults to false.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      settings:
+        -
+          key: b
+          type: boolean
+          group: 'n'
+          is_public: true
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Settings updated successfully.", "data": [{"key": "support_hours_message", "value": "Mon-Fri 9am-5pm UTC"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/ticket-number-settings
+    metadata:
+      custom: []
+      groupName: Settings
+      groupDescription: |-
+
+        Ticket-number generation rules (see GenerateTicketNumberAction). A new
+        row is inserted whenever the active configuration changes rather than
+        mutating one in place, so tickets already created keep the number they
+        were generated under — see the table's own migration comment.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List ticket number settings'
+      description: |-
+        Returns every row for this tenant (current and historical),
+        most recently effective first.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
     cleanBodyParameters: []
-    fileParameters:
-      file: null
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "department_id": null, "prefix": "TKT", "is_active": true}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/ticket-number-settings
+    metadata:
+      custom: []
+      groupName: Settings
+      groupDescription: |-
+
+        Ticket-number generation rules (see GenerateTicketNumberAction). A new
+        row is inserted whenever the active configuration changes rather than
+        mutating one in place, so tickets already created keep the number they
+        were generated under — see the table's own migration comment.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create a ticket number setting'
+      description: |-
+        Deactivates any existing active row for the same scope
+        (`department_id`, or the tenant's global default when omitted)
+        and inserts this as the new active one — the previous row is kept
+        for history, not deleted.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      department_id:
+        custom: []
+        name: department_id
+        description: 'Omit for the tenant-wide default.'
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      prefix:
+        custom: []
+        name: prefix
+        description: ''
+        required: true
+        example: ACME
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      format:
+        custom: []
+        name: format
+        description: 'Tokens: {prefix} {number} {year} {month} {day} {department} {department_code}.'
+        required: true
+        example: '{prefix}-{year}-{number}'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      starting_number:
+        custom: []
+        name: starting_number
+        description: ''
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      number_length:
+        custom: []
+        name: number_length
+        description: 'Zero-padded width of {number}.'
+        required: true
+        example: 6
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      reset_period:
+        custom: []
+        name: reset_period
+        description: 'One of never, yearly, monthly, daily.'
+        required: true
+        example: yearly
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_active:
+        custom: []
+        name: is_active
+        description: 'Defaults to true.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      department_id: null
+      prefix: ACME
+      format: '{prefix}-{year}-{number}'
+      starting_number: 1
+      number_length: 6
+      reset_period: yearly
+      is_active: true
+    fileParameters: []
     responses:
       -
         custom: []
         status: 201
-        content: '{"success": true, "message": "Attachment uploaded successfully.", "data": {"id": "01HXYZ...", "original_filename": "invoice.pdf"}}'
+        content: '{"success": true, "message": "Ticket number setting created successfully.", "data": {"id": 2, "prefix": "ACME", "is_active": true}}'
         headers: []
         description: ''
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null

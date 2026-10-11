@@ -2,14 +2,18 @@ import { Avatar } from '@/components/ui/Avatar'
 import { IconButton } from '@/components/ui/IconButton'
 import { PriorityBadge } from '@/components/ui/PriorityBadge'
 import { SlaCountdown } from '@/features/tickets/components/SlaCountdown'
+import { TicketTagsEditor } from '@/features/tickets/components/TicketTagsEditor'
 import type { Ticket } from '@/types/ticket'
 
 export interface TicketPropertiesPanelProps {
   ticket: Ticket
   onReassign: () => void
+  /** Called with the saved tag names. */
+  onTagsChange: (tags: string[]) => void
+  canEditTags: boolean
 }
 
-export function TicketPropertiesPanel({ ticket, onReassign }: TicketPropertiesPanelProps) {
+export function TicketPropertiesPanel({ ticket, onReassign, onTagsChange, canEditTags }: TicketPropertiesPanelProps) {
   return (
     <section className="flex flex-col gap-space-sm rounded bg-surface-container-lowest p-space-md shadow-sm">
       <span className="text-label-sm font-bold text-secondary uppercase tracking-wider">Ticket Properties</span>
@@ -44,18 +48,7 @@ export function TicketPropertiesPanel({ ticket, onReassign }: TicketPropertiesPa
             <SlaCountdown sla={ticket.sla} />
           </div>
         )}
-        {ticket.tags.length > 0 && (
-          <div className="flex flex-col gap-1.5 pt-2">
-            <span className="text-label-sm text-secondary uppercase">Tags</span>
-            <div className="flex flex-wrap gap-1.5">
-              {ticket.tags.map((tag) => (
-                <span key={tag} className="rounded bg-surface-container px-2 py-0.5 text-code-sm text-on-surface">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
+        <TicketTagsEditor ticketId={ticket.id} tags={ticket.tags} onChange={onTagsChange} readOnly={!canEditTags} />
       </div>
     </section>
   )

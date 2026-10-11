@@ -44,6 +44,9 @@ export default defineConfig(({ mode }) => {
   const apiUrl = env.VITE_API_URL || 'http://localhost:8000/api/v1'
 
   return {
+    // Browsers resolve *.localhost to IPv4 loopback, enabling local tenant URLs.
+    server: { host: '127.0.0.1' },
+    preview: { host: '127.0.0.1' },
     plugins: [react(), tailwindcss(), contentSecurityPolicy(apiUrl)],
     resolve: {
       alias: {

@@ -1,5 +1,5 @@
 import type { CreateCustomerPayload, CustomerFilters, UpdateCustomerPayload } from '@/features/customers/types'
-import { apiFetch, apiFetchPage } from '@/services/api/client'
+import { apiDownloadFile, apiFetch, apiFetchPage } from '@/services/api/client'
 import type { RawCustomer } from '@/services/api/mappers'
 import { mapCustomer } from '@/services/api/mappers'
 import type { Customer } from '@/types/customer'
@@ -51,4 +51,30 @@ export const customersApi = {
   async destroy(id: number): Promise<void> {
     await apiFetch<null>(`/customers/${id}`, { method: 'DELETE' })
   },
+
+  /** Downloads a JSON copy of everything held about the customer (a data-access request). Needs customers.export. */
+  async exportData(id: number): Promise<void> {
+    await apiDownloadFile(`/customers/${id}/export`, `customer-${id}-data.json`)
+  },
+
+  /** Anonymizes the customer. Irreversible. Needs customers.erase and the customer's email as confirmation. */
+  async erase(id: number, payload: { confirmEmail: string; redactContent: boolean }): Promise<EraseCustomerResult> {
+    const raw = await apiFetch<{ tickets: number; messages_redacted: number; attachments_removed: number; redacted_content: boolean }>(`/customers/${id}/erase`, {
+      method: 'POST',
+      body: { confirm_email: payload.confirmEmail, redact_content: payload.redactContent },
+    })
+    return { tickets: raw.tickets, messagesRedacted: raw.messages_redacted, attachmentsRemoved: raw.attachments_removed, redactedContent: raw.redacted_content }
+  },
+
+  /** CSV of all customers. Needs customers.view. */
+  async exportCsv(): Promise<void> {
+    await apiDownloadFile('/exports/customers', 'customers.csv')
+  },
+}
+
+export interface EraseCustomerResult {
+  tickets: number
+  messagesRedacted: number
+  attachmentsRemoved: number
+  redactedContent: boolean
 }

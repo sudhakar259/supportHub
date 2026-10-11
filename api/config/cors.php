@@ -1,5 +1,16 @@
 <?php
 
+$workspaceDomain = strtolower(trim((string) env('WORKSPACE_DOMAIN'), '. '));
+if (! $workspaceDomain && env('APP_ENV') !== 'production' && parse_url(env('FRONTEND_URL', ''), PHP_URL_HOST) === 'localhost') {
+    $workspaceDomain = 'localhost';
+}
+$workspacePort = env('WORKSPACE_PORT');
+$workspacePattern = $workspaceDomain
+    ? '~\A'.($workspaceDomain === 'localhost' ? 'https?' : preg_quote(env('WORKSPACE_SCHEME', 'https'), '~'))
+        .'://[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.'.preg_quote($workspaceDomain, '~')
+        .($workspaceDomain === 'localhost' ? '(?::[0-9]+)?' : ($workspacePort ? ':'.preg_quote($workspacePort, '~') : '')).'\z~'
+    : null;
+
 return [
 
     /*
@@ -24,11 +35,12 @@ return [
         [config('app.frontend_url')],
     )))),
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => array_filter([$workspacePattern]),
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => [],
+    // Lets the web app read the file name the server suggests for a download.
+    'exposed_headers' => ['Content-Disposition'],
 
     'max_age' => 0,
 

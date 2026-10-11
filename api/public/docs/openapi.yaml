@@ -71,6 +71,9 @@ tags:
     name: Endpoints
     description: ''
   -
+    name: Exports
+    description: "\nCSV downloads of a workspace's own data, for spreadsheets, backups and moving elsewhere.\nBoth stream row by row, so a large workspace does not run out of memory."
+  -
     name: 'Integration API — Customers'
     description: "\nAuthenticated via X-Api-Key / X-Api-Secret headers (see\nResolveIntegrationTenantContext), not a Sanctum session — for a\ntenant's own backend, CRM or chat widget to keep its customer\nrecords in sync with this helpdesk. Every endpoint here is scoped to\nthe credential's own tenant; there is no cross-tenant visibility no\nmatter what id is requested."
   -
@@ -88,6 +91,12 @@ tags:
   -
     name: 'Tenant Registration'
     description: "\nSelf-service signup for a brand-new organization, distinct from\n/auth/register (which adds a Customer to an *existing* tenant's\nhelpdesk). This flow creates the tenant itself, its first\nsubscription and its first user — the Tenant Owner, who lands with\nthe full-access \"Administrator\" role for that tenant only."
+  -
+    name: 'Ticket Tags'
+    description: "\nFree-form labels agents put on tickets (\"vip\", \"refund\", \"bug\") to group and\nfilter them. Staff only: customers can see tags on their tickets' staff views\nnowhere and cannot set them."
+  -
+    name: 'Two-factor authentication'
+    description: "\nLets a signed-in person protect their own account with an authenticator app\n(Google Authenticator, Microsoft Authenticator, 1Password, Authy…). Every step\nasks for the current password again, so a stolen session token alone can't\nswitch protection on or off. Wrong passwords and wrong codes here count toward\nthe same lockout as at sign-in."
   -
     name: Webhooks
     description: "\nTenant-configured HTTP callbacks for ticket lifecycle events (see\nWebhook::EVENTS). Every delivery is signed with the webhook's own\nsecret via an X-Webhook-Signature header (HMAC-SHA256 of the raw\nJSON body) so the receiving endpoint can verify it actually came\nfrom this platform."
@@ -342,6 +351,26 @@ paths:
                           - 'The provided credentials are incorrect.'
                         items:
                           type: string
+        423:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Too many failed sign-in attempts. This account is locked for another 15 minutes.'
+                  retry_after_seconds: 900
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Too many failed sign-in attempts. This account is locked for another 15 minutes.'
+                  retry_after_seconds:
+                    type: integer
+                    example: 900
       tags:
         - Authentication
       requestBody:
@@ -371,6 +400,119 @@ paths:
               required:
                 - email
                 - password
+      security: []
+  /api/v1/auth/two-factor/challenge:
+    post:
+      summary: 'Complete a two-factor sign-in'
+      operationId: completeATwoFactorSignIn
+      description: "Second step of `/auth/login` for an account that has two-factor authentication\non. Send the `challenge_token` from the login response plus either the 6-digit\ncode from the authenticator app (`code`) or one unused recovery code\n(`recovery_code`). Wrong codes count toward the same lockout as wrong passwords."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Login successful.'
+                  data:
+                    user:
+                      id: 1
+                    token: 1|abc...
+                    token_type: Bearer
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Login successful.'
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                      token:
+                        type: string
+                        example: 1|abc...
+                      token_type:
+                        type: string
+                        example: Bearer
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Validation failed.'
+                  errors:
+                    code:
+                      - 'The code is incorrect or has expired.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Validation failed.'
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: array
+                        example:
+                          - 'The code is incorrect or has expired.'
+                        items:
+                          type: string
+        423:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Too many failed sign-in attempts. This account is locked for another 15 minutes.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Too many failed sign-in attempts. This account is locked for another 15 minutes.'
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                challenge_token:
+                  type: string
+                  description: 'From the login response.'
+                  example: Zk3...
+                code:
+                  type: string
+                  description: 'The 6-digit code.'
+                  example: '123456'
+                  nullable: true
+                recovery_code:
+                  type: string
+                  description: 'One of the recovery codes, instead of `code`.'
+                  example: ab12c-d34ef
+                  nullable: true
+              required:
+                - challenge_token
       security: []
   /api/v1/auth/forgot-password:
     post:
@@ -1130,6 +1272,106 @@ paths:
         required: true
         schema:
           type: integer
+  '/api/v1/users/{user_id}/unlock':
+    post:
+      summary: 'Unlock a user'
+      operationId: unlockAUser
+      description: "Clears the lockout from too many failed sign-in attempts, so the person can try\nagain straight away. Requires `users.update`."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'User unlocked.'
+                  data:
+                    id: 5
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User unlocked.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 5
+      tags:
+        - Users
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: user
+        description: ''
+        example: 5
+        required: true
+        schema:
+          type: integer
+  '/api/v1/users/{user_id}/two-factor':
+    delete:
+      summary: "Reset a user's two-factor authentication"
+      operationId: resetAUsersTwoFactorAuthentication
+      description: "For someone who lost their phone and their recovery codes: switches two-factor off\nand signs them out everywhere, so they sign in with their password and can set it\nup again. Requires `users.update`; you cannot reset your own."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Two-factor authentication reset.'
+                  data:
+                    id: 5
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Two-factor authentication reset.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 5
+      tags:
+        - Users
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: user
+        description: ''
+        example: 5
+        required: true
+        schema:
+          type: integer
   '/api/v1/users/{user_id}/impersonate':
     post:
       summary: 'Login as a user'
@@ -1820,6 +2062,167 @@ paths:
         name: customer_id
         description: 'The ID of the customer.'
         example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/customers/{customer_id}/export':
+    get:
+      summary: "Export a customer's data"
+      operationId: exportACustomersData
+      description: "Downloads a JSON copy of everything held about this customer (profile, tickets,\nmessages, attachment names, emails sent to them) to answer a data-access request.\nInternal staff notes are left out. Requires `customers.export`."
+      parameters: []
+      responses:
+        200:
+          description: 'JSON file download'
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  generated_at: '2026-10-11T10:00:00+00:00'
+                  customer:
+                    name: 'Jamie Rivera'
+                    email: jamie@example.com
+                  tickets: []
+                properties:
+                  generated_at:
+                    type: string
+                    example: '2026-10-11T10:00:00+00:00'
+                  customer:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: 'Jamie Rivera'
+                      email:
+                        type: string
+                        example: jamie@example.com
+                  tickets:
+                    type: array
+                    example: []
+      tags:
+        - Customers
+    parameters:
+      -
+        in: path
+        name: customer_id
+        description: 'The ID of the customer.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: customer
+        description: ''
+        example: 4
+        required: true
+        schema:
+          type: integer
+  '/api/v1/customers/{customer_id}/erase':
+    post:
+      summary: "Erase a customer's personal data"
+      operationId: eraseACustomersPersonalData
+      description: "**Irreversible.** Anonymizes the customer everywhere their identity is stored (account,\ncustomer record, audit entries, the inbound-email log) and signs them out. With\n`redact_content` (the default) it also removes the text of their tickets, every message\nand all attachments; with `false` the ticket text is kept for your records and only the\nperson stops being identifiable. Requires `customers.erase`, and the customer's email\ntyped back as confirmation."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Customer data erased.'
+                  data:
+                    tickets: 3
+                    messages_redacted: 11
+                    attachments_removed: 2
+                    redacted_content: true
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Customer data erased.'
+                  data:
+                    type: object
+                    properties:
+                      tickets:
+                        type: integer
+                        example: 3
+                      messages_redacted:
+                        type: integer
+                        example: 11
+                      attachments_removed:
+                        type: integer
+                        example: 2
+                      redacted_content:
+                        type: boolean
+                        example: true
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Validation failed.'
+                  errors:
+                    confirm_email:
+                      - 'The email does not match this customer.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Validation failed.'
+                  errors:
+                    type: object
+                    properties:
+                      confirm_email:
+                        type: array
+                        example:
+                          - 'The email does not match this customer.'
+                        items:
+                          type: string
+      tags:
+        - Customers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                confirm_email:
+                  type: string
+                  description: "The customer's current email address, to confirm this is the right person."
+                  example: jamie@example.com
+                redact_content:
+                  type: boolean
+                  description: 'Also remove ticket text, messages and attachments. Defaults to true.'
+                  example: true
+              required:
+                - confirm_email
+    parameters:
+      -
+        in: path
+        name: customer_id
+        description: 'The ID of the customer.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: customer
+        description: ''
+        example: 4
         required: true
         schema:
           type: integer
@@ -4159,7 +4562,7 @@ paths:
                 is_default:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                 is_closed:
                   type: boolean
                   description: ''
@@ -4333,7 +4736,7 @@ paths:
                 is_default:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
               required:
                 - name
                 - slug
@@ -4437,7 +4840,7 @@ paths:
                 is_default:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
     delete:
       summary: 'Delete a priority'
       operationId: deleteAPriority
@@ -4614,7 +5017,7 @@ paths:
                       field:
                         type: string
                         description: ''
-                        example: keyword
+                        example: customer_type
                         enum:
                           - category_id
                           - priority_id
@@ -4623,7 +5026,7 @@ paths:
                       operator:
                         type: string
                         description: ''
-                        example: '!='
+                        example: in
                         enum:
                           - '='
                           - '!='
@@ -4776,7 +5179,7 @@ paths:
                       field:
                         type: string
                         description: 'This field is required when <code>conditions</code> is present.'
-                        example: priority_id
+                        example: category_id
                         enum:
                           - category_id
                           - priority_id
@@ -4785,7 +5188,7 @@ paths:
                       operator:
                         type: string
                         description: ''
-                        example: '!='
+                        example: in
                         enum:
                           - '='
                           - '!='
@@ -4983,7 +5386,7 @@ paths:
                 is_active:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
               required:
                 - name
                 - first_response_minutes
@@ -5103,11 +5506,11 @@ paths:
                 business_hours_only:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 is_default:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 is_active:
                   type: boolean
                   description: ''
@@ -5280,7 +5683,7 @@ paths:
                       enabled:
                         type: boolean
                         description: ''
-                        example: true
+                        example: false
                       '*':
                         type: object
                         description: ''
@@ -5818,7 +6221,7 @@ paths:
                       type:
                         type: string
                         description: ''
-                        example: string
+                        example: boolean
                         enum:
                           - string
                           - integer
@@ -6776,6 +7179,69 @@ paths:
                           example: 01HXYZ...
       tags:
         - 'Email to ticket'
+  /api/v1/auth/workspace-session:
+    post:
+      summary: 'Short-lived, single-use exchange, accepted only at the intended workspace.'
+      operationId: shortLivedSingleUseExchangeAcceptedOnlyAtTheIntendedWorkspace
+      description: ''
+      parameters: []
+      responses:
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Open this sign-in link at your workspace address.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Open this sign-in link at your workspace address.'
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: 'Must be 64 characters.'
+                  example: bngzmiyvdljnikhwaykcmyuwpwlvqwrsitcpscqldzsnrwtujwvlxjklqppwqbew
+              required:
+                - code
+  /api/v1/auth/workspace-handoff:
+    post:
+      summary: 'Move an already authenticated session to its workspace without putting a bearer token in a URL.'
+      operationId: moveAnAlreadyAuthenticatedSessionToItsWorkspaceWithoutPuttingABearerTokenInAURL
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: Unauthenticated.
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
   /api/v1/billing/razorpay/webhook:
     post:
       summary: ''
@@ -6826,6 +7292,75 @@ paths:
                     example: 'Invalid signature.'
       tags:
         - Endpoints
+  /api/v1/exports/tickets:
+    get:
+      summary: 'Export tickets (CSV)'
+      operationId: exportTicketsCSV
+      description: 'One row per ticket you are allowed to see. Requires `reports.view`.'
+      parameters:
+        -
+          in: query
+          name: from
+          description: 'date Only tickets created on or after this date.'
+          example: '2026-01-01'
+          required: false
+          schema:
+            type: string
+            description: 'date Only tickets created on or after this date.'
+            example: '2026-01-01'
+        -
+          in: query
+          name: to
+          description: 'date Only tickets created on or before this date.'
+          example: '2026-12-31'
+          required: false
+          schema:
+            type: string
+            description: 'date Only tickets created on or before this date.'
+            example: '2026-12-31'
+      responses:
+        200:
+          description: 'CSV file download'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'ticket_number,subject,status,priority,category,department,assignee,customer_name,customer_email,tags,created_at,first_response_at,resolved_at,closed_at'
+      tags:
+        - Exports
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-10-11T07:06:06'
+                  nullable: true
+                to:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-10-11T07:06:06'
+                  nullable: true
+  /api/v1/exports/customers:
+    get:
+      summary: 'Export customers (CSV)'
+      operationId: exportCustomersCSV
+      description: 'One row per customer. Requires `customers.view`.'
+      parameters: []
+      responses:
+        200:
+          description: 'CSV file download'
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'name,email,phone,company_name,customer_type,external_id,created_at'
+      tags:
+        - Exports
   /api/v1/integration/customers:
     get:
       summary: 'List customers'
@@ -9462,6 +9997,377 @@ paths:
         required: true
         schema:
           type: string
+  '/api/v1/tickets/{ticket_id}/tags':
+    put:
+      summary: "Set a ticket's tags"
+      operationId: setATicketsTags
+      description: "Replaces the ticket's tags with exactly this list. Tags that don't exist yet\nare created. Names are trimmed, lower-cased and de-duplicated."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Tags updated.'
+                  data:
+                    - vip
+                    - refund
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Tags updated.'
+                  data:
+                    type: array
+                    example:
+                      - vip
+                      - refund
+                    items:
+                      type: string
+      tags:
+        - 'Ticket Tags'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  description: 'Up to 10 tags, each up to 30 characters. An empty array removes all tags.'
+                  example:
+                    - vip
+                    - refund
+                  items:
+                    type: string
+                    nullable: true
+              required:
+                - tags
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 01m4grbvc2v68162hmf9xr8fgh
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: ticket
+        description: "The ticket's id."
+        example: 01hxyz0123456789abcdefghj
+        required: true
+        schema:
+          type: string
+  /api/v1/ticket-tags:
+    get:
+      summary: 'List tags'
+      operationId: listTags
+      description: 'Every tag in use in the workspace, for autocomplete and filters.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    -
+                      name: vip
+                      slug: vip
+                      color: '#6B7280'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: array
+                    example:
+                      -
+                        name: vip
+                        slug: vip
+                        color: '#6B7280'
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: vip
+                        slug:
+                          type: string
+                          example: vip
+                        color:
+                          type: string
+                          example: '#6B7280'
+      tags:
+        - 'Ticket Tags'
+  /api/v1/auth/two-factor/setup:
+    post:
+      summary: 'Start two-factor setup'
+      operationId: startTwoFactorSetup
+      description: "Returns a new secret and the `otpauth://` link to show as a QR code. Two-factor is\nnot active yet: call `/auth/two-factor/confirm` with a code from the app first."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Scan the code, then confirm with a code from your app.'
+                  data:
+                    secret: JBSWY3DPEHPK3PXP
+                    otpauth_url: 'otpauth://totp/SupportHub:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=SupportHub'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Scan the code, then confirm with a code from your app.'
+                  data:
+                    type: object
+                    properties:
+                      secret:
+                        type: string
+                        example: JBSWY3DPEHPK3PXP
+                      otpauth_url:
+                        type: string
+                        example: 'otpauth://totp/SupportHub:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=SupportHub'
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Two-factor authentication is already on. Turn it off first to set it up again.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Two-factor authentication is already on. Turn it off first to set it up again.'
+      tags:
+        - 'Two-factor authentication'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: 'The current password.'
+                  example: Secret123!word
+              required:
+                - password
+  /api/v1/auth/two-factor/confirm:
+    post:
+      summary: 'Turn two-factor on'
+      operationId: turnTwoFactorOn
+      description: "Confirms setup with the first 6-digit code from the app. Returns the recovery\ncodes **once**; each works a single time if the phone is lost."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Two-factor authentication is on.'
+                  data:
+                    recovery_codes:
+                      - ab12c-d34ef
+                      - gh56i-j78kl
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Two-factor authentication is on.'
+                  data:
+                    type: object
+                    properties:
+                      recovery_codes:
+                        type: array
+                        example:
+                          - ab12c-d34ef
+                          - gh56i-j78kl
+                        items:
+                          type: string
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'Validation failed.'
+                  errors:
+                    code:
+                      - 'The code is incorrect or has expired.'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Validation failed.'
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: array
+                        example:
+                          - 'The code is incorrect or has expired.'
+                        items:
+                          type: string
+      tags:
+        - 'Two-factor authentication'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: ''
+                  example: '123456'
+              required:
+                - code
+  /api/v1/auth/two-factor/disable:
+    post:
+      summary: 'Turn two-factor off'
+      operationId: turnTwoFactorOff
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Two-factor authentication is off.'
+                  data: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Two-factor authentication is off.'
+                  data:
+                    type: string
+                    example: null
+                    nullable: true
+      tags:
+        - 'Two-factor authentication'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: 'The current password.'
+                  example: Secret123!word
+                code:
+                  type: string
+                  description: 'A current 6-digit code.'
+                  example: '123456'
+                recovery_code:
+                  type: string
+                  description: 'A recovery code, instead of `code`.'
+                  example: ab12c-d34ef
+              required:
+                - password
+  /api/v1/auth/two-factor/recovery-codes:
+    post:
+      summary: 'Get new recovery codes'
+      operationId: getNewRecoveryCodes
+      description: 'Replaces all recovery codes. The old ones stop working.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'New recovery codes created. The old ones no longer work.'
+                  data:
+                    recovery_codes:
+                      - ab12c-d34ef
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'New recovery codes created. The old ones no longer work.'
+                  data:
+                    type: object
+                    properties:
+                      recovery_codes:
+                        type: array
+                        example:
+                          - ab12c-d34ef
+                        items:
+                          type: string
+      tags:
+        - 'Two-factor authentication'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: 'A current 6-digit code.'
+                  example: '123456'
+                password:
+                  type: string
+                  description: 'The current password.'
+                  example: Secret123!word
+              required:
+                - code
+                - password
   /api/v1/webhooks:
     get:
       summary: 'List webhooks'

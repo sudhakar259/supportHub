@@ -1,15 +1,14 @@
 # SupportHub
 
-A customer support / ticketing system. This phase delivers the backend
-only: a production-ready Laravel REST API and its complete API
-documentation, intended as the stable contract for a web frontend, mobile
-apps, and third-party integrations — none of which exist yet.
+A multi-tenant customer support platform with a Laravel REST API and React
+frontend. Includes a public SaaS website, organization signup, ticket workflows,
+team administration, integrations, reports and subscription billing.
 
 ```
 supporthub/
-├── api/     Laravel 13 REST API (this phase)
-├── web/     Reserved for a future React frontend (not started)
-├── docs/    Architecture, API, auth, workflow, and ops documentation (this phase)
+├── api/     Laravel 13 REST API
+├── web/     React application and public SaaS website
+├── docs/    Architecture, API, frontend, workflow and operations guides
 └── docker/  Dockerfiles for the local dev environment
 ```
 
@@ -25,10 +24,11 @@ supporthub/
   deployment). [`docs/api.md`](docs/api.md) plus the generated reference in
   `api/public/docs/` are everything a frontend or mobile developer needs
   without reading any Laravel source.
-- **`web/`** — intentionally empty. Per this phase's scope, no frontend
-  code is written yet; the API above is the stable surface the future
-  React app will be built against, mapping existing endpoints rather than
-  prompting backend changes.
+- **`web/`** — the React frontend, including a public homepage, product
+  and solution pages, interactive demo, API-backed pricing and workspace
+  signup. The authenticated app manages tickets, customers, departments,
+  roles, automation, integrations and billing. See
+  [`web/README.md`](web/README.md) and [`docs/public-site.md`](docs/public-site.md).
 
 ## Quick start
 
@@ -52,10 +52,13 @@ docker compose exec app php artisan migrate --seed
 
 Demo login: `admin@supporthub.test` / `password`.
 
+To run the frontend, follow [`web/README.md`](web/README.md).
+
 ## Documentation index
 
 | Doc | Covers |
 |---|---|
+| [docs/public-site.md](docs/public-site.md) | Public routes, product tour, pricing, signup and frontend hosting |
 | [docs/architecture.md](docs/architecture.md) | Overall design, request lifecycle, ULID-vs-bigint choice, schema deviations |
 | [docs/authentication.md](docs/authentication.md) | Sanctum tokens, why `auth:api` not `auth:sanctum`, email verification, password reset |
 | [docs/authorization.md](docs/authorization.md) | Roles, permissions, department-scoped ticket visibility |

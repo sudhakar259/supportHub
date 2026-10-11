@@ -63,6 +63,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Support\Facades\Event;
@@ -87,6 +88,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Believe X-Forwarded-For / -Proto only from the configured proxies (see config/proxies.php).
+        $trusted = trim((string) config('proxies.trusted'));
+        TrustProxies::at($trusted === '*' ? '*' : array_values(array_filter(array_map('trim', explode(',', $trusted)))));
+
         // Must override here (not register()) so this replaces spatie's own
         // singleton binding after its provider has already registered —
         // see TenantAwarePermissionRegistrar's docblock for why the
@@ -101,10 +106,9 @@ class AppServiceProvider extends ServiceProvider
         // calls route('password.reset', ...)) would throw a
         // RouteNotFoundException every time it actually tries to send —
         // reproduced live during QA. Point it at the SPA's reset-password
-        // page instead, using the same frontend_url config CreateTicketAction
-        // already uses for notification links.
+        // page in the account's workspace instead.
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            $frontendUrl = rtrim(config('app.frontend_url'), '/');
+            $frontendUrl = \App\Support\WorkspaceDomains::url($user->tenant);
 
             // The same email can exist in more than one tenant, so the link names the
             // tenant; the reset page sends it back and the broker picks the right account.

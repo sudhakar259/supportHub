@@ -77,13 +77,14 @@ class TicketController extends Controller
                 AllowedFilter::exact('assignee_id'),
                 AllowedFilter::exact('customer_id'),
                 AllowedFilter::partial('ticket_number'),
+                AllowedFilter::callback('tag', fn ($query, $value) => $query->whereHas('tags', fn ($q) => $q->where('slug', $value))),
                 AllowedFilter::callback('search', function ($query, $value) {
                     $query->where(fn ($q) => $q->where('subject', 'like', "%{$value}%")->orWhere('description', 'like', "%{$value}%"));
                 }),
                 AllowedFilter::callback('sla_status', fn ($query, $value) => $query->whereHas('sla', fn ($q) => $q->where('status', $value))),
             )
             ->allowedSorts('created_at', 'updated_at', 'priority_id')
-            ->with(['customer.user', 'category', 'priority', 'status', 'department', 'assignee'])
+            ->with(['customer.user', 'category', 'priority', 'status', 'department', 'assignee', 'tags'])
             ->defaultSort('-created_at')
             ->paginate(min((int) $request->integer('per_page', 25), 100));
 
@@ -326,22 +327,6 @@ class TicketController extends Controller
 
     private function scopeToAccessibleTickets($query, User $user): void
     {
-        if ($user->isCustomer()) {
-            $query->whereHas('customer', fn ($q) => $q->where('user_id', $user->id));
-
-            return;
-        }
-
-        if ($user->hasRole('Administrator')) {
-            return;
-        }
-
-        $departmentIds = $user->departments()->pluck('departments.id');
-
-        $query->where(function ($q) use ($user, $departmentIds) {
-            $q->where('assignee_id', $user->id)
-                ->orWhereNull('department_id')
-                ->orWhereIn('department_id', $departmentIds);
-        });
+        $query->accessibleTo($user);
     }
 }

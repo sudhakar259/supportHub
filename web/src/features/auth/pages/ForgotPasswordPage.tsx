@@ -10,6 +10,7 @@ import { TextField } from '@/components/ui/TextField'
 import { AuthCard } from '@/features/auth/components/AuthCard'
 import { authApi } from '@/features/auth/api/authApi'
 import { ApiError } from '@/types/api'
+import { workspaceSlug } from '@/features/workspaces/workspace'
 
 const TIPS = [
   { icon: 'verified', title: 'Zero Knowledge', body: 'Passwords are cryptographically salted and never exposed to personnel.' },
@@ -19,7 +20,8 @@ const TIPS = [
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
-  const [tenant, setTenant] = useState('')
+  const activeWorkspace = workspaceSlug()
+  const [tenant, setTenant] = useState(activeWorkspace ?? '')
   const [showTenantField, setShowTenantField] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
@@ -99,7 +101,7 @@ export function ForgotPasswordPage() {
               helperText="Must correspond to your authorized Enterprise Workspace domain."
               autoComplete="email"
             />
-            {showTenantField ? (
+            {activeWorkspace ? <p className="text-body-sm text-secondary">Password reset for {activeWorkspace}.</p> : showTenantField ? (
               <TextField
                 label="Organization"
                 placeholder="acme-corp"

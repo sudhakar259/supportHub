@@ -1,0 +1,35 @@
+# Build context for docker/php/Dockerfile is the repository root. Keep secrets, local
+# dependencies and anything the API image does not need out of it: otherwise a developer's
+# api/.env (with real passwords) would be copied INTO the image.
+
+.git
+.gitignore
+.DS_Store
+**/node_modules
+
+# The web app is built and deployed separately (see deploy/aws/deploy-web.sh).
+web
+
+# Secrets and local state — never in an image. Real values come from the environment.
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.production.example
+api/vendor
+api/storage/logs/*
+api/storage/framework/cache/*
+api/storage/framework/sessions/*
+api/storage/framework/views/*
+api/storage/app/*
+api/bootstrap/cache/*.php
+api/.phpunit.result.cache
+
+# Not needed at runtime.
+deploy
+api/tests
+docs
+design
+*.html
+!api/public/docs/**
+!api/resources/**
+*.log

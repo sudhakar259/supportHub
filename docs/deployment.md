@@ -1,21 +1,26 @@
 # Deployment
 
-## Container image
+Before going live, work through [production-checklist.md](production-checklist.md) and run
+`php artisan supporthub:preflight --production`, which checks the configuration for you.
 
-`docker/php/Dockerfile` has a `production` build target (the `development`
-target, used by `docker-compose.yml`, bind-mounts source instead of baking
-it in and skips the optimize steps):
+## Container images
+
+`docker/php/Dockerfile` has three targets: `development` (used by `docker-compose.yml`, source
+bind-mounted), `production` (the API: code baked in, dev packages excluded) and `api-nginx` (nginx with
+the application's `public/` files copied from the `production` image). Build them with
+`docker-compose.prod.yml`, or directly:
 
 ```bash
 docker build --target production -t supporthub-api:latest .
+docker build --target api-nginx  -t supporthub-nginx:latest .
 ```
 
-That target copies the application in, runs
-`composer install --no-dev --optimize-autoloader`, and caches config,
-routes, and events (`config:cache`, `route:cache`, `event:cache`) at build
-time. **If you change any `.env` value after building the image, you must
-re-run those cache commands** (or just rebuild) — a cached config is
-frozen at build time and won't re-read the environment.
+**Nothing environment-specific is in the image.** There is no `.env` in it (see `.dockerignore`, which keeps
+`api/.env` out of the build), and Laravel's config/route/event caches are built when the **container starts**
+(`docker/php/entrypoint.sh`), when the real environment exists. The same image therefore runs unchanged in
+any environment. To change a setting, change the environment and **restart the containers**; no rebuild.
+
+For AWS specifically see [aws-deployment.md](aws-deployment.md).
 
 ## Required environment variables
 
@@ -28,7 +33,8 @@ hosting platform's secret/environment management):
 | `APP_KEY` | Generate fresh per environment: `php artisan key:generate --show` |
 | `APP_ENV=production`, `APP_DEBUG=false` | Never run `APP_DEBUG=true` in production — see `ApiExceptionRenderer`, which includes stack traces in 500 responses when debug is on |
 | `APP_URL` | The public URL of this API |
-| `FRONTEND_URL` | Used only to build links in notification emails (`{ticket_url}`) |
+| `FRONTEND_URL` | Public website URL; fallback for password reset and ticket notification links |
+| `WORKSPACE_DOMAIN` | Bare parent domain for tenant subdomains; see [workspace domains](workspace-domains.md) |
 | `DB_*` | Point at a real MySQL instance, not the SQLite dev default |
 | `REDIS_*` | Required for `QUEUE_CONNECTION=redis` and `CACHE_STORE=redis` |
 | `MAIL_*` | A real SMTP provider or API-based mailer — Mailpit is dev-only |
@@ -86,9 +92,11 @@ API endpoint that requires a database round-trip to succeed.
 
 `docker/nginx/default.conf` is a minimal working example (PHP-FPM
 passthrough, static asset handling, dotfile denial). If the frontend is
-served from a different origin than the API, configure
-`config/cors.php`'s `allowed_origins` — it ships with Laravel's permissive
-default, which should be narrowed before production launch.
+served from a different origin than the API, set `CORS_ALLOWED_ORIGINS` to the
+public frontend origins. `WORKSPACE_DOMAIN` additionally allows a single valid
+tenant subdomain under that parent domain, with the configured scheme and port.
+See [workspace domains](workspace-domains.md) for wildcard DNS, HTTPS and frontend
+hosting configuration.
 
 ## What this document does not cover
 

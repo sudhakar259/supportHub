@@ -16,7 +16,7 @@ import { ticketsApi } from '@/features/tickets/api/ticketsApi'
 import { useTicket } from '@/features/tickets/hooks/useTicket'
 import { useTicketMessages } from '@/features/tickets/hooks/useTicketMessages'
 import { useAuth } from '@/features/auth/hooks/useAuth'
-import { hasPermission } from '@/types/user'
+import { hasPermission, hasRole } from '@/types/user'
 
 type DialogKind = 'assign' | 'escalate' | 'resolve' | 'close' | 'reopen' | null
 
@@ -59,7 +59,12 @@ export function TicketDetailsPage() {
 
         <aside className="col-span-12 flex flex-col gap-space-md xl:col-span-4">
           <CustomerProfilePanel customer={ticket.customer} />
-          <TicketPropertiesPanel ticket={ticket} onReassign={() => setOpenDialog('assign')} />
+          <TicketPropertiesPanel
+            ticket={ticket}
+            onReassign={() => setOpenDialog('assign')}
+            onTagsChange={(tags) => setTicket({ ...ticket, tags })}
+            canEditTags={!hasRole(user, 'Customer') && hasPermission(user, 'tickets.update')}
+          />
           <ActivityTimeline events={deriveTicketTimeline(ticket)} />
         </aside>
       </div>

@@ -9,14 +9,17 @@ use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Models\User;
 use App\Services\AuditLogger;
+use App\Services\CustomerDataService;
 use App\Services\PlanLimitService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @group Customers
@@ -164,5 +167,67 @@ class CustomerController extends Controller
         });
 
         return $this->deleted('Customer deleted successfully.');
+    }
+
+    /**
+     * Export a customer's data
+     *
+     * Downloads a JSON copy of everything held about this customer (profile, tickets,
+     * messages, attachment names, emails sent to them) to answer a data-access request.
+     * Internal staff notes are left out. Requires `customers.export`.
+     *
+     * @urlParam customer integer required Example: 4
+     *
+     * @response 200 scenario="JSON file download" {"generated_at": "2026-10-11T10:00:00+00:00", "customer": {"name": "Jamie Rivera", "email": "jamie@example.com"}, "tickets": []}
+     */
+    public function export(Request $request, Customer $customer, CustomerDataService $data): StreamedResponse
+    {
+        $this->authorize('export', $customer);
+
+        app(AuditLogger::class)->log('customer.exported', $customer, null, null, $request->user());
+
+        $filename = 'customer-'.$customer->id.'-data-'.now()->format('Ymd').'.json';
+
+        return response()->streamDownload(
+            fn () => print json_encode($data->export($customer), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            $filename,
+            ['Content-Type' => 'application/json'],
+        );
+    }
+
+    /**
+     * Erase a customer's personal data
+     *
+     * **Irreversible.** Anonymizes the customer everywhere their identity is stored (account,
+     * customer record, audit entries, the inbound-email log) and signs them out. With
+     * `redact_content` (the default) it also removes the text of their tickets, every message
+     * and all attachments; with `false` the ticket text is kept for your records and only the
+     * person stops being identifiable. Requires `customers.erase`, and the customer's email
+     * typed back as confirmation.
+     *
+     * @urlParam customer integer required Example: 4
+     *
+     * @bodyParam confirm_email string required The customer's current email address, to confirm this is the right person. Example: jamie@example.com
+     * @bodyParam redact_content boolean Also remove ticket text, messages and attachments. Defaults to true. Example: true
+     *
+     * @response 200 {"success": true, "message": "Customer data erased.", "data": {"tickets": 3, "messages_redacted": 11, "attachments_removed": 2, "redacted_content": true}}
+     * @response 422 {"success": false, "message": "Validation failed.", "errors": {"confirm_email": ["The email does not match this customer."]}}
+     */
+    public function erase(Request $request, Customer $customer, CustomerDataService $data): JsonResponse
+    {
+        $this->authorize('erase', $customer);
+
+        $validated = $request->validate([
+            'confirm_email' => ['required', 'string'],
+            'redact_content' => ['sometimes', 'boolean'],
+        ]);
+
+        if (strtolower(trim($validated['confirm_email'])) !== strtolower((string) $customer->user?->email)) {
+            throw ValidationException::withMessages(['confirm_email' => ['The email does not match this customer.']]);
+        }
+
+        $summary = $data->erase($customer, $request->boolean('redact_content', true), $request->user());
+
+        return $this->success($summary, 'Customer data erased.');
     }
 }

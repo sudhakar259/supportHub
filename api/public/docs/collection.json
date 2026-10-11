@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "SupportHub API Documentation",
-        "_postman_id": "ccc7ec3e-dd7a-4c17-88e8-76882c5e52c6",
+        "_postman_id": "8ce73055-5830-4da9-a56b-6a91d8183059",
         "description": "REST API for SupportHub \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -109,6 +109,62 @@
                             "header": [],
                             "code": 422,
                             "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed.\",\n  \"errors\": {\"email\": [\"The provided credentials are incorrect.\"]}\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 423,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Too many failed sign-in attempts. This account is locked for another 15 minutes.\",\n  \"retry_after_seconds\": 900\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Complete a two-factor sign-in",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/two-factor\/challenge",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/two-factor\/challenge"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"challenge_token\":\"Zk3...\",\"code\":\"123456\",\"recovery_code\":\"ab12c-d34ef\"}"
+                        },
+                        "description": "Second step of `\/auth\/login` for an account that has two-factor authentication\non. Send the `challenge_token` from the login response plus either the 6-digit\ncode from the authenticator app (`code`) or one unused recovery code\n(`recovery_code`). Wrong codes count toward the same lockout as wrong passwords.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Login successful.\", \"data\": {\"user\": {\"id\": 1}, \"token\": \"1|abc...\", \"token_type\": \"Bearer\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Validation failed.\", \"errors\": {\"code\": [\"The code is incorrect or has expired.\"]}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 423,
+                            "body": "{\"success\": false, \"message\": \"Too many failed sign-in attempts. This account is locked for another 15 minutes.\"}",
                             "name": ""
                         }
                     ]
@@ -635,6 +691,98 @@
                     ]
                 },
                 {
+                    "name": "Unlock a user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user_id\/unlock",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/:user_id\/unlock",
+                            "variable": [
+                                {
+                                    "id": "user_id",
+                                    "key": "user_id",
+                                    "value": 1,
+                                    "description": "The ID of the user."
+                                },
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": 5,
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Clears the lockout from too many failed sign-in attempts, so the person can try\nagain straight away. Requires `users.update`."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"User unlocked.\", \"data\": {\"id\": 5}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Reset a user's two-factor authentication",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/users\/:user_id\/two-factor",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/users\/:user_id\/two-factor",
+                            "variable": [
+                                {
+                                    "id": "user_id",
+                                    "key": "user_id",
+                                    "value": 1,
+                                    "description": "The ID of the user."
+                                },
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": 5,
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "For someone who lost their phone and their recovery codes: switches two-factor off\nand signs them out everywhere, so they sign in with their password and can set it\nup again. Requires `users.update`; you cannot reset your own."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Two-factor authentication reset.\", \"data\": {\"id\": 5}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "Login as a user",
                     "request": {
                         "url": {
@@ -1054,6 +1202,107 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"id\": 1, \"company_name\": \"Acme Corp\"}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Export a customer's data",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/customers\/:customer_id\/export",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/customers\/:customer_id\/export",
+                            "variable": [
+                                {
+                                    "id": "customer_id",
+                                    "key": "customer_id",
+                                    "value": 1,
+                                    "description": "The ID of the customer."
+                                },
+                                {
+                                    "id": "customer",
+                                    "key": "customer",
+                                    "value": 4,
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Downloads a JSON copy of everything held about this customer (profile, tickets,\nmessages, attachment names, emails sent to them) to answer a data-access request.\nInternal staff notes are left out. Requires `customers.export`."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"generated_at\": \"2026-10-11T10:00:00+00:00\", \"customer\": {\"name\": \"Jamie Rivera\", \"email\": \"jamie@example.com\"}, \"tickets\": []}",
+                            "name": "JSON file download"
+                        }
+                    ]
+                },
+                {
+                    "name": "Erase a customer's personal data",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/customers\/:customer_id\/erase",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/customers\/:customer_id\/erase",
+                            "variable": [
+                                {
+                                    "id": "customer_id",
+                                    "key": "customer_id",
+                                    "value": 1,
+                                    "description": "The ID of the customer."
+                                },
+                                {
+                                    "id": "customer",
+                                    "key": "customer",
+                                    "value": 4,
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"confirm_email\":\"jamie@example.com\",\"redact_content\":true}"
+                        },
+                        "description": "**Irreversible.** Anonymizes the customer everywhere their identity is stored (account,\ncustomer record, audit entries, the inbound-email log) and signs them out. With\n`redact_content` (the default) it also removes the text of their tickets, every message\nand all attachments; with `false` the ticket text is kept for your records and only the\nperson stops being identifiable. Requires `customers.erase`, and the customer's email\ntyped back as confirmation."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Customer data erased.\", \"data\": {\"tickets\": 3, \"messages_redacted\": 11, \"attachments_removed\": 2, \"redacted_content\": true}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Validation failed.\", \"errors\": {\"confirm_email\": [\"The email does not match this customer.\"]}}",
                             "name": ""
                         }
                     ]
@@ -2867,7 +3116,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":false,\"is_closed\":true,\"sort_order\":37}"
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":true,\"is_closed\":true,\"sort_order\":37}"
                         },
                         "description": ""
                     },
@@ -2986,7 +3235,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Critical\",\"slug\":\"critical\",\"level\":5,\"color\":\"#DC2626\",\"is_default\":true}"
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"critical\",\"level\":5,\"color\":\"#DC2626\",\"is_default\":false}"
                         },
                         "description": ""
                     },
@@ -3069,7 +3318,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":false}"
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":true}"
                         },
                         "description": ""
                     },
@@ -3271,7 +3520,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":false,\"conditions\":[{\"field\":\"priority_id\",\"operator\":\"!=\"}],\"actions\":[{\"type\":\"escalate\"}]}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":false,\"conditions\":[{\"field\":\"category_id\",\"operator\":\"in\"}],\"actions\":[{\"type\":\"escalate\"}]}"
                         },
                         "description": ""
                     },
@@ -3384,7 +3633,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":true,\"is_active\":true}"
+                            "raw": "{\"name\":\"VIP Customer SLA\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":4,\"department_id\":2,\"business_hours_id\":16,\"first_response_minutes\":15,\"resolution_minutes\":120,\"business_hours_only\":false,\"is_default\":true,\"is_active\":false}"
                         },
                         "description": ""
                     },
@@ -3467,7 +3716,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":true,\"is_default\":true,\"is_active\":false}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":false,\"is_default\":false,\"is_active\":false}"
                         },
                         "description": ""
                     },
@@ -3580,7 +3829,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"preferences\":[{\"channel\":\"mail\",\"event_key\":\"architecto\",\"enabled\":true}]}"
+                            "raw": "{\"preferences\":[{\"channel\":\"mail\",\"event_key\":\"architecto\",\"enabled\":false}]}"
                         },
                         "description": "Upserts one or more (channel, event_key) preferences for the\nauthenticated user."
                     },
@@ -3905,7 +4154,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"string\",\"group\":\"n\",\"is_public\":true}]}"
+                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"boolean\",\"group\":\"n\",\"is_public\":true}]}"
                         },
                         "description": ""
                     },
@@ -4518,6 +4767,139 @@
             "description": "",
             "item": [
                 {
+                    "name": "Short-lived, single-use exchange, accepted only at the intended workspace.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/workspace-session",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/workspace-session"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":\"bngzmiyvdljnikhwaykcmyuwpwlvqwrsitcpscqldzsnrwtujwvlxjklqppwqbew\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "9"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-frame-options",
+                                    "value": "DENY"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "content-security-policy",
+                                    "value": "default-src 'none'; frame-ancestors 'none'"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 403,
+                            "body": "{\"success\":false,\"message\":\"Open this sign-in link at your workspace address.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Move an already authenticated session to its workspace without putting a bearer token in a URL.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/workspace-handoff",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/workspace-handoff"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-frame-options",
+                                    "value": "DENY"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "content-security-policy",
+                                    "value": "default-src 'none'; frame-ancestors 'none'"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
                     "name": "POST api\/v1\/billing\/razorpay\/webhook",
                     "request": {
                         "url": {
@@ -4652,6 +5034,92 @@
                             "code": 401,
                             "body": "{\"success\":false,\"message\":\"Invalid signature.\"}",
                             "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Exports",
+            "description": "\nCSV downloads of a workspace's own data, for spreadsheets, backups and moving elsewhere.\nBoth stream row by row, so a large workspace does not run out of memory.",
+            "item": [
+                {
+                    "name": "Export tickets (CSV)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/exports\/tickets",
+                            "query": [
+                                {
+                                    "key": "from",
+                                    "value": "2026-01-01",
+                                    "description": "date Only tickets created on or after this date.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "to",
+                                    "value": "2026-12-31",
+                                    "description": "date Only tickets created on or before this date.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/exports\/tickets?from=2026-01-01&to=2026-12-31"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"from\":\"2026-10-11T07:06:06\",\"to\":\"2026-10-11T07:06:06\"}"
+                        },
+                        "description": "One row per ticket you are allowed to see. Requires `reports.view`."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "ticket_number,subject,status,priority,category,department,assignee,customer_name,customer_email,tags,created_at,first_response_at,resolved_at,closed_at",
+                            "name": "CSV file download"
+                        }
+                    ]
+                },
+                {
+                    "name": "Export customers (CSV)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/exports\/customers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/exports\/customers"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "One row per customer. Requires `customers.view`."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "name,email,phone,company_name,customer_type,external_id,created_at",
+                            "name": "CSV file download"
                         }
                     ]
                 }
@@ -6408,6 +6876,251 @@
                             "header": [],
                             "code": 404,
                             "body": "{\"success\": false, \"message\": \"No organization found for that identifier.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ticket Tags",
+            "description": "\nFree-form labels agents put on tickets (\"vip\", \"refund\", \"bug\") to group and\nfilter them. Staff only: customers can see tags on their tickets' staff views\nnowhere and cannot set them.",
+            "item": [
+                {
+                    "name": "Set a ticket's tags",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tickets\/:ticket_id\/tags",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tickets\/:ticket_id\/tags",
+                            "variable": [
+                                {
+                                    "id": "ticket_id",
+                                    "key": "ticket_id",
+                                    "value": "01m4grbvc2v68162hmf9xr8fgh",
+                                    "description": "The ID of the ticket."
+                                },
+                                {
+                                    "id": "ticket",
+                                    "key": "ticket",
+                                    "value": "01hxyz0123456789abcdefghj",
+                                    "description": "The ticket's id."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"tags\":[\"vip\",\"refund\"]}"
+                        },
+                        "description": "Replaces the ticket's tags with exactly this list. Tags that don't exist yet\nare created. Names are trimmed, lower-cased and de-duplicated."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Tags updated.\", \"data\": [\"vip\", \"refund\"]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List tags",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/ticket-tags",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/ticket-tags"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Every tag in use in the workspace, for autocomplete and filters."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": [{\"name\": \"vip\", \"slug\": \"vip\", \"color\": \"#6B7280\"}]}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Two-factor authentication",
+            "description": "\nLets a signed-in person protect their own account with an authenticator app\n(Google Authenticator, Microsoft Authenticator, 1Password, Authy\u2026). Every step\nasks for the current password again, so a stolen session token alone can't\nswitch protection on or off. Wrong passwords and wrong codes here count toward\nthe same lockout as at sign-in.",
+            "item": [
+                {
+                    "name": "Start two-factor setup",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/two-factor\/setup",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/two-factor\/setup"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"password\":\"Secret123!word\"}"
+                        },
+                        "description": "Returns a new secret and the `otpauth:\/\/` link to show as a QR code. Two-factor is\nnot active yet: call `\/auth\/two-factor\/confirm` with a code from the app first."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Scan the code, then confirm with a code from your app.\", \"data\": {\"secret\": \"JBSWY3DPEHPK3PXP\", \"otpauth_url\": \"otpauth:\/\/totp\/SupportHub:me%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=SupportHub\"}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Two-factor authentication is already on. Turn it off first to set it up again.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Turn two-factor on",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/two-factor\/confirm",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/two-factor\/confirm"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":\"123456\"}"
+                        },
+                        "description": "Confirms setup with the first 6-digit code from the app. Returns the recovery\ncodes **once**; each works a single time if the phone is lost."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Two-factor authentication is on.\", \"data\": {\"recovery_codes\": [\"ab12c-d34ef\", \"gh56i-j78kl\"]}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\"success\": false, \"message\": \"Validation failed.\", \"errors\": {\"code\": [\"The code is incorrect or has expired.\"]}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Turn two-factor off",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/two-factor\/disable",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/two-factor\/disable"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"password\":\"Secret123!word\",\"code\":\"123456\",\"recovery_code\":\"ab12c-d34ef\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Two-factor authentication is off.\", \"data\": null}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get new recovery codes",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/two-factor\/recovery-codes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/two-factor\/recovery-codes"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":\"123456\",\"password\":\"Secret123!word\"}"
+                        },
+                        "description": "Replaces all recovery codes. The old ones stop working."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"New recovery codes created. The old ones no longer work.\", \"data\": {\"recovery_codes\": [\"ab12c-d34ef\"]}}",
                             "name": ""
                         }
                     ]

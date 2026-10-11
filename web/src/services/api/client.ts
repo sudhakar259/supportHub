@@ -1,6 +1,7 @@
 import { ROUTES } from '@/app/router/routes'
 import { env } from '@/app/config/env'
 import { tokenStorage } from '@/services/storage/tokenStorage'
+import { workspaceHeaders } from '@/features/workspaces/workspace'
 import { ApiError } from '@/types/api'
 import type { ApiEnvelope } from '@/types/api'
 import type { Paginated, PaginationMeta } from '@/types/pagination'
@@ -82,6 +83,7 @@ async function request<T>(path: string, options: RequestOptions): Promise<ApiEnv
     method,
     headers: {
       Accept: 'application/json',
+      ...workspaceHeaders(),
       ...(body && !isForm ? { 'Content-Type': 'application/json' } : {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
@@ -146,7 +148,7 @@ export async function apiFetchPage<TRaw, TMapped>(
 export async function apiFetchBlob(url: string): Promise<Blob> {
   const token = tokenStorage.get()
   const response = await fetch(url, {
-    headers: { Accept: '*/*', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    headers: { Accept: '*/*', ...workspaceHeaders(), ...(token ? { Authorization: `Bearer ${token}` } : {}) },
   })
 
   if (response.status === 401) handleUnauthorized()
@@ -163,4 +165,41 @@ export async function apiFetchBlob(url: string): Promise<Blob> {
   }
 
   return response.blob()
+}
+
+/**
+ * Downloads a file the API generates (CSV export, data export) using the signed-in
+ * session, then hands it to the browser as a normal file save. The name comes from the
+ * server's Content-Disposition header when the browser lets us read it.
+ */
+export async function apiDownloadFile(path: string, fallbackName: string, params?: RequestOptions['params']): Promise<void> {
+  const token = tokenStorage.get()
+  const response = await fetch(buildUrl(path, params), {
+    headers: { Accept: '*/*', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  })
+
+  if (response.status === 401) handleUnauthorized()
+
+  if (!response.ok) {
+    let message = `Download failed with status ${response.status}`
+    try {
+      const payload = (await response.json()) as { message?: string }
+      if (payload.message) message = payload.message
+    } catch {
+      /* not JSON — keep the generic message */
+    }
+    throw new ApiError(message, response.status)
+  }
+
+  const disposition = response.headers.get('content-disposition') ?? ''
+  const filename = /filename\*?=(?:UTF-8'')?"?([^";]+)"?/i.exec(disposition)?.[1] ?? fallbackName
+
+  const objectUrl = URL.createObjectURL(await response.blob())
+  const link = document.createElement('a')
+  link.href = objectUrl
+  link.download = decodeURIComponent(filename)
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(objectUrl)
 }

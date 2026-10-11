@@ -50,7 +50,12 @@ return [
     |
     */
 
-    'expiration' => null,
+    // Minutes a sign-in stays valid. Empty = never expires, which is only reasonable for
+    // development: a stolen token would work forever. Production: SANCTUM_TOKEN_EXPIRATION_MINUTES
+    // (e.g. 43200 = 30 days); people simply sign in again when it runs out.
+    'expiration' => env('SANCTUM_TOKEN_EXPIRATION_MINUTES') !== null && env('SANCTUM_TOKEN_EXPIRATION_MINUTES') !== ''
+        ? (int) env('SANCTUM_TOKEN_EXPIRATION_MINUTES')
+        : null,
 
     /*
     |--------------------------------------------------------------------------

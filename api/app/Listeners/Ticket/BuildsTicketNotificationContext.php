@@ -38,7 +38,7 @@ trait BuildsTicketNotificationContext
 
     protected function ticketUrl(Ticket $ticket): string
     {
-        return rtrim(config('app.frontend_url'), '/')."/tickets/{$ticket->id}";
+        return \App\Support\WorkspaceDomains::url($ticket->tenant, "/tickets/{$ticket->id}");
     }
 
     /**

@@ -101,7 +101,7 @@ class CreateTicketAction
                 'ticket_number' => $ticket->ticket_number,
                 'customer_name' => $ticket->customer->user->name,
                 'ticket_subject' => $ticket->subject,
-            ], rtrim(config('app.frontend_url'), '/')."/tickets/{$ticket->id}");
+            ], \App\Support\WorkspaceDomains::url($ticket->tenant, "/tickets/{$ticket->id}"));
         }
 
         return $ticket;

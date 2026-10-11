@@ -4,6 +4,7 @@ import { ErrorState } from '@/components/feedback/ErrorState'
 import { LoadingState } from '@/components/feedback/LoadingState'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { lookupsApi } from '@/features/tickets/api/lookupsApi'
+import { TicketsCsvExport } from '@/features/reports/components/TicketsCsvExport'
 import { reportsApi } from '@/features/reports/api/reportsApi'
 import { CategoryBarList } from '@/features/reports/components/CategoryBarList'
 import { SlaComplianceTiles } from '@/features/reports/components/SlaComplianceTiles'
@@ -90,6 +91,7 @@ export function ReportsPage() {
         breadcrumbs={[{ label: 'Workspace' }, { label: 'Reports' }]}
         title="Reports & Analytics"
         meta={<span className="rounded bg-surface-container px-2 py-0.5 text-code-sm text-secondary">{summary.totalTickets} tickets total</span>}
+        actions={<TicketsCsvExport />}
       />
 
       <div className="flex flex-col gap-space-lg px-gutter-lg">

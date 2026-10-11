@@ -26,7 +26,8 @@ class TicketResource extends JsonResource
             // Files attached to the ticket itself (at creation, or via the ticket-level
             // upload) — not files on a reply, which belong to that message.
             'attachments' => $this->whenLoaded('attachments', fn () => TicketAttachmentResource::collection($this->attachments)),
-            'tags' => $this->whenLoaded('tags', fn () => $this->tags->pluck('name')),
+            // Tags are the team's own working labels, so a customer never sees them.
+            'tags' => $this->when($this->relationLoaded('tags') && ! $request->user()?->isCustomer(), fn () => $this->tags->pluck('name')->sort()->values()),
             'reopened_count' => $this->reopened_count,
             'first_response_at' => $this->first_response_at?->toIso8601String(),
             'resolved_at' => $this->resolved_at?->toIso8601String(),

@@ -6,6 +6,7 @@ export interface User {
   id: number
   name: string
   email: string
+  tenant?: { id: number; name: string; slug: string; workspaceUrl: string } | null
   phone: string | null
   avatarPath: string | null
   timezone: string | null
@@ -16,6 +17,11 @@ export interface User {
   permissions: string[]
   departments: Department[]
   customer: Customer | null
+  /** Only sent for your own account, or to someone who manages users. */
+  twoFactorEnabled?: boolean
+  twoFactorRecoveryCodesRemaining?: number
+  /** Set while the account is locked after too many failed sign-ins (administrators only). */
+  lockedUntil?: string | null
 }
 
 export function hasRole(user: User | null | undefined, role: string): boolean {

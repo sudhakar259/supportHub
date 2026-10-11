@@ -1,0 +1,23 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadOwnSecrets",
+      "Effect": "Allow",
+      "Action": ["ssm:GetParametersByPath", "ssm:GetParameters", "ssm:GetParameter"],
+      "Resource": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/supporthub/prod/*"
+    },
+    {
+      "Sid": "ListAttachmentsBucket",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket", "s3:GetBucketLocation"],
+      "Resource": "arn:aws:s3:::ATTACHMENTS_BUCKET"
+    },
+    {
+      "Sid": "ReadWriteAttachments",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      "Resource": "arn:aws:s3:::ATTACHMENTS_BUCKET/*"
+    }
+  ]
+}

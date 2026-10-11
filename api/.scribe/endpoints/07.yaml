@@ -1,29 +1,25 @@
-name: Categories
+name: Departments
 description: |-
 
-  Ticket categories and subcategories. A "subcategory" is simply another
-  row with parent_id set — see the architecture docs for why this
-  replaces a separate child-categories table.
+  Departments own tickets, staff and category groupings, and are the
+  unit that routing rules and SLA policies can be scoped to.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/categories
+    uri: api/v1/departments
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Departments
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Departments own tickets, staff and category groupings, and are the
+        unit that routing rules and SLA policies can be scoped to.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List categories'
-      description: |-
-        Returns top-level categories with their children eager-loaded.
-        Use filter[parent_id]=null to explicitly list only root categories.
+      title: 'List departments'
+      description: ''
       authenticated: true
       deprecated: false
     headers:
@@ -33,12 +29,23 @@ endpoints:
     urlParameters: []
     cleanUrlParameters: []
     queryParameters:
-      'filter[department_id]':
+      'filter[name]':
         custom: []
-        name: 'filter[department_id]'
-        description: 'Filter by department.'
+        name: 'filter[name]'
+        description: 'Filter by partial name match.'
         required: false
-        example: '2'
+        example: Billing
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[code]':
+        custom: []
+        name: 'filter[code]'
+        description: 'Filter by exact department code.'
+        required: false
+        example: BILL
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -47,7 +54,7 @@ endpoints:
       'filter[is_active]':
         custom: []
         name: 'filter[is_active]'
-        description: 'Filter by active status.'
+        description: 'Filter by active status (true/false).'
         required: false
         example: 'true'
         type: string
@@ -58,18 +65,31 @@ endpoints:
       sort:
         custom: []
         name: sort
-        description: 'Sort by name or sort_order.'
+        description: 'Sort by name, code or created_at. Prefix with - for descending.'
         required: false
-        example: sort_order
+        example: '-created_at'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Items per page (max 100).'
+        required: false
+        example: 25
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
     cleanQueryParameters:
-      'filter[department_id]': '2'
+      'filter[name]': Billing
+      'filter[code]': BILL
       'filter[is_active]': 'true'
-      sort: sort_order
+      sort: '-created_at'
+      per_page: 25
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -77,7 +97,12 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "name": "Billing", "children": []}]}'
+        content: |-
+          {
+            "success": true, "message": "Request successful.",
+            "data": [{"id": 1, "name": "Billing", "code": "BILL", "is_active": true}],
+            "meta": {"current_page": 1, "per_page": 25, "total": 3}
+          }
         headers: []
         description: ''
     responseFields: []
@@ -92,18 +117,17 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/v1/categories
+    uri: api/v1/departments
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Departments
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Departments own tickets, staff and category groupings, and are the
+        unit that routing rules and SLA policies can be scoped to.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create a category'
+      title: 'Create a department'
       description: ''
       authenticated: true
       deprecated: false
@@ -127,46 +151,35 @@ endpoints:
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      slug:
+      code:
         custom: []
-        name: slug
-        description: 'Must not be greater than 255 characters.'
+        name: code
+        description: 'Unique short code used in ticket numbering.'
         required: true
-        example: 'n'
+        example: BILL
         type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
-        deprecated: false
-      parent_id:
-        custom: []
-        name: parent_id
-        description: 'Parent category id, omit for a top-level category.'
-        required: false
-        example: null
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      department_id:
-        custom: []
-        name: department_id
-        description: 'Department this category routes to.'
-        required: false
-        example: 2
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
         deprecated: false
       description:
         custom: []
         name: description
-        description: ''
+        description: 'A short description.'
         required: false
-        example: 'Invoicing and payment questions.'
+        example: 'Invoices, payments and subscriptions.'
         type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      manager_id:
+        custom: []
+        name: manager_id
+        description: 'The user id of the department manager.'
+        required: false
+        example: 3
+        type: integer
         enumValues: []
         exampleWasSpecified: true
         nullable: true
@@ -182,31 +195,18 @@ endpoints:
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      sort_order:
-        custom: []
-        name: sort_order
-        description: 'Defaults to 0.'
-        required: false
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
     cleanBodyParameters:
       name: Billing
-      slug: 'n'
-      parent_id: null
-      department_id: 2
-      description: 'Invoicing and payment questions.'
+      code: BILL
+      description: 'Invoices, payments and subscriptions.'
+      manager_id: 3
       is_active: true
-      sort_order: 1
     fileParameters: []
     responses:
       -
         custom: []
         status: 201
-        content: '{"success": true, "message": "Category created successfully.", "data": {"id": 5, "name": "Billing"}}'
+        content: '{"success": true, "message": "Department created successfully.", "data": {"id": 4, "name": "Billing", "code": "BILL"}}'
         headers: []
         description: ''
     responseFields: []
@@ -221,18 +221,17 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/categories/{id}'
+    uri: 'api/v1/departments/{department_id}'
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Departments
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Departments own tickets, staff and category groupings, and are the
+        unit that routing rules and SLA policies can be scoped to.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get a category'
+      title: 'Get a department'
       description: ''
       authenticated: true
       deprecated: false
@@ -241,10 +240,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      id:
+      department_id:
         custom: []
-        name: id
-        description: 'The ID of the category.'
+        name: department_id
+        description: 'The ID of the department.'
         required: true
         example: 1
         type: integer
@@ -253,7 +252,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      department_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -263,7 +262,13 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Billing"}}'
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Billing", "code": "BILL"}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 404
+        content: '{"success": false, "message": "Department not found."}'
         headers: []
         description: ''
     responseFields: []
@@ -278,19 +283,17 @@ endpoints:
     custom: []
     httpMethods:
       - PUT
-      - PATCH
-    uri: 'api/v1/categories/{id}'
+    uri: 'api/v1/departments/{department_id}'
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Departments
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Departments own tickets, staff and category groupings, and are the
+        unit that routing rules and SLA policies can be scoped to.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update a category'
+      title: 'Update a department'
       description: ''
       authenticated: true
       deprecated: false
@@ -299,10 +302,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      id:
+      department_id:
         custom: []
-        name: id
-        description: 'The ID of the category.'
+        name: department_id
+        description: 'The ID of the department.'
         required: true
         example: 1
         type: integer
@@ -311,7 +314,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      department_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -326,48 +329,37 @@ endpoints:
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      slug:
+      code:
         custom: []
-        name: slug
-        description: 'Must not be greater than 255 characters.'
+        name: code
+        description: ''
         required: false
-        example: 'n'
+        example: BILL
         type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
         nullable: false
-        deprecated: false
-      parent_id:
-        custom: []
-        name: parent_id
-        description: ''
-        required: false
-        example: null
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      department_id:
-        custom: []
-        name: department_id
-        description: ''
-        required: false
-        example: 2
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
         deprecated: false
       description:
         custom: []
         name: description
         description: ''
         required: false
-        example: 'Eius et animi quos velit et.'
+        example: 'Updated description.'
         type: string
         enumValues: []
-        exampleWasSpecified: false
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      manager_id:
+        custom: []
+        name: manager_id
+        description: ''
+        required: false
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
         nullable: true
         deprecated: false
       is_active:
@@ -375,37 +367,24 @@ endpoints:
         name: is_active
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      sort_order:
-        custom: []
-        name: sort_order
-        description: 'Must be at least 0.'
-        required: false
-        example: 60
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
     cleanBodyParameters:
       name: 'Billing & Payments'
-      slug: 'n'
-      parent_id: null
-      department_id: 2
-      description: 'Eius et animi quos velit et.'
-      is_active: true
-      sort_order: 60
+      code: BILL
+      description: 'Updated description.'
+      manager_id: 3
+      is_active: false
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Category updated successfully.", "data": {"id": 1, "name": "Billing & Payments"}}'
+        content: '{"success": true, "message": "Department updated successfully.", "data": {"id": 1, "name": "Billing & Payments"}}'
         headers: []
         description: ''
     responseFields: []
@@ -420,21 +399,20 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/v1/categories/{id}'
+    uri: 'api/v1/departments/{department_id}'
     metadata:
       custom: []
-      groupName: Categories
+      groupName: Departments
       groupDescription: |-
 
-        Ticket categories and subcategories. A "subcategory" is simply another
-        row with parent_id set — see the architecture docs for why this
-        replaces a separate child-categories table.
+        Departments own tickets, staff and category groupings, and are the
+        unit that routing rules and SLA policies can be scoped to.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a category'
+      title: 'Delete a department'
       description: |-
-        Soft-deletes the category and cascades to its subcategories.
-        Tickets already in this category keep their category_id.
+        Soft-deletes the department. Existing tickets keep their
+        department_id for historical reporting.
       authenticated: true
       deprecated: false
     headers:
@@ -442,10 +420,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      id:
+      department_id:
         custom: []
-        name: id
-        description: 'The ID of the category.'
+        name: department_id
+        description: 'The ID of the department.'
         required: true
         example: 1
         type: integer
@@ -454,7 +432,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
+      department_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -464,7 +442,167 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Category deleted successfully.", "data": null}'
+        content: '{"success": true, "message": "Department deleted successfully.", "data": null}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/departments/{department_id}/users'
+    metadata:
+      custom: []
+      groupName: Departments
+      groupDescription: |-
+
+        Departments own tickets, staff and category groupings, and are the
+        unit that routing rules and SLA policies can be scoped to.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Assign a staff member to a department'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      department_id:
+        custom: []
+        name: department_id
+        description: 'The ID of the department.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      department_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      user_id:
+        custom: []
+        name: user_id
+        description: ''
+        required: true
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      is_primary:
+        custom: []
+        name: is_primary
+        description: "Whether this is the agent's primary department."
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      user_id: 5
+      is_primary: true
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "User assigned to department.", "data": {"id": 1, "name": "Billing"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/departments/{department_id}/users/{user_id}'
+    metadata:
+      custom: []
+      groupName: Departments
+      groupDescription: |-
+
+        Departments own tickets, staff and category groupings, and are the
+        unit that routing rules and SLA policies can be scoped to.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Remove a staff member from a department'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      department_id:
+        custom: []
+        name: department_id
+        description: 'The ID of the department.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      user_id:
+        custom: []
+        name: user_id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      user:
+        custom: []
+        name: user
+        description: ''
+        required: true
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      department_id: 1
+      user_id: 1
+      user: 5
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "User removed from department.", "data": null}'
         headers: []
         description: ''
     responseFields: []

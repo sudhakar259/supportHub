@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\TicketAttachmentController;
 use App\Http\Controllers\Api\V1\TicketController;
 use App\Http\Controllers\Api\V1\TicketMessageController;
+use App\Http\Controllers\Api\V1\TicketTagController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'tenant.context'])->prefix('tickets')->name('tickets.')->scopeBindings()->group(function () {
@@ -11,6 +12,8 @@ Route::middleware(['auth:api', 'tenant.context'])->prefix('tickets')->name('tick
     Route::get('/{ticket}', [TicketController::class, 'show'])->name('show');
     Route::put('/{ticket}', [TicketController::class, 'update'])->name('update');
     Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('destroy');
+
+    Route::put('/{ticket}/tags', [TicketTagController::class, 'sync'])->name('tags.sync');
 
     Route::post('/{ticket}/assign', [TicketController::class, 'assign'])->name('assign')->middleware('idempotent');
     Route::post('/{ticket}/reassign', [TicketController::class, 'assign'])->name('reassign')->middleware('idempotent');
@@ -30,3 +33,5 @@ Route::middleware(['auth:api', 'tenant.context'])->prefix('tickets')->name('tick
     Route::get('/{ticket}/attachments/{attachment}/download', [TicketAttachmentController::class, 'download'])->name('attachments.download');
     Route::delete('/{ticket}/attachments/{attachment}', [TicketAttachmentController::class, 'destroy'])->name('attachments.destroy');
 });
+
+Route::middleware(['auth:api', 'tenant.context'])->get('/ticket-tags', [TicketTagController::class, 'index'])->name('ticket-tags.index');

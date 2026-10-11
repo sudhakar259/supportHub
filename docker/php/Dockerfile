@@ -46,21 +46,42 @@ EXPOSE 9000
 CMD ["php-fpm"]
 
 # ---------------------------------------------------------------------------
-# Production target: application code is baked into the image and
-# dependencies are installed with dev packages excluded.
+# Production target: application code is baked into the image, dev packages excluded.
+#
+# Nothing environment-specific is baked in: there is no .env in the image (see
+# .dockerignore) and config is cached when the container STARTS (docker/php/entrypoint.sh),
+# so one image runs unchanged in any environment and secrets never end up in a layer.
 # ---------------------------------------------------------------------------
 FROM base AS production
 
-ENV APP_ENV=production
+ENV APP_ENV=production \
+    PHP_FPM_MAX_CHILDREN=12
+
+# Dependencies first, so this slow layer is reused when only application code changed.
+COPY api/composer.json api/composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --no-interaction --no-progress
 
 COPY api/ /var/www/html/
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan event:cache \
-    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN composer dump-autoload --no-dev --optimize --classmap-authoritative --no-interaction \
+    && php artisan package:discover --ansi \
+    && mkdir -p storage/app storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+COPY docker/php/php.production.ini /usr/local/etc/php/conf.d/zz-production.ini
+COPY docker/php/php-fpm.production.conf /usr/local/etc/php-fpm.d/zz-supporthub.conf
+COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint
 
 EXPOSE 9000
 
+ENTRYPOINT ["entrypoint"]
 CMD ["php-fpm"]
+
+# ---------------------------------------------------------------------------
+# API web server: nginx with the application's public files (index.php, the generated API
+# reference under /docs) copied in from the production image, so the two always match.
+# ---------------------------------------------------------------------------
+FROM nginx:1.27-alpine AS api-nginx
+
+COPY --from=production /var/www/html/public /var/www/html/public
+COPY docker/nginx/api.prod.conf /etc/nginx/conf.d/default.conf

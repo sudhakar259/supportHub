@@ -21,7 +21,7 @@ class RegisterTenantRequest extends FormRequest
             // the slug is how a tenant is addressed before any
             // authenticated identity exists (login/register `tenant`
             // field, GET /tenants/lookup/{slug}).
-            'tenant_slug' => ['required', 'string', 'max:63', 'alpha_dash', Rule::unique('tenants', 'slug')],
+            'tenant_slug' => ['required', 'string', 'max:63', 'regex:/\A[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\z/', Rule::notIn(config('workspaces.reserved')), Rule::unique('tenants', 'slug')],
             'owner_name' => ['required', 'string', 'max:255'],
             'owner_email' => ['required', 'string', 'email', 'max:255'],
             'owner_password' => ['required', 'confirmed', Password::defaults()],

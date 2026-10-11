@@ -1,32 +1,38 @@
-# React + TypeScript + Vite
+# SupportHub web
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React, TypeScript and Vite frontend for the SupportHub Laravel API. Includes the
+public SaaS website, workspace signup and onboarding, customer and staff ticket
+workflows, administration, reports, integrations and billing.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Use Node 20.19+.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm ci
+cp .env.example .env
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Set `VITE_API_URL` to the running Laravel API base URL, including `/api/v1`.
+The example uses Docker's default port `8080`. Public contact and legal
+information use `VITE_SUPPORT_EMAIL` and `VITE_LEGAL_ENTITY`.
+
+Local tenant workspaces use `<tenant-slug>.localhost` on Vite's port. Production
+workspace domains use `VITE_WORKSPACE_DOMAIN` and the matching API
+`WORKSPACE_DOMAIN`; see [workspace domain setup](../docs/workspace-domains.md)
+for wildcard DNS, HTTPS and authentication details.
+
+## Check and build
+
+```bash
+npm test
+npm run build
+```
+
+Deploy `dist/` with SPA history fallback to `index.html`. Page modules load on
+demand, while existing route guards protect the authenticated application.
+
+See [the public-site guide](../docs/public-site.md) for visitor routes, the
+interactive tour, pricing, signup and hosting configuration, and
+[deployment instructions](../docs/deployment.md) for the backend.

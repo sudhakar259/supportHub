@@ -9,6 +9,7 @@ export interface RawUser {
   id: number
   name: string
   email: string
+  tenant?: { id: number; name: string; slug: string; workspace_url: string } | null
   phone: string | null
   avatar_path: string | null
   timezone: string | null
@@ -19,6 +20,9 @@ export interface RawUser {
   permissions?: string[]
   departments?: RawDepartment[]
   customer?: RawCustomer | null
+  two_factor_enabled?: boolean
+  two_factor_recovery_codes_remaining?: number
+  locked_until?: string | null
 }
 
 export interface RawDepartment {
@@ -46,6 +50,7 @@ export function mapUser(raw: RawUser): User {
     id: raw.id,
     name: raw.name,
     email: raw.email,
+    tenant: raw.tenant ? { id: raw.tenant.id, name: raw.tenant.name, slug: raw.tenant.slug, workspaceUrl: raw.tenant.workspace_url } : null,
     phone: raw.phone,
     avatarPath: raw.avatar_path,
     timezone: raw.timezone,
@@ -56,6 +61,9 @@ export function mapUser(raw: RawUser): User {
     permissions: raw.permissions ?? [],
     departments: (raw.departments ?? []).map(mapDepartment),
     customer: raw.customer ? mapCustomer(raw.customer) : null,
+    twoFactorEnabled: raw.two_factor_enabled,
+    twoFactorRecoveryCodesRemaining: raw.two_factor_recovery_codes_remaining,
+    lockedUntil: raw.locked_until,
   }
 }
 

@@ -7,6 +7,7 @@ use App\Http\Middleware\RequireApiScope;
 use App\Http\Middleware\RequirePlatformAdmin;
 use App\Http\Middleware\ResolveIntegrationTenantContext;
 use App\Http\Middleware\ResolveTenantContext;
+use App\Http\Middleware\ResolveWorkspace;
 use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -34,6 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->api(prepend: [
             SecurityHeaders::class,
             ForceJsonResponse::class,
+            ResolveWorkspace::class,
         ]);
 
         $middleware->throttleApi();

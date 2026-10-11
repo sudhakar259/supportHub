@@ -1,300 +1,276 @@
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { ROUTES } from '@/app/router/routes'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { Icon } from '@/components/ui/Icon'
-import { useAuth } from '@/features/auth/hooks/useAuth'
+import { DemoWorkspace } from '@/features/landing/components/DemoWorkspace'
 import { FaqList } from '@/features/landing/components/FaqList'
-import type { FaqItem } from '@/features/landing/components/FaqList'
-import { isPlatformAdmin } from '@/types/user'
-
-const FEATURES = [
-  {
-    icon: 'confirmation_number',
-    title: 'Ticket management',
-    description: 'Create, assign, reply to, escalate, resolve and reopen tickets, with a full history of every status change and assignment.',
-  },
-  {
-    icon: 'alt_route',
-    title: 'Routing rules',
-    description: 'Send new tickets to the right department or agent automatically, based on keywords and other conditions you define.',
-  },
-  {
-    icon: 'timer',
-    title: 'SLA tracking',
-    description: 'Set first-response and resolution targets per priority and see at a glance which tickets are about to breach.',
-  },
-  {
-    icon: 'groups',
-    title: 'Departments and roles',
-    description: 'Organize agents into departments and control exactly who can see, assign, close or configure what with role-based permissions.',
-  },
-  {
-    icon: 'attach_file',
-    title: 'Attachments and replies',
-    description: 'Customers and agents reply in the same thread and attach screenshots and documents. Internal notes stay hidden from customers.',
-  },
-  {
-    icon: 'notifications_active',
-    title: 'Email notifications',
-    description: 'Customers and agents are emailed when tickets are created, assigned, answered or resolved, with templates you can edit.',
-  },
-  {
-    icon: 'monitoring',
-    title: 'Reports and audit log',
-    description: 'Follow ticket volume, SLA compliance and agent performance, and keep a record of who changed what for accountability.',
-  },
-  {
-    icon: 'api',
-    title: 'API and webhooks',
-    description: 'Create tickets from your own website or CRM with an API key, and get signed webhook calls when tickets change.',
-  },
-]
-
-const STEPS = [
-  {
-    title: 'Create your workspace',
-    description: 'Sign up, name your organization and pick a plan. The free Starter plan needs no payment details, and paid plans start with a 14-day trial.',
-  },
-  {
-    title: 'Set up your team',
-    description: 'Add agents, group them into departments, choose priorities and categories, and add routing rules so tickets reach the right people.',
-  },
-  {
-    title: 'Connect your customers',
-    description: 'Let customers write in through your own site using the API, or give them accounts to follow their tickets and reply.',
-  },
-]
-
-const SECURITY = [
-  { icon: 'lock', text: 'Every organization’s tickets, customers and settings are kept separate from every other organization’s.' },
-  { icon: 'admin_panel_settings', text: 'Role-based permissions limit what each person can see and do. Internal notes never reach customers.' },
-  { icon: 'key', text: 'API secrets are stored hashed and shown once. Credentials carry scopes, so an integration can do only what you allow.' },
-  { icon: 'verified', text: 'Webhook deliveries are signed so your server can confirm they came from SupportHub.' },
-  { icon: 'history', text: 'An audit log records sensitive actions, including when an administrator signs in as another user.' },
-]
-
-const FAQ: FaqItem[] = [
-  {
-    question: 'Is there a free plan?',
-    answer: 'Yes. The Starter plan is free, with limits on users, customers and monthly tickets. Paid plans raise those limits and start with a 14-day trial.',
-  },
-  {
-    question: 'Can I use SupportHub from my own website?',
-    answer: 'Yes. Create an API credential, then your website’s server can look up customers, open tickets, post replies with attachments, read the conversation and reopen tickets. Webhooks tell your site when an agent replies.',
-  },
-  {
-    question: 'Is my data separate from other organizations?',
-    answer: 'Yes. Each organization is its own workspace. People, tickets, settings and API credentials in one workspace are never visible from another.',
-  },
-  {
-    question: 'What files can customers attach?',
-    answer: 'Images (JPG, PNG, WebP), text files, PDFs, Word documents (DOCX) and PowerPoint files (PPT, PPTX), up to 2 MB each and 5 per message.',
-  },
-  {
-    question: 'Can an administrator see what a team member sees?',
-    answer: 'Administrators can sign in as an agent or customer in their organization to reproduce a problem. Every use is written to the audit log and the session expires automatically.',
-  },
-  {
-    question: 'What happens if I outgrow a plan?',
-    answer: 'You can change plans from the billing page. When you reach a limit, creating more of that item is blocked with a message naming the limit, and your existing data stays as it is.',
-  },
-]
-
-const API_EXAMPLE = `curl -X POST https://your-supporthub/api/v1/integration/tickets \\
-  -H "X-Api-Key: ak_..." -H "X-Api-Secret: as_..." \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "subject": "Checkout is down",
-    "description": "Customers cannot pay.",
-    "customer_email": "jamie@example.com",
-    "priority_id": 3
-  }'`
+import { PublicCta } from '@/features/landing/components/PublicCta'
+import { HOME_FAQ, PRODUCT_FEATURES, SOLUTIONS } from '@/features/landing/content'
 
 export function LandingPage() {
-  const { user } = useAuth()
-
-  if (user) {
-    return <Navigate to={isPlatformAdmin(user) ? ROUTES.platformDashboard : ROUTES.dashboard} replace />
-  }
-
   return (
     <PublicLayout>
-      {/* Hero */}
-      <section className="bg-surface">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-space-xl px-margin-mobile py-space-xl sm:px-margin lg:grid-cols-2 lg:py-24">
-          <div className="flex flex-col gap-space-lg">
-            <span className="w-fit rounded-full bg-secondary-container px-space-md py-space-xs text-label-sm uppercase tracking-wider text-on-secondary-container">
-              Help desk for multi-organization support
+      <section className="marketing-hero">
+        <div className="marketing-container marketing-hero-grid">
+          <div className="marketing-hero-copy">
+            <span className="marketing-eyebrow">
+              <span className="marketing-live-dot" /> YOUR TEAM’S NEXT CHAPTER IN SUPPORT
             </span>
-            <h1 className="text-display-lg tracking-tight text-on-surface">Support your customers without losing track of any of them</h1>
-            <p className="text-body-lg text-on-surface-variant">
-              SupportHub gives every organization its own tickets, team, customers and integrations in one place, so answers
-              reach customers faster and nothing gets lost between agents.
+            <h1>
+              Great support.
+              <br />
+              Less <span>chasing.</span>
+            </h1>
+            <p>
+              Bring every ticket, conversation and teammate together. SupportHub helps you stay on top of requests and
+              give your customers the attention they deserve.
             </p>
-            <div className="flex flex-wrap items-center gap-space-md">
-              <Link
-                to={ROUTES.register}
-                className="inline-flex h-12 items-center rounded-lg bg-primary px-space-xl text-title-sm font-semibold text-on-primary shadow-sm transition-colors hover:bg-primary-container"
-              >
-                Start free trial
+            <div className="marketing-actions">
+              <Link to={ROUTES.register} className="marketing-button">
+                Start free trial <Icon name="arrow_forward" size={19} />
               </Link>
-              <Link
-                to={ROUTES.pricing}
-                className="inline-flex h-12 items-center rounded-lg bg-surface-container-low px-space-xl text-title-sm font-semibold text-on-surface transition-colors hover:bg-surface-container"
-              >
-                See pricing
+              <Link to={ROUTES.demo} className="marketing-button marketing-button-outline">
+                <Icon name="play_circle" size={21} />
+                Take a product tour
               </Link>
             </div>
-            <p className="text-body-sm text-on-surface-variant">Free Starter plan available. No payment details needed to begin.</p>
+            <div className="marketing-hero-reassurance">
+              <span>
+                <Icon name="check" size={16} />
+                Free Starter plan
+              </span>
+              <span>
+                <Icon name="check" size={16} />
+                No card needed to begin
+              </span>
+            </div>
           </div>
-
-          {/* A drawn preview of the ticket queue, not a screenshot. */}
-          <div aria-hidden="true" className="rounded-2xl bg-surface-container-low p-space-lg shadow-sm">
-            <div className="flex flex-col gap-space-sm rounded-xl bg-surface-container-lowest p-space-md shadow-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-title-sm font-semibold">Open tickets</span>
-                <span className="rounded bg-surface-container px-2 py-0.5 text-code-sm text-secondary">3 need a reply</span>
+          <div className="marketing-hero-visual">
+            <div className="marketing-visual-caption">
+              <span /> A PLACE FOR EVERY CONVERSATION
+            </div>
+            <DemoWorkspace compact />
+            <div className="marketing-sla-note">
+              <span>
+                <Icon name="check_circle" size={24} />
+              </span>
+              <div>
+                A clear next step.<small>Assigned. Prioritized. Ready to help.</small>
               </div>
-              {[
-                { n: 'TKT-1042', s: 'Checkout is down', p: 'Urgent', c: 'bg-error', who: 'Billing' },
-                { n: 'TKT-1041', s: 'Cannot reset my password', p: 'High', c: 'bg-primary-container', who: 'Accounts' },
-                { n: 'TKT-1039', s: 'Invoice question for October', p: 'Medium', c: 'bg-tertiary', who: 'Billing' },
-              ].map((t) => (
-                <div key={t.n} className="flex items-center gap-space-md rounded-lg bg-surface-container-low p-space-md">
-                  <span className={`h-8 w-1.5 rounded-full ${t.c}`} />
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="truncate text-title-sm font-semibold">{t.s}</span>
-                    <span className="text-code-sm text-secondary">
-                      {t.n} · {t.who}
-                    </span>
-                  </div>
-                  <span className="rounded-full bg-surface-container-high px-2 py-0.5 text-[11px] font-bold">{t.p}</span>
-                </div>
-              ))}
             </div>
           </div>
         </div>
       </section>
-
-      {/* Features */}
-      <section id="features" className="scroll-mt-16 bg-surface-container-low">
-        <div className="mx-auto w-full max-w-6xl px-margin-mobile py-space-xl sm:px-margin lg:py-20">
-          <div className="mx-auto mb-space-xl max-w-2xl text-center">
-            <h2 className="text-headline-lg text-on-surface">Everything a support team needs</h2>
-            <p className="mt-space-sm text-body-lg text-on-surface-variant">From the first message to the final resolution, in one workspace.</p>
-          </div>
-          <div className="grid gap-gutter-lg sm:grid-cols-2 lg:grid-cols-4">
-            {FEATURES.map((feature) => (
-              <div key={feature.title} className="flex flex-col gap-space-sm rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-fixed text-primary">
-                  <Icon name={feature.icon} size={22} />
-                </span>
-                <h3 className="text-title-md font-semibold">{feature.title}</h3>
-                <p className="text-body-sm text-on-surface-variant">{feature.description}</p>
-              </div>
+      <section className="marketing-capabilities" aria-label="Product capabilities">
+        <div className="marketing-container">
+          <span>From “can you help?” to “all sorted.”</span>
+          <div>
+            {[
+              { icon: 'inbox', label: 'Shared ticketing' },
+              { icon: 'alt_route', label: 'Smart routing' },
+              { icon: 'timer', label: 'SLA tracking' },
+              { icon: 'data_object', label: 'Connected workflows' },
+            ].map((item) => (
+              <span key={item.label}>
+                <Icon name={item.icon} size={23} />
+                {item.label}
+              </span>
             ))}
           </div>
         </div>
       </section>
-
-      {/* How it works */}
-      <section id="how-it-works" className="scroll-mt-16 bg-surface">
-        <div className="mx-auto w-full max-w-6xl px-margin-mobile py-space-xl sm:px-margin lg:py-20">
-          <div className="mx-auto mb-space-xl max-w-2xl text-center">
-            <h2 className="text-headline-lg text-on-surface">Up and running in three steps</h2>
+      <section id="features" className="marketing-section">
+        <div className="marketing-container">
+          <div className="marketing-section-heading">
+            <div>
+              <span className="marketing-eyebrow">A HELP DESK THAT KEEPS UP</span>
+              <h2>
+                Everything a support team needs.
+                <br />
+                <span>Exactly where it belongs.</span>
+              </h2>
+            </div>
+            <Link to={ROUTES.features} className="marketing-text-link">
+              Explore all features <Icon name="arrow_forward" size={18} />
+            </Link>
           </div>
-          <ol className="grid gap-gutter-lg md:grid-cols-3">
-            {STEPS.map((step, index) => (
-              <li key={step.title} className="flex flex-col gap-space-sm rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-title-sm font-bold text-on-primary">{index + 1}</span>
-                <h3 className="text-title-md font-semibold">{step.title}</h3>
-                <p className="text-body-sm text-on-surface-variant">{step.description}</p>
+          <div className="marketing-feature-grid">
+            {PRODUCT_FEATURES.map((feature, index) => (
+              <Link key={feature.id} to={`${ROUTES.features}#${feature.id}`} className="marketing-feature-card">
+                <span className={`marketing-feature-icon marketing-color-${index % 3}`}>
+                  <Icon name={feature.icon} size={25} />
+                </span>
+                <h3>{feature.label}</h3>
+                <p>{feature.description}</p>
+                <span className="marketing-card-link">
+                  Learn more <Icon name="north_east" size={17} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="how-it-works" className="marketing-section marketing-workflow-section">
+        <div className="marketing-container">
+          <div className="marketing-section-heading marketing-heading-centered">
+            <span className="marketing-eyebrow">FROM REQUEST TO RESOLUTION</span>
+            <h2>A better flow for your whole team.</h2>
+            <p>Clear ownership. Useful context. A customer who knows what’s happening.</p>
+          </div>
+          <ol className="marketing-steps">
+            {[
+              {
+                icon: 'add_business',
+                title: 'Make it your workspace',
+                description:
+                  'Create your organization, choose a plan and configure your team, departments and ticket preferences.',
+              },
+              {
+                icon: 'forward_to_inbox',
+                title: 'Bring requests together',
+                description:
+                  'Connect inbound email, create tickets in your workspace or bring requests in from your own app with the API.',
+              },
+              {
+                icon: 'task_alt',
+                title: 'Keep support moving',
+                description:
+                  'Route work to the right agent, track SLA deadlines and reply with the full customer story in front of you.',
+              },
+            ].map((step, index) => (
+              <li key={step.title}>
+                <div className="marketing-step-top">
+                  <span>
+                    <Icon name={step.icon} size={29} />
+                  </span>
+                  <b>0{index + 1}</b>
+                </div>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
               </li>
             ))}
           </ol>
         </div>
       </section>
-
-      {/* Connect your website */}
-      <section className="bg-inverse-surface text-inverse-on-surface">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-space-xl px-margin-mobile py-space-xl sm:px-margin lg:grid-cols-2 lg:py-20">
-          <div className="flex flex-col gap-space-md">
-            <h2 className="text-headline-lg">Open tickets from your own website</h2>
-            <p className="text-body-lg text-inverse-on-surface/80">
-              Keep your customers on your site. Your server talks to SupportHub with an API key and secret to create tickets,
-              attach files, read the conversation, and reopen tickets when a problem comes back.
+      <section className="marketing-section marketing-integrations">
+        <div className="marketing-container marketing-split">
+          <div>
+            <span className="marketing-eyebrow">SUPPORT THAT FITS YOUR STACK</span>
+            <h2>
+              Your product.
+              <br />
+              Your customers.
+              <br />
+              <span>One connected conversation.</span>
+            </h2>
+            <p>
+              Keep your customers on your website while your team works in SupportHub. Create tickets and send replies
+              through the API, then keep your app updated with signed webhooks.
             </p>
-            <ul className="flex flex-col gap-space-xs text-body-md">
-              {['Choose the department and priority per ticket', 'Safe retries with idempotency keys', 'Signed webhooks when an agent replies'].map((line) => (
-                <li key={line} className="flex items-center gap-space-sm">
-                  <Icon name="check_circle" size={18} filled className="text-tertiary-fixed-dim" />
-                  {line}
-                </li>
-              ))}
-            </ul>
+            <Link to={`${ROUTES.features}#integrations`} className="marketing-text-link">
+              See how it connects <Icon name="arrow_forward" size={18} />
+            </Link>
           </div>
-          <pre className="overflow-x-auto rounded-xl bg-on-background/60 p-space-lg text-code-sm leading-relaxed text-inverse-on-surface">
-            <code>{API_EXAMPLE}</code>
-          </pre>
+          <div className="marketing-integration-map">
+            <div className="marketing-integration-node">
+              <Icon name="language" size={25} />
+              <span>
+                Your website or app<small>Customer sends a request</small>
+              </span>
+            </div>
+            <div className="marketing-connector">
+              <span />
+              Scoped API credentials
+              <span />
+            </div>
+            <div className="marketing-integration-node marketing-integration-hub">
+              <Icon name="support_agent" size={28} />
+              <span>
+                SupportHub<small>Your team picks up the conversation</small>
+              </span>
+              <span className="marketing-hub-badge">Ticket created</span>
+            </div>
+            <div className="marketing-connector">
+              <span />
+              Signed ticket events
+              <span />
+            </div>
+            <div className="marketing-integration-node">
+              <Icon name="webhook" size={25} />
+              <span>
+                Your connected systems<small>Stay up to date with webhooks</small>
+              </span>
+            </div>
+            <p>Illustrative integration workflow</p>
+          </div>
         </div>
       </section>
-
-      {/* Security */}
-      <section className="bg-surface">
-        <div className="mx-auto w-full max-w-6xl px-margin-mobile py-space-xl sm:px-margin lg:py-20">
-          <div className="mx-auto mb-space-xl max-w-2xl text-center">
-            <h2 className="text-headline-lg text-on-surface">Built to keep each organization’s data its own</h2>
+      <section className="marketing-section">
+        <div className="marketing-container">
+          <div className="marketing-section-heading">
+            <div>
+              <span className="marketing-eyebrow">DIFFERENT TEAMS. THE SAME CARE.</span>
+              <h2>Make it work for your kind of support.</h2>
+            </div>
+            <Link to={ROUTES.solutions} className="marketing-text-link">
+              Find your fit <Icon name="arrow_forward" size={18} />
+            </Link>
           </div>
-          <ul className="mx-auto grid max-w-4xl gap-space-md sm:grid-cols-2">
-            {SECURITY.map((item) => (
-              <li key={item.text} className="flex items-start gap-space-md rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
-                <Icon name={item.icon} size={22} className="mt-0.5 shrink-0 text-tertiary" />
-                <span className="text-body-md text-on-surface">{item.text}</span>
-              </li>
+          <div className="marketing-solutions-grid">
+            {SOLUTIONS.map((solution, index) => (
+              <Link
+                to={`${ROUTES.solutions}#solution-${index}`}
+                className="marketing-solution-card"
+                key={solution.title}
+              >
+                <Icon name={solution.icon} size={29} />
+                <h3>{solution.title}</h3>
+                <p>{solution.description}</p>
+                <span className="marketing-card-link">
+                  Explore the workflow <Icon name="arrow_forward" size={17} />
+                </span>
+              </Link>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
-
-      {/* Pricing teaser */}
-      <section className="bg-surface-container-low">
-        <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-space-md px-margin-mobile py-space-xl text-center sm:px-margin lg:py-16">
-          <h2 className="text-headline-lg text-on-surface">Start free, pay when you grow</h2>
-          <p className="max-w-2xl text-body-lg text-on-surface-variant">
-            The Starter plan is free. Professional and Business raise the limits on team size, customers, tickets and API use,
-            and Enterprise removes them.
+      <section className="marketing-security-strip">
+        <div className="marketing-container">
+          <div>
+            <Icon name="shield" size={37} />
+            <h2>
+              Your workspace.
+              <br />
+              Your team’s boundaries.
+            </h2>
+          </div>
+          <p>
+            Organization-level data separation, role-based permissions, private notes and an audit trail help keep
+            customer information in the right hands.
           </p>
-          <Link
-            to={ROUTES.pricing}
-            className="inline-flex h-11 items-center rounded-lg bg-surface-container-lowest px-space-lg text-title-sm font-semibold text-primary shadow-sm transition-colors hover:bg-surface-container-high"
-          >
-            Compare plans
+          <Link to={`${ROUTES.features}#workspace`} className="marketing-text-link">
+            Built-in controls <Icon name="arrow_forward" size={18} />
           </Link>
         </div>
       </section>
-
-      {/* FAQ */}
-      <section className="bg-surface">
-        <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-space-xl px-margin-mobile py-space-xl sm:px-margin lg:py-20">
-          <h2 className="text-headline-lg text-on-surface">Frequently asked questions</h2>
-          <FaqList items={FAQ} />
+      <section className="marketing-section">
+        <div className="marketing-container marketing-faq-section">
+          <div>
+            <span className="marketing-eyebrow">A FEW THINGS YOU MIGHT BE WONDERING</span>
+            <h2>
+              Frequently
+              <br /> asked questions.
+            </h2>
+            <p>Get to know SupportHub before you get started.</p>
+            <Link to={ROUTES.pricing} className="marketing-text-link">
+              Compare plans <Icon name="arrow_forward" size={18} />
+            </Link>
+          </div>
+          <FaqList items={HOME_FAQ} />
         </div>
       </section>
-
-      {/* Final call to action */}
-      <section className="bg-primary text-on-primary">
-        <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-space-md px-margin-mobile py-space-xl text-center sm:px-margin lg:py-16">
-          <h2 className="text-headline-lg">Ready to give your customers faster answers?</h2>
-          <p className="text-body-lg text-on-primary/90">Create your workspace in a few minutes.</p>
-          <Link
-            to={ROUTES.register}
-            className="inline-flex h-12 items-center rounded-lg bg-surface-container-lowest px-space-xl text-title-sm font-semibold text-primary shadow-sm transition-colors hover:bg-surface-container-high"
-          >
-            Start free trial
-          </Link>
-        </div>
-      </section>
+      <PublicCta />
     </PublicLayout>
   )
 }

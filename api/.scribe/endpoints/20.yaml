@@ -1,43 +1,92 @@
-name: 'Integration API — Customers'
+name: 'Audit Logs'
 description: |-
 
-  Authenticated via X-Api-Key / X-Api-Secret headers (see
-  ResolveIntegrationTenantContext), not a Sanctum session — for a
-  tenant's own backend, CRM or chat widget to keep its customer
-  records in sync with this helpdesk. Every endpoint here is scoped to
-  the credential's own tenant; there is no cross-tenant visibility no
-  matter what id is requested.
+  System-wide, read-only audit trail. Distinct from a ticket's own
+  activity feed (GET /tickets/{ticket}/activities) — this covers every
+  auditable action across the whole application for compliance review:
+  login, ticket create/assign/status-change, customer/user creation,
+  role changes, API credential and webhook lifecycle events, and
+  platform-admin tenant actions. There is currently no billing-change
+  endpoint for a platform admin to alter an existing tenant's
+  subscription/plan, so that action from section 42 has nothing to log
+  yet.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/integration/customers
+    uri: api/v1/audit-logs
     metadata:
       custom: []
-      groupName: 'Integration API — Customers'
+      groupName: 'Audit Logs'
       groupDescription: |-
 
-        Authenticated via X-Api-Key / X-Api-Secret headers (see
-        ResolveIntegrationTenantContext), not a Sanctum session — for a
-        tenant's own backend, CRM or chat widget to keep its customer
-        records in sync with this helpdesk. Every endpoint here is scoped to
-        the credential's own tenant; there is no cross-tenant visibility no
-        matter what id is requested.
+        System-wide, read-only audit trail. Distinct from a ticket's own
+        activity feed (GET /tickets/{ticket}/activities) — this covers every
+        auditable action across the whole application for compliance review:
+        login, ticket create/assign/status-change, customer/user creation,
+        role changes, API credential and webhook lifecycle events, and
+        platform-admin tenant actions. There is currently no billing-change
+        endpoint for a platform admin to alter an existing tenant's
+        subscription/plan, so that action from section 42 has nothing to log
+        yet.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List customers'
+      title: 'List audit log entries'
       description: ''
-      authenticated: false
+      authenticated: true
       deprecated: false
     headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
     queryParameters:
+      'filter[action]':
+        custom: []
+        name: 'filter[action]'
+        description: 'Exact action name.'
+        required: false
+        example: ticket.status_changed
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[actor_id]':
+        custom: []
+        name: 'filter[actor_id]'
+        description: ''
+        required: false
+        example: '2'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[auditable_type]':
+        custom: []
+        name: 'filter[auditable_type]'
+        description: 'Exact model class, e.g. App\\Models\\Ticket.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      sort:
+        custom: []
+        name: sort
+        description: 'Sort by created_at.'
+        required: false
+        example: '-created_at'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
       per_page:
         custom: []
         name: per_page
@@ -50,6 +99,10 @@ endpoints:
         nullable: false
         deprecated: false
     cleanQueryParameters:
+      'filter[action]': ticket.status_changed
+      'filter[actor_id]': '2'
+      'filter[auditable_type]': architecto
+      sort: '-created_at'
       per_page: 25
     bodyParameters: []
     cleanBodyParameters: []
@@ -58,408 +111,14 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": [{"id": 4, "external_id": "CRM-001", "company_name": "Acme Corp"}]}'
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 1, "action": "ticket.created"}]}'
         headers: []
         description: ''
     responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: api/v1/integration/customers/lookup
-    metadata:
-      custom: []
-      groupName: 'Integration API — Customers'
-      groupDescription: |-
-
-        Authenticated via X-Api-Key / X-Api-Secret headers (see
-        ResolveIntegrationTenantContext), not a Sanctum session — for a
-        tenant's own backend, CRM or chat widget to keep its customer
-        records in sync with this helpdesk. Every endpoint here is scoped to
-        the credential's own tenant; there is no cross-tenant visibility no
-        matter what id is requested.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Look up a customer by email or external id'
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters:
-      email:
-        custom: []
-        name: email
-        description: ''
-        required: false
-        example: jamie@example.com
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      external_id:
-        custom: []
-        name: external_id
-        description: ''
-        required: false
-        example: CRM-001
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanQueryParameters:
-      email: jamie@example.com
-      external_id: CRM-001
-    bodyParameters:
-      email:
-        custom: []
-        name: email
-        description: 'This field is required when <code>external_id</code> is not present. Must be a valid email address.'
-        required: false
-        example: gbailey@example.net
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-      external_id:
-        custom: []
-        name: external_id
-        description: 'This field is required when <code>email</code> is not present.'
-        required: false
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      email: gbailey@example.net
-      external_id: architecto
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 4, "external_id": "CRM-001"}}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 404
-        content: '{"success": false, "message": "No matching customer found."}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - GET
-    uri: 'api/v1/integration/customers/{customer_id}'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Customers'
-      groupDescription: |-
-
-        Authenticated via X-Api-Key / X-Api-Secret headers (see
-        ResolveIntegrationTenantContext), not a Sanctum session — for a
-        tenant's own backend, CRM or chat widget to keep its customer
-        records in sync with this helpdesk. Every endpoint here is scoped to
-        the credential's own tenant; there is no cross-tenant visibility no
-        matter what id is requested.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Get a customer'
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      customer_id:
-        custom: []
-        name: customer_id
-        description: 'The ID of the customer.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      customer_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 4, "external_id": "CRM-001"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - POST
-    uri: api/v1/integration/customers
-    metadata:
-      custom: []
-      groupName: 'Integration API — Customers'
-      groupDescription: |-
-
-        Authenticated via X-Api-Key / X-Api-Secret headers (see
-        ResolveIntegrationTenantContext), not a Sanctum session — for a
-        tenant's own backend, CRM or chat widget to keep its customer
-        records in sync with this helpdesk. Every endpoint here is scoped to
-        the credential's own tenant; there is no cross-tenant visibility no
-        matter what id is requested.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Create a customer'
-      description: |-
-        No password is set — this customer can request one later via
-        POST /auth/forgot-password if they ever need direct portal
-        access; most integration-created customers never do.
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        custom: []
-        name: name
-        description: ''
-        required: true
-        example: 'Jamie Rivera'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      email:
-        custom: []
-        name: email
-        description: 'Unique within this tenant.'
-        required: true
-        example: jamie@example.com
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      phone:
-        custom: []
-        name: phone
-        description: ''
-        required: false
-        example: +1-555-0100
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      send_invite:
-        custom: []
-        name: send_invite
-        description: 'Email the customer a link to set their own password so they can sign in to follow their tickets. Defaults to false.'
-        required: false
-        example: true
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      company_name:
-        custom: []
-        name: company_name
-        description: ''
-        required: false
-        example: 'Acme Corp'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      customer_type:
-        custom: []
-        name: customer_type
-        description: 'individual, business or vip. Defaults to individual.'
-        required: false
-        example: business
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      external_id:
-        custom: []
-        name: external_id
-        description: "This tenant's own identifier for the customer."
-        required: false
-        example: CRM-001
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-    cleanBodyParameters:
-      name: 'Jamie Rivera'
-      email: jamie@example.com
-      phone: +1-555-0100
-      send_invite: true
-      company_name: 'Acme Corp'
-      customer_type: business
-      external_id: CRM-001
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 201
-        content: '{"success": true, "message": "Customer created successfully.", "data": {"id": 4, "external_id": "CRM-001"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - PUT
-    uri: 'api/v1/integration/customers/{customer_id}'
-    metadata:
-      custom: []
-      groupName: 'Integration API — Customers'
-      groupDescription: |-
-
-        Authenticated via X-Api-Key / X-Api-Secret headers (see
-        ResolveIntegrationTenantContext), not a Sanctum session — for a
-        tenant's own backend, CRM or chat widget to keep its customer
-        records in sync with this helpdesk. Every endpoint here is scoped to
-        the credential's own tenant; there is no cross-tenant visibility no
-        matter what id is requested.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Update a customer'
-      description: ''
-      authenticated: false
-      deprecated: false
-    headers:
-      X-Api-Key: ak_abcdef1234567890abcdef1234567890
-      X-Api-Secret: as_abcdef1234567890abcdef1234567890abcdef12345678
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      customer_id:
-        custom: []
-        name: customer_id
-        description: 'The ID of the customer.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      customer_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      phone:
-        custom: []
-        name: phone
-        description: ''
-        required: false
-        example: +1-555-0199
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      company_name:
-        custom: []
-        name: company_name
-        description: ''
-        required: false
-        example: 'Acme Corporation'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-      customer_type:
-        custom: []
-        name: customer_type
-        description: ''
-        required: false
-        example: vip
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      external_id:
-        custom: []
-        name: external_id
-        description: ''
-        required: false
-        example: CRM-002
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        deprecated: false
-    cleanBodyParameters:
-      phone: +1-555-0199
-      company_name: 'Acme Corporation'
-      customer_type: vip
-      external_id: CRM-002
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "Customer updated successfully.", "data": {"id": 4, "external_id": "CRM-002"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null

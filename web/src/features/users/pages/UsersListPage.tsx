@@ -40,6 +40,17 @@ export function UsersListPage() {
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [editingUser, setEditingUser] = useState<User | null>(null)
   const [deletingUser, setDeletingUser] = useState<User | null>(null)
+  const [resettingUser, setResettingUser] = useState<User | null>(null)
+
+  async function runUserAction(target: User, action: 'unlock') {
+    try {
+      await usersApi[action](target.id)
+      toast.success('User Unlocked', `${target.name} can sign in again.`)
+      refetch()
+    } catch (err) {
+      toast.error('Action Failed', err instanceof Error ? err.message : undefined)
+    }
+  }
 
   const columns: DataTableColumn<User>[] = [
     {
@@ -68,12 +79,13 @@ export function UsersListPage() {
     {
       key: 'status',
       header: 'Status',
-      render: (u) =>
-        u.isActive ? (
-          <Badge tone="tertiary">Active</Badge>
-        ) : (
-          <Badge tone="danger">Inactive</Badge>
-        ),
+      render: (u) => (
+        <div className="flex flex-wrap items-center gap-1">
+          {u.isActive ? <Badge tone="tertiary">Active</Badge> : <Badge tone="danger">Inactive</Badge>}
+          {u.lockedUntil && <Badge tone="danger">Locked</Badge>}
+          {u.twoFactorEnabled && <Badge tone="secondary">2FA</Badge>}
+        </div>
+      ),
     },
     {
       key: 'lastLogin',
@@ -98,6 +110,10 @@ export function UsersListPage() {
                 )
               }
             />
+          )}
+          {canUpdate && u.lockedUntil && <IconButton icon="lock_open" label={`Unlock ${u.name}`} onClick={() => runUserAction(u, 'unlock')} />}
+          {canUpdate && u.twoFactorEnabled && u.id !== currentUser?.id && (
+            <IconButton icon="no_encryption" label={`Reset two-step verification for ${u.name}`} onClick={() => setResettingUser(u)} />
           )}
           {canUpdate && <IconButton icon="edit" label="Edit user" onClick={() => setEditingUser(u)} />}
           {canDelete && <IconButton icon="delete" label="Delete user" onClick={() => setDeletingUser(u)} />}
@@ -151,6 +167,20 @@ export function UsersListPage() {
 
       <CreateUserModal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} onCreated={refetch} />
       <EditUserModal user={editingUser} onClose={() => setEditingUser(null)} onUpdated={refetch} />
+      {resettingUser && (
+        <ConfirmDialog
+          isOpen
+          onClose={() => setResettingUser(null)}
+          title="Reset Two-Step Verification"
+          description={`This turns off two-step verification for ${resettingUser.name} and signs them out everywhere. They sign in with their password and can set it up again. Do this only after confirming it is really them, for example when they have lost their phone and recovery codes.`}
+          confirmLabel="Reset"
+          successMessage={`Two-step verification reset for ${resettingUser.name}.`}
+          onConfirm={async () => {
+            await usersApi.resetTwoFactor(resettingUser.id)
+            refetch()
+          }}
+        />
+      )}
       {deletingUser && (
         <ConfirmDialog
           isOpen

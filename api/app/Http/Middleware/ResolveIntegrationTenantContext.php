@@ -45,6 +45,10 @@ class ResolveIntegrationTenantContext
 
         $tenant = $credential->tenant;
 
+        if ($request->attributes->get('workspace_slug') && $tenant?->slug !== $request->attributes->get('workspace_slug')) {
+            return response()->json(['success' => false, 'message' => 'These credentials do not belong to this workspace.'], 403);
+        }
+
         if (! $tenant || ! $tenant->isActive()) {
             return $this->reject('This tenant account is suspended or no longer active.');
         }

@@ -62,6 +62,16 @@ export const usersApi = {
     return { user: mapUser(result.user), token: result.token }
   },
 
+  /** Clears a lockout from too many failed sign-ins. Needs users.update. */
+  async unlock(id: number): Promise<User> {
+    return mapUser(await apiFetch<RawUser>(`/users/${id}/unlock`, { method: 'POST' }))
+  },
+
+  /** Switches off someone's two-factor authentication (lost phone) and signs them out everywhere. Needs users.update. */
+  async resetTwoFactor(id: number): Promise<User> {
+    return mapUser(await apiFetch<RawUser>(`/users/${id}/two-factor`, { method: 'DELETE' }))
+  },
+
   async destroy(id: number): Promise<void> {
     await apiFetch<null>(`/users/${id}`, { method: 'DELETE' })
   },

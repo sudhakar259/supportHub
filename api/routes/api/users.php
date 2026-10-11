@@ -11,5 +11,7 @@ Route::middleware(['auth:api', 'tenant.context'])->prefix('users')->group(functi
     Route::put('/{user}', [UserController::class, 'update']);
     Route::delete('/{user}', [UserController::class, 'destroy']);
     Route::put('/{user}/roles', [UserController::class, 'syncRoles']);
+    Route::post('/{user}/unlock', [UserController::class, 'unlock'])->name('users.unlock');
+    Route::delete('/{user}/two-factor', [UserController::class, 'resetTwoFactor'])->name('users.two-factor.reset');
     Route::post('/{user}/impersonate', [UserImpersonationController::class, 'store'])->name('users.impersonate');
 });

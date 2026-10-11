@@ -1,24 +1,26 @@
-name: Departments
+name: Users
 description: |-
 
-  Departments own tickets, staff and category groupings, and are the
-  unit that routing rules and SLA policies can be scoped to.
+  Internal staff accounts (agents, senior agents, department managers,
+  administrators). Customer accounts are managed under the Customers
+  group instead.
 endpoints:
   -
     custom: []
     httpMethods:
       - GET
-    uri: api/v1/departments
+    uri: api/v1/users
     metadata:
       custom: []
-      groupName: Departments
+      groupName: Users
       groupDescription: |-
 
-        Departments own tickets, staff and category groupings, and are the
-        unit that routing rules and SLA policies can be scoped to.
+        Internal staff accounts (agents, senior agents, department managers,
+        administrators). Customer accounts are managed under the Customers
+        group instead.
       subgroup: ''
       subgroupDescription: ''
-      title: 'List departments'
+      title: 'List users'
       description: ''
       authenticated: true
       deprecated: false
@@ -32,20 +34,20 @@ endpoints:
       'filter[name]':
         custom: []
         name: 'filter[name]'
-        description: 'Filter by partial name match.'
+        description: 'Partial name match.'
         required: false
-        example: Billing
+        example: Alex
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      'filter[code]':
+      'filter[email]':
         custom: []
-        name: 'filter[code]'
-        description: 'Filter by exact department code.'
+        name: 'filter[email]'
+        description: 'Partial email match.'
         required: false
-        example: BILL
+        example: alex@
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -54,9 +56,20 @@ endpoints:
       'filter[is_active]':
         custom: []
         name: 'filter[is_active]'
-        description: 'Filter by active status (true/false).'
+        description: ''
         required: false
         example: 'true'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      'filter[role]':
+        custom: []
+        name: 'filter[role]'
+        description: 'Exact role name.'
+        required: false
+        example: Agent
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -65,9 +78,9 @@ endpoints:
       sort:
         custom: []
         name: sort
-        description: 'Sort by name, code or created_at. Prefix with - for descending.'
+        description: 'Sort by name or created_at.'
         required: false
-        example: '-created_at'
+        example: name
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -85,10 +98,11 @@ endpoints:
         nullable: false
         deprecated: false
     cleanQueryParameters:
-      'filter[name]': Billing
-      'filter[code]': BILL
+      'filter[name]': Alex
+      'filter[email]': alex@
       'filter[is_active]': 'true'
-      sort: '-created_at'
+      'filter[role]': Agent
+      sort: name
       per_page: 25
     bodyParameters: []
     cleanBodyParameters: []
@@ -97,12 +111,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: |-
-          {
-            "success": true, "message": "Request successful.",
-            "data": [{"id": 1, "name": "Billing", "code": "BILL", "is_active": true}],
-            "meta": {"current_page": 1, "per_page": 25, "total": 3}
-          }
+        content: '{"success": true, "message": "Request successful.", "data": [{"id": 2, "name": "Alex Agent"}]}'
         headers: []
         description: ''
     responseFields: []
@@ -117,18 +126,22 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: api/v1/departments
+    uri: api/v1/users
     metadata:
       custom: []
-      groupName: Departments
+      groupName: Users
       groupDescription: |-
 
-        Departments own tickets, staff and category groupings, and are the
-        unit that routing rules and SLA policies can be scoped to.
+        Internal staff accounts (agents, senior agents, department managers,
+        administrators). Customer accounts are managed under the Customers
+        group instead.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create a department'
-      description: ''
+      title: 'Create a staff user'
+      description: |-
+        Creates an internal account (agent, senior agent, department
+        manager or administrator) with a single role and optional
+        department memberships.
       authenticated: true
       deprecated: false
     headers:
@@ -145,68 +158,96 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: Billing
+        example: 'Alex Agent'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      code:
+      email:
         custom: []
-        name: code
-        description: 'Unique short code used in ticket numbering.'
+        name: email
+        description: ''
         required: true
-        example: BILL
+        example: alex@supporthub.test
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      description:
+      password:
         custom: []
-        name: description
-        description: 'A short description.'
+        name: password
+        description: ''
+        required: true
+        example: Secret123!
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      phone:
+        custom: []
+        name: phone
+        description: ''
         required: false
-        example: 'Invoices, payments and subscriptions.'
+        example: +1-555-0100
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: true
         deprecated: false
-      manager_id:
+      role:
         custom: []
-        name: manager_id
-        description: 'The user id of the department manager.'
-        required: false
-        example: 3
-        type: integer
+        name: role
+        description: 'One of Agent, Senior Agent, Department Manager, Administrator.'
+        required: true
+        example: Agent
+        type: string
         enumValues: []
         exampleWasSpecified: true
-        nullable: true
+        nullable: false
         deprecated: false
-      is_active:
+      department_ids:
         custom: []
-        name: is_active
-        description: 'Defaults to true.'
+        name: department_ids
+        description: 'Departments to assign this user to.'
         required: false
-        example: true
-        type: boolean
+        example:
+          - 1
+          - 2
+        type: 'integer[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      password_confirmation:
+        custom: []
+        name: password_confirmation
+        description: ''
+        required: true
+        example: Secret123!
+        type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: Billing
-      code: BILL
-      description: 'Invoices, payments and subscriptions.'
-      manager_id: 3
-      is_active: true
+      name: 'Alex Agent'
+      email: alex@supporthub.test
+      password: Secret123!
+      phone: +1-555-0100
+      role: Agent
+      department_ids:
+        - 1
+        - 2
+      password_confirmation: Secret123!
     fileParameters: []
     responses:
       -
         custom: []
         status: 201
-        content: '{"success": true, "message": "Department created successfully.", "data": {"id": 4, "name": "Billing", "code": "BILL"}}'
+        content: '{"success": true, "message": "User created successfully.", "data": {"id": 9, "name": "Alex Agent", "roles": ["Agent"]}}'
         headers: []
         description: ''
     responseFields: []
@@ -221,17 +262,18 @@ endpoints:
     custom: []
     httpMethods:
       - GET
-    uri: 'api/v1/departments/{department_id}'
+    uri: 'api/v1/users/{user_id}'
     metadata:
       custom: []
-      groupName: Departments
+      groupName: Users
       groupDescription: |-
 
-        Departments own tickets, staff and category groupings, and are the
-        unit that routing rules and SLA policies can be scoped to.
+        Internal staff accounts (agents, senior agents, department managers,
+        administrators). Customer accounts are managed under the Customers
+        group instead.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get a department'
+      title: 'Get a user'
       description: ''
       authenticated: true
       deprecated: false
@@ -240,10 +282,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      department_id:
+      user_id:
         custom: []
-        name: department_id
-        description: 'The ID of the department.'
+        name: user_id
+        description: 'The ID of the user.'
         required: true
         example: 1
         type: integer
@@ -252,7 +294,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      department_id: 1
+      user_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -262,13 +304,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Request successful.", "data": {"id": 1, "name": "Billing", "code": "BILL"}}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 404
-        content: '{"success": false, "message": "Department not found."}'
+        content: '{"success": true, "message": "Request successful.", "data": {"id": 2, "name": "Alex Agent"}}'
         headers: []
         description: ''
     responseFields: []
@@ -283,18 +319,22 @@ endpoints:
     custom: []
     httpMethods:
       - PUT
-    uri: 'api/v1/departments/{department_id}'
+    uri: 'api/v1/users/{user_id}'
     metadata:
       custom: []
-      groupName: Departments
+      groupName: Users
       groupDescription: |-
 
-        Departments own tickets, staff and category groupings, and are the
-        unit that routing rules and SLA policies can be scoped to.
+        Internal staff accounts (agents, senior agents, department managers,
+        administrators). Customer accounts are managed under the Customers
+        group instead.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update a department'
-      description: ''
+      title: 'Update a user'
+      description: |-
+        Users may update their own name/phone/timezone; only holders of
+        `users.update` may change another user's record or flip
+        `is_active`.
       authenticated: true
       deprecated: false
     headers:
@@ -302,10 +342,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      department_id:
+      user_id:
         custom: []
-        name: department_id
-        description: 'The ID of the department.'
+        name: user_id
+        description: 'The ID of the user.'
         required: true
         example: 1
         type: integer
@@ -314,7 +354,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      department_id: 1
+      user_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -323,68 +363,68 @@ endpoints:
         name: name
         description: ''
         required: false
-        example: 'Billing & Payments'
+        example: 'Alex Agent'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      code:
+      email:
         custom: []
-        name: code
+        name: email
         description: ''
         required: false
-        example: BILL
+        example: alex@supporthub.test
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
-      description:
+      phone:
         custom: []
-        name: description
+        name: phone
         description: ''
         required: false
-        example: 'Updated description.'
+        example: +1-555-0199
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: true
         deprecated: false
-      manager_id:
+      timezone:
         custom: []
-        name: manager_id
-        description: ''
+        name: timezone
+        description: 'Must not be greater than 64 characters.'
         required: false
-        example: 3
-        type: integer
+        example: Europe/Dublin
+        type: string
         enumValues: []
-        exampleWasSpecified: true
-        nullable: true
+        exampleWasSpecified: false
+        nullable: false
         deprecated: false
       is_active:
         custom: []
         name: is_active
-        description: ''
+        description: 'Requires users.update.'
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      name: 'Billing & Payments'
-      code: BILL
-      description: 'Updated description.'
-      manager_id: 3
-      is_active: false
+      name: 'Alex Agent'
+      email: alex@supporthub.test
+      phone: +1-555-0199
+      timezone: Europe/Dublin
+      is_active: true
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Department updated successfully.", "data": {"id": 1, "name": "Billing & Payments"}}'
+        content: '{"success": true, "message": "User updated successfully.", "data": {"id": 2, "name": "Alex Agent"}}'
         headers: []
         description: ''
     responseFields: []
@@ -399,20 +439,21 @@ endpoints:
     custom: []
     httpMethods:
       - DELETE
-    uri: 'api/v1/departments/{department_id}'
+    uri: 'api/v1/users/{user_id}'
     metadata:
       custom: []
-      groupName: Departments
+      groupName: Users
       groupDescription: |-
 
-        Departments own tickets, staff and category groupings, and are the
-        unit that routing rules and SLA policies can be scoped to.
+        Internal staff accounts (agents, senior agents, department managers,
+        administrators). Customer accounts are managed under the Customers
+        group instead.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a department'
+      title: 'Deactivate/delete a user'
       description: |-
-        Soft-deletes the department. Existing tickets keep their
-        department_id for historical reporting.
+        Soft-deletes the account and revokes all of its API tokens.
+        An administrator cannot delete their own account.
       authenticated: true
       deprecated: false
     headers:
@@ -420,10 +461,10 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      department_id:
+      user_id:
         custom: []
-        name: department_id
-        description: 'The ID of the department.'
+        name: user_id
+        description: 'The ID of the user.'
         required: true
         example: 1
         type: integer
@@ -432,7 +473,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      department_id: 1
+      user_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -442,7 +483,86 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "Department deleted successfully.", "data": null}'
+        content: '{"success": true, "message": "User deleted successfully.", "data": null}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 403
+        content: '{"success": false, "message": "You do not have permission to perform this action."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/v1/users/{user_id}/roles'
+    metadata:
+      custom: []
+      groupName: Users
+      groupDescription: |-
+
+        Internal staff accounts (agents, senior agents, department managers,
+        administrators). Customer accounts are managed under the Customers
+        group instead.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Sync a user's roles"
+      description: |-
+        Replaces the user's role assignments with the given list.
+        Requires `roles.manage`.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      user_id:
+        custom: []
+        name: user_id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      user_id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      roles:
+        custom: []
+        name: roles
+        description: 'Role names to assign.'
+        required: true
+        example:
+          - 'Senior Agent'
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      roles:
+        - 'Senior Agent'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Roles updated successfully.", "data": {"id": 2, "roles": ["Senior Agent"]}}'
         headers: []
         description: ''
     responseFields: []
@@ -457,18 +577,21 @@ endpoints:
     custom: []
     httpMethods:
       - POST
-    uri: 'api/v1/departments/{department_id}/users'
+    uri: 'api/v1/users/{user_id}/unlock'
     metadata:
       custom: []
-      groupName: Departments
+      groupName: Users
       groupDescription: |-
 
-        Departments own tickets, staff and category groupings, and are the
-        unit that routing rules and SLA policies can be scoped to.
+        Internal staff accounts (agents, senior agents, department managers,
+        administrators). Customer accounts are managed under the Customers
+        group instead.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Assign a staff member to a department'
-      description: ''
+      title: 'Unlock a user'
+      description: |-
+        Clears the lockout from too many failed sign-in attempts, so the person can try
+        again straight away. Requires `users.update`.
       authenticated: true
       deprecated: false
     headers:
@@ -476,97 +599,6 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      department_id:
-        custom: []
-        name: department_id
-        description: 'The ID of the department.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
-    cleanUrlParameters:
-      department_id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      user_id:
-        custom: []
-        name: user_id
-        description: ''
-        required: true
-        example: 5
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-      is_primary:
-        custom: []
-        name: is_primary
-        description: "Whether this is the agent's primary department."
-        required: false
-        example: true
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: false
-        deprecated: false
-    cleanBodyParameters:
-      user_id: 5
-      is_primary: true
-    fileParameters: []
-    responses:
-      -
-        custom: []
-        status: 200
-        content: '{"success": true, "message": "User assigned to department.", "data": {"id": 1, "name": "Billing"}}'
-        headers: []
-        description: ''
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
-    controller: null
-    method: null
-    route: null
-  -
-    custom: []
-    httpMethods:
-      - DELETE
-    uri: 'api/v1/departments/{department_id}/users/{user_id}'
-    metadata:
-      custom: []
-      groupName: Departments
-      groupDescription: |-
-
-        Departments own tickets, staff and category groupings, and are the
-        unit that routing rules and SLA policies can be scoped to.
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Remove a staff member from a department'
-      description: ''
-      authenticated: true
-      deprecated: false
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      department_id:
-        custom: []
-        name: department_id
-        description: 'The ID of the department.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        deprecated: false
       user_id:
         custom: []
         name: user_id
@@ -590,7 +622,6 @@ endpoints:
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      department_id: 1
       user_id: 1
       user: 5
     queryParameters: []
@@ -602,7 +633,157 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"success": true, "message": "User removed from department.", "data": null}'
+        content: '{"success": true, "message": "User unlocked.", "data": {"id": 5}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/users/{user_id}/two-factor'
+    metadata:
+      custom: []
+      groupName: Users
+      groupDescription: |-
+
+        Internal staff accounts (agents, senior agents, department managers,
+        administrators). Customer accounts are managed under the Customers
+        group instead.
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Reset a user's two-factor authentication"
+      description: |-
+        For someone who lost their phone and their recovery codes: switches two-factor off
+        and signs them out everywhere, so they sign in with their password and can set it
+        up again. Requires `users.update`; you cannot reset your own.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      user_id:
+        custom: []
+        name: user_id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      user:
+        custom: []
+        name: user
+        description: ''
+        required: true
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      user_id: 1
+      user: 5
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Two-factor authentication reset.", "data": {"id": 5}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: 'api/v1/users/{user_id}/impersonate'
+    metadata:
+      custom: []
+      groupName: Users
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Login as a user'
+      description: |-
+        Lets an administrator (`users.impersonate`) act as another user in the
+        same tenant to see exactly what they see. Returns a short-lived Bearer
+        token for that user; the administrator's own token is untouched, so the
+        client can switch back by discarding this one (`POST /auth/logout` with
+        it). Not allowed on yourself, inactive users, other administrators, or
+        from inside an impersonation session. Every use is written to the audit
+        log as `user.impersonated`.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      user_id:
+        custom: []
+        name: user_id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      user:
+        custom: []
+        name: user
+        description: 'The user to act as.'
+        required: true
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      user_id: 1
+      user: 5
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Now logged in as the selected user.", "data": {"user": {"id": 5}, "token": "2|abc...", "token_type": "Bearer", "expires_at": "2026-10-09T20:00:00+00:00"}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 403
+        content: '{"success": false, "message": "You do not have permission to perform this action."}'
         headers: []
         description: ''
     responseFields: []

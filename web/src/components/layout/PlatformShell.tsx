@@ -52,6 +52,14 @@ export function PlatformShell() {
           </button>
           {menuOpen && (
             <div className="absolute right-0 mt-2 w-48 rounded-lg bg-surface-container-lowest py-1 text-on-surface shadow-lg ring-1 ring-outline-variant/40">
+              <Link
+                to={ROUTES.platformAccountSecurity}
+                onClick={() => setMenuOpen(false)}
+                className="flex w-full items-center gap-space-sm px-space-md py-space-sm text-left text-body-sm hover:bg-surface-container-low"
+              >
+                <Icon name="shield" size={18} />
+                Account security
+              </Link>
               <button
                 type="button"
                 onClick={() => logout()}

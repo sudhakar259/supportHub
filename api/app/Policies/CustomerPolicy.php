@@ -31,4 +31,16 @@ class CustomerPolicy
     {
         return $user->can('customers.delete');
     }
+
+    /** A copy of everything held about the customer (a data-access request). */
+    public function export(User $user, Customer $customer): bool
+    {
+        return $user->can('customers.export');
+    }
+
+    /** Anonymize the customer's personal data (a right-to-erasure request). Irreversible. */
+    public function erase(User $user, Customer $customer): bool
+    {
+        return $user->can('customers.erase');
+    }
 }
