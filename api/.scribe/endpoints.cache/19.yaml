@@ -129,7 +129,7 @@ endpoints:
         name: 'preferences[].enabled'
         description: ''
         required: true
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -173,7 +173,7 @@ endpoints:
         -
           channel: mail
           event_key: architecto
-          enabled: false
+          enabled: true
     fileParameters: []
     responses:
       -

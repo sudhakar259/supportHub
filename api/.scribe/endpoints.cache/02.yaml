@@ -603,42 +603,42 @@ endpoints:
         Bearer token obtained from /auth/login or /auth/register.
       subgroup: ''
       subgroupDescription: ''
-      title: 'Verify email'
-      description: |-
-        Consumes the signed link from the verification email. `id` and
-        `hash` come from that link and are not meant to be constructed
-        by hand.
-      authenticated: false
+      title: |-
+        The link in the email opens in a browser, so a person lands on a page of
+        the app rather than on raw JSON. Clients that ask for JSON still get JSON.
+      description: ''
+      authenticated: true
       deprecated: false
     headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
       id:
         custom: []
         name: id
-        description: 'The user id from the verification link.'
+        description: 'The ID of the verify.'
         required: true
-        example: 1
-        type: integer
+        example: architecto
+        type: string
         enumValues: []
-        exampleWasSpecified: true
+        exampleWasSpecified: false
         nullable: false
         deprecated: false
       hash:
         custom: []
         name: hash
-        description: "The sha1 hash of the user's email from the verification link."
+        description: ''
         required: true
-        example: 5f4dcc3b5aa765d61d8327deb882cf99
+        example: architecto
         type: string
         enumValues: []
-        exampleWasSpecified: true
+        exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: 1
-      hash: 5f4dcc3b5aa765d61d8327deb882cf99
+      id: architecto
+      hash: architecto
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -647,18 +647,24 @@ endpoints:
     responses:
       -
         custom: []
-        status: 200
-        content: '{"success": true, "message": "Email verified successfully.", "data": null}'
-        headers: []
-        description: ''
-      -
-        custom: []
-        status: 403
-        content: '{"success": false, "message": "Invalid verification link."}'
-        headers: []
-        description: ''
+        status: 500
+        content: '{"success":false,"message":"An unexpected error occurred. Please try again later."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '6'
+          x-ratelimit-remaining: '5'
+          x-content-type-options: nosniff
+          x-frame-options: DENY
+          referrer-policy: no-referrer
+          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
+          vary: Origin
+        description: null
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
     controller: null
     method: null
     route: null

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
+import { applyBrand } from '@/features/branding/theme'
 import { authApi } from '@/features/auth/api/authApi'
 import type { LoginCredentials, LoginResult, TwoFactorChallengePayload } from '@/features/auth/types'
 import { impersonatorStorage, tokenStorage } from '@/services/storage/tokenStorage'
@@ -45,6 +46,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const session = impersonatorStorage.get()
     return session ? { name: session.name } : null
   })
+
+  // A workspace's people see the app in their organisation's colour.
+  useEffect(() => {
+    applyBrand(user?.tenant?.brand)
+  }, [user])
 
   const restoreSession = useCallback(() => {
     if (hasWorkspaceHandoff) {

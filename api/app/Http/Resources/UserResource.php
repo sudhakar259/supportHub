@@ -20,6 +20,7 @@ class UserResource extends JsonResource
                 'name' => $this->tenant->name,
                 'slug' => $this->tenant->slug,
                 'workspace_url' => \App\Support\WorkspaceDomains::url($this->tenant),
+                'brand' => \App\Support\BrandPalette::forTenant($this->tenant),
             ]),
             'phone' => $this->phone,
             'avatar_path' => $this->avatar_path,

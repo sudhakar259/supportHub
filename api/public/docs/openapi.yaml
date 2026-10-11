@@ -655,33 +655,12 @@ paths:
       security: []
   '/api/v1/auth/email/verify/{id}/{hash}':
     get:
-      summary: 'Verify email'
-      operationId: verifyEmail
-      description: "Consumes the signed link from the verification email. `id` and\n`hash` come from that link and are not meant to be constructed\nby hand."
+      summary: "The link in the email opens in a browser, so a person lands on a page of\nthe app rather than on raw JSON. Clients that ask for JSON still get JSON."
+      operationId: theLinkInTheEmailOpensInABrowserSoAPersonLandsOnAPageOfTheAppRatherThanOnRawJSONClientsThatAskForJSONStillGetJSON
+      description: ''
       parameters: []
       responses:
-        200:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  success: true
-                  message: 'Email verified successfully.'
-                  data: null
-                properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: 'Email verified successfully.'
-                  data:
-                    type: string
-                    example: null
-                    nullable: true
-        403:
+        500:
           description: ''
           content:
             application/json:
@@ -689,31 +668,30 @@ paths:
                 type: object
                 example:
                   success: false
-                  message: 'Invalid verification link.'
+                  message: 'An unexpected error occurred. Please try again later.'
                 properties:
                   success:
                     type: boolean
                     example: false
                   message:
                     type: string
-                    example: 'Invalid verification link.'
+                    example: 'An unexpected error occurred. Please try again later.'
       tags:
         - Authentication
-      security: []
     parameters:
       -
         in: path
         name: id
-        description: 'The user id from the verification link.'
-        example: 1
+        description: 'The ID of the verify.'
+        example: architecto
         required: true
         schema:
-          type: integer
+          type: string
       -
         in: path
         name: hash
-        description: "The sha1 hash of the user's email from the verification link."
-        example: 5f4dcc3b5aa765d61d8327deb882cf99
+        description: ''
+        example: architecto
         required: true
         schema:
           type: string
@@ -4455,7 +4433,7 @@ paths:
                 is_default:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 is_closed:
                   type: boolean
                   description: 'Whether this status counts as a terminal/closed state.'
@@ -4566,7 +4544,7 @@ paths:
                 is_closed:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 sort_order:
                   type: integer
                   description: 'Must be at least 0.'
@@ -4840,7 +4818,7 @@ paths:
                 is_default:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
     delete:
       summary: 'Delete a priority'
       operationId: deleteAPriority
@@ -5017,7 +4995,7 @@ paths:
                       field:
                         type: string
                         description: ''
-                        example: category_id
+                        example: priority_id
                         enum:
                           - category_id
                           - priority_id
@@ -5026,7 +5004,7 @@ paths:
                       operator:
                         type: string
                         description: ''
-                        example: '!='
+                        example: in
                         enum:
                           - '='
                           - '!='
@@ -5051,7 +5029,7 @@ paths:
                       type:
                         type: string
                         description: ''
-                        example: send_notification
+                        example: set_priority
                         enum:
                           - assign_department
                           - assign_agent
@@ -5168,7 +5146,7 @@ paths:
                 stop_processing:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                 conditions:
                   type: array
                   description: ''
@@ -5179,7 +5157,7 @@ paths:
                       field:
                         type: string
                         description: 'This field is required when <code>conditions</code> is present.'
-                        example: keyword
+                        example: customer_type
                         enum:
                           - category_id
                           - priority_id
@@ -5188,7 +5166,7 @@ paths:
                       operator:
                         type: string
                         description: ''
-                        example: in
+                        example: '='
                         enum:
                           - '='
                           - '!='
@@ -5207,7 +5185,7 @@ paths:
                       type:
                         type: string
                         description: 'This field is required when <code>actions</code> is present.'
-                        example: set_priority
+                        example: escalate
                         enum:
                           - assign_department
                           - assign_agent
@@ -5506,11 +5484,11 @@ paths:
                 business_hours_only:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 is_default:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                 is_active:
                   type: boolean
                   description: ''
@@ -5683,7 +5661,7 @@ paths:
                       enabled:
                         type: boolean
                         description: ''
-                        example: false
+                        example: true
                       '*':
                         type: object
                         description: ''
@@ -6221,7 +6199,7 @@ paths:
                       type:
                         type: string
                         description: ''
-                        example: boolean
+                        example: integer
                         enum:
                           - string
                           - integer
@@ -6234,7 +6212,7 @@ paths:
                       is_public:
                         type: boolean
                         description: ''
-                        example: true
+                        example: false
                       '*':
                         type: object
                         description: ''
@@ -6268,6 +6246,93 @@ paths:
                       - key
               required:
                 - settings
+  /api/v1/branding:
+    get:
+      summary: 'Get branding'
+      operationId: getBranding
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request successful.'
+                  data:
+                    primary_color: '#0f766e'
+                    sidebar_color: null
+                    palette:
+                      primary: '#0f766e'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request successful.'
+                  data:
+                    type: object
+                    properties:
+                      primary_color:
+                        type: string
+                        example: '#0f766e'
+                      sidebar_color:
+                        type: string
+                        example: null
+                        nullable: true
+                      palette:
+                        type: object
+                        properties:
+                          primary:
+                            type: string
+                            example: '#0f766e'
+      tags:
+        - Settings
+    put:
+      summary: 'Update branding'
+      operationId: updateBranding
+      description: "Send a colour as `null` to go back to its default. Only the colours you send\nchange. A primary colour white text could not be read on, or a sidebar colour\ntoo light for the sidebar's text, is refused."
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: Unauthenticated.
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Settings
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                primary_color:
+                  type: string
+                  description: 'A hex colour for buttons, links and emails.'
+                  example: '#0f766e'
+                  nullable: true
+                sidebar_color:
+                  type: string
+                  description: 'A hex colour for the sidebar menu background.'
+                  example: '#14213d'
+                  nullable: true
   /api/v1/ticket-number-settings:
     get:
       summary: 'List ticket number settings'
@@ -7338,12 +7403,12 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-10-11T09:13:53'
+                  example: '2026-10-11T15:26:00'
                   nullable: true
                 to:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-10-11T09:13:53'
+                  example: '2026-10-11T15:26:00'
                   nullable: true
   /api/v1/exports/customers:
     get:

@@ -30,7 +30,7 @@ export function Sidebar({ variant = 'desktop', onNavigate }: SidebarProps) {
   return (
     <aside
       className={cn(
-        'flex h-screen w-64 flex-col justify-between bg-inverse-surface',
+        'flex h-screen w-64 flex-col justify-between bg-sidebar',
         variant === 'desktop' ? 'fixed top-0 left-0 z-30 shadow-[0_1px_8px_rgba(0,0,0,0.04)]' : 'w-full max-w-xs',
       )}
     >

@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "DeskNu API Documentation",
-        "_postman_id": "e6426657-1334-437c-9e7d-512c20b9e71d",
+        "_postman_id": "e238ba04-b55b-4791-ba1a-d1c4227a145f",
         "description": "REST API for DeskNu \u2014 ticket creation and lifecycle, routing, SLA, notifications, and administration. Backs the web, mobile and any third-party clients equally; this document is the contract.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -252,7 +252,7 @@
                     ]
                 },
                 {
-                    "name": "Verify email",
+                    "name": "The link in the email opens in a browser, so a person lands on a page of\nthe app rather than on raw JSON. Clients that ask for JSON still get JSON.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -263,14 +263,14 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": 1,
-                                    "description": "The user id from the verification link."
+                                    "value": "architecto",
+                                    "description": "The ID of the verify."
                                 },
                                 {
                                     "id": "hash",
                                     "key": "hash",
-                                    "value": "5f4dcc3b5aa765d61d8327deb882cf99",
-                                    "description": "The sha1 hash of the user's email from the verification link."
+                                    "value": "architecto",
+                                    "description": ""
                                 }
                             ]
                         },
@@ -286,22 +286,50 @@
                             }
                         ],
                         "body": null,
-                        "description": "Consumes the signed link from the verification email. `id` and\n`hash` come from that link and are not meant to be constructed\nby hand.",
-                        "auth": {
-                            "type": "noauth"
-                        }
+                        "description": ""
                     },
                     "response": [
                         {
-                            "header": [],
-                            "code": 200,
-                            "body": "{\"success\": true, \"message\": \"Email verified successfully.\", \"data\": null}",
-                            "name": ""
-                        },
-                        {
-                            "header": [],
-                            "code": 403,
-                            "body": "{\"success\": false, \"message\": \"Invalid verification link.\"}",
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "6"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "5"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-frame-options",
+                                    "value": "DENY"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "content-security-policy",
+                                    "value": "default-src 'none'; frame-ancestors 'none'"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 500,
+                            "body": "{\"success\":false,\"message\":\"An unexpected error occurred. Please try again later.\"}",
                             "name": ""
                         }
                     ]
@@ -2407,10 +2435,9 @@
                                     "description": "Staff only."
                                 },
                                 {
-                                    "key": "attachments[0]",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
                                 }
                             ]
                         },
@@ -3034,7 +3061,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"On Hold\",\"slug\":\"on-hold\",\"color\":\"#6B7280\",\"is_default\":true,\"is_closed\":false,\"sort_order\":37}"
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"on-hold\",\"color\":\"#6B7280\",\"is_default\":false,\"is_closed\":false,\"sort_order\":37}"
                         },
                         "description": ""
                     },
@@ -3117,7 +3144,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":false,\"is_closed\":true,\"sort_order\":37}"
+                            "raw": "{\"name\":\"On Hold\",\"slug\":\"n\",\"color\":\"#F59E0B\",\"is_default\":false,\"is_closed\":false,\"sort_order\":37}"
                         },
                         "description": ""
                     },
@@ -3319,7 +3346,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":false}"
+                            "raw": "{\"name\":\"Critical\",\"slug\":\"n\",\"level\":5,\"color\":\"zmiyvdl\",\"is_default\":true}"
                         },
                         "description": ""
                     },
@@ -3521,7 +3548,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":false,\"conditions\":[{\"field\":\"keyword\",\"operator\":\"in\"}],\"actions\":[{\"type\":\"set_priority\"}]}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority\":5,\"is_active\":false,\"stop_processing\":true,\"conditions\":[{\"field\":\"customer_type\",\"operator\":\"=\"}],\"actions\":[{\"type\":\"escalate\"}]}"
                         },
                         "description": ""
                     },
@@ -3717,7 +3744,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":true,\"is_default\":false,\"is_active\":false}"
+                            "raw": "{\"name\":\"b\",\"description\":\"Eius et animi quos velit et.\",\"priority_id\":16,\"department_id\":16,\"business_hours_id\":16,\"first_response_minutes\":10,\"resolution_minutes\":67,\"business_hours_only\":false,\"is_default\":true,\"is_active\":false}"
                         },
                         "description": ""
                     },
@@ -3830,7 +3857,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"preferences\":[{\"channel\":\"mail\",\"event_key\":\"architecto\",\"enabled\":false}]}"
+                            "raw": "{\"preferences\":[{\"channel\":\"mail\",\"event_key\":\"architecto\",\"enabled\":true}]}"
                         },
                         "description": "Upserts one or more (channel, event_key) preferences for the\nauthenticated user."
                     },
@@ -4155,7 +4182,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"boolean\",\"group\":\"n\",\"is_public\":true}]}"
+                            "raw": "{\"settings\":[{\"key\":\"b\",\"type\":\"integer\",\"group\":\"n\",\"is_public\":false}]}"
                         },
                         "description": ""
                     },
@@ -4164,6 +4191,102 @@
                             "header": [],
                             "code": 200,
                             "body": "{\"success\": true, \"message\": \"Settings updated successfully.\", \"data\": [{\"key\": \"support_hours_message\", \"value\": \"Mon-Fri 9am-5pm UTC\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get branding",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/branding",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/branding"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"success\": true, \"message\": \"Request successful.\", \"data\": {\"primary_color\": \"#0f766e\", \"sidebar_color\": null, \"palette\": {\"primary\": \"#0f766e\"}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update branding",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/branding",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/branding"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"primary_color\":\"#0f766e\",\"sidebar_color\":\"#14213d\"}"
+                        },
+                        "description": "Send a colour as `null` to go back to its default. Only the colours you send\nchange. A primary colour white text could not be read on, or a sidebar colour\ntoo light for the sidebar's text, is refused."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-frame-options",
+                                    "value": "DENY"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "content-security-policy",
+                                    "value": "default-src 'none'; frame-ancestors 'none'"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"success\":false,\"message\":\"Unauthenticated.\"}",
                             "name": ""
                         }
                     ]
@@ -5079,7 +5202,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from\":\"2026-10-11T09:13:53\",\"to\":\"2026-10-11T09:13:53\"}"
+                            "raw": "{\"from\":\"2026-10-11T15:26:00\",\"to\":\"2026-10-11T15:26:00\"}"
                         },
                         "description": "One row per ticket you are allowed to see. Requires `reports.view`."
                     },
@@ -5788,12 +5911,6 @@
                                     "description": ""
                                 },
                                 {
-                                    "key": "attachments[0]",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
                                     "key": "priority_id",
                                     "value": "3",
                                     "type": "text",
@@ -5822,6 +5939,11 @@
                                     "value": "CRM-001",
                                     "type": "text",
                                     "description": "This tenant's own identifier for the customer."
+                                },
+                                {
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
                                 }
                             ]
                         },
@@ -5945,10 +6067,9 @@
                                     "description": ""
                                 },
                                 {
-                                    "key": "attachments[0]",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
                                 }
                             ]
                         },

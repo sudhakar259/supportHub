@@ -77,6 +77,13 @@ class SystemSettingController extends Controller
             'The sending domain can only be verified by the platform.'
         );
 
+        // The brand colour is checked for readability by PUT /branding; saving it here would skip that.
+        abort_if(
+            collect($validated['settings'])->contains(fn ($s) => in_array($s['key'], [\App\Support\BrandPalette::SETTING_KEY, \App\Support\BrandPalette::SIDEBAR_KEY], true)),
+            403,
+            'Change brand colours from the branding settings.'
+        );
+
         foreach ($validated['settings'] as $setting) {
             $value = $setting['value'];
             $type = $setting['type'] ?? 'string';

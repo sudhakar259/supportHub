@@ -299,7 +299,7 @@ endpoints:
         name: is_default
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -310,7 +310,7 @@ endpoints:
       slug: 'n'
       level: 5
       color: zmiyvdl
-      is_default: false
+      is_default: true
     fileParameters: []
     responses:
       -

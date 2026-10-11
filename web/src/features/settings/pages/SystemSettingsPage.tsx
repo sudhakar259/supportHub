@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Icon } from '@/components/ui/Icon'
 import { IconButton } from '@/components/ui/IconButton'
 import { Switch } from '@/components/ui/Switch'
+import { BrandingCard } from '@/features/branding/BrandingCard'
 import { InboundEmailCard } from '@/features/settings/components/InboundEmailCard'
 import { AddSettingModal } from '@/features/settings/components/AddSettingModal'
 import { systemSettingsApi } from '@/features/settings/api/systemSettingsApi'
@@ -80,7 +81,7 @@ export function SystemSettingsPage() {
 
   const groups = useMemo(() => {
     const map = new Map<string, SystemSetting[]>()
-    for (const setting of settings) {
+    for (const setting of settings.filter((s) => s.key !== 'branding.primary_color')) {
       const list = map.get(setting.group) ?? []
       list.push(setting)
       map.set(setting.group, list)
@@ -121,6 +122,7 @@ export function SystemSettingsPage() {
       />
 
       <div className="flex flex-col gap-space-md px-gutter-lg">
+        <BrandingCard />
         <InboundEmailCard />
         {groups.length === 0 ? (
           <p className="rounded-xl bg-surface-container-lowest p-space-md text-center text-body-sm text-on-surface-variant shadow-sm">

@@ -1,12 +1,15 @@
 import type { Customer } from '@/types/customer'
 import type { Department } from '@/types/department'
 
+/** The shades derived from a workspace's brand colour (api BrandPalette), keyed like `on_primary`. */
+export type BrandPalette = Record<string, string>
+
 /** Mirrors api/app/Http/Resources/UserResource.php */
 export interface User {
   id: number
   name: string
   email: string
-  tenant?: { id: number; name: string; slug: string; workspaceUrl: string } | null
+  tenant?: { id: number; name: string; slug: string; workspaceUrl: string; brand?: BrandPalette | null } | null
   phone: string | null
   avatarPath: string | null
   timezone: string | null

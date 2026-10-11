@@ -9,7 +9,7 @@ export interface RawUser {
   id: number
   name: string
   email: string
-  tenant?: { id: number; name: string; slug: string; workspace_url: string } | null
+  tenant?: { id: number; name: string; slug: string; workspace_url: string; brand?: Record<string, string> | null } | null
   phone: string | null
   avatar_path: string | null
   timezone: string | null
@@ -50,7 +50,7 @@ export function mapUser(raw: RawUser): User {
     id: raw.id,
     name: raw.name,
     email: raw.email,
-    tenant: raw.tenant ? { id: raw.tenant.id, name: raw.tenant.name, slug: raw.tenant.slug, workspaceUrl: raw.tenant.workspace_url } : null,
+    tenant: raw.tenant ? { id: raw.tenant.id, name: raw.tenant.name, slug: raw.tenant.slug, workspaceUrl: raw.tenant.workspace_url, brand: raw.tenant.brand ?? null } : null,
     phone: raw.phone,
     avatarPath: raw.avatar_path,
     timezone: raw.timezone,

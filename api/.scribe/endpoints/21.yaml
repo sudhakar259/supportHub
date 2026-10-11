@@ -117,7 +117,7 @@ endpoints:
         name: 'settings[].type'
         description: ''
         required: false
-        example: boolean
+        example: integer
         type: string
         enumValues:
           - string
@@ -143,7 +143,7 @@ endpoints:
         name: 'settings[].is_public'
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -208,9 +208,9 @@ endpoints:
       settings:
         -
           key: b
-          type: boolean
+          type: integer
           group: 'n'
-          is_public: true
+          is_public: false
     fileParameters: []
     responses:
       -
@@ -219,6 +219,126 @@ endpoints:
         content: '{"success": true, "message": "Settings updated successfully.", "data": [{"key": "support_hours_message", "value": "Mon-Fri 9am-5pm UTC"}]}'
         headers: []
         description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/branding
+    metadata:
+      custom: []
+      groupName: Settings
+      groupDescription: |-
+
+        The colour a workspace uses for its app and for the emails it sends.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get branding'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "message": "Request successful.", "data": {"primary_color": "#0f766e", "sidebar_color": null, "palette": {"primary": "#0f766e"}}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: api/v1/branding
+    metadata:
+      custom: []
+      groupName: Settings
+      groupDescription: |-
+
+        The colour a workspace uses for its app and for the emails it sends.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update branding'
+      description: |-
+        Send a colour as `null` to go back to its default. Only the colours you send
+        change. A primary colour white text could not be read on, or a sidebar colour
+        too light for the sidebar's text, is refused.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      primary_color:
+        custom: []
+        name: primary_color
+        description: 'A hex colour for buttons, links and emails.'
+        required: false
+        example: '#0f766e'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      sidebar_color:
+        custom: []
+        name: sidebar_color
+        description: 'A hex colour for the sidebar menu background.'
+        required: false
+        example: '#14213d'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      primary_color: '#0f766e'
+      sidebar_color: '#14213d'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"success":false,"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-content-type-options: nosniff
+          x-frame-options: DENY
+          referrer-policy: no-referrer
+          content-security-policy: "default-src 'none'; frame-ancestors 'none'"
+          vary: Origin
+        description: null
     responseFields: []
     auth:
       - headers

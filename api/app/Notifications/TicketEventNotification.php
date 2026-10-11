@@ -6,6 +6,7 @@ use App\Models\NotificationLog;
 use App\Models\Tenant;
 use App\Services\InboundEmail\InboundEmailSettings;
 use App\Support\TenantContext;
+use App\Support\BrandPalette;
 use App\Support\TenantEmailBranding;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -77,6 +78,12 @@ class TicketEventNotification extends Notification implements ShouldQueue
         }
 
         $mail->salutation($branding['signature']);
+
+        // Buttons, links and accents in the workspace's own colour (the default theme otherwise).
+        if ($primary = BrandPalette::chosen($tenant)['primary']) {
+            $mail->theme = 'workspace-brand';
+            $mail->viewData['brandPrimary'] = $primary;
+        }
 
         return $mail;
     }
