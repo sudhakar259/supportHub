@@ -49,6 +49,24 @@ under Solutions, and guides, security and contact links under Resources.
 Desktop dropdowns support keyboard navigation, Escape and outside-click
 dismissal. Mobile navigation uses one expanded group at a time and scrolls on
 short screens without shifting links during a tap.
+Menu icons use coordinated orange, teal, blue, violet and navy accents with soft
+backgrounds from the standard palette. Related destinations keep the same color
+family across menus; navigation active states and overview links use primary.
+
+The feature, solution, resource, guide, security, pricing and contact pages use
+lightweight HTML/CSS concept illustrations in their heroes. Email, routing,
+SLA targets, handoffs, reports and API flows have distinct diagrams grounded in
+the implemented product. They are labeled as illustrative; charts do not imply
+live customer metrics. Each illustration includes a pause/resume control and
+stays still when reduced motion is enabled. The existing homepage photo and
+interactive demo remain the other visual entry points.
+
+Feature explainers use three concise cards with expandable implementation
+details. Guide pages have numbered steps and a linked setup checklist, sticky
+on desktop and stacked on mobile. Short visible guide headlines retain the
+full article titles in SEO metadata. Topic colors are shared across menus,
+icons and tiles through `web/src/features/landing/palette.ts`, using the
+existing palette tokens while primary buttons and links stay orange.
 
 ## Pricing and signup
 

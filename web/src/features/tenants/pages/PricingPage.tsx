@@ -8,6 +8,8 @@ import { PublicLayout } from '@/components/layout/PublicLayout'
 import { Icon } from '@/components/ui/Icon'
 import { FaqList } from '@/features/landing/components/FaqList'
 import { PublicCta } from '@/features/landing/components/PublicCta'
+import { WorkflowIllustration } from '@/features/landing/components/WorkflowIllustration'
+import { marketingTone } from '@/features/landing/palette'
 import { useMembershipPlans } from '@/features/tenants/hooks/useMembershipPlans'
 import type { BillingInterval, MembershipPlan, MembershipPlanLimits } from '@/features/tenants/types'
 import { formatPriceCents } from '@/utils/money'
@@ -79,9 +81,10 @@ function PlanCard({ plan }: { plan: MembershipPlan }) {
       ? 'Free'
       : formatPriceCents(plan.priceCents, plan.currency)
   return (
-    <div className={`marketing-plan${recommended ? ' marketing-plan-recommended' : ''}`}>
+    <div className={`marketing-plan marketing-tone-${marketingTone(plan.slug)}${recommended ? ' marketing-plan-recommended' : ''}`}>
       {recommended && <span className="marketing-plan-badge">FOR GROWING TEAMS</span>}
       <div>
+        <span className="marketing-feature-icon"><Icon name={enterprise ? 'apartment' : recommended ? 'rocket_launch' : 'support_agent'} size={26} /></span>
         <h3>{plan.name}</h3>
         <p>{plan.description || 'A workspace for your support team.'}</p>
       </div>
@@ -133,31 +136,34 @@ export function PricingPage() {
   return (
     <PublicLayout>
       <section className="marketing-page-hero marketing-pricing-hero">
-        <div className="marketing-container">
-          <span className="marketing-eyebrow">ROOM TO START. ROOM TO GROW.</span>
-          <h1>
-            Helpdesk plans & pricing.
-            <br />
-            <span>Room for your team to grow.</span>
-          </h1>
-          <p>
-            Start small. Grow when you’re ready. Compare workspace usage limits and plan options. Custom email sending domains
-            require an eligible paid plan and domain verification.
-          </p>
-          <div className="marketing-pricing-notes">
-            <span>
-              <Icon name="check" size={16} />
-              Free Starter plan
-            </span>
-            <span>
-              <Icon name="check" size={16} />
-              14-day trials on paid plans
-            </span>
-            <span>
-              <Icon name="check" size={16} />
-              Pricing per workspace
-            </span>
+        <div className="marketing-container marketing-visual-hero-grid">
+          <div className="marketing-page-hero-copy">
+            <span className="marketing-eyebrow">ROOM TO START. ROOM TO GROW.</span>
+            <h1>
+              Helpdesk plans & pricing.
+              <br />
+              <span>Room for your team to grow.</span>
+            </h1>
+            <p>
+              Start small. Grow when you’re ready. Compare workspace usage limits and plan options. Custom email sending domains
+              require an eligible paid plan and domain verification.
+            </p>
+            <div className="marketing-pricing-notes">
+              <span>
+                <Icon name="check" size={16} />
+                Free Starter plan
+              </span>
+              <span>
+                <Icon name="check" size={16} />
+                14-day trials on paid plans
+              </span>
+              <span>
+                <Icon name="check" size={16} />
+                Pricing per workspace
+              </span>
+            </div>
           </div>
+          <WorkflowIllustration topic="pricing" />
         </div>
       </section>
       <section className="marketing-section marketing-pricing-body">

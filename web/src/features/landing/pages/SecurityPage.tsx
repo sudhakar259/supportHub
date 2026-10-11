@@ -2,33 +2,40 @@ import { Link } from 'react-router-dom'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { Icon } from '@/components/ui/Icon'
 import { PublicCta } from '@/features/landing/components/PublicCta'
+import { WorkflowIllustration } from '@/features/landing/components/WorkflowIllustration'
+import { marketingTone } from '@/features/landing/palette'
 
 const CONTROLS = [
-  { icon: 'domain', title: 'Organization-scoped workspaces', body: 'Tickets, customers, team members, settings and integrations belong to their organization. Workspace addresses and authenticated access checks keep requests tied to the intended tenant.' },
-  { icon: 'admin_panel_settings', title: 'Roles and department access', body: 'Administrators manage permissions for ticket work, customer records, reports and settings. Department membership scopes staff access; customer accounts see their own tickets and public replies.' },
-  { icon: 'phonelink_lock', title: 'Two-step verification', body: 'Users can enable authenticator-app verification and download recovery codes. Sign-in protection includes failed-attempt controls and account lockout, with administrator recovery actions.' },
-  { icon: 'key', title: 'Controlled integrations', body: 'Scoped API credentials limit integration operations and support secret rotation. Signed webhooks include delivery history, and ticket attachments require authorized access.' },
-  { icon: 'history', title: 'Activity and audit records', body: 'Ticket history records workflow changes. Workspace audit logs let authorized staff review important actions, including administrator impersonation activity.' },
-  { icon: 'manage_accounts', title: 'Customer data tools', body: 'Authorized administrators can export or erase customer data. Backup retention and the handling of copies outside DeskNu depend on the service operator’s policies.' },
+  { icon: 'domain', title: 'Organization-scoped workspaces', body: 'Keep tickets, customers, settings and integrations tied to their organization.', details: ['Workspace-specific addresses', 'Authenticated organization access checks'] },
+  { icon: 'admin_panel_settings', title: 'Roles and department access', body: 'Give each person access to the work they are responsible for.', details: ['Administrator-managed permissions and department access', 'Customers see their own tickets and public replies'] },
+  { icon: 'phonelink_lock', title: 'Two-step verification', body: 'Add authenticator-app verification to protect your sign-in.', details: ['Recovery codes and administrator recovery actions', 'Failed-attempt controls and account lockout'] },
+  { icon: 'key', title: 'Controlled integrations', body: 'Limit API operations and control how your systems connect.', details: ['Scoped credentials, secret rotation and signed webhooks', 'Delivery history and authorized attachment access'] },
+  { icon: 'history', title: 'Activity and audit records', body: 'Give authorized staff a record of important workspace changes.', details: ['Ticket workflow and assignment history', 'Audit logs including administrator impersonation activity'] },
+  { icon: 'manage_accounts', title: 'Customer data tools', body: 'Authorized administrators can export or erase customer data.', details: ['Administrator-controlled customer data actions', 'Backups and external copies follow operator policies'] },
 ]
 
 export function SecurityPage() {
   return (
     <PublicLayout>
       <section className="marketing-page-hero">
-        <div className="marketing-container">
-          <span className="marketing-eyebrow">WORKSPACE SECURITY & ACCESS</span>
-          <h1>Helpdesk security.<br /><span>Accountable support.</span></h1>
-          <p>Understand the access controls, account protection and customer data tools available in DeskNu.</p>
+        <div className="marketing-container marketing-visual-hero-grid">
+          <div className="marketing-page-hero-copy">
+            <span className="marketing-eyebrow">WORKSPACE SECURITY & ACCESS</span>
+            <h1>Helpdesk security.<br /><span>Accountable support.</span></h1>
+            <p>Understand the access controls, account protection and customer data tools available in DeskNu.</p>
+            <a href="#workspace-controls" className="marketing-button">Explore the controls <Icon name="arrow_downward" size={18} /></a>
+          </div>
+          <WorkflowIllustration topic="security" />
         </div>
       </section>
-      <section className="marketing-section">
+      <section id="workspace-controls" className="marketing-section">
         <div className="marketing-container marketing-feature-detail-grid">
           {CONTROLS.map((control) => (
-            <article className="marketing-feature-detail" key={control.title}>
-              <span className="marketing-feature-icon"><Icon name={control.icon} size={27} /></span>
+            <article className={`marketing-feature-detail marketing-tone-${marketingTone(control.icon)}`} key={control.title}>
+              <div className="marketing-feature-detail-top"><span className="marketing-feature-icon"><Icon name={control.icon} size={27} /></span></div>
               <h2>{control.title}</h2>
               <p>{control.body}</p>
+              <ul>{control.details.map((detail) => <li key={detail}><Icon name="check_circle" size={18} />{detail}</li>)}</ul>
             </article>
           ))}
         </div>

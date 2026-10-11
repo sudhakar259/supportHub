@@ -6,12 +6,15 @@ import { ROUTES } from '@/app/router/routes'
 import { Icon } from '@/components/ui/Icon'
 import { SOLUTIONS } from '@/features/landing/content'
 import { FEATURE_PAGES, GUIDES } from '@/features/landing/product-content'
+import { marketingTone } from '@/features/landing/palette'
+import type { MarketingTone } from '@/features/landing/palette'
 import { publicSiteUrl } from '@/features/workspaces/workspace'
 
 interface NavigationItem {
   label: string
   to: string
   icon: string
+  iconTone?: MarketingTone
   description?: string
 }
 
@@ -26,18 +29,18 @@ interface NavigationGroup {
 const GROUPS: NavigationGroup[] = [
   {
     label: 'Product', to: ROUTES.features, overview: 'Explore all features', wide: true,
-    items: FEATURE_PAGES.map(feature => ({ label: feature.label, to: `${ROUTES.features}/${feature.slug}`, icon: feature.icon })),
+    items: FEATURE_PAGES.map(feature => ({ label: feature.label, to: `${ROUTES.features}/${feature.slug}`, icon: feature.icon, iconTone: marketingTone(feature.slug) })),
   },
   {
     label: 'Solutions', to: ROUTES.solutions, overview: 'Explore all solutions',
-    items: SOLUTIONS.map((solution, index) => ({ label: solution.title, to: `${ROUTES.solutions}#solution-${index}`, icon: solution.icon, description: solution.audience })),
+    items: SOLUTIONS.map((solution, index) => ({ label: solution.title, to: `${ROUTES.solutions}#solution-${index}`, icon: solution.icon, description: solution.audience, iconTone: marketingTone(solution.icon) })),
   },
   {
     label: 'Resources', to: ROUTES.resources, overview: 'Explore all guides',
     items: [
-      ...GUIDES.map(guide => ({ label: guide.category, to: `${ROUTES.resources}/${guide.slug}`, icon: 'menu_book', description: guide.title })),
-      { label: 'Security & access', to: ROUTES.security, icon: 'shield', description: 'Understand workspace and data controls' },
-      { label: 'Contact us', to: ROUTES.contact, icon: 'mail', description: 'Plans, workspace help and service details' },
+      ...GUIDES.map(guide => ({ label: guide.category, to: `${ROUTES.resources}/${guide.slug}`, icon: 'menu_book', description: guide.title, iconTone: marketingTone(guide.featureSlug) })),
+      { label: 'Security & access', to: ROUTES.security, icon: 'shield', description: 'Understand workspace and data controls', iconTone: 'navy' },
+      { label: 'Contact us', to: ROUTES.contact, icon: 'mail', description: 'Plans, workspace help and service details', iconTone: 'primary' },
     ],
   },
 ]
@@ -114,7 +117,7 @@ function NavigationDisclosure({ group, mobile, open, onOpen, onClose, onNavigate
         <div className="marketing-nav-panel-links">
           {group.items.map(item => (
             <Link key={item.to} to={publicSiteUrl(item.to)} className="marketing-nav-panel-link" onClick={close}>
-              <span className="marketing-nav-panel-icon"><Icon name={item.icon} size={21} /></span>
+              <span className={`marketing-nav-panel-icon marketing-tone-${item.iconTone ?? 'primary'}`} aria-hidden="true"><Icon name={item.icon} size={21} /></span>
               <span><strong>{item.label}</strong>{item.description && <> <small>{item.description}</small></>}</span>
             </Link>
           ))}

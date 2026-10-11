@@ -118,6 +118,7 @@ in the form are slate gray `#6B7280` and blue `#3B82F6`.
 | Surface | Where | Notes |
 |---|---|---|
 | Web app, public site, sign-in | `web/src/index.css` (`@theme`) | All components use the token classes |
+| Public icons, tiles and diagrams | `web/src/features/landing/palette.ts`, `web/src/features/landing/marketing.css` | Stable topic colors connect menu icons, feature tiles, guides, solutions, security controls and pricing. Primary orange leads, with coordinated tertiary teal, info blue, secondary violet and structural navy on soft backgrounds. Buttons, links and active navigation stay primary; status colors keep their semantic meaning. |
 | Browser tab color | `web/index.html` `theme-color` | `#a33900` |
 | Logo, favicon, share image | `web/public/branding`, `web/public/*.svg`, `*.png` | Supplied `design/logo` artwork; transparent orange mark and light/dark wordmarks. The dark wordmark's `Nu` uses the reference artwork's `#ea580c` as a brand-only accent. Interface color roles stay unchanged. |
 | Payment window (Razorpay) | `web/src/features/billing/lib/razorpayCheckout.ts` | Reads `--color-primary`, falls back to `#a33900` |

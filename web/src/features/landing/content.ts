@@ -6,7 +6,7 @@ export const PRODUCT_FEATURES = [
     label: 'Ticketing',
     title: 'One conversation. The whole story.',
     description:
-      'Keep customer messages, attachments, internal notes and assignment history together. Move each request from its first reply to resolution without losing the context.',
+      'Keep messages, attachments and private notes together, from first reply to resolution.',
     details: [
       'Assign, escalate, resolve, close and reopen tickets',
       'Public replies and private team notes',
@@ -20,7 +20,7 @@ export const PRODUCT_FEATURES = [
     label: 'Email intake',
     title: 'Your support inbox, organized.',
     description:
-      'Turn incoming email into tickets. Replies join the existing conversation, so your customers can keep using email while your team works from a shared queue.',
+      'Turn support emails into tickets and keep replies in one conversation. Customers use email; your team shares the queue.',
     details: [
       'Mailgun inbound email integration',
       'Thread customer replies into existing tickets',
@@ -34,7 +34,7 @@ export const PRODUCT_FEATURES = [
     label: 'Routing & SLAs',
     title: 'Give every request a next step.',
     description:
-      'Route tickets by the conditions you define, assign work across your team and track first-response and resolution deadlines by priority.',
+      'Route new tickets, share work across agents and track response and resolution targets.',
     details: [
       'Condition-based department and agent routing',
       'Workload-based automatic assignment',
@@ -48,7 +48,7 @@ export const PRODUCT_FEATURES = [
     label: 'Team collaboration',
     title: 'The right people, working together.',
     description:
-      'Organize support into departments and give each person the permissions they need. Customer profiles and private notes help your team pick up where a teammate left off.',
+      'Organize departments and permissions. Give the next teammate context through customer profiles and private notes.',
     details: [
       'Departments and role-based permissions',
       'Customer profiles and conversation history',
@@ -62,7 +62,7 @@ export const PRODUCT_FEATURES = [
     label: 'Reporting',
     title: 'See where your support needs attention.',
     description:
-      'Follow ticket volume, agent performance and SLA compliance. Use the audit log to understand who changed what in your workspace.',
+      'Follow ticket volume, agent performance and SLA compliance. Trace important changes in the audit log.',
     details: ['Ticket volume and status reports', 'Agent performance and SLA compliance', 'Searchable audit history'],
   },
   {
@@ -72,7 +72,7 @@ export const PRODUCT_FEATURES = [
     label: 'API & webhooks',
     title: 'Make support part of your product.',
     description:
-      'Connect your own website or backend to customer records and ticket conversations. Signed webhooks keep your systems informed when a ticket changes.',
+      'Create tickets and send replies from your own backend. Receive signed webhook events when tickets change.',
     details: [
       'Scoped API credentials and secret rotation',
       'Create tickets, send replies and attach files',

@@ -19,9 +19,9 @@ export interface ProductPageContent {
 export const FEATURE_PAGES: ProductPageContent[] = [
   {
     slug: 'ticketing', label: 'Ticketing', icon: 'confirmation_number',
-    title: 'Helpdesk ticketing software with the whole conversation in view',
+    title: 'Helpdesk ticketing. Every detail, together.',
     description: 'Manage customer support tickets with DeskNu. Assign owners, send replies, add private notes and attachments, and track every request to resolution.',
-    intro: 'Give each customer request a ticket, an owner and a visible next step. DeskNu brings messages, customer details, attachments and activity into one support workspace.',
+    intro: 'One request, one owner, a clear next step. Keep messages, attachments and customer context together from first reply to resolution.',
     sections: [
       { title: 'Keep context attached to the request', body: 'Open a ticket to follow its conversation and review the customer behind it. Public replies keep customers informed; internal notes let teammates discuss the issue privately.', bullets: ['Customer messages and staff replies in one thread', 'Private notes visible to staff with the appropriate access', 'Attachments and a record of ticket activity'] },
       { title: 'Manage the full ticket lifecycle', body: 'Assign or reassign a request, escalate an issue when it needs more attention, and resolve it when the work is complete. Closing and reopening are separate actions, so a follow-up has a clear history.', bullets: ['Assignment history and escalation activity', 'Resolve, close and reopen workflows', 'Configurable statuses, priorities, categories, tags and ticket numbers'] },
@@ -30,9 +30,9 @@ export const FEATURE_PAGES: ProductPageContent[] = [
   },
   {
     slug: 'email-ticketing', label: 'Email to ticket', icon: 'forward_to_inbox',
-    title: 'Email ticketing software for an organized support inbox',
+    title: 'Email to ticket. A clearer support inbox.',
     description: 'Turn support emails into DeskNu tickets with Mailgun inbound routing. Thread customer replies, review incoming email logs and customize notifications.',
-    intro: 'Your customers can keep using email while your team works from an organized ticket queue. DeskNu connects incoming messages to the customer, conversation and team responsible for the request.',
+    intro: 'Customers keep using email. Your team gets an organized queue, clear ownership and replies that stay with the right conversation.',
     sections: [
       { title: 'Bring your support mailbox into the queue', body: 'After the service operator configures Mailgun inbound routing, each workspace can enable email intake and forward its support mailbox to its workspace-specific inbound address.', bullets: ['New incoming messages create support tickets', 'Choose whether unknown senders can create customer records', 'Review recent incoming emails and processing outcomes'] },
       { title: 'Keep replies with the right conversation', body: 'DeskNu uses email threading headers or ticket references to match a customer reply to that customer’s ticket. Replies to resolved requests reopen the conversation. Replies to closed tickets create a follow-up ticket.', bullets: ['Customer identity is checked before a message joins a thread', 'Duplicate deliveries and automatic replies are handled to avoid repeated tickets and loops', 'Supported attachments follow the configured file limits'] },
@@ -41,9 +41,9 @@ export const FEATURE_PAGES: ProductPageContent[] = [
   },
   {
     slug: 'helpdesk-automation', label: 'Routing automation', icon: 'alt_route',
-    title: 'Helpdesk automation that routes tickets to the right team',
+    title: 'Helpdesk automation. Less sorting, clearer ownership.',
     description: 'Route new DeskNu tickets by category, priority, customer type or keywords. Set department ownership and distribute work with workload-based assignment.',
-    intro: 'Reduce manual sorting with rules your administrators can understand and control. DeskNu evaluates routing rules when a ticket is created, then assigns eligible agents according to their open workload.',
+    intro: 'Route new tickets with rules you control. Match the request to a department, then share work across eligible agents by open workload.',
     sections: [
       { title: 'Define the requests each team handles', body: 'Build rules around ticket category, priority, customer type or keywords in the subject and description. All conditions in a rule must match before its actions run.', bullets: ['Assign a department or a specific agent', 'Set priority, escalate or send a configured notification', 'Order rules and stop further processing after a match'] },
       { title: 'Distribute tickets by current workload', body: 'When a ticket has a department but no specific agent, automatic assignment selects an eligible Agent or Senior Agent with the fewest open tickets in that department. A queue without eligible agents keeps the ticket unassigned for staff to review.' },
@@ -52,9 +52,9 @@ export const FEATURE_PAGES: ProductPageContent[] = [
   },
   {
     slug: 'sla-management', label: 'SLA management', icon: 'timer',
-    title: 'Helpdesk SLA management for response and resolution targets',
+    title: 'Helpdesk SLA management. Keep targets in sight.',
     description: 'Set first-response and resolution SLA targets in DeskNu, account for configured business hours, and review breaches and compliance reports.',
-    intro: 'Set clear service expectations for different priorities. DeskNu calculates first-response and resolution deadlines from your SLA policies and gives your team a way to follow overdue work.',
+    intro: 'Set response and resolution targets by priority. Follow deadlines, working hours and overdue requests in the same support workflow.',
     sections: [
       { title: 'Set targets that match ticket urgency', body: 'Configure first-response and resolution targets by priority. Use the policy’s business-hours option when deadlines should count only the workspace’s configured working schedule.', bullets: ['Separate response and resolution targets', 'Configurable working hours and timezone', 'Ticket deadlines and recorded SLA breaches'] },
       { title: 'Review performance alongside the conversation', body: 'Agents can use the ticket’s priority and deadlines to decide what needs attention. The scheduled breach checker flags overdue requests; notification behavior follows the service’s configured templates and dispatch settings.' },
@@ -63,9 +63,9 @@ export const FEATURE_PAGES: ProductPageContent[] = [
   },
   {
     slug: 'team-collaboration', label: 'Team collaboration', icon: 'groups',
-    title: 'Customer support collaboration across teams and departments',
+    title: 'Team collaboration. Smoother support handoffs.',
     description: 'Organize DeskNu agents into departments, manage role-based permissions and share customer context through ticket history, private notes and assignments.',
-    intro: 'Make handoffs easier by keeping the customer’s story in the workspace. Departments define responsibility, roles define access, and internal notes give teammates context without exposing their discussion to customers.',
+    intro: 'Give the next teammate the full story. Departments, permissions and private notes keep responsibility clear and customer context close.',
     sections: [
       { title: 'Organize your support operation', body: 'Create departments for the work your teams handle and manage their membership. Administrators can assign roles and permissions for ticket work, customer records, reports and workspace settings.' },
       { title: 'Share useful context before handing off', body: 'Customer profiles and ticket history help a teammate understand earlier requests. Add a private note before reassigning a ticket, and review assignment activity when responsibility changes.', bullets: ['Customer profiles and previous tickets', 'Staff-only internal notes', 'Assignment and escalation history'] },
@@ -74,9 +74,9 @@ export const FEATURE_PAGES: ProductPageContent[] = [
   },
   {
     slug: 'reports', label: 'Support reporting', icon: 'monitoring',
-    title: 'Customer support reports for tickets, agents and SLA compliance',
+    title: 'Support reports. See what needs attention.',
     description: 'Review DeskNu ticket summaries, agent performance, SLA compliance and audit history to understand workload and improve your customer support operation.',
-    intro: 'Understand the work moving through your helpdesk. DeskNu’s reports cover ticket volume and status, agent performance and SLA compliance, with audit logs for important workspace changes.',
+    intro: 'See ticket volume, agent performance and SLA compliance. Use your support history to make the next process change an informed one.',
     sections: [
       { title: 'Understand the queue before changing the process', body: 'Use the ticket summary to review incoming volume and status distribution. Look for work that remains open and compare it with how your team handles assignments and escalations.' },
       { title: 'Review agent performance and service targets', body: 'Agent performance and SLA compliance reports provide separate views of support delivery. Use both when reviewing workload and service goals rather than judging an agent from a single count.' },
@@ -85,9 +85,9 @@ export const FEATURE_PAGES: ProductPageContent[] = [
   },
   {
     slug: 'api-webhooks', label: 'API & webhooks', icon: 'data_object',
-    title: 'Helpdesk API and signed webhooks for your own application',
+    title: 'Helpdesk API & webhooks. Keep your tools connected.',
     description: 'Connect your application to DeskNu with scoped API credentials. Manage customers, create tickets, post replies and receive signed ticket event webhooks.',
-    intro: 'Bring support into your own product with a server integration. DeskNu’s integration API lets your backend work with customer records and ticket conversations, while webhooks notify connected systems about ticket events.',
+    intro: 'Create tickets and send replies from your own backend. Signed webhooks keep your connected systems informed when a ticket changes.',
     sections: [
       { title: 'Connect the workflows your customers already use', body: 'Your server can create customers and tickets, send replies and attach supported files through the integration API. This gives you the building blocks for a support experience inside your own application.', bullets: ['Workspace-scoped integration credentials', 'Scopes that limit allowed operations', 'Credential rotation and per-credential request limits'] },
       { title: 'Receive signed ticket events', body: 'Configure webhook subscriptions for ticket events and verify the signature in your receiving application. Delivery history and retries help your team diagnose a receiving endpoint that is temporarily unavailable.' },
@@ -99,6 +99,7 @@ export const FEATURE_PAGES: ProductPageContent[] = [
 export interface GuideContent {
   slug: string
   title: string
+  headline: string
   description: string
   category: string
   intro: string
@@ -110,8 +111,9 @@ export const GUIDES: GuideContent[] = [
   {
     slug: 'email-to-ticket-guide', category: 'Email support',
     title: 'How to turn a shared support mailbox into a ticket queue',
+    headline: 'Email to ticket, step by step.',
     description: 'A practical DeskNu guide to email ticketing: prepare inbound email, connect a workspace mailbox, test reply threading and review processing logs.',
-    intro: 'A shared mailbox can collect requests without making ownership clear. Moving email into a ticket queue gives your team an assignee, priority and conversation history for each request. Here is how the email workflow works in DeskNu.',
+    intro: 'Give support emails an owner and a clear history. Follow five steps to connect your mailbox, test reply threading and review incoming messages.',
     featureSlug: 'email-ticketing',
     sections: [
       { title: '1. Prepare the inbound email service', body: 'The service operator configures a Mailgun receiving domain, DNS records, a signed inbound route and DeskNu’s inbound email settings. This is an operator setup step; forwarding a mailbox alone does not activate email ticketing.' },
@@ -124,8 +126,9 @@ export const GUIDES: GuideContent[] = [
   {
     slug: 'helpdesk-sla-guide', category: 'Service delivery',
     title: 'How to set practical helpdesk SLA targets',
+    headline: 'Set practical helpdesk SLA targets.',
     description: 'Plan first-response and resolution targets, define business hours and review SLA breaches using the policies and reports available in DeskNu.',
-    intro: 'A useful service-level target makes priorities clear and reflects the time your team is available. In DeskNu, first-response and resolution targets are separate measures, and policies can use your configured business hours.',
+    intro: 'Set targets your team can work with. Define priorities and business hours, then use deadlines and compliance reports to improve service.',
     featureSlug: 'sla-management',
     sections: [
       { title: '1. Separate acknowledgement from resolution', body: 'First response measures when an agent responds to the customer. Resolution measures when the ticket’s work is resolved. Keep these targets separate: a quick acknowledgement can be valuable even when investigating a problem takes longer.' },
@@ -138,8 +141,9 @@ export const GUIDES: GuideContent[] = [
   {
     slug: 'ticket-routing-guide', category: 'Team workflows',
     title: 'How to organize ticket routing across support departments',
+    headline: 'Build your ticket routing workflow.',
     description: 'Build a clear DeskNu routing workflow with departments, ordered rules, workload-based assignment and a review process for unassigned tickets.',
-    intro: 'Routing works best when each request has an obvious destination and your team knows who owns exceptions. DeskNu combines department routing rules with workload-based assignment for newly created tickets.',
+    intro: 'Give each new request a clear destination. Set up departments, ordered routing rules and workload-based assignment, with a plan for exceptions.',
     featureSlug: 'helpdesk-automation',
     sections: [
       { title: '1. Define departments around responsibility', body: 'Start with the teams that actually handle different work, such as Billing and Technical Support. Add eligible Agent or Senior Agent members. Administrators and department managers do not automatically join the frontline assignment pool just because they have broader access.' },

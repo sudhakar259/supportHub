@@ -7,6 +7,7 @@ import { Icon } from '@/components/ui/Icon'
 import { FaqList } from '@/features/landing/components/FaqList'
 import { PublicCta } from '@/features/landing/components/PublicCta'
 import { HOME_FAQ, PRODUCT_FEATURES, SOLUTIONS } from '@/features/landing/content'
+import { marketingTone } from '@/features/landing/palette'
 
 export function LandingPage() {
   const [isMotionPaused, setIsMotionPaused] = useState(false)
@@ -101,7 +102,7 @@ export function LandingPage() {
               { icon: 'data_object', label: 'Connected workflows' },
             ].map((item) => (
               <span key={item.label}>
-                <Icon name={item.icon} size={23} />
+                <span className={`marketing-topic-icon marketing-tone-${marketingTone(item.icon)}`}><Icon name={item.icon} size={21} /></span>
                 {item.label}
               </span>
             ))}
@@ -124,9 +125,9 @@ export function LandingPage() {
             </Link>
           </div>
           <div className="marketing-feature-grid">
-            {PRODUCT_FEATURES.map((feature, index) => (
-              <Link key={feature.id} to={`${ROUTES.features}/${feature.slug}`} className="marketing-feature-card">
-                <span className={`marketing-feature-icon marketing-color-${index % 3}`}>
+            {PRODUCT_FEATURES.map((feature) => (
+              <Link key={feature.id} to={`${ROUTES.features}/${feature.slug}`} className={`marketing-feature-card marketing-tone-${marketingTone(feature.slug)}`}>
+                <span className="marketing-feature-icon">
                   <Icon name={feature.icon} size={25} />
                 </span>
                 <h3>{feature.label}</h3>
@@ -167,7 +168,7 @@ export function LandingPage() {
                   'Route work to the right agent, track SLA deadlines and reply with the full customer story in front of you.',
               },
             ].map((step, index) => (
-              <li key={step.title}>
+              <li key={step.title} className={`marketing-tone-${marketingTone(step.icon)}`}>
                 <div className="marketing-step-top">
                   <span>
                     <Icon name={step.icon} size={29} />
@@ -201,8 +202,8 @@ export function LandingPage() {
             </Link>
           </div>
           <div className="marketing-integration-map">
-            <div className="marketing-integration-node">
-              <Icon name="language" size={25} />
+            <div className="marketing-integration-node marketing-tone-blue">
+              <span className="marketing-topic-icon"><Icon name="language" size={25} /></span>
               <span>
                 Your website or app<small>Customer sends a request</small>
               </span>
@@ -212,8 +213,8 @@ export function LandingPage() {
               Scoped API credentials
               <span />
             </div>
-            <div className="marketing-integration-node marketing-integration-hub">
-              <Icon name="support_agent" size={28} />
+            <div className="marketing-integration-node marketing-integration-hub marketing-tone-primary">
+              <span className="marketing-topic-icon"><Icon name="support_agent" size={25} /></span>
               <span>
                 DeskNu<small>Your team picks up the conversation</small>
               </span>
@@ -224,8 +225,8 @@ export function LandingPage() {
               Signed ticket events
               <span />
             </div>
-            <div className="marketing-integration-node">
-              <Icon name="webhook" size={25} />
+            <div className="marketing-integration-node marketing-tone-teal">
+              <span className="marketing-topic-icon"><Icon name="webhook" size={25} /></span>
               <span>
                 Your connected systems<small>Stay up to date with webhooks</small>
               </span>
@@ -249,10 +250,10 @@ export function LandingPage() {
             {SOLUTIONS.map((solution, index) => (
               <Link
                 to={`${ROUTES.solutions}#solution-${index}`}
-                className="marketing-solution-card"
+                className={`marketing-solution-card marketing-tone-${marketingTone(solution.icon)}`}
                 key={solution.title}
               >
-                <Icon name={solution.icon} size={29} />
+                <span className="marketing-feature-icon"><Icon name={solution.icon} size={27} /></span>
                 <h3>{solution.title}</h3>
                 <p>{solution.description}</p>
                 <span className="marketing-card-link">
@@ -266,7 +267,7 @@ export function LandingPage() {
       <section className="marketing-security-strip">
         <div className="marketing-container">
           <div>
-            <Icon name="shield" size={37} />
+            <span className="marketing-feature-icon marketing-tone-navy"><Icon name="shield" size={32} /></span>
             <h2>
               Your workspace.
               <br />
